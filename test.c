@@ -17,18 +17,29 @@ int		main(void)
 
 	buf[5] = 0;
 	pipe(conn);
+	int i = 0;
 	if (fork() == 0)
 	{
-		dup2(conn[1], 1);
-		close(conn[0]);
-		execv("/bin/ls", arg);
-		//write(1, "Hello", 5);
+		if (fork() == 0)
+		{
+			dup2(conn[1], 1);
+			close(conn[0]);
+			execv("/bin/ls", arg);
+		}
+		else
+		{
+			close(conn[1]);
+			wait(NULL);
+			dup2(conn[0], 0);
+			dup2(conn[1], 1);
+			execv("/bin/cat", arg1);
+		}
 	}
 	else
 	{
+		close(conn[1]);
 		wait(NULL);
 		dup2(conn[0], 0);
-		close(conn[1]);
 		execv("/bin/cat", arg1);
 	}
 	return (0);
