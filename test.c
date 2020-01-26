@@ -9,36 +9,37 @@
 
 int		main(void)
 {
-	int		conn[2];
-	char	buf[6];
 	char	*arg[] = {"/bin/ls", NULL};
 	char	*arg1[] = {"/bin/cat", "-e", NULL};
-	int		fd = open("test", O_RDWR);
 
-	buf[5] = 0;
-	pipe(conn);
+	int		conn[2];
 	int i = 0;
-	if (fork() == 0)
+	int pid;
+	pipe(conn);
+	if ((pid = fork()) == 0)
 	{
-		if (fork() == 0)
+		dup2(conn[1], 1);
+		close(conn[0]);
+		int		fd[2];
+		pipe(fd);
+		if ((pid = fork()) == 0)
 		{
-			dup2(conn[1], 1);
-			close(conn[0]);
+			dup2(fd[1], 1);
+			close(fd[0]);
 			execv("/bin/ls", arg);
 		}
 		else
 		{
-			close(conn[1]);
-			wait(NULL);
-			dup2(conn[0], 0);
-			dup2(conn[1], 1);
+			close(fd[1]);
+			waitpid(pid, NULL, WNOHANG);
+			dup2(fd[0], 0);
 			execv("/bin/cat", arg1);
 		}
 	}
 	else
 	{
 		close(conn[1]);
-		wait(NULL);
+		waitpid(pid, NULL, WNOHANG);
 		dup2(conn[0], 0);
 		execv("/bin/cat", arg1);
 	}
