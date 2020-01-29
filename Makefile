@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = 21sh
-CREADLINE = readline.c
+CREADLINE = readline.c quoting.c
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CC = gcc
 INCLUDE = includes

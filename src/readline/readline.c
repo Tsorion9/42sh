@@ -97,15 +97,14 @@ char        *readline(void)
     char    user_in[BUFFSIZE];
     long    c;
     char    flag;
-    int     i;
     int     cur_pos;
+    int     user_in_len;
 
+    user_in[0] = 0;
     cur_pos = 3;
     flag = 0;
     c = 0;
-    i = 0;
-    write(STDOUT_FILENO, "$>", 2);
-    while (c != 10 && flag == 0)
+    while (c != '\n')
     {
         c = 0;
         read(STDIN_FILENO, &c, 8);
@@ -114,7 +113,18 @@ char        *readline(void)
         else if (c == 127)
             delete_symbol(user_in, &cur_pos);
         else if (c >= ' ' && c <= '~')
+        {
+            if ((c == '\'' || c == '\"') && flag == c)
+                flag = 0;
+            else if ((c == '\'' || c == '\"') && flag == 0)
+                flag = c;
             insert_symbol(user_in, &cur_pos, c);
+        }
     }
+    user_in_len = ft_strlen(user_in);
+    user_in[user_in_len] = c;
+    user_in[user_in_len + 1] = 0;
+    if (flag != 0)
+        quoting(user_in + user_in_len + 1, flag);
     return (ft_strdup(user_in));
 }
