@@ -22,3 +22,4 @@ void        clear_line(int cup_pos);
 void        delete_symbol(char *user_in, int *cur_pos);
 void        insert_symbol(char *user_in, int *cur_pos, char c);
 void        alt_left_right(long c, int *cur_pos, char *user_in);
+long        readline_sup(char *user_in, int *cur_pos, char *flag);

@@ -31,8 +31,8 @@ void        start_program(void)
 
 int         main(int ac, char **av, char **environ)
 {
-    char *termtype;
-	char room_termtype[2048];
+    char	*termtype;
+	char	room_termtype[2048];
 
 	termtype = getenv("TERM");
 	if (termtype == NULL || tgetent(room_termtype, termtype) != 1)

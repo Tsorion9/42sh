@@ -131,24 +131,7 @@ char        *readline(void)
     flag = 0;
     c = 0;
     while (c != '\n')
-    {
-        c = 0;
-        read(STDIN_FILENO, &c, 8);
-        if (c == 4479771 || c == 4414235)
-            move_cursor(c, &cur_pos, user_in);
-        else if (c == 127)
-            delete_symbol(user_in, &cur_pos);
-        else if (c >= ' ' && c <= '~')
-        {
-            if ((c == '\'' || c == '\"') && flag == c)
-                flag = 0;
-            else if ((c == '\'' || c == '\"') && flag == 0)
-                flag = c;
-            insert_symbol(user_in, &cur_pos, c);
-        }
-        else if (c == 25115 || c == 26139)
-            alt_left_right(c, &cur_pos, user_in);
-    }
+        c = readline_sup(user_in, &cur_pos, &flag);
     user_in_len = ft_strlen(user_in);
     user_in[user_in_len] = c;
     user_in[user_in_len + 1] = 0;
