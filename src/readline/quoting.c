@@ -1,8 +1,8 @@
 #include "21sh.h"
 
 /*
-** Пероводит на новую строку и позволяет продолжить 
-** ввод для пользователя в случае, если есть цитирование
+** Пероводит на новую строку и позволяет продолжить ввод 
+** для пользователя в случае, если цитирование не закрыто
 */
 
 void        quoting(char *user_in, char c)
@@ -13,7 +13,7 @@ void        quoting(char *user_in, char c)
 
     cur_pos = 3;
     q = 0;
-    write(STDIN_FILENO, "\n", 1);
+    write(STDOUT_FILENO, "\n", 1);
     write(STDOUT_FILENO, "> ", 2);
     while (q != '\n')
     {
@@ -31,6 +31,8 @@ void        quoting(char *user_in, char c)
                 c = q;
             insert_symbol(user_in, &cur_pos, q);
         }
+        else if (q == 25115 || q == 26139)
+            alt_left_right(q, &cur_pos, user_in);
     }
     user_in_len = ft_strlen(user_in);
     user_in[user_in_len] = q;

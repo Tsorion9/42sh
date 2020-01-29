@@ -22,12 +22,12 @@ void        move_cursor(long c, int *cur_pos, char *user_in)
 ** Очищает строку
 */
 
-void        clear_line(int cup_pos)
+void        clear_line(int cur_pos)
 {
-    while (cup_pos != 3)
+    while (cur_pos != 3)
     {
         tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
-        cup_pos--;
+        cur_pos--;
     }
     tputs(tgetstr("ce", NULL), STDOUT_FILENO, ft_putint);
 }
@@ -92,6 +92,32 @@ void        insert_symbol(char *user_in, int *cur_pos, char c)
     (*cur_pos)++;
 }
 
+/*
+** Манипулирует курсором, если пользователь нажал alt+LEFT,
+** или alt+RIGHT
+*/
+
+void        alt_left_right(long c, int *cur_pos, char *user_in)
+{
+    int user_in_len;
+
+    if (c == 25115)
+        while (*cur_pos != 3)
+        {
+            tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
+            (*cur_pos)--;
+        }
+    else
+    {
+        user_in_len = ft_strlen(user_in) + 2;
+        while (*cur_pos <= user_in_len)
+        {
+            tputs(tgetstr("nd", NULL), STDOUT_FILENO, ft_putint);
+            (*cur_pos)++;
+        }
+    }
+}
+
 char        *readline(void)
 {
     char    user_in[BUFFSIZE];
@@ -120,6 +146,8 @@ char        *readline(void)
                 flag = c;
             insert_symbol(user_in, &cur_pos, c);
         }
+        else if (c == 25115 || c == 26139)
+            alt_left_right(c, &cur_pos, user_in);
     }
     user_in_len = ft_strlen(user_in);
     user_in[user_in_len] = c;
