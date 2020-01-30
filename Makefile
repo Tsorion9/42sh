@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tsorion <tsorion@student.42.fr>            +#+  +:+       +#+         #
+#    By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 15:20:15 by mphobos           #+#    #+#              #
-#    Updated: 2020/01/27 16:47:40 by tsorion          ###   ########.fr        #
+#    Updated: 2020/01/30 13:38:03 by mphobos          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
-CREADLINE = readline.c quoting.c
+CREADLINE = readline.c user_in_editing.c cursor_manipulation.c
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CC = gcc
 INCLUDE = includes
