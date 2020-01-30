@@ -25,7 +25,6 @@ void	    return_term_settings(void)
 
 void        start_program(void)
 {
-	write(STDOUT_FILENO, "$>", 2);
     char *str = readline();
 }
 

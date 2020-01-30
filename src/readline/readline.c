@@ -118,6 +118,11 @@ void        alt_left_right(long c, int *cur_pos, char *user_in)
     }
 }
 
+/*
+** Позволяет корректно работать со строкой ввода.
+** Возвращает строку, введенную пользователем.
+*/
+
 char        *readline(void)
 {
     char    user_in[BUFFSIZE];
@@ -130,6 +135,7 @@ char        *readline(void)
     cur_pos = 3;
     flag = 0;
     c = 0;
+    write(STDOUT_FILENO, "$>", 2);
     while (c != '\n')
         c = readline_sup(user_in, &cur_pos, &flag);
     user_in_len = ft_strlen(user_in);
