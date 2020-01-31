@@ -1,20 +1,6 @@
 #include "21sh.h"
 
 /*
-** Очищает строку
-*/
-
-void        clear_line(int cur_pos)
-{
-    while (cur_pos != 3)
-    {
-        tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
-        cur_pos--;
-    }
-    tputs(tgetstr("ce", NULL), STDOUT_FILENO, ft_putint);
-}
-
-/*
 ** Удаляет символ и печатает строку
 */
 

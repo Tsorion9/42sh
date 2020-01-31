@@ -1,5 +1,47 @@
 #include "21sh.h"
 
+/*
+** Проверяет, является ли '\', с индексом start_check, цитированием
+*/
+
+int         check_backslash(char *user_in, int start_check)
+{
+    int res;
+
+    if (start_check < 0)
+        return (1);
+    res = 1;
+    while (user_in[start_check] == '\\' && start_check >= 0)
+    {
+        res++;
+        start_check--;
+    }
+    return (res % 2);
+}
+
+/*
+** Проверяет необходимость перевода на новую строку
+*/
+
+static void check_flag(char *user_in, char *flag)
+{
+    int i;
+
+    i = 0;
+    while (user_in[i] != 0)
+    {
+        if (user_in[i] == *flag  && *flag == '\'')
+            *flag = 0;
+        else if (user_in[i] == '\"' && user_in[i] == *flag\
+            && check_backslash(user_in, i - 1) == 1)
+            *flag = 0;
+        else if ((user_in[i] == '\'' || user_in[i] == '\"') && *flag == 0\
+            && check_backslash(user_in, i - 1) == 1)
+            *flag = user_in[i];
+        i++;
+    }
+}
+
 static long readline_sup(char *user_in, int *cur_pos, char *flag)
 {
     long    c;
@@ -11,13 +53,7 @@ static long readline_sup(char *user_in, int *cur_pos, char *flag)
     else if (c == 127)
         delete_symbol(user_in, cur_pos);
     else if (c >= ' ' && c <= '~')
-    {
-        if ((c == '\'' || c == '\"') && c == *flag)
-            *flag = 0;
-        else if ((c == '\'' || c == '\"') && *flag == 0)
-            *flag = c;
         insert_symbol(user_in, cur_pos, c);
-    }
     else if (c == 25115 || c == 26139)
         alt_left_right(c, cur_pos, user_in);
     return (c);
@@ -43,7 +79,8 @@ static void quoting(char *user_in, char flag)
     user_in_len = ft_strlen(user_in);
     user_in[user_in_len] = c;
     user_in[user_in_len + 1] = 0;
-    if (flag != 0)
+    check_flag(user_in, &flag);
+    if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
         quoting(user_in + user_in_len + 1, flag);
 }
 
@@ -70,7 +107,8 @@ char        *readline(void)
     user_in_len = ft_strlen(user_in);
     user_in[user_in_len] = c;
     user_in[user_in_len + 1] = 0;
-    if (flag != 0)
+    check_flag(user_in, &flag);
+    if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
         quoting(user_in + user_in_len + 1, flag);
     return (ft_strdup(user_in));
 }

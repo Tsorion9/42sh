@@ -26,6 +26,12 @@ void	    return_term_settings(void)
 void        start_program(void)
 {
     char *str = readline();
+	while (ft_strcmp(str, "exit\n") != 0)
+	{
+		write(STDIN_FILENO, "\n", 1);
+		free(str);
+		str = readline();
+	}
 }
 
 int         main(int ac, char **av, char **environ)
