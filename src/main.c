@@ -23,12 +23,13 @@ void	    return_term_settings(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &g_settings);
 }
 
-void        start_program(void)
+void        start_program(char **env)
 {
     char *str = readline();
 	while (ft_strcmp(str, "exit\n") != 0)
 	{
 		write(STDIN_FILENO, "\n", 1);
+		expansion(str, env);
 		free(str);
 		str = readline();
 	}
@@ -48,7 +49,7 @@ int         main(int ac, char **av, char **environ)
     (void)ac;
     (void)av;
     set_term_settings();
-    start_program();
+    start_program(environ);
     return_term_settings();
     return (0);
 }

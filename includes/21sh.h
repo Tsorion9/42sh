@@ -21,3 +21,5 @@ void        clear_line(int cup_pos);
 void        delete_symbol(char *user_in, int *cur_pos);
 void        insert_symbol(char *user_in, int *cur_pos, char c);
 void        alt_left_right(long c, int *cur_pos, char *user_in);
+int         check_backslash(char *user_in, int start_check);
+char        *expansion(char *user_in, char **env);
