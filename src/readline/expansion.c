@@ -1,6 +1,10 @@
 #include "21sh.h"
 
-void        delete_backslash(char *str)
+/*
+** Удаляет все лишние символы backslash
+*/
+
+static void delete_backslash(char *str)
 {
     int     i;
     int     z;
@@ -19,8 +23,7 @@ void        delete_backslash(char *str)
                 z++;
                 bs++;
             }
-            bs = bs - (bs / 2);
-            tmp = ft_strdup(str + i + bs);
+            tmp = ft_strdup(str + i + (bs - (bs / 2)));
             ft_strcpy(str + i, tmp);
             free(tmp);
             while (str[i] == '\\')
@@ -30,7 +33,11 @@ void        delete_backslash(char *str)
     }
 }
 
-void        tilde_expansion(char *str, int start)
+/*
+** Расширение тильды
+*/
+
+static void tilde_expansion(char *str, int start)
 {
     char    *tilde;
     char    remainder[BUFFSIZE];
@@ -52,23 +59,51 @@ void        tilde_expansion(char *str, int start)
     }
 }
 
-void        parameter_expansion(char *str, int start)
+/*
+** Расширение параметров
+*/
+
+static void parameter_expansion(char *str, int start)
 {
     char    *parameter;
     char    remainder[BUFFSIZE];
+    char    par_name[BUFFSIZE];
     int     i;
 
-    parameter = getenv(str + start + 1);
-    if (parameter == NULL)
-        return ;
-    i = start;
-    while (str[start] != 0 && str[start] != '\n'\
-        && str[start] != '\t' && str[start] != ' ')
-        start++;
-    ft_strcpy(remainder, str + start);
-    ft_strcpy(str + i, parameter);
-    ft_strcpy(str + i + ft_strlen(parameter), remainder);
+    i = start + 1;
+    while (str[i] != 0 && str[i] != ' ' && str[i] != '/'\
+        && str[i] != '\t' && str[i] != '\n')
+        i++;
+    ft_strcpy(par_name, str);
+    par_name[i] = 0;
+    if ((parameter = getenv(par_name + start + 1)) == NULL)
+    {
+        if ((parameter = (char*)malloc(sizeof(char))) == NULL)
+            exit(0);
+        parameter[0] = 0;
+    }
+    ft_strcpy(remainder, str + i);
+    ft_strcpy(str + start, parameter);
+    ft_strcpy(str + start + ft_strlen(parameter), remainder);
+    if (parameter[0] == 0)
+        free(parameter);
 }
+
+static void expansion_sup(char *str, int i, char *flag)
+{
+    if (str[i] == *flag  && *flag == '\'')
+        *flag = 0;
+    else if (str[i] == '\"' && str[i] == *flag\
+       && check_backslash(str, i - 1) == 1)
+        *flag = 0;
+    else if ((str[i] == '\'' || str[i] == '\"') && *flag == 0\
+        && check_backslash(str, i - 1) == 1)
+        *flag = str[i];
+}
+
+/*
+** Дополняет расширениями тильды и параметров
+*/
 
 char        *expansion(char *user_in, char **env)
 {
@@ -79,25 +114,19 @@ char        *expansion(char *user_in, char **env)
     if (user_in == NULL)
         exit(0);
     ft_strcpy(str, user_in);
+    free(user_in);
     flag = 0;
     i = 0;
     while (str[i] != 0)
     {
-        if (str[i] == flag  && flag == '\'')
-            flag = 0;
-        else if (str[i] == '\"' && str[i] == flag\
-            && check_backslash(user_in, i - 1) == 1)
-            flag = 0;
-        else if ((str[i] == '\'' || str[i] == '\"') && flag == 0\
-            && check_backslash(user_in, i - 1) == 1)
-            flag = str[i];
-        else if (str[i] == '~' && flag == 0)
+        expansion_sup(str, i, &flag);
+        if (str[i] == '~' && flag == 0)
             tilde_expansion(str, i);
         else if (str[i] == '$' && flag != '\''\
-            && check_backslash(str, i) == 1)
+            && check_backslash(str, i - 1) == 1)
             parameter_expansion(str, i);
         i++;
     }
     delete_backslash(str);
-    ft_putstr(str);
+    return (ft_strdup(str));
 }

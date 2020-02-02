@@ -29,7 +29,8 @@ void        start_program(char **env)
 	while (ft_strcmp(str, "exit\n") != 0)
 	{
 		write(STDIN_FILENO, "\n", 1);
-		expansion(str, env);
+		str = expansion(str, env);
+		ft_putstr(str);
 		free(str);
 		str = readline();
 	}
