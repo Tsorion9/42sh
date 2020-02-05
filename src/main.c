@@ -39,11 +39,10 @@ void        start_program(char **env)
 int         main(int ac, char **av, char **environ)
 {
     char	*termtype;
-	char	room_termtype[2048];
 	struct termios term_settings;
 
 	termtype = getenv("TERM");
-	if (termtype == NULL || tgetent(room_termtype, termtype) != 1)
+	if (termtype == NULL || tgetent(NULL, termtype) != 1)
 	{
 		ft_putstr("error\n");
 		exit(0);
