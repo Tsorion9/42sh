@@ -12,8 +12,6 @@
 
 #define BUFFSIZE 4096
 
-struct termios g_settings;
-
 int			ft_putint(int c);
 char        *readline(void);
 void        move_cursor(long c, int *cur_pos, char *user_in);
