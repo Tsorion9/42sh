@@ -42,19 +42,24 @@ static void check_flag(char *user_in, char *flag)
     }
 }
 
+#include <stdio.h>
 static long readline_sup(char *user_in, int *cur_pos, char *flag)
 {
     long    c;
 
     c = 0;
-    read(STDIN_FILENO, &c, 8);
-    if (c == 4479771 || c == 4414235)
+    read(STDIN_FILENO, &c, sizeof(long));
+	#ifdef DEBUG_INPUT_CHARS
+	printf("%ld\n", c); // Compile with -DDEBUG_INPUT_CHARS
+	fflush(stdout);		// To enable this part of code
+	#endif
+    if (c == LEFT_ARROW || c == RIGHT_ARROW)
         move_cursor(c, cur_pos, user_in);
-    else if (c == 127)
+    else if (c == BACKSPACE)
         delete_symbol(user_in, cur_pos);
-    else if (c >= ' ' && c <= '~')
+    else if (c >= ' ' && c <= '~') // Probably, ft_isprint() here?
         insert_symbol(user_in, cur_pos, c);
-    else if (c == 25115 || c == 26139)
+    else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
         alt_left_right(c, cur_pos, user_in);
     return (c);
 }

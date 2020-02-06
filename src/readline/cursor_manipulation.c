@@ -23,7 +23,7 @@ void        alt_left_right(long c, int *cur_pos, char *user_in)
 {
     int user_in_len;
 
-    if (c == 25115)
+    if (c == ALT_LEFT_ARROW)
         while (*cur_pos != 3)
         {
             tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
@@ -46,12 +46,12 @@ void        alt_left_right(long c, int *cur_pos, char *user_in)
 
 void        move_cursor(long c, int *cur_pos, char *user_in)
 {
-    if (c == 4479771 && *cur_pos >= 4)
+    if (c == LEFT_ARROW && *cur_pos >= 4)
     {
         tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
         (*cur_pos)--;
     }
-    else if (c == 4414235 && *cur_pos <= ft_strlen(user_in) + 2)
+    else if (c == RIGHT_ARROW && *cur_pos <= ft_strlen(user_in) + 2)
     {
         tputs(tgetstr("nd", NULL), STDOUT_FILENO, ft_putint);
         (*cur_pos)++;
