@@ -14,8 +14,9 @@ NAME = 21sh
 CREADLINE = readline.c user_in_editing.c cursor_manipulation.c expansion.c
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CC = gcc
-INCLUDE = includes
-CFLAGS = -L libft -lft -ltermcap -I $(INCLUDE) -o $(NAME)
+INCLUDE = includes 
+LIB_INC = libft/includes
+CFLAGS = -L libft -lft -ltermcap -I $(INCLUDE) -I $(LIB_INC) -o $(NAME)
 DFLAGS = $(CFLAGS) -g
 
 %.c:

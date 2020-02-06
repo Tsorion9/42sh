@@ -7,7 +7,7 @@
 #include <termios.h>
 #include <term.h>
 #include <fcntl.h>
-#include "../libft/includes/libft.h"
+#include "libft.h"
 #include <stdio.h>
 
 #define BUFFSIZE 4096
