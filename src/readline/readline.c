@@ -42,8 +42,10 @@ static void check_flag(char *user_in, char *flag)
     }
 }
 
+#ifdef DEBUG_INPUT_CHARS
 #include <stdio.h>
-static long readline_sup(char *user_in, int *cur_pos, char *flag)
+#endif
+static long readline_sup(char *user_in, int *cur_pos)
 {
     long    c;
 
@@ -64,40 +66,70 @@ static long readline_sup(char *user_in, int *cur_pos, char *flag)
     return (c);
 }
 
+
+void	die(void)
+{
+	exit(1);
+}
+
+void	read_till_newline(int *cur_pos, int *user_in_len, \
+		int tty, char *user_in)
+{
+	char	*nl;
+    long    c;
+
+	if (tty)
+	{
+		while (c != '\n')
+			c = readline_sup(user_in, cur_pos);
+		*user_in_len = ft_strlen(user_in);
+		user_in[*user_in_len] = c;
+		user_in[*user_in_len + 1] = 0;
+	}
+	else
+	{
+		nl = 0;
+		c = get_next_line(STDIN_FILENO, &nl);
+		if (c == -1)
+			die();
+		ft_strncpy(user_in, nl, BUFFSIZE - 2);
+		user_in[BUFFSIZE - 1] = 0;
+		if ((*user_in_len = ft_strlen(nl)) > BUFFSIZE - 1)
+			die();
+		free(nl);
+	}
+}
+
+
 /*
 ** Пероводит на новую строку и позволяет продолжить ввод
 ** для пользователя в случае, если цитирование не закрыто
 */
 
-static void quoting(char *user_in, char flag)
+static void quoting(char *user_in, char flag, int tty)
 {
-    long    c;
     int     cur_pos;
     int     user_in_len;
 
     cur_pos = 3;
-    c = 0;
-    write(STDOUT_FILENO, "\n", 1);
-    write(STDOUT_FILENO, "> ", 2);
-    while (c != '\n')
-        c = readline_sup(user_in, &cur_pos, &flag);
-    user_in_len = ft_strlen(user_in);
-    user_in[user_in_len] = c;
-    user_in[user_in_len + 1] = 0;
-    check_flag(user_in, &flag);
+	if (tty)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "> ", 2);
+	}
+	read_till_newline(&cur_pos, &user_in_len, tty, user_in);
+	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag);
+        quoting(user_in + user_in_len + 1, flag, tty);
 }
-
 /*
 ** Позволяет корректно работать со строкой ввода.
 ** Возвращает строку, введенную пользователем.
 */
 
-char        *readline(void)
+char        *readline(int tty_input)
 {
     char    user_in[BUFFSIZE];
-    long    c;
     char    flag;
     int     cur_pos;
     int     user_in_len;
@@ -105,15 +137,11 @@ char        *readline(void)
     user_in[0] = 0;
     cur_pos = 3;
     flag = 0;
-    c = 0;
-    write(STDOUT_FILENO, "$>", 2);
-    while (c != '\n')
-        c = readline_sup(user_in, &cur_pos, &flag);
-    user_in_len = ft_strlen(user_in);
-    user_in[user_in_len] = c;
-    user_in[user_in_len + 1] = 0;
-    check_flag(user_in, &flag);
+	if (tty_input)
+		write(STDOUT_FILENO, "$>", 2);
+	read_till_newline(&cur_pos, &user_in_len, tty_input, user_in);
+	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag);
+        quoting(user_in + user_in_len + 1, flag, tty_input);
     return (ft_strdup(user_in));
 }

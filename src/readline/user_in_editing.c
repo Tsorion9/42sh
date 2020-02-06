@@ -38,7 +38,6 @@ void        delete_symbol(char *user_in, int *cur_pos)
 void        insert_symbol(char *user_in, int *cur_pos, char c)
 {
     int     len;
-    char    temp;
     char    *str;
     int     i;
 

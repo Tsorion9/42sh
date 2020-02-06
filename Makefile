@@ -17,7 +17,7 @@ READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CC = gcc
 INCLUDE = includes 
 LIB_INC = libft/includes
-CFLAGS = -L libft -lft -ltermcap -I $(INCLUDE) -I $(LIB_INC) -o $(NAME)
+CFLAGS = -Wall -Wextra -L libft -lft -ltermcap -I $(INCLUDE) -I $(LIB_INC) -o $(NAME)
 DFLAGS = $(CFLAGS) -g
 
 %.c:

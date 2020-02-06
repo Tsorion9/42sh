@@ -111,6 +111,7 @@ char        *expansion(char *user_in, char **env)
     char    flag;
     int     i;
 
+	(void)env;
     if (user_in == NULL)
         exit(0);
     ft_strcpy(str, user_in);

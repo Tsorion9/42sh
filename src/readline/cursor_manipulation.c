@@ -39,6 +39,6 @@ void        move_cursor(long c, int *cur_pos, char *user_in)
 {
     if (c == LEFT_ARROW && *cur_pos >= 4)
 		tc_cursor_left(cur_pos);
-    else if (c == RIGHT_ARROW && *cur_pos <= ft_strlen(user_in) + 2)
+    else if (c == RIGHT_ARROW && (size_t )*cur_pos <= ft_strlen(user_in) + 2)
 		tc_cursor_right(cur_pos);
 }

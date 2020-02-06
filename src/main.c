@@ -23,34 +23,43 @@ void	    return_term_settings(struct termios *old_settings)
 	tcsetattr(STDIN_FILENO, TCSANOW, old_settings);
 }
 
-void        start_program(char **env)
+void        start_program(char **env, int tty_input)
 {
-    char *str = readline();
+    char *str = readline(tty_input);
 	while (ft_strcmp(str, "exit\n") != 0)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		str = expansion(str, env);
 		ft_putstr(str);
 		free(str);
-		str = readline();
+		str = readline(tty_input);
 	}
 }
 
-int         main(int ac, char **av, char **environ)
+void		init_terminal(struct termios *term_settings)
 {
-    char	*termtype;
-	struct termios term_settings;
+    char			*termtype;
 
 	termtype = getenv("TERM");
 	if (termtype == NULL || tgetent(NULL, termtype) != 1)
 	{
 		ft_putstr("error\n");
-		exit(0);
+		exit(1);
     }
+    set_term_settings(term_settings);
+}
+
+int         main(int ac, char **av, char **environ)
+{
+	struct termios	term_settings;
+	int				tty_input;
+
     (void)ac;
     (void)av;
-    set_term_settings(&term_settings);
-    start_program(environ);
-    return_term_settings(&term_settings);
+	if ((tty_input = isatty(STDIN_FILENO)))
+		init_terminal(&term_settings);
+    start_program(environ, tty_input);
+	if (tty_input)
+		return_term_settings(&term_settings);
     return (0);
 }
