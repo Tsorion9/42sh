@@ -25,7 +25,7 @@ void        delete_symbol(char *user_in, int *cur_pos)
     ft_putstr(user_in);
     while (len + 3 > *cur_pos)
     {
-        tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
+		tc_cursor_left(NULL);
         len--;
     }
     (*cur_pos)--;
@@ -54,7 +54,7 @@ void        insert_symbol(char *user_in, int *cur_pos, char c)
     len = ft_strlen(user_in);
     while (len + 2 > *cur_pos)
     {
-        tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
+		tc_cursor_left(NULL);
         len--;
     }
     (*cur_pos)++;

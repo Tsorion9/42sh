@@ -46,6 +46,14 @@
 #define CTRL_LEFT 74995417045787
 #define CTRL_RIGHT 73895905418011
 
+/*
+** Funcions that make termcaps interactions more readable
+*/
+
+void		tc_cursor_left(int *cur_pos);
+void		tc_cursor_right(int *cur_pos);
+void		tc_clear_till_end(void);
+
 int			ft_putint(int c);
 char        *readline(void);
 void        move_cursor(long c, int *cur_pos, char *user_in);

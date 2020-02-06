@@ -7,11 +7,8 @@
 void        clear_line(int cur_pos)
 {
     while (cur_pos != 3)
-    {
-        tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
-        cur_pos--;
-    }
-    tputs(tgetstr("ce", NULL), STDOUT_FILENO, ft_putint);
+		tc_cursor_left(&cur_pos);
+	tc_clear_till_end();
 }
 
 /*
@@ -25,18 +22,12 @@ void        alt_left_right(long c, int *cur_pos, char *user_in)
 
     if (c == ALT_LEFT_ARROW)
         while (*cur_pos != 3)
-        {
-            tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
-            (*cur_pos)--;
-        }
+			tc_cursor_left(cur_pos);
     else
     {
         user_in_len = ft_strlen(user_in) + 2;
         while (*cur_pos <= user_in_len)
-        {
-            tputs(tgetstr("nd", NULL), STDOUT_FILENO, ft_putint);
-            (*cur_pos)++;
-        }
+			tc_cursor_right(cur_pos);
     }
 }
 
@@ -47,13 +38,7 @@ void        alt_left_right(long c, int *cur_pos, char *user_in)
 void        move_cursor(long c, int *cur_pos, char *user_in)
 {
     if (c == LEFT_ARROW && *cur_pos >= 4)
-    {
-        tputs(tgetstr("le", NULL), STDOUT_FILENO, ft_putint);
-        (*cur_pos)--;
-    }
+		tc_cursor_left(cur_pos);
     else if (c == RIGHT_ARROW && *cur_pos <= ft_strlen(user_in) + 2)
-    {
-        tputs(tgetstr("nd", NULL), STDOUT_FILENO, ft_putint);
-        (*cur_pos)++;
-    }
+		tc_cursor_right(cur_pos);
 }
