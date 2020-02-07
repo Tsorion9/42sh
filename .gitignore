@@ -3,3 +3,5 @@
 *.o
 .D*
 .*.swp
+cscope.out
+tags

@@ -92,7 +92,9 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 		c = get_next_line(STDIN_FILENO, &nl);
 		if (c == -1)
 			die();
-		ft_strncpy(user_in, nl, BUFFSIZE - 2);
+		*user_in = 0;
+		if (nl)
+			ft_strncpy(user_in, nl, BUFFSIZE - 2);
 		user_in[BUFFSIZE - 1] = 0;
 		if ((*user_in_len = ft_strlen(nl)) > BUFFSIZE - 1)
 			die();
