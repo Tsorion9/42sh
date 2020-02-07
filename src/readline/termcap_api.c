@@ -20,4 +20,3 @@ void	tc_cursor_right(int *cur_pos)
 		return ;
 	(*cur_pos)++;
 }
-

@@ -56,6 +56,7 @@ int         main(int ac, char **av, char **environ)
 
     (void)ac;
     (void)av;
+	tty_input = 0; /* Valgrind says it is uninitialized otherwise. Why? */
 	if ((tty_input = isatty(STDIN_FILENO)))
 		init_terminal(&term_settings);
     start_program(environ, tty_input);

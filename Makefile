@@ -12,7 +12,7 @@
 
 NAME = 21sh
 CREADLINE = readline.c user_in_editing.c cursor_manipulation.c expansion.c \
-			termcap_api.c
+			termcap_api.c ft_isspace.c input_under_cursor.c
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CC = gcc
 INCLUDE = includes 

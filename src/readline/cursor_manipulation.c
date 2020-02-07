@@ -31,6 +31,14 @@ void        alt_left_right(long c, int *cur_pos, char *user_in)
     }
 }
 
+void		home_end(long c, int *cur_pos, char *user_in)
+{
+	if (c == HOME)
+		alt_left_right(ALT_LEFT_ARROW, cur_pos, user_in);
+	else
+		alt_left_right(ALT_RIGHT_ARROW, cur_pos, user_in);
+}
+
 /*
 ** Перемещает курсор вправо, либо влево
 */
@@ -41,4 +49,32 @@ void        move_cursor(long c, int *cur_pos, char *user_in)
 		tc_cursor_left(cur_pos);
     else if (c == RIGHT_ARROW && (size_t )*cur_pos <= ft_strlen(user_in) + 2)
 		tc_cursor_right(cur_pos);
+}
+
+static void	wordmove_right(int *cur_pos, char *user_in)
+{
+	while (ft_isspace(*input_under_cursor(*cur_pos + 1, user_in)) &&\
+			inside_boundaries(*cur_pos + 1, user_in))
+			move_cursor(RIGHT_ARROW, cur_pos, user_in);
+	while (!ft_isspace(*input_under_cursor(*cur_pos + 1, user_in)) &&\
+			inside_boundaries(*cur_pos + 1, user_in))
+		move_cursor(RIGHT_ARROW, cur_pos, user_in);
+}
+
+static void	wordmove_left(int *cur_pos, char *user_in)
+{
+	while (ft_isspace(*input_under_cursor(*cur_pos, user_in)) &&\
+			inside_boundaries(*cur_pos - 1, user_in))
+			move_cursor(LEFT_ARROW, cur_pos, user_in);
+	while (!ft_isspace(*input_under_cursor(*cur_pos, user_in)) &&\
+			inside_boundaries(*cur_pos - 1, user_in))
+		move_cursor(LEFT_ARROW, cur_pos, user_in);
+}
+
+void		wordmove_cursor(long c, int *cur_pos, char *user_in)
+{
+	if (c == CTRL_LEFT)
+		wordmove_left(cur_pos, user_in);
+	else
+		wordmove_right(cur_pos, user_in);
 }

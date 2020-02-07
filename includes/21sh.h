@@ -47,6 +47,38 @@
 #define CTRL_LEFT 74995417045787
 #define CTRL_RIGHT 73895905418011
 
+#define HOME 4738843
+#define END  4607771
+
+/* Sometimes 4*/
+#define CTRL_D 0  
+#define CTRL_C 3
+#define CTRL_S 19
+#define CTRL_Z 26
+#define CTRL_V 22
+
+#define PROMPT_LEN 2
+
+int			ft_putint(int c);
+int			ft_isspace(char c);
+char        *readline(int tty_input);
+
+/*
+** Editing  user input
+*/
+
+void        move_cursor(long c, int *cur_pos, char *user_in);
+void        clear_line(int cup_pos);
+void        delete_symbol(char *user_in, int *cur_pos);
+void        insert_symbol(char *user_in, int *cur_pos, char c);
+void        alt_left_right(long c, int *cur_pos, char *user_in);
+void		home_end(long c, int *cur_pos, char *user_in);
+void        delete_last_word(char *user_in, int *cur_pos);
+void		wordmove_cursor(long c, int *cur_pos, char *user_in);
+char		*input_under_cursor(int cursor_pos, char *user_input);
+int			inside_boundaries(int cur_pos, char *user_input);
+void		delete_symbol_forward(char *user_in, int *cur_pos);
+
 /*
 ** Funcions that make termcaps interactions more readable
 */
@@ -55,12 +87,5 @@ void		tc_cursor_left(int *cur_pos);
 void		tc_cursor_right(int *cur_pos);
 void		tc_clear_till_end(void);
 
-int			ft_putint(int c);
-char        *readline(int tty_input);
-void        move_cursor(long c, int *cur_pos, char *user_in);
-void        clear_line(int cup_pos);
-void        delete_symbol(char *user_in, int *cur_pos);
-void        insert_symbol(char *user_in, int *cur_pos, char c);
-void        alt_left_right(long c, int *cur_pos, char *user_in);
 int         check_backslash(char *user_in, int start_check);
 char        *expansion(char *user_in, char **env);
