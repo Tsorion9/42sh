@@ -95,10 +95,18 @@ static long readline_sup(char *user_in, int *cur_pos, t_history **history)
         up_down_arrow(user_in, cur_pos, history, c);
     else if (c == BACKSPACE)
         delete_symbol(user_in, cur_pos);
+    else if (c == DEL)
+        delete_symbol_forward(user_in, cur_pos);
     else if (c >= ' ' && c <= '~') // Probably, ft_isprint() here?
         insert_symbol(user_in, cur_pos, c);
     else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
         alt_left_right(c, cur_pos, user_in);
+    else if (c == HOME || c == END)
+        home_end(c, cur_pos, user_in);
+    else if (c == CTRL_LEFT || c == CTRL_RIGHT)
+        wordmove_cursor(c, cur_pos, user_in);
+	else if (c == CTRL_W)
+		delete_last_word(user_in, cur_pos);
     return (c);
 }
 
@@ -113,6 +121,7 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 	char	*nl;
     long    c;
 
+	c = 0;
 	if (tty)
 	{
 		while (c != '\n')
@@ -175,6 +184,7 @@ char        *readline(int tty_input, t_history *history)
     user_in[0] = 0;
     cur_pos = 3;
     flag = 0;
+	user_in_len = 0;
 	if (tty_input)
 		write(STDOUT_FILENO, "$>", 2);
 	read_till_newline(&cur_pos, &user_in_len, tty_input, user_in, history);

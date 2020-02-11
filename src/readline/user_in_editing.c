@@ -31,6 +31,24 @@ void        delete_symbol(char *user_in, int *cur_pos)
     (*cur_pos)--;
 }
 
+void		delete_symbol_forward(char *user_in, int *cur_pos)
+{
+	if (!inside_boundaries(*cur_pos + 1, user_in))
+		return ;
+	tc_cursor_right(cur_pos);
+	delete_symbol(user_in, cur_pos);
+}
+
+void        delete_last_word(char *user_in, int *cur_pos)
+{
+	while (ft_isspace(*input_under_cursor(*cur_pos, user_in)) &&\
+			inside_boundaries(*cur_pos - 1, user_in))
+		delete_symbol(user_in, cur_pos);
+	while (!ft_isspace(*input_under_cursor(*cur_pos, user_in)) &&\
+			inside_boundaries(*cur_pos - 1, user_in))
+		delete_symbol(user_in, cur_pos);
+}
+
 /*
 ** Добавляет символ и печатает строку
 */
