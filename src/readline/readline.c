@@ -42,10 +42,44 @@ static void check_flag(char *user_in, char *flag)
     }
 }
 
+void        clear_all_line(char *user_in, int *cur_pos)
+{
+    
+}
+
+void        up_down_arrow(char *user_in, int *cur_pos, t_history **history, long c)
+{
+    if (ft_strcmp(user_in, (*history)->str) != 0)
+    {
+        free((*history)->str);
+        (*history)->str = ft_strdup(user_in);
+    }
+    if (c == UP_ARROW && (*history)->next != NULL)
+    {
+        *history = (*history)->next;
+        clear_line(*cur_pos, 3);
+        ft_strcpy(user_in, (*history)->str);
+        ft_putstr(user_in);
+        while (*cur_pos != 3)
+            (*cur_pos)--;
+        *cur_pos += ft_strlen(user_in);
+    }
+    else if (c == DOWN_ARROW && (*history)->prev != NULL)
+    {
+        (*history) = (*history)->prev;
+        clear_line(*cur_pos, 3);
+        ft_strcpy(user_in, (*history)->str);
+        ft_putstr(user_in);
+        while (*cur_pos != 3)
+            (*cur_pos)--;
+        *cur_pos += ft_strlen(user_in);
+    }
+}
+
 #ifdef DEBUG_INPUT_CHARS
 #include <stdio.h>
 #endif
-static long readline_sup(char *user_in, int *cur_pos)
+static long readline_sup(char *user_in, int *cur_pos, t_history **history)
 {
     long    c;
 
@@ -57,6 +91,8 @@ static long readline_sup(char *user_in, int *cur_pos)
 	#endif
     if (c == LEFT_ARROW || c == RIGHT_ARROW)
         move_cursor(c, cur_pos, user_in);
+    else if (c == UP_ARROW || c == DOWN_ARROW)
+        up_down_arrow(user_in, cur_pos, history, c);
     else if (c == BACKSPACE)
         delete_symbol(user_in, cur_pos);
     else if (c >= ' ' && c <= '~') // Probably, ft_isprint() here?
@@ -66,14 +102,13 @@ static long readline_sup(char *user_in, int *cur_pos)
     return (c);
 }
 
-
 void	die(void)
 {
 	exit(1);
 }
 
 void	read_till_newline(int *cur_pos, int *user_in_len, \
-		int tty, char *user_in)
+		int tty, char *user_in, t_history *history)
 {
 	char	*nl;
     long    c;
@@ -81,7 +116,7 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 	if (tty)
 	{
 		while (c != '\n')
-			c = readline_sup(user_in, cur_pos);
+			c = readline_sup(user_in, cur_pos, &history);
 		*user_in_len = ft_strlen(user_in);
 		user_in[*user_in_len] = c;
 		user_in[*user_in_len + 1] = 0;
@@ -106,7 +141,7 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 ** для пользователя в случае, если цитирование не закрыто
 */
 
-static void quoting(char *user_in, char flag, int tty)
+static void quoting(char *user_in, char flag, int tty, t_history *history)
 {
     int     cur_pos;
     int     user_in_len;
@@ -117,17 +152,18 @@ static void quoting(char *user_in, char flag, int tty)
 		write(STDOUT_FILENO, "\n", 1);
 		write(STDOUT_FILENO, "> ", 2);
 	}
-	read_till_newline(&cur_pos, &user_in_len, tty, user_in);
+	read_till_newline(&cur_pos, &user_in_len, tty, user_in, history);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag, tty);
+        quoting(user_in + user_in_len + 1, flag, tty, history);
 }
+
 /*
 ** Позволяет корректно работать со строкой ввода.
 ** Возвращает строку, введенную пользователем.
 */
 
-char        *readline(int tty_input)
+char        *readline(int tty_input, t_history *history)
 {
     char    user_in[BUFFSIZE];
     char    flag;
@@ -139,9 +175,9 @@ char        *readline(int tty_input)
     flag = 0;
 	if (tty_input)
 		write(STDOUT_FILENO, "$>", 2);
-	read_till_newline(&cur_pos, &user_in_len, tty_input, user_in);
+	read_till_newline(&cur_pos, &user_in_len, tty_input, user_in, history);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag, tty_input);
+        quoting(user_in + user_in_len + 1, flag, tty_input, history);
     return (ft_strdup(user_in));
 }

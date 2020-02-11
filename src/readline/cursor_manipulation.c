@@ -4,10 +4,10 @@
 ** Очищает строку
 */
 
-void        clear_line(int cur_pos)
+void        clear_line(int cur_pos, int end_cl)
 {
-    while (cur_pos != 3)
-		tc_cursor_left(&cur_pos);
+    while (cur_pos != end_cl)
+		  tc_cursor_left(&cur_pos);
 	tc_clear_till_end();
 }
 
@@ -38,7 +38,7 @@ void        alt_left_right(long c, int *cur_pos, char *user_in)
 void        move_cursor(long c, int *cur_pos, char *user_in)
 {
     if (c == LEFT_ARROW && *cur_pos >= 4)
-		tc_cursor_left(cur_pos);
-    else if (c == RIGHT_ARROW && (size_t )*cur_pos <= ft_strlen(user_in) + 2)
-		tc_cursor_right(cur_pos);
+	    tc_cursor_left(cur_pos);
+    else if (c == RIGHT_ARROW && (size_t)*cur_pos <= ft_strlen(user_in) + 2)
+		  tc_cursor_right(cur_pos);
 }

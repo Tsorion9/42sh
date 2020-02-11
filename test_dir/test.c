@@ -13,8 +13,8 @@ int		main(void)
 	char	*arg1[] = {"/bin/cat", "-e", NULL};
 
 	int		conn[2];
-	int i = 0;
-	int pid;
+	int 	i = 0;
+	int 	pid;
 	pipe(conn);
 	if ((pid = fork()) == 0)
 	{

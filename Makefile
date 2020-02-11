@@ -6,13 +6,13 @@
 #    By: tsorion <tsorion@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 15:20:15 by mphobos           #+#    #+#              #
-#    Updated: 2020/02/01 18:49:53 by tsorion          ###   ########.fr        #
+#    Updated: 2020/02/10 12:45:30 by tsorion          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 CREADLINE = readline.c user_in_editing.c cursor_manipulation.c expansion.c \
-			termcap_api.c
+			termcap_api.c history.c
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CC = gcc
 INCLUDE = includes 

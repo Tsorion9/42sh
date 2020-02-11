@@ -25,14 +25,20 @@ void	    return_term_settings(struct termios *old_settings)
 
 void        start_program(char **env, int tty_input)
 {
-    char *str = readline(tty_input);
+	t_history	*history;
+
+	history = NULL;
+	history = create_history("");
+    char *str = readline(tty_input, history);
 	while (ft_strcmp(str, "exit\n") != 0)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		str = expansion(str, env);
 		ft_putstr(str);
+		str[ft_strlen(str) - 1] = 0;
+		add_to_start(&history, str);
 		free(str);
-		str = readline(tty_input);
+		str = readline(tty_input, history);
 	}
 }
 

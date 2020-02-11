@@ -10,8 +10,16 @@
 #include "libft.h"
 #include "get_next_line.h"
 #include <stdio.h>
+#include <sys/ioctl.h>
 
 #define BUFFSIZE 4096
+
+typedef struct  s_history
+{
+    char                *str;
+    struct s_history    *prev;
+    struct s_history    *next;
+}               t_history;
 
 /*
 ** Character key constants
@@ -56,11 +64,14 @@ void		tc_cursor_right(int *cur_pos);
 void		tc_clear_till_end(void);
 
 int			ft_putint(int c);
-char        *readline(int tty_input);
+char        *readline(int tty_input, t_history *history);
 void        move_cursor(long c, int *cur_pos, char *user_in);
-void        clear_line(int cup_pos);
+void        clear_line(int cup_pos, int end_cl);
 void        delete_symbol(char *user_in, int *cur_pos);
 void        insert_symbol(char *user_in, int *cur_pos, char c);
 void        alt_left_right(long c, int *cur_pos, char *user_in);
 int         check_backslash(char *user_in, int start_check);
 char        *expansion(char *user_in, char **env);
+t_history   *add_new_history(t_history *history, char *str);
+void        add_to_start(t_history **history, char *str);
+t_history   *create_history(char *str);

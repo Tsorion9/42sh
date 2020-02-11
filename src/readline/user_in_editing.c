@@ -21,7 +21,7 @@ void        delete_symbol(char *user_in, int *cur_pos)
         i++;
     }
     user_in[i] = 0;
-    clear_line(*cur_pos);
+    clear_line(*cur_pos, 3);
     ft_putstr(user_in);
     while (len + 3 > *cur_pos)
     {
@@ -48,9 +48,20 @@ void        insert_symbol(char *user_in, int *cur_pos, char c)
     ft_strcpy(user_in + i + 1, str);
     free(str);
     user_in[i] = c;
-    clear_line(*cur_pos);
-    ft_putstr(user_in);
+
+    //struct winsize	w;
+	//ioctl(STDERR_FILENO, TIOCGWINSZ, &w);
+
     len = ft_strlen(user_in);
+    //if (len + 2 >= w.ws_col)
+    //{
+      //  write(STDOUT_FILENO, "\n", 1);
+       // ft_putstr(user_in + w.ws_col - len);
+       // return ;
+    //}
+
+    clear_line(*cur_pos, 3);
+    ft_putstr(user_in);
     while (len + 2 > *cur_pos)
     {
 		tc_cursor_left(NULL);
