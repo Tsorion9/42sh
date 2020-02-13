@@ -20,3 +20,9 @@ void	tc_cursor_right(int *cur_pos)
 		return ;
 	(*cur_pos)++;
 }
+
+void	tc_cursor_up(int *cur_pos)
+{
+	tputs(tgetstr("up", NULL), STDOUT_FILENO, ft_putint);
+	*cur_pos = 1;
+}

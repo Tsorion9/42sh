@@ -42,9 +42,39 @@ static void check_flag(char *user_in, char *flag)
     }
 }
 
+int         str_n(char *user_in)
+{
+    int n;
+
+    n = 0;
+    while (*user_in != 0)
+    {
+        if (*user_in == '\n')
+            n++;
+        user_in++;
+    }
+    return (n);
+}
+
 void        clear_all_line(char *user_in, int *cur_pos)
 {
-    
+    int n;
+
+    if (ft_strchr(user_in, '\n') == NULL)
+    {
+        clear_line(*cur_pos, 3);
+        return ;
+    }
+    n = str_n(user_in);
+    while (n > 0)
+    {
+        clear_line(*cur_pos, 0);
+        tc_cursor_up(cur_pos);
+        n--;
+    }
+    tc_cursor_right(cur_pos);
+    tc_cursor_right(cur_pos);
+    tc_clear_till_end();
 }
 
 void        up_down_arrow(char *user_in, int *cur_pos, t_history **history, long c)
@@ -57,7 +87,7 @@ void        up_down_arrow(char *user_in, int *cur_pos, t_history **history, long
     if (c == UP_ARROW && (*history)->next != NULL)
     {
         *history = (*history)->next;
-        clear_line(*cur_pos, 3);
+        clear_all_line(user_in, cur_pos);
         ft_strcpy(user_in, (*history)->str);
         ft_putstr(user_in);
         while (*cur_pos != 3)
@@ -67,7 +97,7 @@ void        up_down_arrow(char *user_in, int *cur_pos, t_history **history, long
     else if (c == DOWN_ARROW && (*history)->prev != NULL)
     {
         (*history) = (*history)->prev;
-        clear_line(*cur_pos, 3);
+        clear_all_line(user_in, cur_pos);
         ft_strcpy(user_in, (*history)->str);
         ft_putstr(user_in);
         while (*cur_pos != 3)
