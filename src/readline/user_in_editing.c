@@ -53,7 +53,7 @@ void        delete_last_word(char *user_in, int *cur_pos)
 ** Добавляет символ и печатает строку
 */
 
-void        insert_symbol(char *user_in, int *cur_pos, char c)
+void        insert_symbol_sup(char *user_in, int *cur_pos, char c)
 {
     int     len;
     char    *str;
@@ -75,4 +75,12 @@ void        insert_symbol(char *user_in, int *cur_pos, char c)
         len--;
     }
     (*cur_pos)++;
+}
+
+void        insert_symbol(char *user_in, int *cur_pos, char c)
+{
+    int n;
+    int i;
+
+    if ((n = ))
 }

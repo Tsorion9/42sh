@@ -63,25 +63,57 @@ void        clear_all_line(char *user_in, int *cur_pos)
     if (ft_strchr(user_in, '\n') == NULL)
     {
         clear_line(*cur_pos, 3);
+        *cur_pos = 3;
         return ;
     }
-    n = *(cur_pos + 1);
-    while (n > 1)
+    n = str_n(user_in) + 1;
+    while (*(cur_pos + 1) != n)
+    {
+        write(STDOUT_FILENO, "\n", 1);
+        *(cur_pos + 1) += 1;
+    }
+    while (*(cur_pos + 1) > 1)
     {
         clear_line(*cur_pos, 0);
         tc_cursor_up(cur_pos);
-        n--;
     }
     tc_cursor_right(cur_pos);
     tc_cursor_right(cur_pos);
     tc_clear_till_end();
 }
 
-void        up_down_arrow(char *user_in, int *cur_pos, t_history **history, long c)
+void        up_down_arrow_sup(char *user_in, int *cur_pos, t_history **history)
 {
     int i;
     int n;
 
+    clear_all_line(user_in, cur_pos);
+    *(cur_pos + 1) = str_n((*history)->str) + 1;
+    ft_strcpy(user_in, (*history)->str);
+    ft_putstr(user_in);
+    if (ft_strchr(user_in, '\n') == NULL)
+        *cur_pos += ft_strlen(user_in);
+    else
+    {
+        *(cur_pos) = 1;
+        i = 0;
+        n = str_n(user_in);
+        while (n != 0)
+        {
+            if (user_in[i] == '\n')
+                n--;
+            i++;
+        }
+        while (user_in[i] != 0)
+        {
+            (*cur_pos)++;
+            i++;
+        }
+    }
+}
+
+void        up_down_arrow(char *user_in, int *cur_pos, t_history **history, long c)
+{
     if (ft_strcmp(user_in, (*history)->str) != 0)
     {
         free((*history)->str);
@@ -90,70 +122,12 @@ void        up_down_arrow(char *user_in, int *cur_pos, t_history **history, long
     if (c == UP_ARROW && (*history)->next != NULL)
     {
         *history = (*history)->next;
-        *(cur_pos + 1) = str_n((*history)->str) + 1;
-        clear_all_line(user_in, cur_pos);
-        ft_strcpy(user_in, (*history)->str);
-        ft_putstr(user_in);
-        if (ft_strchr(user_in, '\n') == NULL)
-        {
-            while (*cur_pos != 3)
-                (*cur_pos)--;
-            *cur_pos += ft_strlen(user_in);
-        }
-        else
-        {
-            *(cur_pos) = 1;
-            i = 0;
-            n = str_n(user_in);
-            while (n != 0)
-            {
-                if (user_in[i] == '\n')
-                    n--;
-                i++;
-            }
-            while (user_in[i] != 0)
-            {
-                (*cur_pos)++;
-                i++;
-            }
-        }
+        up_down_arrow_sup(user_in, cur_pos, history);
     }
     else if (c == DOWN_ARROW && (*history)->prev != NULL)
     {
-        (*history) = (*history)->prev;
-        n = str_n(user_in) + 1;
-        while (*(cur_pos + 1) != n)
-        {
-            write(STDOUT_FILENO, "\n", 1);
-            *(cur_pos + 1) += 1;
-        }
-        clear_all_line(user_in, cur_pos);
-        *(cur_pos + 1) = str_n((*history)->str) + 1;
-        ft_strcpy(user_in, (*history)->str);
-        ft_putstr(user_in);
-        if (ft_strchr(user_in, '\n') == NULL)
-        {
-            while (*cur_pos != 3)
-                (*cur_pos)--;
-            *cur_pos += ft_strlen(user_in);
-        }
-        else
-        {
-            *(cur_pos) = 1;
-            i = 0;
-            n = str_n(user_in);
-            while (n != 0)
-            {
-                if (user_in[i] == '\n')
-                    n--;
-                i++;
-            }
-            while (user_in[i] != 0)
-            {
-                (*cur_pos)++;
-                i++;
-            }
-        }
+        *history = (*history)->prev;
+        up_down_arrow_sup(user_in, cur_pos, history);
     }
 }
 
