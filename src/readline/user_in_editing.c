@@ -66,18 +66,7 @@ void        insert_symbol(char *user_in, int *cur_pos, char c)
     ft_strcpy(user_in + i + 1, str);
     free(str);
     user_in[i] = c;
-
-    //struct winsize	w;
-	//ioctl(STDERR_FILENO, TIOCGWINSZ, &w);
-
     len = ft_strlen(user_in);
-    //if (len + 2 >= w.ws_col)
-    //{
-      //  write(STDOUT_FILENO, "\n", 1);
-       // ft_putstr(user_in + w.ws_col - len);
-       // return ;
-    //}
-
     clear_line(*cur_pos, 3);
     ft_putstr(user_in);
     while (len + 2 > *cur_pos)

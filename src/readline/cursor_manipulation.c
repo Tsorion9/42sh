@@ -45,6 +45,9 @@ void		home_end(long c, int *cur_pos, char *user_in)
 
 void        move_cursor(long c, int *cur_pos, char *user_in)
 {
+	int	i;
+	int	n;
+
 	if (ft_strchr(user_in, '\n') == NULL)
 	{
     	if (c == LEFT_ARROW && *cur_pos >= 4)
@@ -53,7 +56,66 @@ void        move_cursor(long c, int *cur_pos, char *user_in)
 			  tc_cursor_right(cur_pos);
 		return ;
 	}
-	
+	if (c == LEFT_ARROW)
+	{
+		if (*cur_pos != 1 && *(cur_pos + 1) != 1)
+			tc_cursor_left(cur_pos);
+		else if (*cur_pos >= 4 && *(cur_pos + 1) == 1)
+			tc_cursor_left(cur_pos);
+		else if (*(cur_pos + 1) != 1)
+		{
+			tc_cursor_up(cur_pos);
+			if (*(cur_pos + 1) == 1)
+			{
+				i = 0;
+				while (user_in[i] != '\n')
+				{
+					tc_cursor_right(cur_pos);
+					i++;
+				}
+				tc_cursor_right(cur_pos);
+				tc_cursor_right(cur_pos);
+			}
+			else
+			{
+				n = 1;
+				i = 0;
+				while (n != *(cur_pos + 1))
+				{
+					if (user_in[i] == '\n')
+					n++;
+					i++;
+				}
+				while (user_in[i] != '\n')
+				{
+					i++;
+					tc_cursor_right(cur_pos);
+				}
+			}
+		}
+	}
+	else
+	{
+		n = 1;
+		i = 0;
+		while (n != *(cur_pos + 1))
+		{
+			if (user_in[i] == '\n')
+				n++;
+			i++;
+		}
+		i += *cur_pos - 1;
+		if (*(cur_pos + 1) == 1)
+			i -= 2;
+		if (user_in[i] == '\n')
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			*(cur_pos) = 1;
+			*(cur_pos + 1) += 1;
+		}
+		else if (user_in[i] != 0)
+			tc_cursor_right(cur_pos);
+	}
 }
 
 static void	wordmove_right(int *cur_pos, char *user_in)
