@@ -83,6 +83,7 @@ int			inside_boundaries(int cur_pos, char *user_input);
 void		delete_symbol_forward(char *user_in, int *cur_pos);
 void	    tc_cursor_up(int *cur_pos);
 int         str_n(char *user_in);
+void        clear_all_line(char *user_in, int *cur_pos);
 
 /*
 ** Funcions that make termcaps interactions more readable

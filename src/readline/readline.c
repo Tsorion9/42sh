@@ -220,10 +220,7 @@ static void quoting(char *user_in, char flag, int tty, t_history *history, int *
 	read_till_newline(cur_pos, &user_in_len, tty, user_in, history);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-    {
-        *(cur_pos + 1) += 1;
         quoting(user_in + user_in_len + 1, flag, tty, history, cur_pos);
-    }
 }
 
 /*
@@ -235,11 +232,10 @@ char        *readline(int tty_input, t_history *history)
 {
     char    user_in[BUFFSIZE];
     char    flag;
-    int     *cur_pos;
+    int     cur_pos[2];
     int     user_in_len;
 
     user_in[0] = 0;
-    cur_pos = (int*)malloc(sizeof(int) * 2);
     *cur_pos = 3;
     *(cur_pos + 1) = 1;
     flag = 0;
@@ -249,9 +245,6 @@ char        *readline(int tty_input, t_history *history)
 	read_till_newline(cur_pos, &user_in_len, tty_input, user_in, history);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-    {
-        *(cur_pos + 1) += 1;
         quoting(user_in + user_in_len + 1, flag, tty_input, history, cur_pos);
-    }
     return (ft_strdup(user_in));
 }
