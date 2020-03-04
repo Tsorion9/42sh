@@ -15,7 +15,7 @@ int         search_index(char *user_in, int *cur_pos)
             n++;
         i++;
     }
-    n = 2;
+    n = 1;
     while (n < cur_pos[0])
     {
         n++;
@@ -37,31 +37,60 @@ void        ret_cur_to_original_pos(char *user_in, int *cur_pos)
         tc_cursor_up(tmp_cur_pos);
 }
 
+void        delete_symbol_sup(char *user_in, int *cur_pos, int i, int *n)
+{
+    int z;
+    int p;
+    int y;
+
+    *n = cur_pos[0];
+    if (user_in[i] == '\n')
+    {
+        tc_clear_till_end();
+        tc_cursor_up(cur_pos);
+        if (cur_pos[1] == 1)
+        {
+            tc_cursor_right(cur_pos);
+            tc_cursor_right(cur_pos);
+            cur_pos[0] = 3;
+            *n = i + 4;
+        }
+        else
+        {
+            z = 1;
+            p = 0;
+            while (z != cur_pos[1])
+            {
+                if (user_in[p] == '\n')
+                    z++;
+                p++;
+            }
+            y = 0;
+            while (user_in[p] != '\n')
+            {
+                p++;
+                y++;
+            }
+            *n = y + 2;
+        }
+    }
+}
+
 void        delete_symbol(char *user_in, int *cur_pos)
 {
     int     len;
     int     i;
     int     tmp[2];
+    int     n;
 
     i = search_index(user_in, cur_pos);
     i--;
     if (i < 0)
         return ;
-
-    if (user_in[i] == '\n')
-    {
-        tc_clear_till_end();
-        tc_cursor_up(cur_pos);
-        if (str_n(user_in) == 1)
-        {
-            tc_cursor_right(cur_pos);
-            tc_cursor_right(cur_pos);
-            cur_pos[0] = i + 3;
-        }
-        else
-            cur_pos[0] = i + 1;
-    }
-
+    delete_symbol_sup(user_in, cur_pos, i, &n);
+    tmp[0] = n;
+    tmp[1] = cur_pos[1];
+    clear_all_line(user_in, cur_pos);
     len = ft_strlen(user_in);
     while (i < len - 1)
     {
@@ -69,9 +98,6 @@ void        delete_symbol(char *user_in, int *cur_pos)
         i++;
     }
     user_in[i] = 0;
-    tmp[0] = cur_pos[0];
-    tmp[1] = cur_pos[1];
-    clear_all_line(user_in, cur_pos);
     cur_pos[0] = tmp[0] - 1;
     cur_pos[1] = tmp[1];
     ft_putstr(user_in);
