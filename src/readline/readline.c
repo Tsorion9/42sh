@@ -82,17 +82,14 @@ void        clear_all_line(char *user_in, int *cur_pos)
     tc_clear_till_end();
 }
 
-void        up_down_arrow_sup(char *user_in, int *cur_pos, t_history **history)
+void        cur_pos_after_putstr(char *user_in, int *cur_pos)
 {
     int i;
     int n;
 
-    clear_all_line(user_in, cur_pos);
-    *(cur_pos + 1) = str_n((*history)->str) + 1;
-    ft_strcpy(user_in, (*history)->str);
-    ft_putstr(user_in);
+    *(cur_pos + 1) = str_n(user_in) + 1;
     if (ft_strchr(user_in, '\n') == NULL)
-        *cur_pos += ft_strlen(user_in);
+        *cur_pos = ft_strlen(user_in) + 3;
     else
     {
         *(cur_pos) = 1;
@@ -110,6 +107,14 @@ void        up_down_arrow_sup(char *user_in, int *cur_pos, t_history **history)
             i++;
         }
     }
+}
+
+void        up_down_arrow_sup(char *user_in, int *cur_pos, t_history **history)
+{
+    clear_all_line(user_in, cur_pos);
+    ft_strcpy(user_in, (*history)->str);
+    ft_putstr(user_in);
+    cur_pos_after_putstr(user_in, cur_pos);
 }
 
 void        up_down_arrow(char *user_in, int *cur_pos, t_history **history, long c)

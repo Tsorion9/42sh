@@ -6,7 +6,7 @@
 
 void        clear_line(int cur_pos, int end_cl)
 {
-    while (cur_pos != end_cl)
+    while (cur_pos > end_cl)
 		  tc_cursor_left(&cur_pos);
 	tc_clear_till_end();
 }

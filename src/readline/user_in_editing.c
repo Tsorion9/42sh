@@ -1,34 +1,81 @@
 #include "21sh.h"
 
-/*
-** Удаляет символ и печатает строку
-*/
+int         search_index(char *user_in, int *cur_pos)
+{
+    int     n;
+    int     i;
+
+    n = 1;
+    i = 0;
+    if (cur_pos[1] == 1)
+        return (cur_pos[0] - 3);
+    while (n < cur_pos[1])
+    {
+        if (user_in[i] == '\n')
+            n++;
+        i++;
+    }
+    n = 2;
+    while (n < cur_pos[0])
+    {
+        n++;
+        i++;
+    }
+    return (i);
+}
+
+void        ret_cur_to_original_pos(char *user_in, int *cur_pos)
+{
+    int     tmp_cur_pos[2];
+
+    cur_pos_after_putstr(user_in, tmp_cur_pos);
+    while (tmp_cur_pos[0] > cur_pos[0])
+        tc_cursor_left(tmp_cur_pos);
+    while (tmp_cur_pos[0] < cur_pos[0])
+        tc_cursor_right(tmp_cur_pos);
+    while (tmp_cur_pos[1] > cur_pos[1])
+        tc_cursor_up(tmp_cur_pos);
+}
 
 void        delete_symbol(char *user_in, int *cur_pos)
 {
     int     len;
     int     i;
+    int     tmp[2];
 
-    if (*cur_pos == 3)
+    i = search_index(user_in, cur_pos);
+    i--;
+    if (i < 0)
         return ;
+
+    if (user_in[i] == '\n')
+    {
+        tc_clear_till_end();
+        tc_cursor_up(cur_pos);
+        if (str_n(user_in) == 1)
+        {
+            tc_cursor_right(cur_pos);
+            tc_cursor_right(cur_pos);
+            cur_pos[0] = i + 3;
+        }
+        else
+            cur_pos[0] = i + 1;
+    }
+
     len = ft_strlen(user_in);
-    i = 0;
-    while (i < *cur_pos - 4)
-        i++;
     while (i < len - 1)
     {
         user_in[i] = user_in[i + 1];
         i++;
     }
     user_in[i] = 0;
-    clear_line(*cur_pos, 3);
+    tmp[0] = cur_pos[0];
+    tmp[1] = cur_pos[1];
+    clear_all_line(user_in, cur_pos);
+    cur_pos[0] = tmp[0] - 1;
+    cur_pos[1] = tmp[1];
     ft_putstr(user_in);
-    while (len + 3 > *cur_pos)
-    {
-		tc_cursor_left(NULL);
-        len--;
-    }
-    (*cur_pos)--;
+    ret_cur_to_original_pos(user_in, cur_pos);
 }
 
 void		delete_symbol_forward(char *user_in, int *cur_pos)
@@ -85,7 +132,6 @@ static void  insert_symbol_sup(char *user_in, int *cur_pos, char c, int a)
     *(cur_pos) = tmp[1];
     *(cur_pos + 1) = tmp[2];
     ft_putstr(user_in);
-
     if (str_n(user_in) + 1 > *(cur_pos + 1))
     {
         i = str_n(user_in) + 1;
