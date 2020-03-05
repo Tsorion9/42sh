@@ -46,76 +46,34 @@ void		home_end(long c, int *cur_pos, char *user_in)
 void        move_cursor(long c, int *cur_pos, char *user_in)
 {
 	int	i;
-	int	n;
+	int	prev_cur_pos[2];
 
-	if (ft_strchr(user_in, '\n') == NULL)
-	{
-    	if (c == LEFT_ARROW && *cur_pos >= 4)
-	    	tc_cursor_left(cur_pos);
-    	else if (c == RIGHT_ARROW && (size_t)*cur_pos <= ft_strlen(user_in) + 2)
-			  tc_cursor_right(cur_pos);
-		return ;
-	}
+	prev_cur_pos[0] = cur_pos[0];
+	prev_cur_pos[1] = cur_pos[1];
 	if (c == LEFT_ARROW)
 	{
-		if (*cur_pos != 1 && *(cur_pos + 1) != 1)
-			tc_cursor_left(cur_pos);
-		else if (*cur_pos >= 4 && *(cur_pos + 1) == 1)
-			tc_cursor_left(cur_pos);
-		else if (*(cur_pos + 1) != 1)
+		if (cur_pos[0] == 1)
 		{
-			tc_cursor_up(cur_pos);
-			if (*(cur_pos + 1) == 1)
-			{
-				i = 0;
-				while (user_in[i] != '\n')
-				{
-					tc_cursor_right(cur_pos);
-					i++;
-				}
-				tc_cursor_right(cur_pos);
-				tc_cursor_right(cur_pos);
-			}
-			else
-			{
-				n = 1;
-				i = 0;
-				while (n != *(cur_pos + 1))
-				{
-					if (user_in[i] == '\n')
-					n++;
-					i++;
-				}
-				while (user_in[i] != '\n')
-				{
-					i++;
-					tc_cursor_right(cur_pos);
-				}
-			}
+			cur_pos[1]--;
+			cur_pos[0] = last_cur_pos(user_in, cur_pos) + 1;
 		}
+		else if (cur_pos[0] == 3 && cur_pos[1] == 1)
+			return ;
+		else
+			cur_pos[0]--;
 	}
 	else
 	{
-		n = 1;
-		i = 0;
-		while (n != *(cur_pos + 1))
-		{
-			if (user_in[i] == '\n')
-				n++;
-			i++;
-		}
-		i += *cur_pos - 1;
-		if (*(cur_pos + 1) == 1)
-			i -= 2;
+		i = search_index(user_in, cur_pos);
 		if (user_in[i] == '\n')
 		{
-			write(STDOUT_FILENO, "\n", 1);
-			*(cur_pos) = 1;
-			*(cur_pos + 1) += 1;
+			cur_pos[0] = 1;
+			cur_pos[1]++;
 		}
 		else if (user_in[i] != 0)
-			tc_cursor_right(cur_pos);
+			cur_pos[0]++;
 	}
+	ret_cur_to_original_pos(cur_pos, prev_cur_pos);
 }
 
 static void	wordmove_right(int *cur_pos, char *user_in)

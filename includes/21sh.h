@@ -85,6 +85,9 @@ void	    tc_cursor_up(int *cur_pos);
 int         str_n(char *user_in);
 void        clear_all_line(char *user_in, int *cur_pos);
 void        cur_pos_after_putstr(char *user_in, int *cur_pos);
+int         last_cur_pos(char *user_in, int *cur_pos);
+int         search_index(char *user_in, int *cur_pos);
+void        ret_cur_to_original_pos(int *cur_pos, int *prev_cur_pos);
 
 /*
 ** Funcions that make termcaps interactions more readable

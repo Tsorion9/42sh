@@ -6,13 +6,14 @@
 #    By: tsorion <tsorion@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 15:20:15 by mphobos           #+#    #+#              #
-#    Updated: 2020/02/12 00:26:31 by tsorion          ###   ########.fr        #
+#    Updated: 2020/03/05 11:38:13 by tsorion          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 CREADLINE = readline.c user_in_editing.c cursor_manipulation.c expansion.c \
-			termcap_api.c ft_isspace.c input_under_cursor.c history.c
+			termcap_api.c ft_isspace.c input_under_cursor.c history.c \
+			delete.c
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CC = gcc
 INCLUDE = includes 
