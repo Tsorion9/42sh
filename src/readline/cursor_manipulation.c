@@ -21,12 +21,12 @@ void        alt_left_right(long c, int *cur_pos, char *user_in)
     int user_in_len;
 
     if (c == ALT_LEFT_ARROW)
-        while (*cur_pos != 3)
+        while (cur_pos[0] != 3)
 			tc_cursor_left(cur_pos);
     else
     {
         user_in_len = ft_strlen(user_in) + 2;
-        while (*cur_pos <= user_in_len)
+        while (cur_pos[0] <= user_in_len)
 			tc_cursor_right(cur_pos);
     }
 }

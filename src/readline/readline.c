@@ -63,18 +63,15 @@ void        clear_all_line(char *user_in, int *cur_pos)
     if (ft_strchr(user_in, '\n') == NULL)
     {
         clear_line(*cur_pos, 3);
-        *cur_pos = 3;
+        cur_pos[0] = 3;
         return ;
     }
     n = str_n(user_in) + 1;
-    while (*(cur_pos + 1) != n)
+    while (cur_pos[1] != n)
+        tc_cursor_down(cur_pos);
+    while (cur_pos[1] > 1)
     {
-        write(STDOUT_FILENO, "\n", 1);
-        *(cur_pos + 1) += 1;
-    }
-    while (*(cur_pos + 1) > 1)
-    {
-        clear_line(*cur_pos, 0);
+        clear_line(cur_pos[0], 0);
         tc_cursor_up(cur_pos);
     }
     tc_cursor_right(cur_pos);
@@ -87,14 +84,14 @@ void        cur_pos_after_putstr(char *user_in, int *cur_pos)
     int i;
     int n;
 
-    *(cur_pos + 1) = str_n(user_in) + 1;
+    cur_pos[1] = str_n(user_in) + 1;
     if (ft_strchr(user_in, '\n') == NULL)
-        *cur_pos = ft_strlen(user_in) + 3;
+        cur_pos[0] = ft_strlen(user_in) + 3;
     else
     {
-        *(cur_pos) = 1;
+        cur_pos[0] = 1;
         i = 0;
-        n = str_n(user_in);
+        n = cur_pos[1] - 1;
         while (n != 0)
         {
             if (user_in[i] == '\n')
@@ -103,7 +100,7 @@ void        cur_pos_after_putstr(char *user_in, int *cur_pos)
         }
         while (user_in[i] != 0)
         {
-            (*cur_pos)++;
+            cur_pos[0]++;
             i++;
         }
     }
@@ -212,9 +209,10 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 ** для пользователя в случае, если цитирование не закрыто
 */
 
-static void quoting(char *user_in, char flag, int tty, t_history *history, int *cur_pos)
+static void quoting(char *user_in, char flag, int tty, t_history *history)
 {
     int     user_in_len;
+    int     cur_pos[2];
 
     cur_pos[0] = 3;
     cur_pos[1] = 1;
@@ -226,7 +224,7 @@ static void quoting(char *user_in, char flag, int tty, t_history *history, int *
 	read_till_newline(cur_pos, &user_in_len, tty, user_in, history);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag, tty, history, cur_pos);
+        quoting(user_in + user_in_len + 1, flag, tty, history);
 }
 
 /*
@@ -242,8 +240,8 @@ char        *readline(int tty_input, t_history *history)
     int     user_in_len;
 
     user_in[0] = 0;
-    *cur_pos = 3;
-    *(cur_pos + 1) = 1;
+    cur_pos[0] = 3;
+    cur_pos[1] = 1;
     flag = 0;
 	user_in_len = 0;
 	if (tty_input)
@@ -251,6 +249,6 @@ char        *readline(int tty_input, t_history *history)
 	read_till_newline(cur_pos, &user_in_len, tty_input, user_in, history);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag, tty_input, history, cur_pos);
+        quoting(user_in + user_in_len + 1, flag, tty_input, history);
     return (ft_strdup(user_in));
 }
