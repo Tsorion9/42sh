@@ -33,10 +33,7 @@ void        ret_cur_to_original_pos(int *cur_pos, int *prev_cur_pos)
     while (prev_cur_pos[1] > cur_pos[1])
         tc_cursor_up(prev_cur_pos);
     while (prev_cur_pos[1] < cur_pos[1])
-    {
-        write(STDOUT_FILENO, "\n", 1);
-        prev_cur_pos[1]++;
-    }
+        tc_cursor_down(prev_cur_pos);
 }
 
 int         last_cur_pos(char *user_in, int *cur_pos)

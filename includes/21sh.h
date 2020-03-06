@@ -82,6 +82,7 @@ char		*input_under_cursor(int cursor_pos, char *user_input);
 int			inside_boundaries(int cur_pos, char *user_input);
 void		delete_symbol_forward(char *user_in, int *cur_pos);
 void	    tc_cursor_up(int *cur_pos);
+void        tc_cursor_down(int *cur_pos);
 int         str_n(char *user_in);
 void        clear_all_line(char *user_in, int *cur_pos);
 void        cur_pos_after_putstr(char *user_in, int *cur_pos);

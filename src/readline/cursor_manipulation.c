@@ -33,10 +33,15 @@ void        alt_left_right(long c, int *cur_pos, char *user_in)
 
 void		home_end(long c, int *cur_pos, char *user_in)
 {
+	int	tmp[2];
+
+	cur_pos_after_putstr(user_in, tmp);
 	if (c == HOME)
-		alt_left_right(ALT_LEFT_ARROW, cur_pos, user_in);
+		while (cur_pos[0] != 3 && cur_pos[1] != 1)
+			move_cursor(LEFT_ARROW, cur_pos, user_in);
 	else
-		alt_left_right(ALT_RIGHT_ARROW, cur_pos, user_in);
+		while (cur_pos[0] != tmp[0] && cur_pos[1] != tmp[1])
+			move_cursor(RIGHT_ARROW, cur_pos, user_in);
 }
 
 /*
@@ -78,22 +83,44 @@ void        move_cursor(long c, int *cur_pos, char *user_in)
 
 static void	wordmove_right(int *cur_pos, char *user_in)
 {
-	while (ft_isspace(*input_under_cursor(*cur_pos + 1, user_in)) &&\
-			inside_boundaries(*cur_pos + 1, user_in))
-			move_cursor(RIGHT_ARROW, cur_pos, user_in);
-	while (!ft_isspace(*input_under_cursor(*cur_pos + 1, user_in)) &&\
-			inside_boundaries(*cur_pos + 1, user_in))
-		move_cursor(RIGHT_ARROW, cur_pos, user_in);
+	size_t	i;
+	size_t	len;
+
+	len = ft_strlen(user_in);
+    while ((i = search_index(user_in, cur_pos)) < len)
+    {
+        if (ft_isspace(user_in[i]))
+		    move_cursor(RIGHT_ARROW, cur_pos, user_in);
+        else
+            break ;
+    }
+    while ((i = search_index(user_in, cur_pos)) < len)
+    {
+        if (!ft_isspace(user_in[i]))
+		    move_cursor(RIGHT_ARROW, cur_pos, user_in);
+        else
+            break ;
+    }
 }
 
 static void	wordmove_left(int *cur_pos, char *user_in)
 {
-	while (ft_isspace(*input_under_cursor(*cur_pos, user_in)) &&\
-			inside_boundaries(*cur_pos - 1, user_in))
-			move_cursor(LEFT_ARROW, cur_pos, user_in);
-	while (!ft_isspace(*input_under_cursor(*cur_pos, user_in)) &&\
-			inside_boundaries(*cur_pos - 1, user_in))
-		move_cursor(LEFT_ARROW, cur_pos, user_in);
+	int i;
+
+    while ((i = search_index(user_in, cur_pos) - 1) >= 0)
+    {
+        if (ft_isspace(user_in[i]))
+		    move_cursor(LEFT_ARROW, cur_pos, user_in);
+        else
+            break ;
+    }
+    while ((i = search_index(user_in, cur_pos) - 1) >= 0)
+    {
+        if (!ft_isspace(user_in[i]))
+		    move_cursor(LEFT_ARROW, cur_pos, user_in);
+        else
+            break ;
+    }
 }
 
 void		wordmove_cursor(long c, int *cur_pos, char *user_in)

@@ -160,9 +160,9 @@ static long readline_sup(char *user_in, int *cur_pos, t_history **history)
     else if (c >= ' ' && c <= '~') // Probably, ft_isprint() here?
         insert_symbol(user_in, cur_pos, c);
     else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
-        alt_left_right(c, cur_pos, user_in);
+        alt_left_right(c, cur_pos, user_in); // Проверить!
     else if (c == HOME || c == END)
-        home_end(c, cur_pos, user_in);
+        home_end(c, cur_pos, user_in); // Проверить!
     else if (c == CTRL_LEFT || c == CTRL_RIGHT)
         wordmove_cursor(c, cur_pos, user_in);
 	else if (c == CTRL_W)
@@ -216,7 +216,8 @@ static void quoting(char *user_in, char flag, int tty, t_history *history, int *
 {
     int     user_in_len;
 
-    *cur_pos = 3;
+    cur_pos[0] = 3;
+    cur_pos[1] = 1;
 	if (tty)
 	{
 		write(STDOUT_FILENO, "\n", 1);
