@@ -11,6 +11,7 @@
 #include "get_next_line.h"
 #include <stdio.h>
 #include <sys/ioctl.h>
+#include <signal.h>
 
 #define BUFFSIZE 4096
 

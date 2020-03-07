@@ -55,6 +55,29 @@ void		init_terminal(struct termios *term_settings)
     set_term_settings(term_settings);
 }
 
+int			ret_winsize(int a)
+{
+	struct winsize	w;
+
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	if (a == 0)
+		return (w.ws_col);
+	return (w.ws_row);
+}
+
+void		signal_processing(int a)
+{
+	if (a == SIGWINCH)
+	{
+		
+	}
+}
+
+void		set_signal(void)
+{
+	signal(SIGWINCH, signal_processing);
+}
+
 int         main(int ac, char **av, char **environ)
 {
 	struct termios	term_settings;
