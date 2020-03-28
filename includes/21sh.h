@@ -14,6 +14,9 @@
 #include <signal.h>
 
 #define BUFFSIZE 4096
+#define bool _Bool
+#define true 1
+#define false 0
 
 typedef struct  s_history
 {
@@ -21,6 +24,44 @@ typedef struct  s_history
     struct s_history    *prev;
     struct s_history    *next;
 }               t_history;
+
+/*
+** TOKEN
+*/
+
+typedef struct  s_token
+{
+    int         token_type;
+    char        *attrinute;
+}               t_token;
+
+#define TOKEN t_token
+
+// --------------------------
+
+/* 
+** Defines for token
+*/
+
+#define NUMBER 0
+#define WORD 1
+#define ASSIGNMENT_WORD 9
+#define PIPE 10
+
+/* 
+** REDIRECTION
+** '>' '<' '>>' '<<' '>&' '<&' '&>'
+*/
+
+#define GREATER 2
+#define LESS 3
+#define GREATER_GREATER 4
+#define LESS_LESS 5
+#define GREATER_AND 6
+#define LESS_AND 7
+#define AND_GREATOR 8
+
+// --------------------------
 
 /*
 ** Character key constants
