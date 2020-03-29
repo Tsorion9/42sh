@@ -128,6 +128,6 @@ char        *expansion(char *user_in, char **env)
             parameter_expansion(str, i);
         i++;
     }
-    delete_backslash(str);
+    //delete_backslash(str);
     return (ft_strdup(str));
 }

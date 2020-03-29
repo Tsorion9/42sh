@@ -31,7 +31,6 @@ void		test_tokenizing(char *user_in)
 	"GREATER_AND", "LESS_AND", "AND_GREATER", "ASSIGNMENT_WORD",\
 	"PIPE", "LINE_SEPARATOR", "END_LINE"};
 
-	//printf("user_in line = %ld\n", ft_strlen(user_in));
 	while (1)
 	{
 		token = get_next_token(user_in);

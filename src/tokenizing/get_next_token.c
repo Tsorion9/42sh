@@ -7,7 +7,8 @@ bool        is_letter(char c)
     f = true;
     if (c == '>' || c == '<' || c == '|' ||\
     c == ' ' || c == '\t' || c == ';' ||\
-    c == '\'' || c == 0 || is_ws(c))
+    c == '\'' || c == ';'|| c == 0 || c == '&' ||\
+    c == '\"' || is_ws(c))
         f = false;
     return (f);
 }
@@ -70,21 +71,35 @@ TOKEN       get_token_le(char *user_in, int *index)
     return (ret_token);
 }
 
-TOKEN       get_single_quotes(char *user_in, int *index, char *buf,\
+void        write_char_to_buf(char *user_in, int *index, char *buf,\
     int *buf_index)
 {
     buf[*buf_index] = user_in[*index];
     (*index)++;
     (*buf_index)++;
+}
+
+TOKEN       get_single_quotes(char *user_in, int *index, char *buf,\
+    int *buf_index)
+{
+    write_char_to_buf(user_in, index, buf, buf_index);
     while (user_in[*index] != '\'')
+        write_char_to_buf(user_in, index, buf, buf_index);
+    write_char_to_buf(user_in, index, buf, buf_index);
+    return (get_token_word(user_in, index, buf, buf_index));
+}
+
+TOKEN       get_double_quotes(char *user_in, int *index, char *buf,\
+    int *buf_index)
+{
+    write_char_to_buf(user_in, index, buf, buf_index);
+    while (1)
     {
-        buf[*buf_index] = user_in[*index];
-        (*index)++;
-        (*buf_index)++;
+        if (user_in[*index] == '\"' && check_backslash(user_in, *index - 1))
+            break ;
+        write_char_to_buf(user_in, index, buf, buf_index);
     }
-    buf[*buf_index] = user_in[*index];
-    (*index)++;
-    (*buf_index)++;
+    write_char_to_buf(user_in, index, buf, buf_index);
     return (get_token_word(user_in, index, buf, buf_index));
 }
 
@@ -94,18 +109,19 @@ TOKEN       get_token_word(char *user_in, int *index, char *buf,\
     TOKEN   ret_token;
 
     while (is_letter(user_in[*index]))
+        write_char_to_buf(user_in, index, buf, buf_index);
+    if (user_in[*index] == '&' && user_in[*index + 1] != '>')
     {
-        buf[*buf_index] = user_in[*index];
-        (*buf_index)++;
-        (*index)++;
+        write_char_to_buf(user_in, index, buf, buf_index);
+        ret_token = get_token_word(user_in, index, buf, buf_index);
     }
-    if (user_in[*index] == '\'' && user_in[*index - 1] != '\\')
+    else if (user_in[*index] == '\'' && check_backslash(user_in, *index - 1))
         return (get_single_quotes(user_in, index, buf, buf_index));
-    else if (user_in[*index - 1] == '\\')
+    else if (user_in[*index] == '\"' && check_backslash(user_in, *index - 1))
+        return (get_double_quotes(user_in, index, buf, buf_index));
+    else if (!(check_backslash(user_in, *index - 1)))
     {
-        buf[*buf_index] = user_in[*index];
-        (*buf_index)++;
-        (*index)++;
+        write_char_to_buf(user_in, index, buf, buf_index);
         return (get_token_word(user_in, index, buf, buf_index));
     }
     buf[*buf_index] = '\0';
@@ -155,6 +171,24 @@ void        skip_ws(char *user_in, int *index)
         (*index)++;
 }
 
+TOKEN       get_and_greator(char *user_in, int *index, char *buf,\
+    int *buf_index)
+{
+    TOKEN   ret_token;
+
+    if (user_in[*index + 1] == '>')
+    {
+        ret_token.token_type = AND_GREATOR;
+        (*index) += 2;
+    }
+    else
+    {
+        write_char_to_buf(user_in, index, buf, buf_index);
+        ret_token = get_token_word(user_in, index, buf, buf_index);
+    }
+    return (ret_token);
+}
+
 TOKEN       get_next_token(char *user_in)
 {
     static int  index = 0;
@@ -180,5 +214,9 @@ TOKEN       get_next_token(char *user_in)
         new_token = get_toket_line_separator(&index);
     else if (user_in[index] == '\'')
         new_token = get_single_quotes(user_in, &index, buf, &buf_index);
+    else if (user_in[index] == '&')
+        new_token = get_and_greator(user_in, &index, buf, &buf_index);
+    else if (user_in[index] == '\"')
+        new_token = get_double_quotes(user_in, &index, buf, &buf_index);
     return (new_token);
 }

@@ -137,6 +137,8 @@ TOKEN       get_next_token(char *user_in);
 TOKEN       get_token_word(char *user_in, int *index, char *buf,\
     int *buf_index);
 bool        is_ws(char c);
+TOKEN       get_and_greator(char *user_in, int *index, char *buf,\
+    int *buf_index);
 
 /*
 ** Funcions that make termcaps interactions more readable
