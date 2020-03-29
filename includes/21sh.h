@@ -47,8 +47,10 @@ typedef struct  s_token
 #define WORD 1
 #define ASSIGNMENT_WORD 9
 #define PIPE 10
+#define LINE_SEPARATOR 11
+#define END_LINE 12
 
-/* 
+/*
 ** REDIRECTION
 ** '>' '<' '>>' '<<' '>&' '<&' '&>'
 */
@@ -130,6 +132,11 @@ int         last_cur_pos(char *user_in, int *cur_pos);
 int         search_index(char *user_in, int *cur_pos);
 void        ret_cur_to_original_pos(int *cur_pos, int *prev_cur_pos);
 int			ret_winsize(int a);
+
+TOKEN       get_next_token(char *user_in);
+TOKEN       get_token_word(char *user_in, int *index, char *buf,\
+    int *buf_index);
+bool        is_ws(char c);
 
 /*
 ** Funcions that make termcaps interactions more readable

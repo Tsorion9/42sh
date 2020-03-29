@@ -23,6 +23,27 @@ void	    return_term_settings(struct termios *old_settings)
 	tcsetattr(STDIN_FILENO, TCSANOW, old_settings);
 }
 
+void		test_tokenizing(char *user_in)
+{
+	TOKEN	token;
+	char	token_type_name[13][BUFFSIZE] = {"NUMBER", "WORD",\
+	"GREATER", "LESS", "GREATER_GREATER", "LESS_LESS",\
+	"GREATER_AND", "LESS_AND", "AND_GREATER", "ASSIGNMENT_WORD",\
+	"PIPE", "LINE_SEPARATOR", "END_LINE"};
+
+	//printf("user_in line = %ld\n", ft_strlen(user_in));
+	while (1)
+	{
+		token = get_next_token(user_in);
+		if (token.token_type == WORD)
+			printf("%s : %s\n", token_type_name[token.token_type], token.attrinute);
+		else
+			printf("%s\n", token_type_name[token.token_type]);
+		if (token.token_type == END_LINE)
+			break ;
+	}
+}
+
 void        start_program(char **env, int tty_input)
 {
 	t_history	*history;
@@ -34,8 +55,9 @@ void        start_program(char **env, int tty_input)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		str = expansion(str, env);
-		ft_putstr(str);
+		//ft_putstr(str);
 		str[ft_strlen(str) - 1] = 0;
+		test_tokenizing(str);
 		add_to_start(&history, str);
 		free(str);
 		str = readline(tty_input, history);
