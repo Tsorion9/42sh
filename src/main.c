@@ -34,7 +34,7 @@ void		test_tokenizing(char *user_in)
 	while (1)
 	{
 		token = get_next_token(user_in);
-		if (token.token_type == WORD)
+		if (token.token_type == WORD || token.token_type == NUMBER)
 			printf("%s : %s\n", token_type_name[token.token_type], token.attrinute);
 		else
 			printf("%s\n", token_type_name[token.token_type]);
