@@ -79,7 +79,7 @@ void        write_char_to_buf(char *user_in, int *index, char *buf,\
     (*buf_index)++;
 }
 
-TOKEN       get_single_quotes(char *user_in, int *index, char *buf,\
+TOKEN       write_singe_quotes_to_buf(char *user_in, int *index, char *buf,\
     int *buf_index)
 {
     write_char_to_buf(user_in, index, buf, buf_index);
@@ -89,7 +89,7 @@ TOKEN       get_single_quotes(char *user_in, int *index, char *buf,\
     return (get_token_word(user_in, index, buf, buf_index));
 }
 
-TOKEN       get_double_quotes(char *user_in, int *index, char *buf,\
+TOKEN       write_double_quotes_to_buf(char *user_in, int *index, char *buf,\
     int *buf_index)
 {
     write_char_to_buf(user_in, index, buf, buf_index);
@@ -126,16 +126,16 @@ TOKEN       get_token_word(char *user_in, int *index, char *buf,\
         ret_token = get_token_word(user_in, index, buf, buf_index);
     }
     else if (user_in[*index] == '\'' && check_backslash(user_in, *index - 1))
-        return (get_single_quotes(user_in, index, buf, buf_index));
+        return (write_singe_quotes_to_buf(user_in, index, buf, buf_index));
     else if (user_in[*index] == '\"' && check_backslash(user_in, *index - 1))
-        return (get_double_quotes(user_in, index, buf, buf_index));
+        return (write_double_quotes_to_buf(user_in, index, buf, buf_index));
     else if (!(check_backslash(user_in, *index - 1)))
     {
         write_char_to_buf(user_in, index, buf, buf_index);
         return (get_token_word(user_in, index, buf, buf_index));
     }
     ret_token.token_type = WORD;
-    ret_token.attrinute = create_attribute(buf, *buf_index);
+    ret_token.attribute = create_attribute(buf, *buf_index);
     return (ret_token);
 }
 
@@ -200,16 +200,15 @@ TOKEN       get_token_number(char *user_in, int *index, char *buf,\
     if (user_in[*index] == '>' || user_in[*index] == '<')
     {
         ret_token.token_type = NUMBER;
-        ret_token.attrinute = create_attribute(buf, *buf_index);
+        ret_token.attribute = create_attribute(buf, *buf_index);
     }
     else if (is_letter(user_in[*index]) || user_in[*index] == '\'' ||\
     user_in[*index] == '\"')
         ret_token = get_token_word(user_in, index, buf, buf_index);
-    else if (prev_token == LESS_AND || prev_token == GREATER_AND ||\
-    prev_token == -1)
+    else if (prev_token == LESS_AND || prev_token == GREATER_AND)
     {
         ret_token.token_type = NUMBER;
-        ret_token.attrinute = create_attribute(buf, *buf_index);
+        ret_token.attribute = create_attribute(buf, *buf_index);
     }
     else
         ret_token = get_token_word(user_in, index, buf, buf_index);
@@ -225,8 +224,7 @@ TOKEN       get_next_token(char *user_in)
     int         buf_index;
 
     buf_index = 0;
-    if (is_ws(user_in[index]))
-        skip_ws(user_in, &index);
+    skip_ws(user_in, &index);
     if (!user_in[index])
         new_token = get_token_end_line(&index);
     else if (is_digit(user_in[index]))
@@ -242,11 +240,11 @@ TOKEN       get_next_token(char *user_in)
     else if (user_in[index] == ';')
         new_token = get_toket_line_separator(&index);
     else if (user_in[index] == '\'')
-        new_token = get_single_quotes(user_in, &index, buf, &buf_index);
+        new_token = write_singe_quotes_to_buf(user_in, &index, buf, &buf_index);
     else if (user_in[index] == '&')
         new_token = get_and_greator(user_in, &index, buf, &buf_index);
     else if (user_in[index] == '\"')
-        new_token = get_double_quotes(user_in, &index, buf, &buf_index);
+        new_token = write_double_quotes_to_buf(user_in, &index, buf, &buf_index);
     prev_token = new_token.token_type;
     return (new_token);
 }

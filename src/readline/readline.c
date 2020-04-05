@@ -56,6 +56,10 @@ int         str_n(char *user_in)
     return (n);
 }
 
+/*
+** Чистит все строки, введенные пользователем.
+*/
+
 void        clear_all_line(char *user_in, int *cur_pos)
 {
     int n;

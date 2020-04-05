@@ -14,9 +14,12 @@
 #include <signal.h>
 
 #define BUFFSIZE 4096
+#define HISTSIZE 1000
 #define bool _Bool
 #define true 1
 #define false 0
+
+struct termios	saved_attribute;
 
 typedef struct  s_history
 {
@@ -32,7 +35,7 @@ typedef struct  s_history
 typedef struct  s_token
 {
     int         token_type;
-    char        *attrinute;
+    char        *attribute;
 }               t_token;
 
 #define TOKEN t_token
@@ -132,6 +135,13 @@ int         last_cur_pos(char *user_in, int *cur_pos);
 int         search_index(char *user_in, int *cur_pos);
 void        ret_cur_to_original_pos(int *cur_pos, int *prev_cur_pos);
 int			ret_winsize(int a);
+int         check_backslash(char *user_in, int start_check);
+char        *expansion(char *user_in, char **env);
+t_history   *add_new_history(t_history *history, char *str);
+void        add_to_start(t_history *history, char *str);
+t_history   *create_history(char *str);
+void        load_on_file_history(t_history *history);
+void        save_in_file_history(t_history *history);
 
 TOKEN       get_next_token(char *user_in);
 TOKEN       get_token_word(char *user_in, int *index, char *buf,\
@@ -149,9 +159,3 @@ void        tc_cursor_down(int *cur_pos);
 void		tc_cursor_left(int *cur_pos);
 void		tc_cursor_right(int *cur_pos);
 void		tc_clear_till_end(void);
-
-int         check_backslash(char *user_in, int start_check);
-char        *expansion(char *user_in, char **env);
-t_history   *add_new_history(t_history *history, char *str);
-void        add_to_start(t_history **history, char *str);
-t_history   *create_history(char *str);
