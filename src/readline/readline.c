@@ -213,7 +213,7 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 ** для пользователя в случае, если цитирование не закрыто
 */
 
-static void quoting(char *user_in, char flag, int tty, t_history *history, int *line_counter)
+static void quoting(char *user_in, char flag, int tty, t_history *history)
 {
     int     user_in_len;
     int     cur_pos[2];
@@ -222,17 +222,15 @@ static void quoting(char *user_in, char flag, int tty, t_history *history, int *
     cur_pos[1] = 1;
 	if (tty)
 	{
-		write(STDERR_FILENO, "\n", 1);
+        write(STDERR_FILENO, "\n", 1);
 		write(STDERR_FILENO, "> ", 2);
 	}
 	read_till_newline(cur_pos, &user_in_len, tty, user_in, history);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-    {
-        (*line_counter)++;
-        quoting(user_in + user_in_len + 1, flag, tty, history, line_counter);
-    }
+        quoting(user_in + user_in_len + 1, flag, tty, history);
 }
+
 
 /*
 ** Позволяет корректно работать со строкой ввода.
@@ -244,8 +242,8 @@ char        *readline(int tty_input, t_history *history)
     char    user_in[BUFFSIZE];
     char    flag;
     int     cur_pos[2];
+    int     tmp[2];
     int     user_in_len;
-    int     count_lines;
 
     user_in[0] = 0;
     cur_pos[0] = 3;
@@ -255,15 +253,14 @@ char        *readline(int tty_input, t_history *history)
 	if (tty_input)
 		write(STDERR_FILENO, "$>", 2);
 	read_till_newline(cur_pos, &user_in_len, tty_input, user_in, history);
+    tmp[0] = cur_pos[0];
+    tmp[1] = cur_pos[1]++;
+    cur_pos_after_putstr(user_in, tmp);
+    ret_cur_to_original_pos(tmp, cur_pos);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-    {
-        cur_pos[1]++;
-        quoting(user_in + user_in_len + 1, flag, tty_input, history, &(cur_pos[1]));
-    }
-    count_lines = str_n(user_in);
-    while (cur_pos[1]++ != count_lines + 1)
-        write(STDERR_FILENO, "\n", 1);
+        quoting(user_in + user_in_len + 1, flag, tty_input, history);
     user_in[ft_strlen(user_in) - 1] = 0;
+    write(STDERR_FILENO, "\n", 1);
     return (ft_strdup(user_in));
 }

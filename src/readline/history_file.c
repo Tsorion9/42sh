@@ -53,6 +53,8 @@ void        save_in_file_history(t_history *history)
     fd = open(".bash_history", O_WRONLY | O_TRUNC);
     if (fd == -1)
         return ;
+    while (history->prev)
+        history = history->prev;
     n = 0;
     while (history->next && n < HISTSIZE)
     {

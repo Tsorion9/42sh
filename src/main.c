@@ -90,7 +90,7 @@ void		signal_processing(int signal_code)
 {
 	if (signal_code == SIGINT)
 	{
-		write(STDERR_FILENO, "^C", 2);
+		write(STDERR_FILENO, "^C\n$>", 5);
 	}
 }
 

@@ -1,27 +1,14 @@
-sqwss
+sassa
+sasqq
+sassa
 sasas
-qqwqw
-wqwqw
-sdda
-adaddad
-addad
-ssss
-sass'
-qqq
-nnn
-ooo'
-sass'
-qqq
-nnn
-ooo
-exit
-'
-sasa
-sasas'sas
-'    
-sas'
-'    
-sasas'sas
-sasas
-sassaass
-asas'
+sas
+sasasa
+sassa
+qqq 1
+dddd 2
+dsds dsdds
+sasassssssssssss    ssssss
+sss
+ssssss
+qqsssssss      ssssss sss
