@@ -81,7 +81,7 @@ void        insert_symbol(char *user_in, int *cur_pos, char c)
     clear_all_line(user_in, cur_pos);
     cur_pos[0] = tmp[0] + 1;
     cur_pos[1] = tmp[1];
-    ft_putstr(user_in);
+    ft_putstr_fd(user_in, STDERR_FILENO);
     cur_pos_after_putstr(user_in, tmp);
     ret_cur_to_original_pos(cur_pos, tmp);
 }

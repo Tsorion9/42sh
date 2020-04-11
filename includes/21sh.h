@@ -106,7 +106,7 @@ typedef struct  s_token
 #define END  4607771
 
 /* Sometimes 4*/
-#define CTRL_D 0  
+#define CTRL_D 0
 #define CTRL_C 3
 #define CTRL_S 19
 #define CTRL_Z 26
@@ -138,10 +138,11 @@ int			ret_winsize(int a);
 int         check_backslash(char *user_in, int start_check);
 char        *expansion(char *user_in, char **env);
 t_history   *add_new_history(t_history *history, char *str);
-void        add_to_start(t_history *history, char *str);
+void        add_to_start_history(t_history *history, char *str);
 t_history   *create_history(char *str);
 void        load_on_file_history(t_history *history);
 void        save_in_file_history(t_history *history);
+void        free_history_list(t_history *history);
 
 TOKEN       get_next_token(char *user_in);
 TOKEN       get_token_word(char *user_in, int *index, char *buf,\

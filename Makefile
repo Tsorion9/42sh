@@ -6,14 +6,14 @@
 #    By: tsorion <tsorion@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 15:20:15 by mphobos           #+#    #+#              #
-#    Updated: 2020/04/01 00:14:07 by tsorion          ###   ########.fr        #
+#    Updated: 2020/04/09 20:33:02 by tsorion          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 21sh
 CREADLINE = readline.c user_in_editing.c cursor_manipulation.c expansion.c \
-			termcap_api.c ft_isspace.c input_under_cursor.c history.c \
-			delete.c
+			termcap_api.c ft_isspace.c input_under_cursor.c history_list.c \
+			delete.c history_file.c free.c
 CTOKENIZING = get_next_token.c
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 TOKENIZING = $(patsubst %,src/tokenizing/%,$(CTOKENIZING))

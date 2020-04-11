@@ -213,7 +213,7 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 ** для пользователя в случае, если цитирование не закрыто
 */
 
-static void quoting(char *user_in, char flag, int tty, t_history *history)
+static void quoting(char *user_in, char flag, int tty, t_history *history, int *line_counter)
 {
     int     user_in_len;
     int     cur_pos[2];
@@ -222,13 +222,16 @@ static void quoting(char *user_in, char flag, int tty, t_history *history)
     cur_pos[1] = 1;
 	if (tty)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		write(STDOUT_FILENO, "> ", 2);
+		write(STDERR_FILENO, "\n", 1);
+		write(STDERR_FILENO, "> ", 2);
 	}
 	read_till_newline(cur_pos, &user_in_len, tty, user_in, history);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag, tty, history);
+    {
+        (*line_counter)++;
+        quoting(user_in + user_in_len + 1, flag, tty, history, line_counter);
+    }
 }
 
 /*
@@ -242,6 +245,7 @@ char        *readline(int tty_input, t_history *history)
     char    flag;
     int     cur_pos[2];
     int     user_in_len;
+    int     count_lines;
 
     user_in[0] = 0;
     cur_pos[0] = 3;
@@ -249,10 +253,17 @@ char        *readline(int tty_input, t_history *history)
     flag = 0;
 	user_in_len = 0;
 	if (tty_input)
-		write(STDOUT_FILENO, "$>", 2);
+		write(STDERR_FILENO, "$>", 2);
 	read_till_newline(cur_pos, &user_in_len, tty_input, user_in, history);
 	check_flag(user_in, &flag);
     if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag, tty_input, history);
+    {
+        cur_pos[1]++;
+        quoting(user_in + user_in_len + 1, flag, tty_input, history, &(cur_pos[1]));
+    }
+    count_lines = str_n(user_in);
+    while (cur_pos[1]++ != count_lines + 1)
+        write(STDERR_FILENO, "\n", 1);
+    user_in[ft_strlen(user_in) - 1] = 0;
     return (ft_strdup(user_in));
 }
