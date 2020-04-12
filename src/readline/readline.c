@@ -4,14 +4,14 @@
 ** Проверяет, является ли '\', с индексом start_check, цитированием
 */
 
-int         check_backslash(char *user_in, int start_check)
+int         check_backslash(char *g_user_in, int start_check)
 {
     int res;
 
     if (start_check < 0)
         return (1);
     res = 1;
-    while (user_in[start_check] == '\\' && start_check >= 0)
+    while (g_user_in[start_check] == '\\' && start_check >= 0)
     {
         res++;
         start_check--;
@@ -23,35 +23,35 @@ int         check_backslash(char *user_in, int start_check)
 ** Проверяет необходимость перевода на новую строку
 */
 
-static void check_flag(char *user_in, char *flag)
+static void check_flag(char *g_user_in, char *flag)
 {
     int i;
 
     i = 0;
-    while (user_in[i] != 0)
+    while (g_user_in[i] != 0)
     {
-        if (user_in[i] == *flag  && *flag == '\'')
+        if (g_user_in[i] == *flag  && *flag == '\'')
             *flag = 0;
-        else if (user_in[i] == '\"' && user_in[i] == *flag\
-            && check_backslash(user_in, i - 1) == 1)
+        else if (g_user_in[i] == '\"' && g_user_in[i] == *flag\
+            && check_backslash(g_user_in, i - 1) == 1)
             *flag = 0;
-        else if ((user_in[i] == '\'' || user_in[i] == '\"') && *flag == 0\
-            && check_backslash(user_in, i - 1) == 1)
-            *flag = user_in[i];
+        else if ((g_user_in[i] == '\'' || g_user_in[i] == '\"') && *flag == 0\
+            && check_backslash(g_user_in, i - 1) == 1)
+            *flag = g_user_in[i];
         i++;
     }
 }
 
-int         str_n(char *user_in)
+int         str_n(char *g_user_in)
 {
     int n;
 
     n = 0;
-    while (*user_in != 0)
+    while (*g_user_in != 0)
     {
-        if (*user_in == '\n')
+        if (*g_user_in == '\n')
             n++;
-        user_in++;
+        g_user_in++;
     }
     return (n);
 }
@@ -60,17 +60,17 @@ int         str_n(char *user_in)
 ** Чистит все строки, введенные пользователем.
 */
 
-void        clear_all_line(char *user_in, int *cur_pos)
+void        clear_all_line(char *g_user_in, int *cur_pos)
 {
     int n;
 
-    if (ft_strchr(user_in, '\n') == NULL)
+    if (ft_strchr(g_user_in, '\n') == NULL)
     {
         clear_line(*cur_pos, 3);
         cur_pos[0] = 3;
         return ;
     }
-    n = str_n(user_in) + 1;
+    n = str_n(g_user_in) + 1;
     while (cur_pos[1] != n)
         tc_cursor_down(cur_pos);
     while (cur_pos[1] > 1)
@@ -83,14 +83,14 @@ void        clear_all_line(char *user_in, int *cur_pos)
     tc_clear_till_end();
 }
 
-void        cur_pos_after_putstr(char *user_in, int *cur_pos)
+void        cur_pos_after_putstr(char *g_user_in, int *cur_pos)
 {
     int i;
     int n;
 
-    cur_pos[1] = str_n(user_in) + 1;
-    if (ft_strchr(user_in, '\n') == NULL)
-        cur_pos[0] = ft_strlen(user_in) + 3;
+    cur_pos[1] = str_n(g_user_in) + 1;
+    if (ft_strchr(g_user_in, '\n') == NULL)
+        cur_pos[0] = ft_strlen(g_user_in) + 3;
     else
     {
         cur_pos[0] = 1;
@@ -98,11 +98,11 @@ void        cur_pos_after_putstr(char *user_in, int *cur_pos)
         n = cur_pos[1] - 1;
         while (n != 0)
         {
-            if (user_in[i] == '\n')
+            if (g_user_in[i] == '\n')
                 n--;
             i++;
         }
-        while (user_in[i] != 0)
+        while (g_user_in[i] != 0)
         {
             cur_pos[0]++;
             i++;
@@ -110,37 +110,37 @@ void        cur_pos_after_putstr(char *user_in, int *cur_pos)
     }
 }
 
-void        up_down_arrow_sup(char *user_in, int *cur_pos, t_history **history)
+void        up_down_arrow_sup(char *g_user_in, int *cur_pos)
 {
-    clear_all_line(user_in, cur_pos);
-    ft_strcpy(user_in, (*history)->str);
-    ft_putstr(user_in);
-    cur_pos_after_putstr(user_in, cur_pos);
+    clear_all_line(g_user_in, cur_pos);
+    ft_strcpy(g_user_in, g_history->str);
+    ft_putstr(g_user_in);
+    cur_pos_after_putstr(g_user_in, cur_pos);
 }
 
-void        up_down_arrow(char *user_in, int *cur_pos, t_history **history, long c)
+void        up_down_arrow(char *g_user_in, int *cur_pos, long c)
 {
-    if (ft_strcmp(user_in, (*history)->str) != 0)
+    if (ft_strcmp(g_user_in, g_history->str) != 0)
     {
-        free((*history)->str);
-        (*history)->str = ft_strdup(user_in);
+        free(g_history->str);
+        g_history->str = ft_strdup(g_user_in);
     }
-    if (c == UP_ARROW && (*history)->next != NULL)
+    if (c == UP_ARROW && g_history->next != NULL)
     {
-        *history = (*history)->next;
-        up_down_arrow_sup(user_in, cur_pos, history);
+        g_history = g_history->next;
+        up_down_arrow_sup(g_user_in, cur_pos);
     }
-    else if (c == DOWN_ARROW && (*history)->prev != NULL)
+    else if (c == DOWN_ARROW && g_history->prev != NULL)
     {
-        *history = (*history)->prev;
-        up_down_arrow_sup(user_in, cur_pos, history);
+        g_history = g_history->prev;
+        up_down_arrow_sup(g_user_in, cur_pos);
     }
 }
 
 #ifdef DEBUG_INPUT_CHARS
 #include <stdio.h>
 #endif
-static long readline_sup(char *user_in, int *cur_pos, t_history **history)
+static long readline_sup(int *cur_pos)
 {
     long    c;
 
@@ -151,23 +151,23 @@ static long readline_sup(char *user_in, int *cur_pos, t_history **history)
 	fflush(stdout);		// To enable this part of code
 	#endif
     if (c == LEFT_ARROW || c == RIGHT_ARROW)
-        move_cursor(c, cur_pos, user_in);
+        move_cursor(c, cur_pos, g_user_in);
     else if (c == UP_ARROW || c == DOWN_ARROW)
-        up_down_arrow(user_in, cur_pos, history, c);
+        up_down_arrow(g_user_in, cur_pos, c);
     else if (c == BACKSPACE)
-        delete_symbol(user_in, cur_pos);
+        delete_symbol(g_user_in, cur_pos);
     else if (c == DEL)
-        delete_symbol_forward(user_in, cur_pos);
+        delete_symbol_forward(g_user_in, cur_pos);
     else if (c >= ' ' && c <= '~') // Probably, ft_isprint() here?
-        insert_symbol(user_in, cur_pos, c);
+        insert_symbol(g_user_in, cur_pos, c);
     else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
-        alt_left_right(c, cur_pos, user_in); // Проверить!
+        alt_left_right(c, cur_pos, g_user_in); // Проверить!
     else if (c == HOME || c == END)
-        home_end(c, cur_pos, user_in); // Проверить!
+        home_end(c, cur_pos, g_user_in); // Проверить!
     else if (c == CTRL_LEFT || c == CTRL_RIGHT)
-        wordmove_cursor(c, cur_pos, user_in);
+        wordmove_cursor(c, cur_pos, g_user_in);
 	else if (c == CTRL_W)
-		delete_last_word(user_in, cur_pos);
+		delete_last_word(g_user_in, cur_pos);
     return (c);
 }
 
@@ -177,7 +177,7 @@ void	die(void)
 }
 
 void	read_till_newline(int *cur_pos, int *user_in_len, \
-		int tty, char *user_in, t_history *history)
+		int tty)
 {
 	char	*nl;
     long    c;
@@ -186,10 +186,10 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 	if (tty)
 	{
 		while (c != '\n')
-			c = readline_sup(user_in, cur_pos, &history);
-		*user_in_len = ft_strlen(user_in);
-		user_in[*user_in_len] = c;
-		user_in[*user_in_len + 1] = 0;
+			c = readline_sup(cur_pos);
+		*user_in_len = ft_strlen(g_user_in);
+		g_user_in[*user_in_len] = c;
+		g_user_in[*user_in_len + 1] = 0;
 	}
 	else
 	{
@@ -197,10 +197,10 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 		c = get_next_line(STDIN_FILENO, &nl);
 		if (c == -1)
 			die();
-		*user_in = 0;
+		*g_user_in = 0;
 		if (nl)
-			ft_strncpy(user_in, nl, BUFFSIZE - 2);
-		user_in[BUFFSIZE - 1] = 0;
+			ft_strncpy(g_user_in, nl, BUFFSIZE - 2);
+		g_user_in[BUFFSIZE - 1] = 0;
 		if ((*user_in_len = ft_strlen(nl)) > BUFFSIZE - 1)
 			die();
 		free(nl);
@@ -213,22 +213,29 @@ void	read_till_newline(int *cur_pos, int *user_in_len, \
 ** для пользователя в случае, если цитирование не закрыто
 */
 
-static void quoting(char *user_in, char flag, int tty, t_history *history)
+static void quoting(int tty)
 {
     int     user_in_len;
-    int     cur_pos[2];
+    int     user_in_lines;
 
-    cur_pos[0] = 3;
-    cur_pos[1] = 1;
+    g_cur_pos[0] = 3;
+    g_cur_pos[1] = 1;
 	if (tty)
 	{
         write(STDERR_FILENO, "\n", 1);
 		write(STDERR_FILENO, "> ", 2);
 	}
-	read_till_newline(cur_pos, &user_in_len, tty, user_in, history);
-	check_flag(user_in, &flag);
-    if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag, tty, history);
+	read_till_newline(g_cur_pos, &user_in_len, tty);
+	user_in_lines = str_n(g_user_in) - g_cur_pos[1];
+	while (user_in_lines-- > 0)
+		write(STDERR_FILENO, "\n", 1);
+	check_flag(g_user_in, &g_flag);
+    if (g_flag != 0 || check_backslash(g_user_in, user_in_len - 1) == 0)
+    {
+        g_line_shift += user_in_len + 1;
+        g_user_in += user_in_len + 1;
+        quoting(tty);
+    }
 }
 
 
@@ -237,30 +244,24 @@ static void quoting(char *user_in, char flag, int tty, t_history *history)
 ** Возвращает строку, введенную пользователем.
 */
 
-char        *readline(int tty_input, t_history *history)
+char        *readline(int tty_input)
 {
-    char    user_in[BUFFSIZE];
-    char    flag;
-    int     cur_pos[2];
-    int     tmp[2];
     int     user_in_len;
+    int     user_in_lines;
 
-    user_in[0] = 0;
-    cur_pos[0] = 3;
-    cur_pos[1] = 1;
-    flag = 0;
-	user_in_len = 0;
-	if (tty_input)
-		write(STDERR_FILENO, "$>", 2);
-	read_till_newline(cur_pos, &user_in_len, tty_input, user_in, history);
-    tmp[0] = cur_pos[0];
-    tmp[1] = cur_pos[1]++;
-    cur_pos_after_putstr(user_in, tmp);
-    ret_cur_to_original_pos(tmp, cur_pos);
-	check_flag(user_in, &flag);
-    if (flag != 0 || check_backslash(user_in, user_in_len - 1) == 0)
-        quoting(user_in + user_in_len + 1, flag, tty_input, history);
-    user_in[ft_strlen(user_in) - 1] = 0;
+	read_till_newline(g_cur_pos, &user_in_len, tty_input);
+	user_in_lines = str_n(g_user_in) - g_cur_pos[1];
+	while (user_in_lines-- > 0)
+		write(STDERR_FILENO, "\n", 1);
+	check_flag(g_user_in, &g_flag);
+    if (g_flag != 0 || check_backslash(g_user_in, user_in_len - 1) == 0)
+    {
+        g_line_shift += user_in_len + 1;
+        g_user_in += user_in_len + 1;
+        quoting(tty_input);
+    }
+    g_user_in -= g_line_shift;
+    g_user_in[ft_strlen(g_user_in) - 1] = 0;
     write(STDERR_FILENO, "\n", 1);
-    return (ft_strdup(user_in));
+    return (ft_strdup(g_user_in));
 }

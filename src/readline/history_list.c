@@ -20,6 +20,8 @@ void        add_to_start_history(t_history *history, char *str)
     if (history->next)
         if (ft_strcmp(str, history->next->str) == 0)
             return ;
+    while (history->prev)
+        history = history->prev;
     new_history = create_history(str);
     if (history->next)
         history->next->prev = new_history;

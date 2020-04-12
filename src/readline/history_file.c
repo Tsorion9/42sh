@@ -1,5 +1,19 @@
 #include "21sh.h"
 
+static int  open_21sh_history(int mode)
+{
+    int     fd;
+    char    *home_dir;
+    char    *file_path;
+
+    if (!(home_dir = getenv("HOME")))
+        return (-1);
+    if (!(file_path = ft_strjoin(home_dir, "/.21sh_history")))
+        return (-1);
+    fd = open(file_path, mode, __S_IREAD | __S_IWRITE);
+    return (fd);
+}
+
 void        load_on_file_history(t_history *history)
 {
     int     fd;
@@ -7,7 +21,7 @@ void        load_on_file_history(t_history *history)
     char    str[BUFFSIZE];
     int     i;
     
-    fd = open(".bash_history", O_RDONLY);
+    fd = open_21sh_history(O_RDONLY);
     if (fd == -1)
         return ;
     i = 0;
@@ -28,7 +42,7 @@ void        load_on_file_history(t_history *history)
     close(fd);
 }
 
-void        save_in_file_history_sup(int fd, int n, char *history)
+static void save_in_file_history_sup(int fd, int n, char *history)
 {
     int     i;
     char    buf[BUFFSIZE];
@@ -50,7 +64,7 @@ void        save_in_file_history(t_history *history)
     int     fd;
     int     n;
 
-    fd = open(".bash_history", O_WRONLY | O_TRUNC);
+    fd = open_21sh_history(O_WRONLY | O_TRUNC | O_CREAT);
     if (fd == -1)
         return ;
     while (history->prev)

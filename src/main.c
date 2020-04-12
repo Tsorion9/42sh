@@ -9,8 +9,8 @@ void		set_input_mode()
 {
 	struct termios	new_settings;
 
-	tcgetattr(STDIN_FILENO, &saved_attribute);
-	new_settings = saved_attribute;
+	tcgetattr(STDIN_FILENO, &g_saved_attribute);
+	new_settings = g_saved_attribute;
 	new_settings.c_lflag &= ~ICANON;
 	new_settings.c_lflag &= ~ECHO;
 	new_settings.c_cc[VTIME] = 0;
@@ -20,7 +20,7 @@ void		set_input_mode()
 
 void	    reset_input_mode()
 {
-	tcsetattr(STDIN_FILENO, TCSANOW, &saved_attribute);
+	tcsetattr(STDIN_FILENO, TCSANOW, &g_saved_attribute);
 }
 
 void		test_tokenizing(char *user_in)
@@ -43,24 +43,52 @@ void		test_tokenizing(char *user_in)
 	}
 }
 
+void		back_to_start_history(void)
+{
+	if (g_history)
+		while (g_history->prev)
+			g_history = g_history->prev;
+}
+
+void		reset_cur_pos(void)
+{
+	g_cur_pos[0] = 3;
+	g_cur_pos[1] = 1;
+}
+
+void		reset_readline_to_start_position(void)
+{
+	back_to_start_history();
+	reset_cur_pos();
+	g_user_in[0] = 0;
+	g_line_shift = 0;
+	g_flag = 0;
+}
+
 void        start_program(char **env, int tty_input)
 {
-	t_history	*history;
 	char		*user_in;
 
-	history = create_history("");
-	load_on_file_history(history);
-    user_in = readline(tty_input, history);
+	g_history = create_history("");
+	load_on_file_history(g_history);
+	g_user_in = (char*)malloc(sizeof(char) * BUFFSIZE);
+	reset_readline_to_start_position();
+	if (tty_input)
+		write(STDERR_FILENO, "$>", 2);
+    user_in = readline(tty_input);
 	while (ft_strcmp(user_in, "exit") != 0)
 	{
+		reset_readline_to_start_position();
 		user_in = expansion(user_in, env);
-		add_to_start_history(history, user_in);
+		add_to_start_history(g_history, user_in);
 		free(user_in);
-		user_in = readline(tty_input, history);
+		if (tty_input)
+			write(STDERR_FILENO, "$>", 2);
+		user_in = readline(tty_input);
 	}
 	free(user_in);
-	save_in_file_history(history);
-	free_history_list(history);
+	save_in_file_history(g_history);
+	free_history_list(g_history);
 }
 
 void		init_terminal()
@@ -88,9 +116,17 @@ int			ret_winsize(int a)
 
 void		signal_processing(int signal_code)
 {
+	size_t	user_in_lines;
+
 	if (signal_code == SIGINT)
 	{
-		write(STDERR_FILENO, "^C\n$>", 5);
+		write(STDERR_FILENO, "^C", 2);
+		user_in_lines = str_n(g_user_in) + 2 - g_cur_pos[1];
+		while (user_in_lines-- > 0)
+			write(STDERR_FILENO, "\n", 1);
+		g_user_in -= g_line_shift;
+		write(STDERR_FILENO, "$>", 2);
+		reset_readline_to_start_position();
 	}
 }
 

@@ -19,7 +19,11 @@
 #define true 1
 #define false 0
 
-struct termios	saved_attribute;
+struct termios	g_saved_attribute;
+char            *g_user_in;
+int             g_cur_pos[2];
+char            g_flag;
+int             g_line_shift;
 
 typedef struct  s_history
 {
@@ -27,6 +31,8 @@ typedef struct  s_history
     struct s_history    *prev;
     struct s_history    *next;
 }               t_history;
+
+t_history       *g_history;
 
 /*
 ** TOKEN
@@ -115,7 +121,7 @@ typedef struct  s_token
 #define PROMPT_LEN 2
 
 int			ft_putint(int c);
-char        *readline(int tty_input, t_history *history);
+char        *readline(int tty_input);
 int			ft_isspace(char c);
 void        move_cursor(long c, int *cur_pos, char *user_in);
 void        clear_line(int cup_pos, int end_cl);
