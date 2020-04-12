@@ -60,7 +60,7 @@ int         str_n(char *g_user_in)
 ** Чистит все строки, введенные пользователем.
 */
 
-void        clear_all_line(char *g_user_in)
+void        clear_all_line(void)
 {
     int n;
 
@@ -83,7 +83,7 @@ void        clear_all_line(char *g_user_in)
     tc_clear_till_end();
 }
 
-void        cur_pos_after_putstr(char *g_user_in, int *cur_pos)
+void        cur_pos_after_putstr(int *cur_pos)
 {
     int i;
     int n;
@@ -110,15 +110,15 @@ void        cur_pos_after_putstr(char *g_user_in, int *cur_pos)
     }
 }
 
-void        up_down_arrow_sup(char *g_user_in)
+void        up_down_arrow_sup(void)
 {
-    clear_all_line(g_user_in);
+    clear_all_line();
     ft_strcpy(g_user_in, g_history->str);
     ft_putstr(g_user_in);
-    cur_pos_after_putstr(g_user_in, g_cur_pos);
+    cur_pos_after_putstr(g_cur_pos);
 }
 
-void        up_down_arrow(char *g_user_in, long c)
+void        up_down_arrow(long c)
 {
     if (ft_strcmp(g_user_in, g_history->str) != 0)
     {
@@ -128,12 +128,12 @@ void        up_down_arrow(char *g_user_in, long c)
     if (c == UP_ARROW && g_history->next != NULL)
     {
         g_history = g_history->next;
-        up_down_arrow_sup(g_user_in);
+        up_down_arrow_sup();
     }
     else if (c == DOWN_ARROW && g_history->prev != NULL)
     {
         g_history = g_history->prev;
-        up_down_arrow_sup(g_user_in);
+        up_down_arrow_sup();
     }
 }
 
@@ -151,23 +151,23 @@ static long readline_sup(void)
 	fflush(stdout);		// To enable this part of code
 	#endif
     if (c == LEFT_ARROW || c == RIGHT_ARROW)
-        move_cursor(c, g_user_in);
+        move_cursor(c);
     else if (c == UP_ARROW || c == DOWN_ARROW)
-        up_down_arrow(g_user_in, c);
+        up_down_arrow(c);
     else if (c == BACKSPACE)
-        delete_symbol(g_user_in);
+        delete_symbol();
     else if (c == DEL)
-        delete_symbol_forward(g_user_in);
+        delete_symbol_forward();
     else if (c >= ' ' && c <= '~') // Probably, ft_isprint() here?
-        insert_symbol(g_user_in, c);
+        insert_symbol(c);
     else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
-        alt_left_right(c, g_user_in); // Проверить!
+        alt_left_right(c); // Проверить!
     else if (c == HOME || c == END)
-        home_end(c, g_user_in); // Проверить!
+        home_end(c); // Проверить!
     else if (c == CTRL_LEFT || c == CTRL_RIGHT)
-        wordmove_cursor(c, g_user_in);
+        wordmove_cursor(c);
 	else if (c == CTRL_W)
-		delete_last_word(g_user_in);
+		delete_last_word();
     return (c);
 }
 
@@ -206,7 +206,6 @@ void	read_till_newline(int *user_in_len, \
 		free(nl);
 	}
 }
-
 
 /*
 ** Пероводит на новую строку и позволяет продолжить ввод
