@@ -18,6 +18,8 @@
 #define bool _Bool
 #define true 1
 #define false 0
+#define START_COL_POS 3
+#define START_ROW_POS 1
 
 struct termios	g_saved_attribute;
 char            *g_user_in;
@@ -123,23 +125,21 @@ typedef struct  s_token
 int			ft_putint(int c);
 char        *readline(int tty_input);
 int			ft_isspace(char c);
-void        move_cursor(long c, int *cur_pos, char *user_in);
-void        clear_line(int cup_pos, int end_cl);
-void        delete_symbol(char *user_in, int *cur_pos);
-void        insert_symbol(char *user_in, int *cur_pos, char c);
-void        alt_left_right(long c, int *cur_pos, char *user_in);
-void		home_end(long c, int *cur_pos, char *user_in);
-void        delete_last_word(char *user_in, int *cur_pos);
-void		wordmove_cursor(long c, int *cur_pos, char *user_in);
-char		*input_under_cursor(int cursor_pos, char *user_input);
-int			inside_boundaries(int cur_pos, char *user_input);
-void		delete_symbol_forward(char *user_in, int *cur_pos);
+void        move_cursor(long c, char *user_in);
+void        clear_line(int end_cl);
+void        delete_symbol(char *user_in);
+void        insert_symbol(char *user_in, char c);
+void        alt_left_right(long c, char *user_in);
+void		home_end(long c, char *user_in);
+void        delete_last_word(char *user_in);
+void		wordmove_cursor(long c, char *user_in);
+void		delete_symbol_forward(char *user_in);
 int         str_n(char *user_in);
-void        clear_all_line(char *user_in, int *cur_pos);
+void        clear_all_line(char *user_in);
 void        cur_pos_after_putstr(char *user_in, int *cur_pos);
-int         last_cur_pos(char *user_in, int *cur_pos);
-int         search_index(char *user_in, int *cur_pos);
-void        ret_cur_to_original_pos(int *cur_pos, int *prev_cur_pos);
+int         last_cur_pos(char *user_in);
+int         search_index(char *user_in);
+void        ret_cur_to_original_pos(int *prev_cur_pos);
 int			ret_winsize(int a);
 int         check_backslash(char *user_in, int start_check);
 char        *expansion(char *user_in, char **env);
@@ -161,8 +161,8 @@ TOKEN       get_and_greator(char *user_in, int *index, char *buf,\
 ** Funcions that make termcaps interactions more readable
 */
 
-void	    tc_cursor_up(int *cur_pos);
-void        tc_cursor_down(int *cur_pos);
-void		tc_cursor_left(int *cur_pos);
-void		tc_cursor_right(int *cur_pos);
+void	    tc_cursor_up(void);
+void        tc_cursor_down(void);
+void		tc_cursor_left(void);
+void		tc_cursor_right(void);
 void		tc_clear_till_end(void);

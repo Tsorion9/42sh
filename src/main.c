@@ -52,8 +52,8 @@ void		back_to_start_history(void)
 
 void		reset_cur_pos(void)
 {
-	g_cur_pos[0] = 3;
-	g_cur_pos[1] = 1;
+	g_cur_pos[0] = START_COL_POS;
+	g_cur_pos[1] = START_ROW_POS;
 }
 
 void		reset_readline_to_start_position(void)
@@ -113,6 +113,10 @@ int			ret_winsize(int a)
 		return (w.ws_col);
 	return (w.ws_row);
 }
+
+/*
+** Функция для обработки сигналов.
+*/
 
 void		signal_processing(int signal_code)
 {
