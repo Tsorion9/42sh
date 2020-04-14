@@ -23,10 +23,6 @@
 #define START_ROW_POS 1
 
 struct termios	g_saved_attribute;
-char            *g_user_in;
-int             g_cur_pos[2];
-char            g_flag;
-int             g_line_shift;
 
 typedef struct          s_history
 {
@@ -35,7 +31,7 @@ typedef struct          s_history
     struct s_history    *next;
 }                       t_history;
 
-t_history       *g_history;
+#define rp() readline_position(NULL)
 
 typedef struct          s_rp
 {
@@ -134,6 +130,7 @@ typedef struct  s_token
 
 #define PROMPT_LEN 2
 
+t_rp		*readline_position(t_rp *change_rp);
 int			ft_putint(int c);
 char        *readline(int tty_input);
 int			ft_isspace(char c);

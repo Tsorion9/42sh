@@ -7,16 +7,16 @@ int         search_index(void)
 
     n = 1;
     i = 0;
-    if (g_cur_pos[1] == 1)
-        return (g_cur_pos[0] - 3);
-    while (n < g_cur_pos[1])
+    if (rp()->cur_pos[1] == 1)
+        return (rp()->cur_pos[0] - 3);
+    while (n < rp()->cur_pos[1])
     {
-        if (g_user_in[i] == '\n')
+        if (rp()->user_in[i] == '\n')
             n++;
         i++;
     }
     n = 1;
-    while (n < g_cur_pos[0])
+    while (n < rp()->cur_pos[0])
     {
         n++;
         i++;
@@ -26,22 +26,22 @@ int         search_index(void)
 
 void        ret_cur_to_original_pos(int *prev_cur_pos)
 {
-    while (prev_cur_pos[0] > g_cur_pos[0])
+    while (prev_cur_pos[0] > rp()->cur_pos[0])
     {
         tputs(tgetstr("le", NULL), STDERR_FILENO, ft_putint);
         prev_cur_pos[0]--;
     }
-    while (prev_cur_pos[0] < g_cur_pos[0])
+    while (prev_cur_pos[0] < rp()->cur_pos[0])
     {
         tputs(tgetstr("nd", NULL), STDERR_FILENO, ft_putint);
         prev_cur_pos[0]++;
     }
-    while (prev_cur_pos[1] > g_cur_pos[1])
+    while (prev_cur_pos[1] > rp()->cur_pos[1])
     {
         tputs(tgetstr("up", NULL), STDERR_FILENO, ft_putint);
         prev_cur_pos[1]--;
     }
-    while (prev_cur_pos[1] < g_cur_pos[1])
+    while (prev_cur_pos[1] < rp()->cur_pos[1])
     {
         write(STDERR_FILENO, "\n", 1);
         prev_cur_pos[1]++;
@@ -56,19 +56,19 @@ int         last_cur_pos(void)
 
     z = 1;
     p = 0;
-    while (z != g_cur_pos[1])
+    while (z != rp()->cur_pos[1])
     {
-        if (g_user_in[p] == '\n')
+        if (rp()->user_in[p] == '\n')
             z++;
         p++;
     }
     y = 0;
-    while (g_user_in[p] != '\n')
+    while (rp()->user_in[p] != '\n')
     {
         p++;
         y++;
     }
-    if (g_cur_pos[1] == 1)
+    if (rp()->cur_pos[1] == 1)
         return (y + 2);
     return (y);
 }
@@ -84,16 +84,16 @@ void        insert_symbol(char c)
     int     i;
 
     i = search_index();
-    str = ft_strdup(g_user_in + i);
-    ft_strcpy(g_user_in + i + 1, str);
+    str = ft_strdup(rp()->user_in + i);
+    ft_strcpy(rp()->user_in + i + 1, str);
     free(str);
-    g_user_in[i] = c;
-    tmp[0] = g_cur_pos[0];
-    tmp[1] = g_cur_pos[1];
+    rp()->user_in[i] = c;
+    tmp[0] = rp()->cur_pos[0];
+    tmp[1] = rp()->cur_pos[1];
     clear_all_line();
-    g_cur_pos[0] = tmp[0] + 1;
-    g_cur_pos[1] = tmp[1];
-    ft_putstr_fd(g_user_in, STDERR_FILENO);
+    rp()->cur_pos[0] = tmp[0] + 1;
+    rp()->cur_pos[1] = tmp[1];
+    ft_putstr_fd(rp()->user_in, STDERR_FILENO);
     cur_pos_after_putstr(tmp);
     ret_cur_to_original_pos(tmp);
 }

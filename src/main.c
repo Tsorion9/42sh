@@ -77,12 +77,12 @@ void		signal_processing(int signal_code)
 	if (signal_code == SIGINT)
 	{
 		write(STDERR_FILENO, "^C", 2);
-		user_in_lines = str_n(g_user_in) + 2 - g_cur_pos[1];
+		user_in_lines = str_n(rp()->user_in) + 2 - rp()->cur_pos[1];
 		while (user_in_lines-- > 0)
 			write(STDERR_FILENO, "\n", 1);
-		g_user_in -= g_line_shift;
+		rp()->user_in -= rp()->line_shift;
 		write(STDERR_FILENO, "$>", 2);
-		reset_readline_to_start_position();
+		reset_rp_to_start();
 	}
 }
 
@@ -93,27 +93,27 @@ void		set_signal(void)
 
 void		back_to_start_history_rp(void)
 {
-	if (rp(NULL)->history)
-		while (rp(NULL)->history->prev)
-			rp(NULL)->history = rp(NULL)->history->prev;
+	if (rp()->history)
+		while (rp()->history->prev)
+			rp()->history = rp()->history->prev;
 }
 
 void		reset_cur_pos_rp(void)
 {
-	rp(NULL)->cur_pos[0] = START_COL_POS;
-	rp(NULL)->cur_pos[1] = START_ROW_POS;
+	rp()->cur_pos[0] = START_COL_POS;
+	rp()->cur_pos[1] = START_ROW_POS;
 }
 
 void		reset_rp_to_start(void)
 {
 	back_to_start_history_rp();
 	reset_cur_pos_rp();
-	rp(NULL)->user_in[0] = 0;
-	rp(NULL)->line_shift = 0;
-	rp(NULL)->flag = 0;
+	rp()->user_in[0] = 0;
+	rp()->line_shift = 0;
+	rp()->flag = 0;
 }
 
-t_rp		*rp(t_rp *change_rp)
+t_rp		*readline_position(t_rp *change_rp)
 {
 	static t_rp	*rp;
 
@@ -143,8 +143,8 @@ void        start_program(char **env, int tty_input)
 {
 	char		*user_in;
 
-	rp(init_rp);
-	load_on_file_history(rp(NULL)->history);
+	readline_position(init_rp);
+	load_on_file_history(rp()->history);
 	while (21)
 	{
 		reset_rp_to_start();
@@ -152,15 +152,15 @@ void        start_program(char **env, int tty_input)
 			write(STDERR_FILENO, "$>", 2);
 		user_in = readline(tty_input);
 		user_in = expansion(user_in, env);
-		add_to_start_history(g_history, user_in);
+		add_to_start_history(rp()->history, user_in);
 		if (!(ft_strcmp(user_in, "exit")))
 			break ;
 		free(user_in);
 	}
 	free(user_in);
-	free(g_user_in);
-	save_in_file_history(g_history);
-	free_history_list(g_history);
+	free(rp()->user_in);
+	save_in_file_history(rp()->history);
+	free_history_list(rp()->history);
 }
 
 int         main(int ac, char **av, char **environ)
