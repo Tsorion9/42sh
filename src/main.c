@@ -121,6 +121,7 @@ t_rp		*readline_position(t_rp *change_rp)
 		return (rp);
 	else
 		rp = change_rp;
+	return (NULL);
 }
 
 t_rp		*init_rp(void)
@@ -137,13 +138,14 @@ t_rp		*init_rp(void)
 	rp->flag = 0;
 	rp->line_shift = 0;
 	rp->history = create_history("");
+	return (rp);
 }
 
 void        start_program(char **env, int tty_input)
 {
 	char		*user_in;
 
-	readline_position(init_rp);
+	readline_position(init_rp());
 	load_on_file_history(rp()->history);
 	while (21)
 	{
@@ -151,7 +153,6 @@ void        start_program(char **env, int tty_input)
 		if (tty_input)
 			write(STDERR_FILENO, "$>", 2);
 		user_in = readline(tty_input);
-		user_in = expansion(user_in, env);
 		add_to_start_history(rp()->history, user_in);
 		if (!(ft_strcmp(user_in, "exit")))
 			break ;
@@ -161,6 +162,7 @@ void        start_program(char **env, int tty_input)
 	free(rp()->user_in);
 	save_in_file_history(rp()->history);
 	free_history_list(rp()->history);
+	free(rp());
 }
 
 int         main(int ac, char **av, char **environ)

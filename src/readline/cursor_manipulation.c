@@ -70,12 +70,12 @@ void        move_cursor(long c)
 	else
 	{
 		i = search_index();
-		if (rp()->user_in == '\n')
+		if (rp()->user_in[i] == '\n')
 		{
 			rp()->cur_pos[0] = 1;
 			rp()->cur_pos[1]++;
 		}
-		else if (rp()->user_in != 0)
+		else if (rp()->user_in[i] != 0)
 			rp()->cur_pos[0]++;
 	}
 	ret_cur_to_original_pos(prev_cur_pos);
