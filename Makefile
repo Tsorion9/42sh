@@ -6,7 +6,7 @@
 #    By: tsorion <tsorion@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 15:20:15 by mphobos           #+#    #+#              #
-#    Updated: 2020/04/12 14:37:45 by tsorion          ###   ########.fr        #
+#    Updated: 2020/04/12 21:53:18 by tsorion          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,5 +40,8 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+val:
+	valgrind --leak-check=full ./21sh
 
 .PHONY: all clean fclean re

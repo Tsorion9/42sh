@@ -22,9 +22,7 @@ void        delete_symbol(void)
     int     i;
     int     tmp[2];
 
-    i = search_index();
-    i--;
-    if (i < 0)
+    if ((i = search_index() - 1) < 0)
         return ;
     tmp[0] = delete_symbol_sup(i);
     tmp[1] = g_cur_pos[1];

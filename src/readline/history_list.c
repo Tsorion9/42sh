@@ -15,6 +15,8 @@ void        add_to_start_history(t_history *history, char *str)
 {
     t_history   *new_history;
 
+    while (history->prev)
+        history = history->prev;
     if (ft_strcmp(str, "") == 0 || str[0] == ' ')
         return ;
     if (history->next)

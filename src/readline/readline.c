@@ -199,9 +199,9 @@ void	read_till_newline(int *user_in_len, \
 			die();
 		*g_user_in = 0;
 		if (nl)
-			ft_strncpy(g_user_in, nl, BUFFSIZE - 2);
-		g_user_in[BUFFSIZE - 1] = 0;
-		if ((*user_in_len = ft_strlen(nl)) > BUFFSIZE - 1)
+			ft_strncpy(g_user_in, nl, MAX_CMD_LENGTH - 2);
+		g_user_in[MAX_CMD_LENGTH - 1] = 0;
+		if ((*user_in_len = ft_strlen(nl)) > MAX_CMD_LENGTH - 1)
 			die();
 		free(nl);
 	}
@@ -245,6 +245,7 @@ static void quoting(int tty)
 
 char        *readline(int tty_input)
 {
+    char    *ret_user_in;
     int     user_in_len;
     int     user_in_lines;
 
@@ -262,5 +263,7 @@ char        *readline(int tty_input)
     g_user_in -= g_line_shift;
     g_user_in[ft_strlen(g_user_in) - 1] = 0;
     write(STDERR_FILENO, "\n", 1);
-    return (ft_strdup(g_user_in));
+    if (!(ret_user_in = ft_strdup(g_user_in)))
+        exit(1);
+    return (ret_user_in);
 }

@@ -11,6 +11,8 @@ static int  open_21sh_history(int mode)
     if (!(file_path = ft_strjoin(home_dir, "/.21sh_history")))
         return (-1);
     fd = open(file_path, mode, __S_IREAD | __S_IWRITE);
+    if (file_path)
+        free(file_path);
     return (fd);
 }
 
@@ -18,7 +20,7 @@ void        load_on_file_history(t_history *history)
 {
     int     fd;
     char    buf[1];
-    char    str[BUFFSIZE];
+    char    str[MAX_CMD_LENGTH];
     int     i;
     
     fd = open_21sh_history(O_RDONLY);
@@ -45,7 +47,7 @@ void        load_on_file_history(t_history *history)
 static void save_in_file_history_sup(int fd, int n, char *history)
 {
     int     i;
-    char    buf[BUFFSIZE];
+    char    buf[MAX_CMD_LENGTH];
 
     i = 0;
     while (n != HISTSIZE)

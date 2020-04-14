@@ -65,32 +65,6 @@ void		reset_readline_to_start_position(void)
 	g_flag = 0;
 }
 
-void        start_program(char **env, int tty_input)
-{
-	char		*user_in;
-
-	g_history = create_history("");
-	load_on_file_history(g_history);
-	g_user_in = (char*)malloc(sizeof(char) * BUFFSIZE);
-	reset_readline_to_start_position();
-	if (tty_input)
-		write(STDERR_FILENO, "$>", 2);
-    user_in = readline(tty_input);
-	while (ft_strcmp(user_in, "exit") != 0)
-	{
-		reset_readline_to_start_position();
-		user_in = expansion(user_in, env);
-		add_to_start_history(g_history, user_in);
-		free(user_in);
-		if (tty_input)
-			write(STDERR_FILENO, "$>", 2);
-		user_in = readline(tty_input);
-	}
-	free(user_in);
-	save_in_file_history(g_history);
-	free_history_list(g_history);
-}
-
 void		init_terminal()
 {
     char			*termtype;
@@ -137,6 +111,32 @@ void		signal_processing(int signal_code)
 void		set_signal(void)
 {
 	signal(SIGINT, signal_processing);
+}
+
+void        start_program(char **env, int tty_input)
+{
+	char		*user_in;
+
+	g_history = create_history("");
+	load_on_file_history(g_history);
+	if (!(g_user_in = (char*)malloc(sizeof(char) * MAX_CMD_LENGTH)))
+		exit(1);
+	while (21)
+	{
+		reset_readline_to_start_position();
+		if (tty_input)
+			write(STDERR_FILENO, "$>", 2);
+		user_in = readline(tty_input);
+		user_in = expansion(user_in, env);
+		add_to_start_history(g_history, user_in);
+		if (!(ft_strcmp(user_in, "exit")))
+			break ;
+		free(user_in);
+	}
+	free(user_in);
+	free(g_user_in);
+	save_in_file_history(g_history);
+	free_history_list(g_history);
 }
 
 int         main(int ac, char **av, char **environ)
