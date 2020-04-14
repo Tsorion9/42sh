@@ -4,7 +4,8 @@ t_history   *create_history(char *str)
 {
     t_history   *history;
 
-    history = (t_history*)malloc(sizeof(t_history));
+    if (!(history = (t_history*)malloc(sizeof(t_history))))
+        exit(1);
     history->str = ft_strdup(str);
     history->prev = NULL;
     history->next = NULL;

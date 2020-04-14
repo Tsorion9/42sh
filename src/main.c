@@ -43,28 +43,6 @@ void		test_tokenizing(char *user_in)
 	}
 }
 
-void		back_to_start_history(void)
-{
-	if (g_history)
-		while (g_history->prev)
-			g_history = g_history->prev;
-}
-
-void		reset_cur_pos(void)
-{
-	g_cur_pos[0] = START_COL_POS;
-	g_cur_pos[1] = START_ROW_POS;
-}
-
-void		reset_readline_to_start_position(void)
-{
-	back_to_start_history();
-	reset_cur_pos();
-	g_user_in[0] = 0;
-	g_line_shift = 0;
-	g_flag = 0;
-}
-
 void		init_terminal()
 {
     char			*termtype;
@@ -113,17 +91,63 @@ void		set_signal(void)
 	signal(SIGINT, signal_processing);
 }
 
+void		back_to_start_history_rp(void)
+{
+	if (rp(NULL)->history)
+		while (rp(NULL)->history->prev)
+			rp(NULL)->history = rp(NULL)->history->prev;
+}
+
+void		reset_cur_pos_rp(void)
+{
+	rp(NULL)->cur_pos[0] = START_COL_POS;
+	rp(NULL)->cur_pos[1] = START_ROW_POS;
+}
+
+void		reset_rp_to_start(void)
+{
+	back_to_start_history_rp();
+	reset_cur_pos_rp();
+	rp(NULL)->user_in[0] = 0;
+	rp(NULL)->line_shift = 0;
+	rp(NULL)->flag = 0;
+}
+
+t_rp		*rp(t_rp *change_rp)
+{
+	static t_rp	*rp;
+
+	if (!change_rp)
+		return (rp);
+	else
+		rp = change_rp;
+}
+
+t_rp		*init_rp(void)
+{
+	t_rp	*rp;
+
+	if (!(rp = (t_rp*)malloc(sizeof(t_rp))))
+		exit(1);
+	if (!(rp->user_in = (char*)malloc(sizeof(char) * MAX_CMD_LENGTH)))
+		exit(1);
+	rp->index = 0;
+	rp->cur_pos[0] = START_COL_POS;
+	rp->cur_pos[1] = START_ROW_POS;
+	rp->flag = 0;
+	rp->line_shift = 0;
+	rp->history = create_history("");
+}
+
 void        start_program(char **env, int tty_input)
 {
 	char		*user_in;
 
-	g_history = create_history("");
-	load_on_file_history(g_history);
-	if (!(g_user_in = (char*)malloc(sizeof(char) * MAX_CMD_LENGTH)))
-		exit(1);
+	rp(init_rp);
+	load_on_file_history(rp(NULL)->history);
 	while (21)
 	{
-		reset_readline_to_start_position();
+		reset_rp_to_start();
 		if (tty_input)
 			write(STDERR_FILENO, "$>", 2);
 		user_in = readline(tty_input);

@@ -28,14 +28,25 @@ int             g_cur_pos[2];
 char            g_flag;
 int             g_line_shift;
 
-typedef struct  s_history
+typedef struct          s_history
 {
     char                *str;
     struct s_history    *prev;
     struct s_history    *next;
-}               t_history;
+}                       t_history;
 
 t_history       *g_history;
+
+typedef struct          s_rp
+{
+    char                *user_in;
+    int                 index;
+    int                 cur_pos[2];
+    char                flag;
+    int                 line_shift;
+    t_history           *history;    
+}                       t_rp;
+
 
 /*
 ** TOKEN
