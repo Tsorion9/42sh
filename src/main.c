@@ -141,10 +141,50 @@ t_rp		*init_rp(void)
 	return (rp);
 }
 
+/*
+** Dirty hack below: parser does not know about user input.
+** but has to call get_next_token(char *user_in)
+** That is why we need a wrapper. 
+*/
+
+char	*touch_user_in(char *new_value, int need_update)
+{
+	static char	*user_in;
+
+	if (need_update)
+	{
+		user_in = new_value;
+		return (NULL);
+	}
+	else
+		return (user_in);
+}
+
+/*
+** Just returns a token
+*/
+
+t_token	*lex(void)
+{
+	t_token	*copy;
+
+	copy = malloc(sizeof(t_token)); /* We need token* instead of token */
+	*copy = get_next_token(touch_user_in(NULL, 0));
+	/* Attribute field was not initialized! */
+	if (copy->token_type != word &&\
+			copy->token_type != ass_word &&\
+			copy->token_type != number)
+		copy->attribute = NULL;
+	return (copy);
+}
+
 void        start_program(char **env, int tty_input)
 {
 	char		*user_in;
+	t_deque		*command;
 
+	(void)env;
+	command = NULL;
 	readline_position(init_rp());
 	load_on_file_history(rp()->history);
 	while (21)
@@ -153,7 +193,12 @@ void        start_program(char **env, int tty_input)
 		if (tty_input)
 			write(STDERR_FILENO, "$>", 2);
 		user_in = readline(tty_input);
+		touch_user_in(user_in, 1);
 		add_to_start_history(rp()->history, user_in);
+		test_tokenizing(user_in);
+		command = parser();
+		print_cmd_dbg(command);
+		//Delete the command!
 		if (!(ft_strcmp(user_in, "exit")))
 			break ;
 		free(user_in);

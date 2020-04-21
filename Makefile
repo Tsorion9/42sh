@@ -14,21 +14,46 @@ NAME = 21sh
 CREADLINE = readline.c user_in_editing.c cursor_manipulation.c expansion.c \
 			termcap_api.c ft_isspace.c history_list.c \
 			delete.c history_file.c free.c
+
 CTOKENIZING = get_next_token.c
+
+CPARSER = deque.c \
+			match_cmd_prefix.c\
+			match_cmd_suffix.c\
+			match_complete_comand.c\
+			match_io_file.c\
+			match_io_here.c\
+			match_io_redir.c\
+			match_linebreak.c\
+			match_list.c\
+			match_pipeline.c\
+			match_pipe_seq.c\
+			match_simple_comand.c\
+			parser.c\
+			print_cmd_dbg.c\
+			remove_command.c\
+			rm_redir.c\
+			syntax_error.c\
+			t2list.c\
+			tokbuf_utils.c
+
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 TOKENIZING = $(patsubst %,src/tokenizing/%,$(CTOKENIZING))
+PARSER = $(patsubst %,src/parser/%,$(CPARSER))
+
 CC = gcc
 INCLUDE = includes 
+PARSER_TMP_INC = src/parser
 LIB_INC = libft/includes
-CFLAGS = -Wall -Wextra -L libft -lft -ltermcap -I $(INCLUDE) -I $(LIB_INC) -o $(NAME)
+CFLAGS = -Wall -Wextra -L libft -lft -ltermcap -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -o $(NAME)
 DFLAGS = $(CFLAGS) -g
 
 %.c:
-	$(CC) src/main.c $(READLINE) $(TOKENIZING) $(DFLAGS) -c $<
+	$(CC) src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(DFLAGS) -c $<
 
-$(NAME): src/main.c $(READLINE) $(TOKENIZING)
+$(NAME): src/main.c $(READLINE) $(TOKENIZING) $(PARSER)
 	make -C libft
-	$(CC) src/main.c $(READLINE) $(TOKENIZING) $(DFLAGS)
+	$(CC) src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(DFLAGS)
 
 all: $(NAME)
 

@@ -83,4 +83,15 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstdel(t_list **alst, void (*del)(void*, size_t));
 void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
 void				ft_freestrsplit(char **str);
+
+char				*ft_itoa_base(long long value, char *base, int sgn);
+char				*ftoa(long double x, int precision);
+int					ft_printf(const char *format, ...);
+int					ft_fprintf(int fd, const char *format, ...);
+
+int					ft_lstadd_data(t_list **lst, void *content,\
+		size_t content_size);
+t_list				*ft_lstnew_inplace(void const *content,\
+		size_t content_size);
+
 #endif

@@ -1,3 +1,6 @@
+#ifndef F21_SH_H
+#define F21_SH_H
+
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -12,6 +15,7 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <signal.h>
+#include "parser.h"
 
 #define MAX_CMD_LENGTH 4096
 #define BUFFSIZE 4096
@@ -167,6 +171,12 @@ TOKEN       get_and_greator(char *user_in, int *index, char *buf,\
     int *buf_index);
 
 /*
+** Interface for lexer
+*/
+
+t_token		*lex(void);
+
+/*
 ** Funcions that make termcaps interactions more readable
 */
 
@@ -175,3 +185,123 @@ void        tc_cursor_down(void);
 void		tc_cursor_left(void);
 void		tc_cursor_right(void);
 void		tc_clear_till_end(void);
+
+/*
+** Parser.h
+*/
+
+#include "deque.h"
+#include "command.h"
+#include "21sh.h"		
+
+#define PARSER_FAILURE 0
+#define PARSER_SUCCESS 1
+
+/*
+** Lexer should also recognize theese guys
+** Clobber '>|'
+** Bang '!'
+** dlessash <<-
+*/
+
+#define CLOBBER -9
+#define BANG -10
+#define DLESSDASH -11
+
+typedef enum e_token_type
+{
+	eof = -1,
+	number = NUMBER,
+	word = WORD,
+	ass_word = ASSIGNMENT_WORD,
+	pipel = PIPE,
+	sep = LINE_SEPARATOR,
+	__newline = END_LINE,
+	greater = GREATER,
+	less = LESS,
+	dgreat = GREATER_GREATER,
+	dless = LESS_LESS,
+	dlessash = DLESSDASH,
+	clobber = CLOBBER,
+	bang = BANG,
+	lessand = LESS_AND,
+	gr_and = GREATER_AND
+}				t_token_type;
+
+typedef struct	s_pipeline
+{
+	t_deque		*commands;
+	int			bang;
+}				t_pipeline;
+
+typedef struct	s_simple_cmd
+{
+	t_deque		*wl;		/* Comand names and args before expansion 
+							   TODO: deque of wordlists	*/
+	t_deque		*al;		/* List of variable assignments */
+	t_deque		*rl;		/* Redirection deque */
+}				t_simple_cmd;
+
+typedef struct	s_io_redir
+{
+	int				fd;
+	t_token_type	operation;
+	t_list			*where;	/* ->content is a WORD on the right-hand side of 
+							   the grammar before expansion*/
+}				t_io_redir;
+
+
+/*
+** Parser's internal token buffer. Needed for backtracking
+** Equivalrnt to getc() ungetc()
+*/
+
+void	ungett(t_deque **tokbuf_g, t_deque **tokbuf_l);
+t_token	*gett(t_deque **tokbuf_g, t_deque **tokbuf_l);
+void	erase_tokbuf(t_deque **tokbuf);
+void	flush_tokbuf(t_deque **tokbuf_g, t_deque **tokbubf_l);
+
+void	syntax_error(t_token *token);
+
+/*
+** Nonterminal recursive procedures
+*/
+
+int	match_complete_command(t_deque **command, t_deque **tokbuf_g);
+int match_list(t_deque **command, t_deque **tokbuf_g);
+int	match_list_dash(t_deque **command, t_deque **tokbuf_g);
+int	match_pipeline(t_deque **command, t_deque **tokbuf_g);
+int	match_pipe_sequence(t_pipeline *pipeline, t_deque **tokbuf_g);
+int	match_simple_command(t_simple_cmd **cmd, t_deque **tokbubf_g);
+void	match_linebreak(t_deque **tokbubf_g, t_deque **tokbubf_l);
+int	match_cmd_suffix(t_simple_cmd **cmd, t_deque **tokbubf_g);
+int	match_cmd_prefix(t_simple_cmd **cmd, t_deque **tokbubf_g);
+int	match_io_redirect(t_simple_cmd *cmd, t_deque **tokbubf_g);
+int	match_io_file(t_io_redir *redir, t_deque **tokbubf_g);
+int	match_io_here(t_io_redir *redir, t_deque **tokbubf_g);
+
+/*
+** DEBUG; Do not use in project!
+*/
+
+void	print_cmd_dbg(t_deque *command);
+
+/*
+**
+** Command.h
+*/
+
+#include "libft.h"
+
+/*
+** Command is a deque of pipelines.
+*/
+void	rm_compl_cmd(t_deque **command);
+void	rm_pipeline(t_pipeline **pl);
+void	rm_simple_cmd(t_simple_cmd **cmd);
+void	rm_redir(t_io_redir **redir);
+
+t_deque	*parser(void);
+
+
+#endif
