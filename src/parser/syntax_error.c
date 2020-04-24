@@ -1,18 +1,39 @@
 #include "parser.h"
 #include "libft.h"
 
-#define MSG "Printing tokens is not implemented\n"
+void	print_op(t_token_type t)
+{
+	if (t == sep)
+		ft_fprintf(2, "%s\n", ";");
+	if (t == greater)
+		ft_fprintf(2, "%s\n", ">");
+	if (t == less)
+		ft_fprintf(2, "%s\n", ">");
+	if (t == gr_and)
+		ft_fprintf(2, "%s\n", ">&");
+	if (t == lessand)
+		ft_fprintf(2, "%s\n", "<&");
+	if (t == dless)
+		ft_fprintf(2, "%s\n", "<<");
+	if (t == dgreat)
+		ft_fprintf(2, "%s\n", ">>");
+	if (t == pipel)
+		ft_fprintf(2, "%s\n", "|");
+	if (t == bang)
+		ft_fprintf(2, "%s\n", "!");
+	else
+		return ;
+
+}
 
 void	print_token(t_token *token)
 {
 	(void)token;
-	write(1, MSG, ft_strlen(MSG));
+	if (token->attribute)
+		ft_fprintf(2, "%s\n", token->attribute);
+	else
+		print_op(token->token_type);
 }
-
-/*
-** WTF, GCC !?
-*/
-int					ft_fprintf(int fd, const char *format, ...);
 
 void	syntax_error(t_token *token)
 {

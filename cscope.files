@@ -74,6 +74,7 @@
 ./libft/ft_strclr.c
 ./libft/ft_strstr.c
 ./libft/ft_bzero.c
+./libft/ft_lstnew_inplace.c
 ./libft/ft_lstiter.c
 ./libft/ft_strmap.c
 ./libft/ft_atoi.c

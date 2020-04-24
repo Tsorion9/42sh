@@ -5,7 +5,7 @@
 
 void rm_compl_cmd(t_deque **command)
 {
-	(void)command;
+	*command = NULL;
 	write(1, C, ft_strlen(C));
 }
 
