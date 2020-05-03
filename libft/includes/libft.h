@@ -84,6 +84,7 @@ void				ft_lstdel(t_list **alst, void (*del)(void*, size_t));
 void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
 void				ft_freestrsplit(char **str);
 
+void				ft_strrev(char *s);
 char				*ft_itoa_base(long long value, char *base, int sgn);
 char				*ftoa(long double x, int precision);
 int					ft_printf(const char *format, ...);

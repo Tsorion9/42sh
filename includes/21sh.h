@@ -20,12 +20,14 @@
 #define MAX_CMD_LENGTH 4096
 #define BUFFSIZE 4096
 #define HISTSIZE 1000
-#define bool _Bool
+#define bool _Bool // Remove this!
 #define true 1
 #define false 0
 #define START_COL_POS 3
 #define START_ROW_POS 1
-#define rp() readline_position(NULL)
+#define rp() readline_position(NULL) // Norm!
+
+#define DEFAULT_PROMPT "$>"
 
 struct termios	g_saved_attribute;
 
@@ -57,7 +59,7 @@ typedef struct  s_token
     char        *attribute;
 }               t_token;
 
-#define TOKEN t_token
+#define TOKEN t_token // Unneeded macro
 
 // --------------------------
 
@@ -133,10 +135,11 @@ typedef struct  s_token
 
 #define PROMPT_LEN 2
 
+char		*touch_user_in(char *new_value, int need_update);
 t_rp		*readline_position(t_rp *change_rp);
 void		reset_rp_to_start(void);
 int			ft_putint(int c);
-char        *readline(int tty_input);
+char        *readline(char *prompt);
 int			ft_isspace(char c);
 void        move_cursor(long c);
 void        clear_line(int end_cl);

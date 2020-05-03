@@ -81,7 +81,7 @@ void		signal_processing(int signal_code)
 		while (user_in_lines-- > 0)
 			write(STDERR_FILENO, "\n", 1);
 		rp()->user_in -= rp()->line_shift;
-		write(STDERR_FILENO, "$>", 2);
+		write(STDERR_FILENO, DEFAULT_PROMPT, 2);
 		reset_rp_to_start();
 	}
 }
@@ -160,6 +160,7 @@ char	*touch_user_in(char *new_value, int need_update)
 		return (user_in);
 }
 
+
 /*
 ** Just returns a token
 */
@@ -183,23 +184,19 @@ void        start_program(char **env, int tty_input)
 	char		*user_in;
 	t_deque		*command;
 
+	(void)tty_input;
 	(void)env;
 	command = NULL;
 	readline_position(init_rp());
 	load_on_file_history(rp()->history);
 	while (21)
 	{
-		reset_rp_to_start();
-		if (tty_input)
-			write(STDERR_FILENO, "$>", 2);
-		user_in = readline(tty_input);
-		touch_user_in(user_in, 1);
-		add_to_start_history(rp()->history, user_in);
+		user_in = readline(DEFAULT_PROMPT);
 		test_tokenizing(user_in);
 		command = parser();
 		print_cmd_dbg(command);
 		//Delete the command!
-		if (!(ft_strcmp(user_in, "exit")))
+		if (!(ft_strcmp(user_in, "exit"))) // exit is Built-in actually
 			break ;
 		free(user_in);
 	}
