@@ -252,7 +252,8 @@ char        *readline(char *prompt)
 
 	tty_input = isatty(0);
 	reset_rp_to_start();
-	write(STDERR_FILENO, prompt, ft_strlen(prompt));
+	if (tty_input)
+		write(STDERR_FILENO, prompt, ft_strlen(prompt));
 
 	read_till_newline(&user_in_len, tty_input);
 	user_in_lines = str_n(rp()->user_in) - rp()->cur_pos[1];
