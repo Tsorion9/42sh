@@ -1,2 +1,2 @@
-aaaaa
-bbb
+ls |
+a
