@@ -20,6 +20,7 @@ int	match_io_here(t_io_redir *redir, t_deque **tokbubf_g)
 		return (PARSER_FAILURE);
 	}
 	ft_lstadd_data(&redir->where, (void *)ft_strdup(tok->attribute), 0);
+	heredoc_action(add_hd, (void *)ft_strdup(tok->attribute));
 	erase_tokbuf(&tokbuf_l);
 	return (PARSER_SUCCESS);
 }

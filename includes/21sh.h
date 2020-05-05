@@ -16,6 +16,7 @@
 #include <sys/ioctl.h>
 #include <signal.h>
 #include "parser.h"
+#include "heredoc.h"
 
 #define MAX_CMD_LENGTH 4096
 #define BUFFSIZE 4096

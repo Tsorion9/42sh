@@ -35,7 +35,8 @@ CPARSER = deque.c \
 			rm_redir.c\
 			syntax_error.c\
 			t2list.c\
-			tokbuf_utils.c
+			tokbuf_utils.c\
+			heredoc.c
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 TOKENIZING = $(patsubst %,src/tokenizing/%,$(CTOKENIZING))

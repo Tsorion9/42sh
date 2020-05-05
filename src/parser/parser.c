@@ -22,5 +22,6 @@ t_deque	*parser()
 		rm_compl_cmd(&command);
 		erase_tokbuf(&tokbuf_g);
 	}
+	gather_heredocs();
 	return (command);
 }
