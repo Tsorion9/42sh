@@ -33,27 +33,31 @@ static void	print_redirection(t_io_redir *r)
 
 static void	print_simple_command(t_simple_cmd *cmd)
 {
-	char		*s;
-	t_io_redir	*r;
+	void		*s;
 
-	if (cmd->al)
-		ft_printf("%s\n", "              Assignments:");
-	while (cmd->al)
+	if (cmd->arl)
+		ft_printf("%s\n", "              Assignments or redirections:");
+	while (cmd->arl)
 	{
-		s = pop_front(cmd->al);
-		ft_printf("                         %s\n", s);
+		if (!(s = pop_front(cmd->arl)))
+			break ;
+		if ((((t_ar *)s)->what) == assignment)
+		{
+			ft_printf("                 %s\n", "Assignment");
+			ft_printf("                         %s\n", (((t_ar *)s)->data));
+		}
+		else
+		{
+			ft_printf("                 %s\n", "Redirection");
+			print_redirection((((t_ar *)s)->data));
+		}
 	}
 	if (cmd->wl)
 		ft_printf("%s\n", "              Words:");
 	s = NULL;
 	while (cmd->wl && (s = pop_front(cmd->wl)))
 		ft_printf("                         %s\n", s);
-	if (cmd->rl)
-		ft_printf("%s\n", "              Redirections:");
-	r = NULL;
-	while (cmd->rl && (r = pop_front(cmd->rl)))
-		print_redirection(r);
-}
+	}
 
 
 static void	print_pipeline(t_pipeline *pipeline)

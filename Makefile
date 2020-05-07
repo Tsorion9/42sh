@@ -36,6 +36,7 @@ CPARSER = deque.c \
 			syntax_error.c\
 			t2list.c\
 			tokbuf_utils.c\
+			add_ar.c\
 			heredoc.c
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))

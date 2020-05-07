@@ -27,7 +27,7 @@ int	match_io_redirect(t_simple_cmd *cmd, t_deque **tokbubf_g)
 			)
 	{
 		erase_tokbuf(&tokbuf_l);
-		push_back(&(cmd->rl), redir);
+		add_ar(&cmd, redir, redirection);
 		return (PARSER_SUCCESS);
 	}
 	rm_redir(&redir);

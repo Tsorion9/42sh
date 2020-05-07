@@ -17,6 +17,8 @@ int	match_cmd_prefix(t_simple_cmd **cmd, t_deque **tokbubf_g)
 			ungett(tokbubf_g, &tokbuf_l);
 			success = 0;
 		}
+		else
+			add_ar(cmd, pop_front(tokbuf_l), assignment);
 		if (match_io_redirect(*cmd, tokbubf_g) == PARSER_FAILURE && !success)
 			break ;
 		success = 1;

@@ -6,8 +6,7 @@ static void	enter(t_simple_cmd **cmd, t_deque **tokbuf_l)
 	if (*cmd)
 	{
 		(*cmd)->wl = NULL;
-		(*cmd)->al = NULL;
-		(*cmd)->rl = NULL;
+		(*cmd)->arl = NULL;
 	}
 	*tokbuf_l = NULL;
 }

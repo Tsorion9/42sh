@@ -240,11 +240,22 @@ typedef struct	s_pipeline
 
 typedef struct	s_simple_cmd
 {
-	t_deque		*wl;		/* Comand names and args before expansion 
-							   TODO: deque of wordlists	*/
-	t_deque		*al;		/* List of variable assignments */
-	t_deque		*rl;		/* Redirection deque */
+	t_deque		*wl;		/* Comand names and args before expansion  */
+	t_deque		*arl;		/* List of variable assignments and redirections*/
 }				t_simple_cmd;
+
+typedef enum	e_ar
+{
+	assignment,
+	redirection
+}				t_ear;
+
+typedef struct	s_ar
+{
+	void		*data;		/* char * in case of assignment
+							   t_io_redir * in case of redirection	*/
+	t_ear		what;
+}				t_ar;
 
 typedef struct	s_io_redir
 {
@@ -267,9 +278,12 @@ void	flush_tokbuf(t_deque **tokbuf_g, t_deque **tokbubf_l);
 
 void	syntax_error(t_token *token);
 
+void	add_ar(t_simple_cmd **cmd, void *data, t_ear what);
+
 /*
 ** Nonterminal recursive procedures
 */
+
 
 int	match_complete_command(t_deque **command, t_deque **tokbuf_g);
 int match_list(t_deque **command, t_deque **tokbuf_g);
