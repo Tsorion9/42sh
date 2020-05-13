@@ -1,0 +1,15 @@
+1.txt
+21sh
+21sh.dSYM
+author
+cscope.files
+cscope.out
+doc
+includes
+libft
+Makefile
+src
+test_dir
+test_script.txt
+test.sh
+update_cscope.sh

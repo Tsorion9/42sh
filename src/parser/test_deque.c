@@ -5,7 +5,7 @@
 #include "deque.h"
 
 #define USAGE "Usage:\naf N - pushfront\nab N - pushback\ndf - del front\n"\
-			"db - del back\nc - clear\np - print"
+			"db - del back\nc - clear\np - print\nl length\n"
 
 void	prompt()
 {
@@ -31,6 +31,11 @@ void	print_deque(t_deque *d)
 		lst2_apply(d->first, print_number);
 }
 
+void	print_deque_len(t_deque *d)
+{
+	printf("%d\n", deque_len(d));
+}
+
 void	del(void *data)
 {
 	free(data);
@@ -50,6 +55,8 @@ int main()
 	while ((nchar = read(0, &buf, 20)))
 	{
 		buf[nchar] = 0;
+		if (buf[0] == 'l')
+			print_deque_len(d);
 		if (!strncmp(buf, "af", 2))
 		{
 			n = malloc(sizeof(int));

@@ -1,4 +1,5 @@
 #include "21sh.h"
+#include "static_env.h"
 
 int			ft_putint(int c)
 {
@@ -89,6 +90,8 @@ void		signal_processing(int signal_code)
 void		set_signal(void)
 {
 	signal(SIGINT, signal_processing);
+	signal(SIGINT, exit);
+	signal(SIGSTOP, exit); /* TODO: Remove. Ctrl + z kills  */
 }
 
 void		back_to_start_history_rp(void)
@@ -179,25 +182,22 @@ t_token	*lex(void)
 	return (copy);
 }
 
-void        start_program(char **env, int tty_input)
+void        start_program(int tty_input)
 {
 	char		*user_in;
 	t_deque		*command;
 
 	(void)tty_input;
-	(void)env;
 	command = NULL;
 	readline_position(init_rp());
 	load_on_file_history(rp()->history);
-	while (21)
+	while (1)
 	{
 		user_in = readline(DEFAULT_PROMPT);
-		test_tokenizing(user_in);
+		//test_tokenizing(user_in);
 		command = parser();
-		print_cmd_dbg(command);
-		//Delete the command!
-		if (!(ft_strcmp(user_in, "exit"))) // exit is Built-in actually
-			break ;
+		//print_cmd_dbg(command);
+		exec_cmd(command);
 		free(user_in);
 	}
 	free(user_in);
@@ -213,12 +213,15 @@ int         main(int ac, char **av, char **environ)
 
     (void)ac;
     (void)av;
+	static_env_action(init, (void *)environ);
+	static_env_action(save, NULL);
 	tty_input = 0; /* Valgrind says it is uninitialized otherwise. Why? */
 	if ((tty_input = isatty(STDIN_FILENO)))
 		init_terminal();
 	set_signal();
-    start_program(environ, tty_input);
+    start_program(tty_input);
 	if (tty_input)
 		reset_input_mode();
+	static_env_action(del, NULL);
     return (0);
 }
