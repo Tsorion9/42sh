@@ -37,25 +37,52 @@ CPARSER = deque.c \
 			t2list.c\
 			tokbuf_utils.c\
 			add_ar.c\
-			heredoc.c
+			heredoc.c\
+			deque_len.c
+
+CEXEC = builtin_env.c\
+		builtin_cd.c\
+		to_array.c\
+		tilda_expansion.c\
+		parse_cd_args.c\
+		is_a_directory.c\
+		init_env.c\
+		get_curpath.c\
+		get_builtin.c\
+		ft_getenv.c\
+		find_path.c\
+		exit.c\
+		env_related_builtins.c\
+		echo.c\
+		dollar_expansion.c\
+		del_array.c\
+		canonicize_utils.c\
+		canonicize.c\
+		env_actions.c\
+		static_env.c\
+		find_exec.c\
+		exec.c
+
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 TOKENIZING = $(patsubst %,src/tokenizing/%,$(CTOKENIZING))
 PARSER = $(patsubst %,src/parser/%,$(CPARSER))
+EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
+
 
 CC = gcc
 INCLUDE = includes 
 PARSER_TMP_INC = src/parser
 LIB_INC = libft/includes
-CFLAGS = -Wall -Wextra -L libft -lft -ltermcap -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -o $(NAME)
+CFLAGS = -Wall -Wextra -L libft -lft -ltermcap -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec -o $(NAME)
 DFLAGS = $(CFLAGS) -g
 
 %.c:
 	$(CC) src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(DFLAGS) -c $<
 
-$(NAME): src/main.c $(READLINE) $(TOKENIZING) $(PARSER)
+$(NAME): src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(EXEC)
 	make -C libft
-	$(CC) src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(DFLAGS)
+	$(CC) src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(EXEC) $(DFLAGS)
 
 all: $(NAME)
 

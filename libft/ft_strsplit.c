@@ -94,7 +94,6 @@ char			**ft_strsplit(const char *s, int c)
 {
 	char	**res;
 	int		i;
-	int		index;
 
 	if (!s)
 		return (NULL);
@@ -108,6 +107,5 @@ char			**ft_strsplit(const char *s, int c)
 		return (NULL);
 	}
 	i = 0;
-	index = 0;
 	return (ft_sup(s, res, c, i));
 }

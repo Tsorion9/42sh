@@ -52,13 +52,19 @@ SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memchr.c ft_memcmp.c \
 	ft_printf/read_spec.c\
 	ft_itoa_base.c\
 	ft_strrev.c\
+	ft_ptree_to_kvpairs.c\
+	ft_ptree.c\
+	ft_path_append.c\
+	ft_copy_ptree.c\
+	ft_straddchar.c\
+	ft_lstlen.c\
 	ft_lstnew_inplace.c
 
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 CC = gcc
 INCLUDE = includes
-CFLAGS = -I $(INCLUDE) -I ft_printf -I ftoa
+CFLAGS = -Wall -Wextra -I $(INCLUDE) -I ft_printf -I ftoa
 DFLAGS = $(CFLAGS) -g
 
 %.o: %.c

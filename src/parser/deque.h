@@ -26,4 +26,6 @@ void			*pop_back(t_deque *d);
 void			deque_del(t_deque **d, void (*del)(void *));
 void			*deque_n_th(t_deque *deque, int number);
 
+int				deque_len(t_deque *d);
+
 #endif

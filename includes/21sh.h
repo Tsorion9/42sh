@@ -17,6 +17,7 @@
 #include <signal.h>
 #include "parser.h"
 #include "heredoc.h"
+#include "exec.h"
 
 #define MAX_CMD_LENGTH 4096
 #define BUFFSIZE 4096
@@ -29,6 +30,8 @@
 #define rp() readline_position(NULL) // Norm!
 
 #define DEFAULT_PROMPT "$>"
+
+#define CLOSE_STREAM "-"
 
 struct termios	g_saved_attribute;
 
@@ -283,7 +286,6 @@ void	add_ar(t_simple_cmd **cmd, void *data, t_ear what);
 /*
 ** Nonterminal recursive procedures
 */
-
 
 int	match_complete_command(t_deque **command, t_deque **tokbuf_g);
 int match_list(t_deque **command, t_deque **tokbuf_g);
