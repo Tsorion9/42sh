@@ -1,6 +1,6 @@
-1.txt
 21sh
 21sh.dSYM
+.dSYM
 author
 cscope.files
 cscope.out

@@ -233,11 +233,13 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 
 	/* 
 	** LAST command in the pipeline; The only command, whose status we care 
-	** about. Parent blocks until child finishes (parrent is 21sh, waits for 
+	** about. Parent blocks until all children finish (parrent is 21sh, waits for 
 	** the last cmd in pipeline)
+	** TODO: return status of the last cmd;
 	*/
 	if (task_context.out_pipe == IGNORE_STREAM)	
-		wait(&status); 
+		while (wait(&status) > 0)
+			;
 	return (status);
 }
 

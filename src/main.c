@@ -77,7 +77,7 @@ void		signal_processing(int signal_code)
 
 	if (signal_code == SIGINT)
 	{
-		write(STDERR_FILENO, "^C", 2);
+		//write(STDERR_FILENO, "^C", 2);
 		user_in_lines = str_n(rp()->user_in) + 2 - rp()->cur_pos[1];
 		while (user_in_lines-- > 0)
 			write(STDERR_FILENO, "\n", 1);
@@ -90,8 +90,7 @@ void		signal_processing(int signal_code)
 void		set_signal(void)
 {
 	signal(SIGINT, signal_processing);
-	signal(SIGINT, exit);
-	signal(SIGSTOP, exit); /* TODO: Remove. Ctrl + z kills  */
+	signal(SIGINT, reset_exit);
 }
 
 void		back_to_start_history_rp(void)
@@ -172,9 +171,8 @@ t_token	*lex(void)
 {
 	t_token	*copy;
 
-	copy = malloc(sizeof(t_token)); /* We need token* instead of token */
+	copy = malloc(sizeof(t_token));
 	*copy = get_next_token(touch_user_in(NULL, 0));
-	/* Attribute field was not initialized! */
 	if (copy->token_type != word &&\
 			copy->token_type != ass_word &&\
 			copy->token_type != number)
@@ -194,9 +192,7 @@ void        start_program(int tty_input)
 	while (1)
 	{
 		user_in = readline(DEFAULT_PROMPT);
-		//test_tokenizing(user_in);
 		command = parser();
-		//print_cmd_dbg(command);
 		exec_cmd(command);
 		free(user_in);
 	}
@@ -205,6 +201,12 @@ void        start_program(int tty_input)
 	save_in_file_history(rp()->history);
 	free_history_list(rp()->history);
 	free(rp());
+}
+
+void		reset_exit(int status)
+{
+	reset_input_mode();
+	exit(status);
 }
 
 int         main(int ac, char **av, char **environ)

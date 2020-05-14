@@ -323,5 +323,6 @@ void	rm_redir(t_io_redir **redir);
 
 t_deque	*parser(void);
 
+void		reset_exit(int status);
 
 #endif
