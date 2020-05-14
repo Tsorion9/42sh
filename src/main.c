@@ -192,6 +192,9 @@ void        start_program(int tty_input)
 	while (1)
 	{
 		user_in = readline(DEFAULT_PROMPT);
+#ifdef DBG_LEXER
+		test_tokenizing(user_in);
+#endif
 		command = parser();
 		exec_cmd(command);
 		free(user_in);

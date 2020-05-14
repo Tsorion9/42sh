@@ -9,7 +9,6 @@
 #    Updated: 2020/04/12 21:53:18 by tsorion          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 NAME = 21sh
 CREADLINE = readline.c user_in_editing.c cursor_manipulation.c expansion.c \
 			termcap_api.c ft_isspace.c history_list.c \
@@ -63,31 +62,44 @@ CEXEC = builtin_env.c\
 		find_exec.c\
 		exec.c
 
-
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 TOKENIZING = $(patsubst %,src/tokenizing/%,$(CTOKENIZING))
 PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 
+SRC = src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(EXEC)
+OBJ = $(SRC:.c=.o)
 
 CC = gcc
 INCLUDE = includes 
 PARSER_TMP_INC = src/parser
 LIB_INC = libft/includes
-CFLAGS = -Wall -Wextra -L libft -lft -ltermcap -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec -o $(NAME)
-DFLAGS = $(CFLAGS) -g
-
-%.c:
-	$(CC) src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(DFLAGS) -c $<
-
-$(NAME): src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(EXEC)
-	make -C libft
-	$(CC) src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(EXEC) $(DFLAGS)
+INC_FLAGS = -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec 
+FLAGS = -Wall -Wextra $(INC_FLAGS)
+LFLAGS = -L libft -lft -ltermcap 
+DFLAGS = -g # -DDBG_LEXER
+CFLAGS = $(DFLAGS) 
+CFLAGS += $(FLAGS)
 
 all: $(NAME)
 
+debug: CFLAGS += -D DBG_LEXER
+debug: re
+
+$(NAME): lib $(OBJ)
+	$(CC) $(OBJ) $(LFLAGS) -o $(NAME)
+
+lib:
+	make -C libft 
+	#TODO: readline should also be a lib
+
+#TODO: object modules should also depend on headers
+%o : %c 
+	gcc $(CFLAGS) -c $<
+
 clean:
 	make -C libft clean
+	rm -f $(OBJ)
 
 fclean: clean
 	make -C libft fclean
