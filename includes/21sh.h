@@ -170,7 +170,7 @@ void        load_on_file_history(t_history *history);
 void        save_in_file_history(t_history *history);
 void        free_history_list(t_history *history);
 
-TOKEN       get_next_token(char *user_in);
+TOKEN       get_next_token();
 TOKEN       get_token_word(char *user_in, int *index, char *buf,\
     int *buf_index);
 bool        is_ws(char c);

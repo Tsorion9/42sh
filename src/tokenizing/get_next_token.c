@@ -33,9 +33,9 @@ bool        is_ws(char c)
     return (f);
 }
 
-TOKEN       get_token_gr(char *user_in, int *index)
+t_token       get_token_gr(char *user_in, int *index)
 {
-    TOKEN   ret_token;
+    t_token   ret_token;
 
     ret_token.token_type = GREATER;
     (*index)++;
@@ -52,9 +52,9 @@ TOKEN       get_token_gr(char *user_in, int *index)
     return (ret_token);
 }
 
-TOKEN       get_token_le(char *user_in, int *index)
+t_token       get_token_le(char *user_in, int *index)
 {
-    TOKEN   ret_token;
+    t_token   ret_token;
 
     ret_token.token_type = LESS;
     (*index)++;
@@ -79,7 +79,7 @@ void        write_char_to_buf(char *user_in, int *index, char *buf,\
     (*buf_index)++;
 }
 
-TOKEN       write_singe_quotes_to_buf(char *user_in, int *index, char *buf,\
+t_token       write_singe_quotes_to_buf(char *user_in, int *index, char *buf,\
     int *buf_index)
 {
     write_char_to_buf(user_in, index, buf, buf_index);
@@ -89,7 +89,7 @@ TOKEN       write_singe_quotes_to_buf(char *user_in, int *index, char *buf,\
     return (get_token_word(user_in, index, buf, buf_index));
 }
 
-TOKEN       write_double_quotes_to_buf(char *user_in, int *index, char *buf,\
+t_token       write_double_quotes_to_buf(char *user_in, int *index, char *buf,\
     int *buf_index)
 {
     write_char_to_buf(user_in, index, buf, buf_index);
@@ -113,10 +113,10 @@ char        *create_attribute(char *buf, int buf_index)
     return (attribute);
 }
 
-TOKEN       get_token_word(char *user_in, int *index, char *buf,\
+t_token       get_token_word(char *user_in, int *index, char *buf,\
     int *buf_index)
 {
-    TOKEN   ret_token;
+    t_token   ret_token;
 
     while (is_letter(user_in[*index]))
         write_char_to_buf(user_in, index, buf, buf_index);
@@ -139,27 +139,27 @@ TOKEN       get_token_word(char *user_in, int *index, char *buf,\
     return (ret_token);
 }
 
-TOKEN       get_toket_line_separator(int *index)
+t_token       get_toket_line_separator(int *index)
 {
-    TOKEN   ret_token;
+    t_token   ret_token;
 
     ret_token.token_type = LINE_SEPARATOR;
     (*index)++;
     return (ret_token);
 }
 
-TOKEN       get_token_end_line(int *index)
+t_token       get_token_end_line(int *index)
 {
-    TOKEN   ret_token;
+    t_token   ret_token;
 
     *index = 0;
     ret_token.token_type = END_LINE;
     return (ret_token);
 }
 
-TOKEN       get_token_pipe(int *index)
+t_token       get_token_pipe(int *index)
 {
-    TOKEN   ret_token;
+    t_token   ret_token;
 
     ret_token.token_type = PIPE;
     (*index)++;
@@ -172,10 +172,10 @@ void        skip_ws(char *user_in, int *index)
         (*index)++;
 }
 
-TOKEN       get_and_greator(char *user_in, int *index, char *buf,\
+t_token       get_and_greator(char *user_in, int *index, char *buf,\
     int *buf_index)
 {
-    TOKEN   ret_token;
+    t_token   ret_token;
 
     if (user_in[*index + 1] == '>')
     {
@@ -190,10 +190,10 @@ TOKEN       get_and_greator(char *user_in, int *index, char *buf,\
     return (ret_token);
 }
 
-TOKEN       get_token_number(char *user_in, int *index, char *buf,\
+t_token       get_token_number(char *user_in, int *index, char *buf,\
     int *buf_index, int prev_token)
 {
-    TOKEN   ret_token;
+    t_token   ret_token;
 
     while (is_digit(user_in[*index]))
         write_char_to_buf(user_in, index, buf, buf_index);
@@ -215,18 +215,46 @@ TOKEN       get_token_number(char *user_in, int *index, char *buf,\
     return (ret_token);
 }
 
-TOKEN       get_next_token(char *user_in)
+/*
+** returns a initialized copy of the next token
+*/
+
+static t_token	*copy_init_token(t_token t)
 {
-    static int  index = 0;
+	t_token	*copy;
+
+	copy = malloc(sizeof(t_token));
+	*copy = t;
+	if (copy->token_type != word &&\
+			copy->token_type != ass_word &&\
+			copy->token_type != number)
+		copy->attribute = NULL;
+	return (copy);
+}
+
+t_token       *lex(void)
+{
+	static char	*user_in;
+    static int  index;
     static int  prev_token = -1;
-    TOKEN       new_token;
+    t_token       new_token;
     char        buf[BUFFSIZE];
     int         buf_index;
+	static int	need_new_line;
 
+	if (!user_in || need_new_line) 
+	{
+		user_in = readline(DEFAULT_PROMPT);
+		need_new_line = 0;
+	}
     buf_index = 0;
     skip_ws(user_in, &index);
     if (!user_in[index])
+	{
         new_token = get_token_end_line(&index);
+		free(user_in);
+		need_new_line = 1;
+	}
     else if (is_digit(user_in[index]))
         new_token = get_token_number(user_in, &index, buf, &buf_index, prev_token);
     else if (user_in[index] == '>')
@@ -246,5 +274,5 @@ TOKEN       get_next_token(char *user_in)
     else if (user_in[index] == '\"')
         new_token = write_double_quotes_to_buf(user_in, &index, buf, &buf_index);
     prev_token = new_token.token_type;
-    return (new_token);
+    return (copy_init_token(new_token));
 }

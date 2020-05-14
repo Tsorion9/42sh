@@ -272,7 +272,6 @@ char        *readline(char *prompt)
     if (!(ret_user_in = ft_strdup(rp()->user_in)))
         exit(1);
 
-	touch_user_in(ret_user_in, 1);
 	add_to_start_history(rp()->history, ret_user_in);
 
     return (ret_user_in);

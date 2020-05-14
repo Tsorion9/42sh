@@ -24,26 +24,6 @@ void	    reset_input_mode()
 	tcsetattr(STDIN_FILENO, TCSANOW, &g_saved_attribute);
 }
 
-void		test_tokenizing(char *user_in)
-{
-	TOKEN	token;
-	char	token_type_name[13][BUFFSIZE] = {"NUMBER", "WORD",\
-	"GREATER", "LESS", "GREATER_GREATER", "LESS_LESS",\
-	"GREATER_AND", "LESS_AND", "AND_GREATER", "ASSIGNMENT_WORD",\
-	"PIPE", "LINE_SEPARATOR", "END_LINE"};
-
-	while (1)
-	{
-		token = get_next_token(user_in);
-		if (token.token_type == WORD || token.token_type == NUMBER)
-			printf("%s : %s\n", token_type_name[token.token_type], token.attribute);
-		else
-			printf("%s\n", token_type_name[token.token_type]);
-		if (token.token_type == END_LINE)
-			break ;
-	}
-}
-
 void		init_terminal()
 {
     char			*termtype;
@@ -143,43 +123,6 @@ t_rp		*init_rp(void)
 	return (rp);
 }
 
-/*
-** Dirty hack below: parser does not know about user input.
-** but has to call get_next_token(char *user_in)
-** That is why we need a wrapper. 
-*/
-
-char	*touch_user_in(char *new_value, int need_update)
-{
-	static char	*user_in;
-
-	if (need_update)
-	{
-		user_in = new_value;
-		return (NULL);
-	}
-	else
-		return (user_in);
-}
-
-
-/*
-** Just returns a token
-*/
-
-t_token	*lex(void)
-{
-	t_token	*copy;
-
-	copy = malloc(sizeof(t_token));
-	*copy = get_next_token(touch_user_in(NULL, 0));
-	if (copy->token_type != word &&\
-			copy->token_type != ass_word &&\
-			copy->token_type != number)
-		copy->attribute = NULL;
-	return (copy);
-}
-
 void        start_program(int tty_input)
 {
 	char		*user_in;
@@ -191,13 +134,8 @@ void        start_program(int tty_input)
 	load_on_file_history(rp()->history);
 	while (1)
 	{
-		user_in = readline(DEFAULT_PROMPT);
-#ifdef DBG_LEXER
-		test_tokenizing(user_in);
-#endif
 		command = parser();
 		exec_cmd(command);
-		free(user_in);
 	}
 	free(user_in);
 	free(rp()->user_in);
