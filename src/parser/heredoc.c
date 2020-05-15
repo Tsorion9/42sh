@@ -116,6 +116,7 @@ static char		*gather_string_literal(char *here_eof)
 	char	*literal;
 	char	*line;
 	char	*tmp;
+	char	*tmp1;
 
 	literal = ft_strdup("");
 	while (1)
@@ -125,9 +126,11 @@ static char		*gather_string_literal(char *here_eof)
 			return (literal);
 		else
 		{
-			tmp = ft_strjoin(literal, line); // o(n^2), fix later maybe
+			tmp1 = ft_strjoin(line, "\n");
+			tmp = ft_strjoin(literal, tmp1); // o(n^2), fix later maybe
 			ft_memdel((void *)&literal);
 			ft_memdel((void *)&line);
+			ft_memdel((void *)&tmp1);
 			literal = tmp;
 		}
 	}
