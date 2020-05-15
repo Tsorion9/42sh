@@ -3,7 +3,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-
 /*
 ** Allocate the number in heap
 */
@@ -23,6 +22,77 @@ void noncritical_error(char *text)
 }
 
 /*
+** Statically allocated fixed size
+*/
+
+static char *rnd_nonzero_str()
+{
+	static char s[TMPFILE_SUFFIX_SIZE];
+	int	 rnd_fd;
+	int	 i;
+
+	rnd_fd = open(SYS_RNDGEN_FILENAME, O_RDONLY);
+	read(rnd_fd, s, TMPFILE_SUFFIX_SIZE - 1);
+	close(rnd_fd);
+	i = -1;
+	while (++i < TMPFILE_SUFFIX_SIZE) /* Random bytes could be zero */
+	{
+		if (!s[i])
+			s[i] = 1;
+	}
+	s[TMPFILE_SUFFIX_SIZE - 1] = 0;
+	return (s);
+}
+
+/*
+** Return heap-allocated string
+*/
+
+static char *tmpfile_name()
+{
+	char	*filename;
+	char	*suffix;
+	char	*current;
+	char	*prefix;
+
+	prefix = DEFAULT_TMPFILE_PREFIX;
+	suffix = rnd_nonzero_str();
+	filename = malloc(ft_strlen(prefix) + ft_strlen(suffix) + 1);
+	current = filename;
+	while ((*current++ = *prefix++))
+		;
+	current--;
+	while ((*current++ = *suffix++))
+		;
+	return (filename);		
+}
+
+/*
+** Return fd
+** TODO: probably /tmp does not exist 
+** (User should configure a place for tmpfiles)
+*/
+
+static int	open_tmpfile(char *content)
+{
+	char	*filename;
+	int		fd;
+
+	filename = tmpfile_name();
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	ft_putstr_fd(content, fd);
+	close(fd);					/* We are not allowed to use lseek() in 21sh */
+	fd = open(filename, O_RDONLY, 0666);
+	if (fd == -1)
+	{
+		ft_putstr("Somebody deleted our temporary file =) \n");
+		return (-1);
+	}
+	free(filename);
+	return (fd);
+}
+
+/*
 ** Create temporary file; Write content into it;
 ** return int *fd; allocated in heap. 
 ** Free the content
@@ -32,7 +102,7 @@ static int		*create_tmp_file(char *content)
 {
 	int	*fd;
 
-	fd = intnew(open(TMP_DIR,  __O_TMPFILE | O_RDWR));
+	fd = intnew(open_tmpfile(content));
 	if (*fd == -1)
 		noncritical_error(TMPF_ERRMESSG);
 	else

@@ -13,6 +13,10 @@
 #define TMPF_ERRMESSG "Could not create a temporary file"
 #define HEREDOC_PROMPT "> "
 
+#define TMPFILE_SUFFIX_SIZE 9
+#define SYS_RNDGEN_FILENAME "/dev/urandom"
+#define DEFAULT_TMPFILE_PREFIX "/tmp/"
+
 typedef enum	e_heredoc_action
 {
 	cleanup,		/*Remove all the shit; return arbitrary garbage */
