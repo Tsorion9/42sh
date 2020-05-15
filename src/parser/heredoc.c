@@ -36,7 +36,7 @@ static int		*create_tmp_file(char *content)
 	if (*fd == -1)
 		noncritical_error(TMPF_ERRMESSG);
 	else
-		ft_fprintf(*fd, "%s", content);
+		ft_putstr_fd(content, *fd);
 	free(content);
 	return (fd);
 }

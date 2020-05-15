@@ -3,5 +3,5 @@
 *.o
 .D*
 .*.swp
-cscope.out
+*cscope*
 tags

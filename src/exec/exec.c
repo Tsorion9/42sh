@@ -41,9 +41,7 @@ static int	get_oflags(t_token_type op)
 
 /* 
 ** TODO: fd should be open for reading or writeing respectively
-** 1) path = readlink(/proc/self/fd/NNN)
-** 2) access(path, R_OK)
-** Linux specific solution! Further research needed.
+* (DONE): try to write 0 bytes into the file and check the return value
 **
 ** TODO(2): redir->where is a list actually. Process error "ambigous redirect"
 */
@@ -55,7 +53,7 @@ static void	make_io_redir(t_io_redir *redir)
 
 	if (redir->operation == lessand || redir->operation == gr_and)
 	{
-		if (ft_strcmp((char *)redir->where->content, CLOSE_STREAM))
+		if (!ft_strcmp((char *)redir->where->content, CLOSE_STREAM))
 		{
 			close(redir->fd);
 			return ;
@@ -71,7 +69,7 @@ static void	make_io_redir(t_io_redir *redir)
 		return ;
 	}
 	fd = open((char *)redir->where->content, get_oflags(redir->operation), 0666);
-	dup2(fd, 1);
+	dup2(fd, redir->fd);
 }
 
 /*
