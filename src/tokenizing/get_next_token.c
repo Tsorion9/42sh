@@ -77,6 +77,7 @@ void        write_char_to_buf(char *user_in, int *index, char *buf,\
     buf[*buf_index] = user_in[*index];
     (*index)++;
     (*buf_index)++;
+    buf[*buf_index] = 0;
 }
 
 t_token       write_singe_quotes_to_buf(char *user_in, int *index, char *buf,\
@@ -113,7 +114,33 @@ char        *create_attribute(char *buf, int buf_index)
     return (attribute);
 }
 
-t_token       get_token_word(char *user_in, int *index, char *buf,\
+int         is_token_assignment_word(char *buf)
+{
+    char    flag;
+    int     i;
+
+    if (!ft_strchr(buf, '=') || buf[0] == '=')
+        return (0);
+    flag = 0;
+    i = 0;
+    while (buf[i])
+    {
+        if (buf[i] == '=' && flag == 0 && check_backslash(buf, i - 1))
+            return (1);
+        else if (buf[i] == flag  && flag == '\'')
+            flag = 0;
+        else if (buf[i] == '\"' && buf[i] == flag\
+            && check_backslash(buf, i - 1) == 1)
+            flag = 0;
+        else if ((buf[i] == '\'' || buf[i] == '\"') && flag == 0\
+            && check_backslash(buf, i - 1) == 1)
+            flag = buf[i];
+        i++;
+    }
+    return (0);
+}
+
+t_token     get_token_word(char *user_in, int *index, char *buf,\
     int *buf_index)
 {
     t_token   ret_token;
@@ -135,6 +162,8 @@ t_token       get_token_word(char *user_in, int *index, char *buf,\
         return (get_token_word(user_in, index, buf, buf_index));
     }
     ret_token.token_type = WORD;
+    if (is_token_assignment_word(buf))
+        ret_token.token_type = ASSIGNMENT_WORD;
     ret_token.attribute = create_attribute(buf, *buf_index);
     return (ret_token);
 }

@@ -10,9 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 NAME = 21sh
-CREADLINE = readline.c user_in_editing.c cursor_manipulation.c expansion.c \
-			termcap_api.c ft_isspace.c history_list.c \
-			delete.c history_file.c free.c
+CREADLINE = readline.c expansion.c strmove_cursor.c\
+			termcap_api.c history_list.c \
+			history_file.c free.c add_or_delete_symbol.c \
+			check_quoting.c clear_all_line.c free_readline.c \
+			other.c reset_readline_position.c search_cur_pos.c
+
+CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 
 CTOKENIZING = get_next_token.c
 
@@ -63,11 +67,12 @@ CEXEC = builtin_env.c\
 		exec.c
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
+CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMANIPULATION))
 TOKENIZING = $(patsubst %,src/tokenizing/%,$(CTOKENIZING))
 PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 
-SRC = src/main.c $(READLINE) $(TOKENIZING) $(PARSER) $(EXEC)
+SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(TOKENIZING) $(PARSER) $(EXEC) 
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

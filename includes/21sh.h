@@ -45,12 +45,13 @@ typedef struct          s_history
 typedef struct          s_rp
 {
     char                *user_in;
-    int                 index;
     int                 count_lines;
     int                 cur_pos[2];
     char                flag;
     int                 line_shift;
-    t_history           *history;  
+    t_history           *history;
+    unsigned short      ws_col;
+    unsigned short      ws_row;
 }                       t_rp;
 
 /*
@@ -76,6 +77,7 @@ typedef struct  s_token
 #define ASSIGNMENT_WORD 9
 #define PIPE 10
 #define LINE_SEPARATOR 11
+#define ASSIGNMENT_WORD 13
 #define END_LINE 12
 
 /*
@@ -126,6 +128,8 @@ typedef struct  s_token
 #define CTRL_R 18
 #define CTRL_LEFT 74995417045787
 #define CTRL_RIGHT 73895905418011
+#define CTRL_UP 71696882162459
+#define CTRL_DOWN 72796393790235
 
 #define HOME 4738843
 #define END  4607771
@@ -139,25 +143,22 @@ typedef struct  s_token
 
 #define PROMPT_LEN 2
 
-char		*touch_user_in(char *new_value, int need_update);
 t_rp		*readline_position(t_rp *change_rp);
 void		reset_rp_to_start(void);
 int			ft_putint(int c);
 char        *readline(char *prompt);
 int			ft_isspace(char c);
 void        move_cursor(long c);
-void        clear_line(int end_cl);
 void        delete_symbol(void);
-void        insert_symbol(char c);
+void        add_symbol(char c);
 void        alt_left_right(long c);
-void		home_end(long c);
 void        delete_last_word(void);
 void		wordmove_cursor(long c);
 void		delete_symbol_forward(void);
-int         str_n(char *user_in);
+int         str_n(void);
 void        clear_all_line(void);
 void        cur_pos_after_putstr(int *cur_pos);
-int         last_cur_pos(void);
+int         search_last_cur_pos_in_line(void);
 int         search_index(void);
 void        ret_cur_to_original_pos(int *prev_cur_pos);
 int			ret_winsize(int a);
@@ -168,9 +169,16 @@ void        add_to_start_history(t_history *history, char *str);
 t_history   *create_history(char *str);
 void        load_on_file_history(t_history *history);
 void        save_in_file_history(t_history *history);
-void        free_history_list(t_history *history);
+void        free_readline_position(void);
+void        check_flag(char *user_in, char *flag);
+void        up_down_arrow(long c);
+void		set_signal(void);
+void		set_input_mode(void);
+void	    reset_input_mode(void);
+void		reset_rp_to_start(void);
+void        strmove_cursor(long c);
 
-TOKEN       get_next_token();
+TOKEN       get_next_token(char *user_in);
 TOKEN       get_token_word(char *user_in, int *index, char *buf,\
     int *buf_index);
 bool        is_ws(char c);

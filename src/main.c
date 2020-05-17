@@ -42,7 +42,7 @@ int			ret_winsize(int a)
 	struct winsize	w;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-	if (a == 0)
+	if (!a)
 		return (w.ws_col);
 	return (w.ws_row);
 }
@@ -51,26 +51,44 @@ int			ret_winsize(int a)
 ** Функция для обработки сигналов.
 */
 
-void		signal_processing(int signal_code)
+static void	processing_sigint(int signal_code)
 {
-	size_t	user_in_lines;
+	/*size_t	user_in_lines;
 
-	if (signal_code == SIGINT)
-	{
-		//write(STDERR_FILENO, "^C", 2);
-		user_in_lines = str_n(rp()->user_in) + 2 - rp()->cur_pos[1];
-		while (user_in_lines-- > 0)
-			write(STDERR_FILENO, "\n", 1);
-		rp()->user_in -= rp()->line_shift;
-		write(STDERR_FILENO, DEFAULT_PROMPT, 2);
-		reset_rp_to_start();
-	}
+	(void)signal_code;
+	write(STDERR_FILENO, "^C", 2);
+	user_in_lines = str_n() + 2 - rp()->cur_pos[1];
+	while (user_in_lines-- > 0)
+		write(STDERR_FILENO, "\n", 1);
+	rp()->user_in -= rp()->line_shift;
+	write(STDERR_FILENO, "$>", 2);
+	reset_rp_to_start();*/
+	reset_exit(0);
+}
+
+static void	processing_sigwinch(int signal_code)
+{
+	int	i;
+	int	tmp[2];
+
+	(void)signal_code;
+	i = search_index();
+	rp()->ws_col = ret_winsize(0);
+	rp()->ws_row = ret_winsize(1);
+	add_symbol('a');
+	delete_symbol();
+	//clear_all_line();
+	//ft_putstr_fd(rp()->user_in, STDERR_FILENO);
+	//cur_pos_after_putstr(tmp);
+	//ret_cur_to_original_pos(tmp);
+	//while (i--)
+	//	tc_cursor_right();
 }
 
 void		set_signal(void)
 {
-	signal(SIGINT, signal_processing);
-	signal(SIGINT, reset_exit);
+	signal(SIGINT, processing_sigint);
+	signal(SIGWINCH, processing_sigwinch);
 }
 
 void		back_to_start_history_rp(void)
@@ -84,15 +102,6 @@ void		reset_cur_pos_rp(void)
 {
 	rp()->cur_pos[0] = START_COL_POS;
 	rp()->cur_pos[1] = START_ROW_POS;
-}
-
-void		reset_rp_to_start(void)
-{
-	back_to_start_history_rp();
-	reset_cur_pos_rp();
-	rp()->user_in[0] = 0;
-	rp()->line_shift = 0;
-	rp()->flag = 0;
 }
 
 t_rp		*readline_position(t_rp *change_rp)
@@ -114,12 +123,13 @@ t_rp		*init_rp(void)
 		exit(1);
 	if (!(rp->user_in = (char*)malloc(sizeof(char) * MAX_CMD_LENGTH)))
 		exit(1);
-	rp->index = 0;
 	rp->cur_pos[0] = START_COL_POS;
 	rp->cur_pos[1] = START_ROW_POS;
 	rp->flag = 0;
 	rp->line_shift = 0;
 	rp->history = create_history("");
+	rp->ws_col = ret_winsize(0);
+	rp->ws_row = ret_winsize(1);
 	return (rp);
 }
 
