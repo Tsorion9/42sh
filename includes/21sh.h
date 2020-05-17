@@ -77,7 +77,6 @@ typedef struct  s_token
 #define ASSIGNMENT_WORD 9
 #define PIPE 10
 #define LINE_SEPARATOR 11
-#define ASSIGNMENT_WORD 13
 #define END_LINE 12
 
 /*
@@ -177,13 +176,6 @@ void		set_input_mode(void);
 void	    reset_input_mode(void);
 void		reset_rp_to_start(void);
 void        strmove_cursor(long c);
-
-TOKEN       get_next_token(char *user_in);
-TOKEN       get_token_word(char *user_in, int *index, char *buf,\
-    int *buf_index);
-bool        is_ws(char c);
-TOKEN       get_and_greator(char *user_in, int *index, char *buf,\
-    int *buf_index);
 
 /*
 ** Interface for lexer

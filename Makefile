@@ -18,7 +18,10 @@ CREADLINE = readline.c expansion.c strmove_cursor.c\
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 
-CTOKENIZING = get_next_token.c
+CLEX =	lex.c get_token_and_greater.c get_token_end_line.c \
+		get_token_greater.c get_token_less.c get_token_number.c \
+		get_token_pipe.c get_token_word.c get_token_line_separator.c \
+		write_quotes_to_buf.c
 
 CPARSER = deque.c \
 			match_cmd_prefix.c\
@@ -68,11 +71,11 @@ CEXEC = builtin_env.c\
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMANIPULATION))
-TOKENIZING = $(patsubst %,src/tokenizing/%,$(CTOKENIZING))
+LEX = $(patsubst %,src/lex/%,$(CLEX))
 PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 
-SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(TOKENIZING) $(PARSER) $(EXEC) 
+SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(LEX) $(PARSER) $(EXEC) 
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
