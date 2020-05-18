@@ -71,6 +71,7 @@ static char *tmpfile_name()
 ** Return fd
 ** TODO: probably /tmp does not exist 
 ** (User should configure a place for tmpfiles)
+** TODO(2): delete the file (unlink not allowed!)
 */
 
 static int	open_tmpfile(char *content)
