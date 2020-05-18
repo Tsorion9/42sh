@@ -20,6 +20,7 @@ static int	exit_(
 {
 	if (status == PARSER_SUCCESS)
 	{
+		ungett(tokbuf_g, tokbuf_l);
 		erase_tokbuf(tokbuf_l);
 		return (PARSER_SUCCESS);
 	}

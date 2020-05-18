@@ -10,6 +10,6 @@ void	add_ar(t_simple_cmd **cmd, void *data, t_ear what)
 
 	new = malloc(sizeof(t_ar));
 	new->what = what;
-	new->data = data;
+	new->data = ((t_token *)data)->attribute;
 	push_back(&((*cmd)->arl), (void *)new);
 }

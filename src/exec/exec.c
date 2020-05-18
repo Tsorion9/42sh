@@ -158,6 +158,8 @@ static int	task(t_simple_cmd *cmd, t_task_context *task_context)
 	enter_task_context(task_context);
 	make_assignments_redirections(cmd);
 	av = collect_argwords(cmd);
+	if (!av)
+		return (1);
 	if (!task_context->need_child && (builtin = get_builtin(av[0])))
 		status = builtin(av + 1, static_env_action(get, NULL));
 	else
@@ -178,7 +180,9 @@ static int	need_new_process(t_simple_cmd *cmd)
 	b = get_builtin((word = pop_front(cmd->wl)));
 	if (word)
 		push_front(&(cmd->wl), (void *)word);
-	return (!!b);
+	else
+		return (0);
+	return (!b);
 }
 
 /*
@@ -191,7 +195,7 @@ static t_task_context init_task_context(t_simple_cmd *cmd, int in_pipe,\
 {
 	t_task_context	task_context;
 
-	task_context.need_child = !need_new_process(cmd);
+	task_context.need_child = need_new_process(cmd);
 	task_context.in_pipe = in_pipe;
 	task_context.out_pipe = out_pipe;
 	task_context.need_subshell = 1;
