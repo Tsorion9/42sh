@@ -84,9 +84,12 @@ t_token       *lex(void)
     int         buf_index;
 	static int	need_new_line;
 
-	if (!user_in || need_new_line) 
+	if (!user_in || need_new_line)
 	{
-		user_in = readline(DEFAULT_PROMPT);
+        if (isatty(STDIN_FILENO))
+		    user_in = readline(DEFAULT_PROMPT);
+        else
+            get_next_line(STDIN_FILENO, &user_in);
 		need_new_line = 0;
 	}
     buf_index = 0;
@@ -110,7 +113,9 @@ t_token       *lex(void)
     else if (user_in[index] == ';')
         new_token = get_toket_line_separator(&index);
     else if (user_in[index] == '\'')
+    {
         new_token = write_singe_quotes_to_buf(user_in, &index, buf, &buf_index);
+    }
     else if (user_in[index] == '&')
         new_token = get_token_and_greater(user_in, &index, buf, &buf_index);
     else if (user_in[index] == '\"')

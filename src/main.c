@@ -47,10 +47,6 @@ int			ret_winsize(int a)
 	return (w.ws_row);
 }
 
-/*
-** Функция для обработки сигналов.
-*/
-
 static void	processing_sigint(int signal_code)
 {
 	/*size_t	user_in_lines;
@@ -84,6 +80,10 @@ static void	processing_sigwinch(int signal_code)
 	//while (i--)
 	//	tc_cursor_right();
 }
+
+/*
+** Функция для обработки сигналов.
+*/
 
 void		set_signal(void)
 {
@@ -135,7 +135,6 @@ t_rp		*init_rp(void)
 
 void        start_program(int tty_input)
 {
-	char		*user_in;
 	t_deque		*command;
 
 	(void)tty_input;
@@ -146,8 +145,9 @@ void        start_program(int tty_input)
 	{
 		command = parser();
 		exec_cmd(command);
+		if (!isatty(STDIN_FILENO))
+			break ;
 	}
-	free(user_in);
 	free(rp()->user_in);
 	save_in_file_history(rp()->history);
 	free_history_list(rp()->history);

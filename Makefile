@@ -95,7 +95,7 @@ debug: CFLAGS += -D DBG_LEXER
 debug: re
 
 $(NAME): lib $(OBJ)
-	$(CC) $(OBJ) $(LFLAGS) -o $(NAME)
+	$(CC) $(OBJ) $(LFLAGS) $(DFLAGS) -o $(NAME)
 
 lib:
 	make -C libft 
