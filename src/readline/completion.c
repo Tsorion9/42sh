@@ -1,6 +1,6 @@
 #include "21sh.h"
 
-t_completion	*create_completion(char *str)
+static t_completion	*create_completion(char *str)
 {
 	t_completion	*new_completion;
 
@@ -12,7 +12,7 @@ t_completion	*create_completion(char *str)
 	return (new_completion);
 }
 
-void			add_new_completion(t_completion **com_lst, char *str)
+static void			add_new_completion(t_completion **com_lst, char *str)
 {
 	t_completion	*tmp;
 
@@ -27,7 +27,7 @@ void			add_new_completion(t_completion **com_lst, char *str)
 	}
 }
 
-t_completion	*add_all_files_in_completion(char *path)
+static t_completion	*add_all_files_in_completion(char *path)
 {
 	DIR				*dp;
 	struct dirent	*file_name;
@@ -48,7 +48,7 @@ t_completion	*add_all_files_in_completion(char *path)
 ** Возвращает все совпадения.
 */
 
-t_completion	*return_matches(t_completion *com_lst, char *str_search)
+static t_completion	*return_matches(t_completion *com_lst, char *str_search)
 {
 	t_completion	*matches;
 	size_t			str_search_len;
@@ -72,14 +72,14 @@ t_completion	*return_matches(t_completion *com_lst, char *str_search)
 	return (matches);
 }
 
-char		*cut_word(char cut_symbol)
+static char			*cut_word(char cut_symbol, int i)
 {
 	char	*remaider_word;
-	int		i;
+	//int		i;
 	int		j;
 	char	save_symbol;
 
-	i = search_index();
+	//i = search_index();
 	j = i;
 	while (rp()->user_in[i] != ' ' && rp()->user_in[i] != '\t' && \
 		rp()->user_in[i] != '\n' && i && rp()->user_in[i] != cut_symbol)
@@ -94,10 +94,21 @@ char		*cut_word(char cut_symbol)
 	return (remaider_word);
 }
 
-void		complete_word(char *full_word, char *remaider_word)
+static void			complete_word(t_completion *matches, char *remaider_word)
 {
 	size_t	i;
+	char	full_word[BUFFSIZE];
 
+	ft_strcpy(full_word, matches->str);
+	matches = matches->next;
+	while (matches)
+	{
+		i = 0;
+		while (full_word[i] == matches->str[i])
+			i++;
+		full_word[i] = '\0';
+		matches = matches->next;
+	}
 	i = ft_strlen(remaider_word);
 	while (full_word[i])
 	{
@@ -106,7 +117,7 @@ void		complete_word(char *full_word, char *remaider_word)
 	}
 }
 
-char		*return_path(char *remaider_word)
+static char			*return_path(char *remaider_word)
 {
 	char	*path;
 	size_t	i;
@@ -123,21 +134,38 @@ char		*return_path(char *remaider_word)
 	return (path);
 }
 
-void		completion(void)
+static int			is_first_word(int i)
+{
+	int		j;
+
+	j = 0;
+	while (i != j)
+	{
+		if (rp()->user_in[j] == ' ' || rp()->user_in[j] == '\t' || \
+			rp()->user_in[j] == '\n' || rp()->user_in[j])
+			return (0);
+		j++;
+	}
+	return (1);
+}
+
+void				completion(void)
 {
 	char			*remaider_word;
 	t_completion	*com_lst;
 	t_completion	*matches;
 	char			*path;
+	int				i;
 
-	remaider_word = cut_word(' ');
+	i = search_index();
+	remaider_word = cut_word(' ', i);
 	if (!ft_strchr(remaider_word, '/'))
 		com_lst = add_all_files_in_completion(NULL);
 	else
 	{
 		path = return_path(remaider_word);
 		com_lst = add_all_files_in_completion(path);
-		remaider_word = cut_word('/');
+		remaider_word = cut_word('/', i);
 		//printf("%s\n", path);
 	}
 	/*while (com_lst->next)
@@ -148,8 +176,9 @@ void		completion(void)
 	printf("sssss\n");*/
 	matches = return_matches(com_lst, remaider_word);
 	//printf("sss\n");
-	matches->next = NULL;
+	//matches->next = NULL;
 	//printf("ss\n");
-	if (matches->next == NULL)
-		complete_word(matches->str, remaider_word);
+	//if (matches->next == NULL)
+	if (matches)
+		complete_word(matches, remaider_word);
 }
