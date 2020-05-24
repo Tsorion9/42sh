@@ -33,6 +33,8 @@ static long readline_sup(void)
 		strmove_cursor(c);
 	else if (c == CTRL_W)
 		delete_last_word();
+	else if (c == TAB_ARROW)
+		completion();
     return (c);
 }
 

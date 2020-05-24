@@ -10,8 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 NAME = 21sh
-CREADLINE = readline.c expansion.c strmove_cursor.c\
-			termcap_api.c history_list.c \
+CREADLINE = readline.c expansion.c strmove_cursor.c \
+			termcap_api.c history_list.c completion.c \
 			history_file.c free.c add_or_delete_symbol.c \
 			check_quoting.c clear_all_line.c free_readline.c \
 			other.c reset_readline_position.c search_cur_pos.c

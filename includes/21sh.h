@@ -18,6 +18,7 @@
 #include "parser.h"
 #include "heredoc.h"
 #include "exec.h"
+#include <dirent.h>
 
 #define MAX_CMD_LENGTH 4096
 #define BUFFSIZE 4096
@@ -34,6 +35,12 @@
 #define CLOSE_STREAM "-"
 
 struct termios	g_saved_attribute;
+
+typedef struct			s_completion
+{
+	char				*str;
+	struct s_completion	*next;
+}						t_completion;
 
 typedef struct          s_history
 {
@@ -107,6 +114,8 @@ typedef struct  s_token
 #define ALT_LEFT_ARROW 74986827111195
 #define ALT_RIGHT_ARROW 73887315483419
 
+#define TAB_ARROW 9
+
 #if defined(__APPLE__) || defined(__NetBSD__)
 
 #define ALT_LEFT_ARROW 25115
@@ -176,6 +185,7 @@ void		set_input_mode(void);
 void	    reset_input_mode(void);
 void		reset_rp_to_start(void);
 void        strmove_cursor(long c);
+void		completion(void);
 
 /*
 ** Interface for lexer
