@@ -39,7 +39,9 @@ static t_completion	*add_all_files_in_completion(char *path)
 		dp = opendir(path);
 	com_lst = NULL;
 	while (file_name = readdir(dp))
-		add_new_completion(&com_lst, file_name->d_name);
+		/*if (ft_strcmp(file_name->d_name, ".") != 0 && \
+			ft_strcmp(file_name->d_name, "..") != 0)*/
+			add_new_completion(&com_lst, file_name->d_name);
 	//printf("sss\n");
 	return (com_lst);
 }
@@ -84,7 +86,7 @@ static char			*cut_word(char cut_symbol, int i)
 	while (rp()->user_in[i] != ' ' && rp()->user_in[i] != '\t' && \
 		rp()->user_in[i] != '\n' && i && rp()->user_in[i] != cut_symbol)
 		i--;
-	if (i)
+	if (i || rp()->user_in[i] == cut_symbol)
 		i++;
 	save_symbol = rp()->user_in[j];
 	rp()->user_in[j] = '\0';
@@ -94,21 +96,51 @@ static char			*cut_word(char cut_symbol, int i)
 	return (remaider_word);
 }
 
-static void			complete_word(t_completion *matches, char *remaider_word)
+static void			change_full_word(char *full_word, char *path)
 {
-	size_t	i;
-	char	full_word[BUFFSIZE];
+	char		*file_path;
+	struct stat	file_info;
+	char		lstat_result;
+	size_t		full_word_len;
+
+	if (!path || ft_strlen(full_word) == 0)
+		lstat_result = lstat(full_word, &file_info);
+	else
+	{
+		file_path = ft_strjoin(path, full_word);
+		lstat_result = lstat(file_path, &file_info);
+		free(file_path);
+	}
+	if (lstat_result == -1)
+		return ;
+	full_word_len = ft_strlen(full_word);
+	if (S_ISDIR(file_info.st_mode))
+		full_word[full_word_len] = '/';
+	else
+		full_word[full_word_len] = ' ';
+	full_word[full_word_len + 1] = '\0';
+}
+
+static void			complete_word(t_completion *matches, char *remaider_word, char *path)
+{
+	size_t		i;
+	char		full_word[BUFFSIZE];
 
 	ft_strcpy(full_word, matches->str);
-	matches = matches->next;
-	while (matches)
+	if (matches->next)
 	{
-		i = 0;
-		while (full_word[i] == matches->str[i])
-			i++;
-		full_word[i] = '\0';
 		matches = matches->next;
+		while (matches)
+		{
+			i = 0;
+			while (full_word[i] == matches->str[i])
+				i++;
+			full_word[i] = '\0';
+			matches = matches->next;
+		}
 	}
+	else
+		change_full_word(full_word, path);
 	i = ft_strlen(remaider_word);
 	while (full_word[i])
 	{
@@ -158,6 +190,7 @@ void				completion(void)
 	int				i;
 
 	i = search_index();
+	path = NULL;
 	remaider_word = cut_word(' ', i);
 	if (!ft_strchr(remaider_word, '/'))
 		com_lst = add_all_files_in_completion(NULL);
@@ -166,7 +199,7 @@ void				completion(void)
 		path = return_path(remaider_word);
 		com_lst = add_all_files_in_completion(path);
 		remaider_word = cut_word('/', i);
-		//printf("%s\n", path);
+		//printf("%s\n", remaider_word);
 	}
 	/*while (com_lst->next)
 	{
@@ -175,10 +208,11 @@ void				completion(void)
 	}
 	printf("sssss\n");*/
 	matches = return_matches(com_lst, remaider_word);
-	//printf("sss\n");
-	//matches->next = NULL;
-	//printf("ss\n");
-	//if (matches->next == NULL)
+	/*while (matches)
+	{
+		printf("\n matches = %s", matches->str);
+		matches = matches->next;
+	}*/
 	if (matches)
-		complete_word(matches, remaider_word);
+		complete_word(matches, remaider_word, path);
 }
