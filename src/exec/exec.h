@@ -11,7 +11,7 @@
 #include "environment.h"
 #include "cd_utils.h"
 #include "find_exec.h"
-#include "expansions.h"
+#include "expand.h"
 
 int	exec_cmd(t_deque *cmd);
 

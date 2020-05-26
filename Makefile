@@ -24,6 +24,7 @@ CLEX =	lex.c get_token_and_greater.c get_token_end_line.c \
 		write_quotes_to_buf.c
 
 CPARSER = deque.c \
+		  deque_apply.c\
 			match_cmd_prefix.c\
 			match_cmd_suffix.c\
 			match_complete_comand.c\
@@ -49,7 +50,6 @@ CPARSER = deque.c \
 CEXEC = builtin_env.c\
 		builtin_cd.c\
 		to_array.c\
-		tilda_expansion.c\
 		parse_cd_args.c\
 		is_a_directory.c\
 		init_env.c\
@@ -60,7 +60,6 @@ CEXEC = builtin_env.c\
 		exit.c\
 		env_related_builtins.c\
 		echo.c\
-		dollar_expansion.c\
 		del_array.c\
 		canonicize_utils.c\
 		canonicize.c\
@@ -69,20 +68,27 @@ CEXEC = builtin_env.c\
 		find_exec.c\
 		exec.c
 
+CEXPANSIONS = dollar_expansion.c\
+				expand_word.c\
+				str_replace.c\
+				remove_quotes.c\
+				tilda_expansion.c
+
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMANIPULATION))
 LEX = $(patsubst %,src/lex/%,$(CLEX))
 PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
+EXPAND = $(patsubst %,src/expansions/%,$(CEXPANSIONS))
 
-SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(LEX) $(PARSER) $(EXEC) 
+SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(LEX) $(PARSER) $(EXEC) $(EXPAND)
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
 INCLUDE = includes 
 PARSER_TMP_INC = src/parser
 LIB_INC = libft/includes
-INC_FLAGS = -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec 
+INC_FLAGS = -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec  -I src/expansions
 FLAGS = -Wall -Wextra $(INC_FLAGS)
 LFLAGS = -L libft -lft -ltermcap 
 DFLAGS = -g # -DDBG_LEXER

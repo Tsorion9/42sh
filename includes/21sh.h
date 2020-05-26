@@ -19,6 +19,8 @@
 #include "heredoc.h"
 #include "exec.h"
 
+#include "expand.h"
+
 #define MAX_CMD_LENGTH 4096
 #define BUFFSIZE 4096
 #define HISTSIZE 1000
@@ -324,5 +326,22 @@ void	rm_redir(t_io_redir **redir);
 t_deque	*parser(void);
 
 void		reset_exit(int status);
+
+/*
+** Expand.h
+*/
+
+typedef enum	e_exp_state
+{
+	norm,
+	in_sqt,
+	in_dqt
+}				t_exp_state;
+
+int			expand_dollar(char **word, int *pos);
+char		*expand(char *s);
+void		expand_tilda(char **s, int *pos);
+
+void	expand_complete_cmd(t_deque *cmd);
 
 #endif
