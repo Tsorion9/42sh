@@ -4,4 +4,6 @@
 .D*
 .*.swp
 *cscope*
+cscope.files
+cscope.out
 tags

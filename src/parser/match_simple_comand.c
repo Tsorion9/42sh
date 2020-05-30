@@ -45,9 +45,12 @@ int	match_simple_command(t_simple_cmd **cmd, t_deque **tokbuf_g)
 		enter(cmd, &tokbuf_l);
 	}
 	if (gett(tokbuf_g, &tokbuf_l)->token_type != word)
+	{
+		ungett(tokbuf_g, &tokbuf_l);
 		return (exit_(cmd, &tokbuf_l, tokbuf_g,\
 					(prefix_matched == PARSER_FAILURE) ?\
 					PARSER_FAILURE : PARSER_SUCCESS));
+	}
 	tok = pop_front(tokbuf_l);
 	push_back(&((*cmd)->wl), tok->attribute); //First word to wordlist
 	free(tok);

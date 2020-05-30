@@ -144,6 +144,7 @@ void        start_program(int tty_input)
 	while (1)
 	{
 		command = parser();
+		expand_complete_cmd(command);
 		exec_cmd(command);
 		if (!isatty(STDIN_FILENO))
 			break ;

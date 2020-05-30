@@ -16,5 +16,6 @@ int		lst2_add(t_2list **l, void *data);
 int		lst2del_one(t_2list **l, void (*del)(void *));
 int		lst2del(t_2list **l, void (*del)(void *));
 void	lst2_apply(t_2list *l, void (*f)(void *));
+void	lst2_apply_inplace(t_2list *l, void (*f)(void **));
 
 #endif
