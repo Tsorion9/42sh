@@ -1,5 +1,12 @@
 #include "21sh.h"
 
+int		is_print(long c)
+{
+	if (c >= ' ' && c <= '~')
+		return (1);
+	return (0);
+}
+
 #ifdef DEBUG_INPUT_CHARS
 #include <stdio.h>
 #endif
@@ -21,7 +28,7 @@ static long readline_sup(void)
         delete_symbol();
     else if (c == DEL)
         delete_symbol_forward();
-    else if (c >= ' ' && c <= '~') // Probably, ft_isprint() here?
+    else if (is_print(c)) // Probably, ft_isprint() here?
         add_symbol(c);
     else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
         alt_left_right(c);

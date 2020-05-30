@@ -151,41 +151,53 @@ typedef struct  s_token
 
 #define PROMPT_LEN 2
 
-t_rp		*readline_position(t_rp *change_rp);
-void		reset_rp_to_start(void);
-int			ft_putint(int c);
-char        *readline(char *prompt);
-int			ft_isspace(char c);
-void        move_cursor(long c);
-void        delete_symbol(void);
-void        add_symbol(char c);
-void        alt_left_right(long c);
-void        delete_last_word(void);
-void		wordmove_cursor(long c);
-void		delete_symbol_forward(void);
-int         str_n(void);
-void        clear_all_line(void);
-void        cur_pos_after_putstr(int *cur_pos);
-int         search_last_cur_pos_in_line(void);
-int         search_index(void);
-void        ret_cur_to_original_pos(int *prev_cur_pos);
-int			ret_winsize(int a);
-int         check_backslash(char *user_in, int start_check);
-char        *expansion(char *user_in, char **env);
-t_history   *add_new_history(t_history *history, char *str);
-void        add_to_start_history(t_history *history, char *str);
-t_history   *create_history(char *str);
-void        load_on_file_history(t_history *history);
-void        save_in_file_history(t_history *history);
-void        free_readline_position(void);
-void        check_flag(char *user_in, char *flag);
-void        up_down_arrow(long c);
-void		set_signal(void);
-void		set_input_mode(void);
-void	    reset_input_mode(void);
-void		reset_rp_to_start(void);
-void        strmove_cursor(long c);
-void		completion(void);
+t_rp			*readline_position(t_rp *change_rp);
+void			reset_rp_to_start(void);
+int				ft_putint(int c);
+char	        *readline(char *prompt);
+int				ft_isspace(char c);
+void	        move_cursor(long c);
+void	        delete_symbol(void);
+void	        add_symbol(char c);
+void	        alt_left_right(long c);
+void	        delete_last_word(void);
+void			wordmove_cursor(long c);
+void			delete_symbol_forward(void);
+int        		str_n(void);
+void			clear_all_line(void);
+void			cur_pos_after_putstr(int *cur_pos);
+int				search_last_cur_pos_in_line(void);
+int     		search_index(void);
+void			ret_cur_to_original_pos(int *prev_cur_pos);
+int				ret_winsize(int a);
+int				check_backslash(char *user_in, int start_check);
+char			*expansion(char *user_in, char **env);
+t_history		*add_new_history(t_history *history, char *str);
+void			add_to_start_history(t_history *history, char *str);
+t_history		*create_history(char *str);
+void			load_on_file_history(t_history *history);
+void			save_in_file_history(t_history *history);
+void			free_readline_position(void);
+void			check_flag(char *user_in, char *flag);
+void    	    up_down_arrow(long c);
+void			set_signal(void);
+void			set_input_mode(void);
+void		    reset_input_mode(void);
+void			reset_rp_to_start(void);
+void    	    strmove_cursor(long c);
+void			completion(void);
+int				is_print(long c);
+int				executable_file(char *file_name, char *path);
+void			add_new_completion(t_completion **com_lst, char *str);
+void			free_completion(t_completion *com_lst, \
+				t_completion *matches, char *remaider_word, char *path);
+t_completion	*add_files_path_env(void);
+char			*return_path(char *remaider_word);
+void			complete_word(t_completion *matches, char *remaider_word,\
+				char *path);
+t_completion	*ret_possible_matches(char *path, int first_word);
+char			*cut_word(char cut_symbol, int i);
+t_completion	*ret_matches(t_completion *com_lst, char *str_search);
 
 /*
 ** Interface for lexer

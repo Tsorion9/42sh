@@ -11,12 +11,15 @@
 # **************************************************************************** #
 NAME = 21sh
 CREADLINE = readline.c expansion.c strmove_cursor.c \
-			termcap_api.c history_list.c completion.c \
+			termcap_api.c history_list.c \
 			history_file.c free.c add_or_delete_symbol.c \
 			check_quoting.c clear_all_line.c free_readline.c \
 			other.c reset_readline_position.c search_cur_pos.c
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
+CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
+				create_and_free_com.c cut_word.c ret_matches.c \
+				ret_possible_matches.c return_path.c
 
 CLEX =	lex.c get_token_and_greater.c get_token_end_line.c \
 		get_token_greater.c get_token_less.c get_token_number.c \
@@ -71,11 +74,12 @@ CEXEC = builtin_env.c\
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMANIPULATION))
+COMPLETION = $(patsubst %,src/readline/completion/%,$(CCOMPLETION))
 LEX = $(patsubst %,src/lex/%,$(CLEX))
 PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 
-SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(LEX) $(PARSER) $(EXEC) 
+SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEX) $(PARSER) $(EXEC)
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
