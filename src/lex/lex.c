@@ -32,6 +32,7 @@ bool        is_ws(char c)
         f = true;
     return (f);
 }
+
 void        skip_ws(char *user_in, int *index)
 {
     while (is_ws(user_in[*index]))
@@ -74,7 +75,59 @@ static t_token	*copy_init_token(t_token t)
 	return (copy);
 }
 
-t_token       *lex(void)
+/*
+** Пероводит на новую строку и позволяет продолжить ввод
+** для пользователя в случае, если цитирование не закрыто
+*/
+
+/*char 		*quoting(void)
+{
+    int     user_in_len;
+    int     user_in_lines;
+	char	*ret_user_in;
+
+    rp()->cur_pos[0] = START_COL_POS;
+    rp()->cur_pos[1] = START_ROW_POS;
+	write(STDERR_FILENO, "> ", 2);
+	read_till_newline(&user_in_len, isatty(STDIN_FILENO));
+	user_in_lines = str_n() - rp()->cur_pos[1];
+	while (user_in_lines-- > 0)
+		write(STDERR_FILENO, "\n", 1);
+	write(STDERR_FILENO, "\n", 1);
+	rp()->user_in[user_in_len] = '\0';
+	if (!(ret_user_in = ft_strdup(rp()->user_in)))
+        exit(1);
+	return (ret_user_in);
+}*/
+
+void			close_quote(char **user_in)
+{
+	char	*nuser_in;
+	char	*tmp;
+	char	*extra_line;
+	char	flag;
+
+	flag = 0;
+	check_flag(*user_in, &flag);
+	if (!flag)
+		return ;
+	while (flag)
+	{
+		reset_rp_to_start();
+		extra_line = readline("> ");
+		if (!(tmp = ft_strjoin(*user_in, "\n")))
+			exit(1);
+		if (!(nuser_in = ft_strjoin(tmp, extra_line)))
+			exit(1);
+		free(tmp);
+		check_flag(extra_line, &flag);
+		free(*user_in);
+		free(extra_line);
+		*user_in = nuser_in;
+	}
+}
+
+t_token			*lex(void)
 {
 	static char	*user_in;
     static int  index;
@@ -87,17 +140,21 @@ t_token       *lex(void)
 	if (!user_in || need_new_line)
 	{
         if (isatty(STDIN_FILENO))
-		    user_in = readline(DEFAULT_PROMPT);
-        else
-            get_next_line(STDIN_FILENO, &user_in);
+			user_in = readline(DEFAULT_PROMPT);
+        else if (!get_next_line(STDIN_FILENO, &user_in))
+		{
+			free_rp();
+			exit(1);// Тут перед выходом надо все почистить.
+		}
 		need_new_line = 0;
 	}
     buf_index = 0;
     skip_ws(user_in, &index);
     if (!user_in[index])
 	{
-        new_token = get_token_end_line(&index);
+		new_token = get_token_end_line(&index);
 		free(user_in);
+		user_in = NULL;
 		need_new_line = 1;
 	}
     else if (is_digit(user_in[index]))
@@ -109,15 +166,23 @@ t_token       *lex(void)
     else if (user_in[index] == '|')
         new_token = get_token_pipe(&index);
     else if (is_letter(user_in[index]))
-        new_token = get_token_word(user_in, &index, buf, &buf_index);
+        new_token = get_token_word(&user_in, &index, buf, &buf_index);
     else if (user_in[index] == ';')
         new_token = get_toket_line_separator(&index);
     else if (user_in[index] == '\'')
-        new_token = write_singe_quotes_to_buf(user_in, &index, buf, &buf_index);
+	{
+		close_quote(&user_in);
+        new_token = write_singe_quotes_to_buf(&user_in, &index, buf, &buf_index);
+	}
     else if (user_in[index] == '&')
         new_token = get_token_and_greater(user_in, &index, buf, &buf_index);
     else if (user_in[index] == '\"')
-        new_token = write_double_quotes_to_buf(user_in, &index, buf, &buf_index);
+	{
+		close_quote(&user_in);
+        new_token = write_double_quotes_to_buf(&user_in, &index, buf, &buf_index);
+	}
+	if (!need_new_line)
+		add_to_start_history(rp()->history, user_in);
     prev_token = new_token.token_type;
     return (copy_init_token(new_token));
 }

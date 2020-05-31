@@ -200,6 +200,7 @@ void			complete_word(t_completion *matches, char *remaider_word,\
 t_completion	*ret_possible_matches(char *path, int first_word);
 char			*cut_word(char cut_symbol, int i);
 t_completion	*ret_matches(t_completion *com_lst, char *str_search);
+void			free_rp(void);
 
 /*
 ** Interface for lexer

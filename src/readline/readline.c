@@ -82,37 +82,6 @@ void	read_till_newline(int *user_in_len, \
 }
 
 /*
-** Пероводит на новую строку и позволяет продолжить ввод
-** для пользователя в случае, если цитирование не закрыто
-*/
-
-static void quoting(int tty)
-{
-    int     user_in_len;
-    int     user_in_lines;
-
-    rp()->cur_pos[0] = START_COL_POS;
-    rp()->cur_pos[1] = START_ROW_POS;
-	if (tty)
-	{
-        write(STDERR_FILENO, "\n", 1);
-		write(STDERR_FILENO, "> ", 2);
-	}
-	read_till_newline(&user_in_len, tty);
-	user_in_lines = str_n() - rp()->cur_pos[1];
-	while (user_in_lines-- > 0)
-		write(STDERR_FILENO, "\n", 1);
-	check_flag(rp()->user_in, &(rp()->flag));
-    if (rp()->flag != 0 || check_backslash(rp()->user_in, user_in_len - 1) == 0)
-    {
-        rp()->line_shift += user_in_len + 1;
-        rp()->user_in += user_in_len + 1;
-        quoting(tty);
-    }
-}
-
-
-/*
 ** Позволяет корректно работать со строкой ввода.
 ** Возвращает строку, введенную пользователем.
 */
@@ -124,29 +93,19 @@ char        *readline(char *prompt)
     int     user_in_lines;
 	int		tty_input;
 
-	tty_input = isatty(0);
+	tty_input = isatty(STDIN_FILENO);
 	reset_rp_to_start();
 	if (tty_input)
 		write(STDERR_FILENO, prompt, ft_strlen(prompt));
-
 	read_till_newline(&user_in_len, tty_input);
 	user_in_lines = str_n() - rp()->cur_pos[1];
 	while (user_in_lines-- > 0)
 		write(STDERR_FILENO, "\n", 1);
-	check_flag(rp()->user_in, &(rp()->flag));
-    if (rp()->flag != 0 || check_backslash(rp()->user_in, user_in_len - 1) == 0)
-    {
-        rp()->line_shift += user_in_len + 1;
-        rp()->user_in += user_in_len + 1;
-        quoting(tty_input);
-    }
     rp()->user_in -= rp()->line_shift;
     rp()->user_in[ft_strlen(rp()->user_in) - 1] = 0;
     write(STDERR_FILENO, "\n", 1);
     if (!(ret_user_in = ft_strdup(rp()->user_in)))
         exit(1);
-
 	add_to_start_history(rp()->history, ret_user_in);
-
     return (ret_user_in);
 }

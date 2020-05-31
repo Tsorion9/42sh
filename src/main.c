@@ -133,6 +133,13 @@ t_rp		*init_rp(void)
 	return (rp);
 }
 
+void		free_rp(void)
+{
+	free(rp()->user_in);
+	free_history_list(rp()->history);
+	free(rp());
+}
+
 void        start_program(int tty_input)
 {
 	t_deque		*command;
@@ -146,13 +153,9 @@ void        start_program(int tty_input)
 		command = parser();
 		expand_complete_cmd(command);
 		exec_cmd(command);
-		if (!isatty(STDIN_FILENO))
-			break ;
 	}
-	free(rp()->user_in);
 	save_in_file_history(rp()->history);
-	free_history_list(rp()->history);
-	free(rp());
+	free_rp();
 }
 
 void		reset_exit(int status)
