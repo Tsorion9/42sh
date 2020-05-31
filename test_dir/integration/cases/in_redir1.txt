@@ -1,0 +1,2 @@
+touch abcde
+ls | grep abc; rm abcde
