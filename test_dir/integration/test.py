@@ -7,6 +7,7 @@ from termcolor import colored
 import signal
 
 our_shell = "../../21sh"
+bash = "/bin/bash"
 path_to_cases = "cases"
 
 def failure_or_success(diff, timeout, segfault):
@@ -29,6 +30,11 @@ def get_color(diff, timeout, segfault):
 		return ("green")
 	return ("red")
 
+def ignore(signalNumber, frame):
+	return
+
+signal.signal(signal.SIGTERM, ignore)
+
 offs = 30 #Offset for string succcess or failure
 my_timeout = 1 #1 second for single test
 return_segfault_code = 139
@@ -40,7 +46,9 @@ print("")
 count_tests = 0
 good = 0
 bad = 0
-for file in glob.glob(path_to_cases + "/in_*.txt"): 
+
+files = glob.glob(path_to_cases + "/in_*.txt")
+for file in sorted(files): 
 	count_tests += 1
 
 	case_name = file[9:-4]
@@ -58,7 +66,7 @@ for file in glob.glob(path_to_cases + "/in_*.txt"):
 		process.wait(timeout=my_timeout)
 	except subprocess.TimeoutExpired:
 		timeout = 1
-		process.kill()
+		os.killpg(os.getpgid(process.pid), signal.SIGTERM)
 
 	process.communicate()
     #print("Return code:{}".format(process.returncode))
@@ -68,7 +76,8 @@ for file in glob.glob(path_to_cases + "/in_*.txt"):
 		segfault = 0
 	
 
-	os.system("cat {} | bash > {}".format(file, test_out))
+	shell_cmd = " exec 2>>{} &&  2>/dev/null cat {} | {} > {} 2>{}".format(test_out, file,  bash, test_out, test_out) 
+	os.system(shell_cmd)
 	try:
 		diff = subprocess.check_output("diff {} {}".format(user_out, test_out), shell=True, executable="/bin/bash")
 	except subprocess.CalledProcessError:

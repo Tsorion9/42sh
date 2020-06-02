@@ -1,0 +1,2 @@
+
+echo "Testing redirections," > /tmp/test.txt
