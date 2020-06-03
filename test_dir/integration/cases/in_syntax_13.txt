@@ -1,0 +1,4 @@
+
+a=b c=d e=f 2>/dev/null echo $a a=d
+
+new_cmd

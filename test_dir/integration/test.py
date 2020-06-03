@@ -10,6 +10,11 @@ our_shell = "../../21sh"
 bash = "/bin/bash"
 path_to_cases = "cases"
 
+offs = 30 #Offset for string succcess or failure
+my_timeout = 1# seconds for single test
+return_segfault_code = 139
+
+
 def failure_or_success(diff, timeout, segfault):
 	if (segfault == 1):
 		return ("Segfault")
@@ -34,11 +39,6 @@ def ignore(signalNumber, frame):
 	return
 
 signal.signal(signal.SIGTERM, ignore)
-
-offs = 30 #Offset for string succcess or failure
-my_timeout = 1 #1 second for single test
-return_segfault_code = 139
-
 print(colored("Running tests! Path to executable: {}".format(colored(our_shell, "cyan")), "magenta"))
 print(colored("Searching for testcases inside: {}".format(colored(path_to_cases + "/in_*.txt", "cyan")), "magenta"))
 print("")

@@ -1,0 +1,2 @@
+
+echo "unexpected error: $foo" 1>&2

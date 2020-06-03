@@ -1,0 +1,3 @@
+
+unsetenv NON_EXISTENT_VAR
+echo ok

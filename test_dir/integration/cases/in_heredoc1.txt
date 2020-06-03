@@ -1,0 +1,8 @@
+cat <<a; ls; cat <<b; cat <<c
+aaa
+sss
+b
+a
+b
+lkjhlkjh
+c

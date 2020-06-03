@@ -1,0 +1,5 @@
+
+ls | cat  >remove_me | ls
+echo Hello
+cat remove_me
+rm -f remove_me
