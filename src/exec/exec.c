@@ -59,12 +59,14 @@ static void	make_io_redir(t_io_redir *redir)
 			return ;
 		}
 		dup2(ft_atoi(redir->where->content), redir->fd); 
+		close(ft_atoi(redir->where->content));
 		return ;
 	}
 	if (redir->operation == dless || redir->operation == dlessash)
 	{
 		heredoc = heredoc_action(pop_fd, NULL);
 		dup2(*heredoc, redir->fd);
+		close(*heredoc);
 		free(heredoc);
 		return ;
 	}
@@ -122,15 +124,23 @@ static void	enter_task_context(t_task_context *task_context)
 	/* Probably, make the copy of the environment*/
 	if (task_context->in_pipe != IGNORE_STREAM)
 	{
-		task_context->save_0 = dup(0);
+		if (!task_context->need_child)
+			task_context->save_0 = dup(0);
 		dup2(task_context->in_pipe, 0);
+		close(task_context->in_pipe);
 	}
 	if (task_context->out_pipe != IGNORE_STREAM)
 	{
-		task_context->save_1 = dup(1);
+		if (!task_context->need_child)
+			task_context->save_1 = dup(1);
 		dup2(task_context->out_pipe, 1);
+		close(task_context->out_pipe);
 	}
 }
+
+/*
+** Actually, we enter this function only in case of builltin or unknown command
+*/
 
 static void	exit_task_context(t_task_context *task_context)
 {
@@ -140,13 +150,12 @@ static void	exit_task_context(t_task_context *task_context)
 	if (task_context->in_pipe != IGNORE_STREAM)
 	{
 		dup2(task_context->save_0, 0);
-		close(task_context->in_pipe);
 		close(task_context->save_0);
 	}
 	if (task_context->out_pipe != IGNORE_STREAM)
 	{
 		dup2(task_context->save_1, 1);
-		close(task_context->out_pipe);
+		close(task_context->save_1);
 	}
 }
 
@@ -229,6 +238,10 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 	/* This function calls execve, does not return */
 
 	/* Parent */
+	if (task_context.in_pipe != IGNORE_STREAM)
+		close(in_pipe);
+	if (task_context.out_pipe != IGNORE_STREAM)
+		close(out_pipe);
 
 	/* 
 	** LAST command in the pipeline; The only command, whose status we care 
@@ -237,7 +250,7 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 	** TODO: return status of the last cmd;
 	*/
 	if (task_context.out_pipe == IGNORE_STREAM)	
-		while (wait(&status) > 0)
+		while (wait(&status) > 0) /* Wait returns -1 <==> no children */
 			;
 	return (status);
 }
@@ -254,7 +267,7 @@ static int	exec_pipeline(t_deque *p)
 	int				status;
 	int				read_fd;
 
-	fd[1] = -1;
+	fd[1] = IGNORE_STREAM;
 	cmd = pop_front(p);
 	if ((next = pop_front(p)))
 		pipe(fd);				/* TODO: check the return value*/
