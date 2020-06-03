@@ -100,3 +100,5 @@ print("")
 
 print(colored("Summary: {} out of {} tests passed!".format(good, good + bad), "magenta"))
 print(colored("See traces at {}/user_out_[CASE_NAME].txt and {}/test_out[CASE_NAME].txt".format(path_to_cases, path_to_cases), "green"))
+
+#os.killpg(os.getpgid(os.getpid()), signal.SIGILL)

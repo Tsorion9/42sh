@@ -1,2 +1,2 @@
 
-echo "Testing redirections," > /tmp/test.txt
+echo "Testing redirections," > /tmp/test.txt ; rm -f /tmp/test.txt 
