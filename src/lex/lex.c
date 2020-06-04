@@ -75,31 +75,6 @@ static t_token	*copy_init_token(t_token t)
 	return (copy);
 }
 
-/*
-** Пероводит на новую строку и позволяет продолжить ввод
-** для пользователя в случае, если цитирование не закрыто
-*/
-
-/*char 		*quoting(void)
-{
-    int     user_in_len;
-    int     user_in_lines;
-	char	*ret_user_in;
-
-    rp()->cur_pos[0] = START_COL_POS;
-    rp()->cur_pos[1] = START_ROW_POS;
-	write(STDERR_FILENO, "> ", 2);
-	read_till_newline(&user_in_len, isatty(STDIN_FILENO));
-	user_in_lines = str_n() - rp()->cur_pos[1];
-	while (user_in_lines-- > 0)
-		write(STDERR_FILENO, "\n", 1);
-	write(STDERR_FILENO, "\n", 1);
-	rp()->user_in[user_in_len] = '\0';
-	if (!(ret_user_in = ft_strdup(rp()->user_in)))
-        exit(1);
-	return (ret_user_in);
-}*/
-
 void			close_quote(char **user_in)
 {
 	char	*nuser_in;
@@ -158,7 +133,7 @@ t_token			*lex(void)
 		need_new_line = 1;
 	}
     else if (is_digit(user_in[index]))
-        new_token = get_token_number(user_in, &index, buf, &buf_index, prev_token);
+        new_token = get_token_number(&user_in, &index, buf, &buf_index, prev_token);
     else if (user_in[index] == '>')
         new_token = get_token_greater(user_in, &index);
     else if (user_in[index] == '<')
