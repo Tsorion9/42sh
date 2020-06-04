@@ -1,0 +1,7 @@
+
+cat -e << a
+Roses are red
+Violets are blue
+All my base are belong to you
+AEOFnd so are you
+a

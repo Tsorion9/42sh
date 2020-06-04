@@ -59,6 +59,7 @@ static void	processing_sigint(int signal_code)
 	rp()->user_in -= rp()->line_shift;
 	write(STDERR_FILENO, "$>", 2);
 	reset_rp_to_start();*/
+	(void)signal_code;
 	reset_exit(0);
 }
 
@@ -67,18 +68,14 @@ static void	processing_sigwinch(int signal_code)
 	int	i;
 	int	tmp[2];
 
+	(void)tmp;
 	(void)signal_code;
 	i = search_index();
+	(void)i;
 	rp()->ws_col = ret_winsize(0);
 	rp()->ws_row = ret_winsize(1);
 	add_symbol('a');
 	delete_symbol();
-	//clear_all_line();
-	//ft_putstr_fd(rp()->user_in, STDERR_FILENO);
-	//cur_pos_after_putstr(tmp);
-	//ret_cur_to_original_pos(tmp);
-	//while (i--)
-	//	tc_cursor_right();
 }
 
 /*

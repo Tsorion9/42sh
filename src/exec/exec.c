@@ -59,12 +59,14 @@ static void	make_io_redir(t_io_redir *redir)
 			return ;
 		}
 		dup2(ft_atoi(redir->where->content), redir->fd); 
+		close(ft_atoi(redir->where->content));
 		return ;
 	}
 	if (redir->operation == dless || redir->operation == dlessash)
 	{
 		heredoc = heredoc_action(pop_fd, NULL);
 		dup2(*heredoc, redir->fd);
+		close(*heredoc);
 		free(heredoc);
 		return ;
 	}
@@ -91,7 +93,10 @@ static int	make_assignments_redirections(t_simple_cmd *cmd)
 			make_assignment(env, as_wrd);
 		}
 		else 
+		{
 			make_io_redir((t_io_redir *)ar->data);
+		}
+		rm_ar(ar);
 	}
 	return (1);
 }
@@ -112,6 +117,7 @@ static char	**collect_argwords(t_simple_cmd *cmd)
 	args = malloc(sizeof(char *) * (deque_len(cmd->wl) + 1));
 	while ((args[i] = pop_front(cmd->wl)))
 		i++;
+	free(cmd->wl);
 	return (args);
 }
 
@@ -122,15 +128,23 @@ static void	enter_task_context(t_task_context *task_context)
 	/* Probably, make the copy of the environment*/
 	if (task_context->in_pipe != IGNORE_STREAM)
 	{
-		task_context->save_0 = dup(0);
+		if (!task_context->need_child)
+			task_context->save_0 = dup(0);
 		dup2(task_context->in_pipe, 0);
+		close(task_context->in_pipe);
 	}
 	if (task_context->out_pipe != IGNORE_STREAM)
 	{
-		task_context->save_1 = dup(1);
+		if (!task_context->need_child)
+			task_context->save_1 = dup(1);
 		dup2(task_context->out_pipe, 1);
+		close(task_context->out_pipe);
 	}
 }
+
+/*
+** Actually, we enter this function only in case of builltin or unknown command
+*/
 
 static void	exit_task_context(t_task_context *task_context)
 {
@@ -140,13 +154,12 @@ static void	exit_task_context(t_task_context *task_context)
 	if (task_context->in_pipe != IGNORE_STREAM)
 	{
 		dup2(task_context->save_0, 0);
-		close(task_context->in_pipe);
 		close(task_context->save_0);
 	}
 	if (task_context->out_pipe != IGNORE_STREAM)
 	{
 		dup2(task_context->save_1, 1);
-		close(task_context->out_pipe);
+		close(task_context->save_1);
 	}
 }
 
@@ -165,6 +178,8 @@ static int	task(t_simple_cmd *cmd, t_task_context *task_context)
 		status = builtin(av + 1, static_env_action(get, NULL));
 	else
 		find_exec(av, static_env_action(get, NULL));	
+	del_array(av);
+	free(cmd);
 	exit_task_context(task_context);
 	return (status);
 }
@@ -229,7 +244,12 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 	/* This function calls execve, does not return */
 
 	/* Parent */
+	if (task_context.in_pipe != IGNORE_STREAM)
+		close(in_pipe);
+	if (task_context.out_pipe != IGNORE_STREAM)
+		close(out_pipe);
 
+	rm_simple_cmd(&cmd);
 	/* 
 	** LAST command in the pipeline; The only command, whose status we care 
 	** about. Parent blocks until all children finish (parrent is 21sh, waits for 
@@ -237,7 +257,7 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 	** TODO: return status of the last cmd;
 	*/
 	if (task_context.out_pipe == IGNORE_STREAM)	
-		while (wait(&status) > 0)
+		while (wait(&status) > 0) /* Wait returns -1 <==> no children */
 			;
 	return (status);
 }
@@ -254,7 +274,7 @@ static int	exec_pipeline(t_deque *p)
 	int				status;
 	int				read_fd;
 
-	fd[1] = -1;
+	fd[1] = IGNORE_STREAM;
 	cmd = pop_front(p);
 	if ((next = pop_front(p)))
 		pipe(fd);				/* TODO: check the return value*/
@@ -266,6 +286,7 @@ static int	exec_pipeline(t_deque *p)
 		status = exec_simple(next, read_fd, p->first ? fd[1] : IGNORE_STREAM);
 		next = pop_front(p);
 	}
+	free(p);
 	return (status);
 }
 
@@ -276,6 +297,10 @@ int	exec_cmd(t_deque *cmd)
 
 	last_status = 1;
 	while ((pipeline = pop_front(cmd)))
+	{
 		last_status = exec_pipeline(pipeline->commands);
+		free(pipeline);
+	}
+	free(cmd);
 	return (last_status);
 }

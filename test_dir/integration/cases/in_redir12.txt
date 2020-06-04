@@ -1,0 +1,5 @@
+
+ls 2>&1 non_existent_file >remove_me 
+cat remove_me
+cat non_existent_file
+rm -f remove_me non_existent_file

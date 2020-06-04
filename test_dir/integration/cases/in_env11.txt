@@ -1,0 +1,2 @@
+
+a=remove_me ls >$a ;rm -f $a

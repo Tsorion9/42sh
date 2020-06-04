@@ -1,0 +1,7 @@
+
+a=bbbbbbb
+echo $a
+unsetenv a;
+unsetenv b;
+
+

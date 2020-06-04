@@ -1,0 +1,2 @@
+
+wc -c < /tmp/test.txt

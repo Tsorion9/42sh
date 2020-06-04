@@ -1,0 +1,42 @@
+echo "aaa"
+echo aaa
+echo 'aaa'
+echo '"'
+echo "'"
+echo "$HOME"
+echo '$HOME'
+echo $HOME
+echo $HOME$HOME
+echo aa "" "" '' bb
+echo '
+hello
+'
+echo "
+'Hello
+"
+
+echo "l
+1
+2
+3
+"
+
+echo ~
+echo ~~
+echo '~'
+echo "~"
+echo a~
+
+echo ~mail
+
+echo ~a
+
+echo ~/a
+
+a=~/rty:~/qwe
+echo $a
+
+~=a
+
+unsetenv HOME
+echo ~
