@@ -342,9 +342,7 @@ void	print_cmd_dbg(t_deque *command);
 ** Command is a deque of pipelines.
 */
 void	rm_compl_cmd(t_deque **command);
-void	rm_pipeline(t_pipeline **pl);
-void	rm_simple_cmd(t_simple_cmd **cmd);
-void	rm_redir(t_io_redir **redir);
+void	rm_simple_cmd(void *command);
 
 t_deque	*parser(void);
 
