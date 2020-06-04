@@ -1,0 +1,2 @@
+
+ls | cat >1.txt; rm -f 1.txt

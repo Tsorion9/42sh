@@ -28,8 +28,16 @@ void	ungett(t_deque **tokbuf_g, t_deque **tokbuf_l)
 
 	last = pop_back(*tokbuf_l);
 	if (!last)
+	{
+		free(*tokbuf_l);
 		return ;
+	}
 	push_front(tokbuf_g, last);
+	if (deque_len(*tokbuf_l) == 0)
+	{
+		free(*tokbuf_l);
+		*tokbuf_l = 0;
+	}
 }
 
 void	del_token(void *token)

@@ -93,7 +93,10 @@ static int	make_assignments_redirections(t_simple_cmd *cmd)
 			make_assignment(env, as_wrd);
 		}
 		else 
+		{
 			make_io_redir((t_io_redir *)ar->data);
+		}
+		rm_ar(ar);
 	}
 	return (1);
 }
@@ -114,6 +117,7 @@ static char	**collect_argwords(t_simple_cmd *cmd)
 	args = malloc(sizeof(char *) * (deque_len(cmd->wl) + 1));
 	while ((args[i] = pop_front(cmd->wl)))
 		i++;
+	free(cmd->wl);
 	return (args);
 }
 
@@ -174,6 +178,8 @@ static int	task(t_simple_cmd *cmd, t_task_context *task_context)
 		status = builtin(av + 1, static_env_action(get, NULL));
 	else
 		find_exec(av, static_env_action(get, NULL));	
+	del_array(av);
+	free(cmd);
 	exit_task_context(task_context);
 	return (status);
 }
@@ -243,6 +249,7 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 	if (task_context.out_pipe != IGNORE_STREAM)
 		close(out_pipe);
 
+	rm_simple_cmd(&cmd);
 	/* 
 	** LAST command in the pipeline; The only command, whose status we care 
 	** about. Parent blocks until all children finish (parrent is 21sh, waits for 
@@ -279,6 +286,7 @@ static int	exec_pipeline(t_deque *p)
 		status = exec_simple(next, read_fd, p->first ? fd[1] : IGNORE_STREAM);
 		next = pop_front(p);
 	}
+	free(p);
 	return (status);
 }
 
@@ -289,6 +297,10 @@ int	exec_cmd(t_deque *cmd)
 
 	last_status = 1;
 	while ((pipeline = pop_front(cmd)))
+	{
 		last_status = exec_pipeline(pipeline->commands);
+		free(pipeline);
+	}
+	free(cmd);
 	return (last_status);
 }

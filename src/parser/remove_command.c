@@ -3,23 +3,26 @@
 #include "deque.h"
 #include "libft.h"
 
-static void	rm_word(void *word)
+void	rm_word(void *word)
 {
 	free(word);
 }
 
-static void	del_inside_wl(void *content, size_t content_size)
+void	del_inside_wl(void *content, size_t content_size)
 {
 	(void)content_size;
 	free(content);
 }
 
-static void	rm_redir(t_io_redir *redir)
+void	rm_redir(t_io_redir *redir)
 {
+	if (!redir)
+		return ;
 	ft_lstdel(&(redir->where), del_inside_wl);
+	free(redir);
 }
 
-static void	rm_ar(void *p)
+void	rm_ar(void *p)
 {
 	t_ar *ar;
 	
@@ -44,7 +47,7 @@ void	rm_simple_cmd(void *command)
 	return ;
 }
 
-static void	rm_pipeline(void *pipeline)
+void	rm_pipeline(void *pipeline)
 {
 	t_deque		*commands;
 	t_pipeline	**pl;

@@ -42,7 +42,6 @@ CPARSER = deque.c \
 			parser.c\
 			print_cmd_dbg.c\
 			remove_command.c\
-			rm_redir.c\
 			syntax_error.c\
 			t2list.c\
 			tokbuf_utils.c\
