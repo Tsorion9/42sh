@@ -3,6 +3,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include "libft.h"
+
 /*
 ** Allocate the number in heap
 */
@@ -112,6 +114,47 @@ static int		*create_tmp_file(char *content)
 	return (fd);
 }
 
+/*
+** TODO: refactor readline
+*/
+
+static char 	*temporary_readline_wrapper(char *prompt)
+{
+	char	*s;
+	int		gnl_status;
+
+	if (isatty(0))
+		return (readline(prompt));
+	gnl_status = get_next_line(0, &s); // TODO: Check corner cases with EOF and empty string
+	if (gnl_status == -1)
+		return (NULL);
+	if (gnl_status == 0)
+		return (NULL);
+
+	return (s);
+}
+
+/*
+	FIX BEFORE SUBMITTING THE PROJECT
+
+	TODO:
+	If any part of word is quoted, the delimiter shall be formed by performing 
+	quote removal on word, and the here-document lines shall not be expanded. 
+	Otherwise, the delimiter shall be the word itself.
+
+	If no part of word is quoted, all lines of the here-document shall be 
+	expanded for parameter expansion, command substitution, and arithmetic 
+	expansion. In this case, the <backslash> in the input behaves as the 
+	<backslash> inside double-quotes (see Double-Quotes). However, the 
+	double-quote character ( ' )' shall not be treated specially within a 
+	here-document, except when the double-quote appears within 
+	"$()", "``", or "${}".
+
+	TODO: multiline here-doc delimiter 
+
+	(Bash does not support both of them)
+*/
+
 static char		*gather_string_literal(char *here_eof)
 {
 	char	*literal;
@@ -122,13 +165,15 @@ static char		*gather_string_literal(char *here_eof)
 	literal = ft_strdup("");
 	while (1)
 	{
-		line = readline(HEREDOC_PROMPT);
-		if (ft_strcmp(line, here_eof) == 0)
+		line = temporary_readline_wrapper(HEREDOC_PROMPT);
+		if (!line)
+			ft_fprintf(2, "21sh: Warning! Here document delimited by end-of-file instead of %s\n", here_eof);
+		if (!line || ft_strcmp(line, here_eof) == 0)
 			return (literal);
 		else
 		{
 			tmp1 = ft_strjoin(line, "\n");
-			tmp = ft_strjoin(literal, tmp1); // o(n^2), fix later maybe
+			tmp = ft_strjoin(literal, tmp1); // TODO: o(n^2), fix later maybe
 			ft_memdel((void *)&literal);
 			ft_memdel((void *)&line);
 			ft_memdel((void *)&tmp1);
