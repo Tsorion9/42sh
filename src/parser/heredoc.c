@@ -189,7 +189,7 @@ void	*heredoc_action(t_heredoc_action action, void *data)
 	char			*current_strlit;	
 
 	if (action == is_empty)
-		return (eof_words && eof_words->first ? (void *)1 : NULL);
+		return ((eof_words && eof_words->first) ? NULL : (void *)1);
 	if (action == add_hd)
 		return (push_back(&eof_words, data));
 	if (action == add_fd)
@@ -203,13 +203,11 @@ void	*heredoc_action(t_heredoc_action action, void *data)
 	else
 	{
 		return (NULL);
-		//deque_del(&eof_words);
-		//deque_del(&fd_deque);
 	}
 }
 
 void	gather_heredocs(void)
 {
-	while (heredoc_action(is_empty, NULL))
+	while (!heredoc_action(is_empty, NULL))
 		heredoc_action(add_fd, NULL);
 }

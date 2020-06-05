@@ -224,6 +224,48 @@ static t_task_context init_task_context(t_simple_cmd *cmd, int in_pipe,\
 	return (task_context);
 }
 
+static int		is_heredoc(t_ar *ar)
+{
+	t_io_redir	*redir;
+
+	if (ar->what == assignment)
+		return (0);
+	redir = ar->data;
+	return (redir->operation == dless);
+}
+
+static int		n_heredocs(const t_simple_cmd *cmd)
+{
+	int	n;
+	int	len;
+	int	result;
+
+	len = deque_len(cmd->arl);
+	n = 0;
+	result = 0;
+	while (n < len)
+	{
+		result += is_heredoc((t_ar *)deque_n_th(cmd->arl, n));
+		n++;
+	}
+	return (result);
+}
+
+/*
+** Delete needed number of elements in the parent here document queue
+*/
+
+static void		sync_parent_heredoc_state(int child_used)
+{
+	int	*fd;
+
+	while (child_used--)
+	{
+		fd = heredoc_action(pop_fd, 0);
+		free(fd);
+	}
+}
+
 /*
 ** Status of parent process is ignored if there is a child
 ** in_pipe is a read end
@@ -234,7 +276,9 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 	int				status;
 	pid_t			child;
 	t_task_context	task_context;
+	int				number_of_heredocs;
 
+	number_of_heredocs = n_heredocs(cmd);
 	task_context = init_task_context(cmd, in_pipe, out_pipe);
 	if (!task_context.need_child)					/* Single process */
 		return (task(cmd, &task_context));		   
@@ -248,6 +292,8 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 		close(in_pipe);
 	if (task_context.out_pipe != IGNORE_STREAM)
 		close(out_pipe);
+
+	sync_parent_heredoc_state(number_of_heredocs);
 
 	rm_simple_cmd(&cmd);
 	/* 
