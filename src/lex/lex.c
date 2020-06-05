@@ -89,7 +89,13 @@ void			close_quote(char **user_in)
 	while (flag)
 	{
 		reset_rp_to_start();
-		extra_line = readline("> ");
+		if (isatty(0))
+			extra_line = readline("> ");
+		else
+		{
+			extra_line = NULL;
+			get_next_line(0, &extra_line);
+		}
 		if (!(tmp = ft_strjoin(*user_in, "\n")))
 			exit(1);
 		if (!(nuser_in = ft_strjoin(tmp, extra_line)))
