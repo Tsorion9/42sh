@@ -55,6 +55,7 @@ int			find_exec(char **args, t_env env)
 	if (!progname)
 	{
 		ft_fprintf(2, "%s: command not found\n", args[0]);
+		exit(-1);
 		return (-1);
 	}
 	if (access(progname, X_OK) != 0)
