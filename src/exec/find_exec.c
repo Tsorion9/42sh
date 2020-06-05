@@ -38,7 +38,8 @@ static void	execute(char *progname, char **args, char **child_env)
 
 static int	no_exec_rights(char *progname)
 {
-	ft_fprintf(2, "minishell: %s: Permission denied\n", progname);
+	ft_fprintf(2, "21sh: %s: Permission denied\n", progname);
+	exit(-1);
 	free(progname);
 	return (-1);
 }
