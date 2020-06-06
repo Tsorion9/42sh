@@ -169,7 +169,6 @@ int         main(int ac, char **av, char **environ)
     (void)av;
 	static_env_action(init, (void *)environ);
 	static_env_action(save, NULL);
-	tty_input = 0; /* Valgrind says it is uninitialized otherwise. Why? */
 	if ((tty_input = isatty(STDIN_FILENO)))
 		init_terminal();
 	set_signal();
