@@ -42,7 +42,7 @@ t_env			init_env(char **environ)
 	{
 		if (!(status = split_env_entry(*environ, &key, &value)))
 		{
-			del_tree(tree);
+			del_tree(&tree);
 			return (NULL);
 		}
 		if (status == 1 && !insert_value(tree, key, value))

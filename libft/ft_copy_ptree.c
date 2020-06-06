@@ -19,7 +19,7 @@ t_ptree				*copy_ptree(t_ptree *tree)
 	{
 		if (tree->child[i] && !(copy->child[i] = copy_ptree(tree->child[i])))
 		{
-			del_tree(copy);
+			del_tree(&copy);
 			return (NULL);
 		}
 	}

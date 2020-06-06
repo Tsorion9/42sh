@@ -2,7 +2,7 @@
 
 void			delenv(t_env env)
 {
-	del_tree((t_ptree *)env);
+	del_tree((t_ptree **)&env);
 }
 
 t_env			copy_env(t_env env)
