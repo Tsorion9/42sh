@@ -6,6 +6,8 @@ import subprocess
 from termcolor import colored
 import signal
 
+os.system("rm -f cases/user_out_* cases/test_out*")
+
 our_shell = "../../21sh"
 bash = "/bin/bash"
 path_to_cases = "cases"
