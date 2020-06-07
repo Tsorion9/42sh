@@ -37,26 +37,24 @@ void	rm_ar(void *p)
 
 void	rm_simple_cmd(void *command)
 {
-	t_simple_cmd **cmd;
+	t_simple_cmd *cmd;
 
-	cmd = (t_simple_cmd **)command;
-	deque_del(&((*cmd)->wl), rm_word);
-	deque_del(&((*cmd)->arl), rm_ar);
-	free(*cmd);
-	*cmd = NULL;
+	cmd = (t_simple_cmd *)command;
+	deque_del(&(cmd->wl), rm_word);
+	deque_del(&(cmd->arl), rm_ar);
+	free(cmd);
 	return ;
 }
 
 void	rm_pipeline(void *pipeline)
 {
 	t_deque		*commands;
-	t_pipeline	**pl;
+	t_pipeline	*pl;
 
-	pl = (t_pipeline **)pipeline;
-	commands = (*pl)->commands;
+	pl = (t_pipeline *)pipeline;
+	commands = pl->commands;
 	deque_del(&commands, rm_simple_cmd);
-	free(*pl);
-	*pl = NULL;
+	free(pl);
 	return ;
 }
 

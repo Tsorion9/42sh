@@ -295,7 +295,7 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 
 	sync_parent_heredoc_state(number_of_heredocs);
 
-	rm_simple_cmd(&cmd);
+	rm_simple_cmd(cmd);
 	/* 
 	** LAST command in the pipeline; The only command, whose status we care 
 	** about. Parent blocks until all children finish (parrent is 21sh, waits for 
