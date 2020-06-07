@@ -31,46 +31,65 @@ static void	print_redirection(t_io_redir *r)
 	ft_printf("                         Word: %s\n", r->where->content);
 }
 
-static void	print_simple_command(t_simple_cmd *cmd)
+/*
+** Print t_ar
+*/
+
+static void		print_ar(void **p)
+{
+	t_ar *x;
+
+	x = *p;
+	if (x->what == assignment)
+	{
+		ft_printf("                 %s\n", "Assignment");
+		ft_printf("                         %s\n", x->data);
+	}
+	else
+	{
+		ft_printf("                 %s\n", "Redirection");
+		print_redirection(x->data);
+	}
+}
+
+static void		print_wrd(void **x)
+{
+	char	*s;
+
+	s = *x;
+	ft_printf("                         %s\n", s);
+}
+
+void	print_simple_command(t_simple_cmd *cmd)
 {
 	void		*s;
 
 	if (cmd->arl)
 		ft_printf("%s\n", "              Assignments or redirections:");
-	while (cmd->arl)
-	{
-		if (!(s = pop_front(cmd->arl)))
-			break ;
-		if ((((t_ar *)s)->what) == assignment)
-		{
-			ft_printf("                 %s\n", "Assignment");
-			ft_printf("                         %s\n", (((t_ar *)s)->data));
-		}
-		else
-		{
-			ft_printf("                 %s\n", "Redirection");
-			print_redirection((((t_ar *)s)->data));
-		}
-	}
+	if (cmd->arl)
+		deque_apply_inplace(cmd->arl, print_ar);
 	if (cmd->wl)
+	{
 		ft_printf("%s\n", "              Words:");
-	s = NULL;
-	while (cmd->wl && (s = pop_front(cmd->wl)))
-		ft_printf("                         %s\n", s);
+		deque_apply_inplace(cmd->wl, print_wrd);
 	}
+}
 
 
-static void	print_pipeline(t_pipeline *pipeline)
+void	print_pipeline(t_pipeline *pipeline)
 {
 	t_simple_cmd	*cmd;
-	int				i;
+	int				n_simple_cmds;
+	int				n;
 
-	i = 0;
 	if (pipeline->bang)
 		ft_printf("%s\n", "BANG");
-	while ((cmd = pop_front(pipeline->commands)))
+	n_simple_cmds = deque_len(pipeline->commands);
+	n = 0;
+	while (n < n_simple_cmds)
 	{
-		ft_printf("    Simple command %d\n", ++i);
+		cmd = deque_n_th(pipeline->commands, n);
+		ft_printf("    Simple command %d\n", ++n);
 		print_simple_command(cmd);
 	}
 }
@@ -82,17 +101,20 @@ static void	print_pipeline(t_pipeline *pipeline)
 void	print_cmd_dbg(t_deque *command)
 {
 	t_pipeline	*pipeline;
-	int			i;
+	int			n_pipelines;
+	int			n;
 
-	i = 0;
 	if (!command)
 	{
 		ft_printf("%s\n", "Empty command");
 		return ;
 	}
-	while ((pipeline = pop_front(command)))
+	n_pipelines = deque_len(command);
+	n = 0;
+	while (n < n_pipelines)
 	{
-		ft_printf("Pileline %d\n", ++i);
+		pipeline = deque_n_th(command, n);
+		ft_printf("Pileline %d\n", ++n);
 		print_pipeline(pipeline);
 	}
 }
