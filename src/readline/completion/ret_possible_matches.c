@@ -4,7 +4,6 @@ static int		is_dir(char *file_name, char *path)
 {
 	char		*full_name;
 	struct stat	file_info;
-	int			res;
 
 	if (!(full_name = ft_strjoin(file_name, path)))
 		exit(1);
@@ -32,13 +31,13 @@ t_completion	*ret_possible_matches(char *path, int first_word)
 	com_lst = NULL;
 	if (first_word)
 	{
-		while (file_name = readdir(dp))
+		while ((file_name = readdir(dp)))
 			if (executable_file(file_name->d_name, path) || \
 				is_dir(file_name->d_name, path))
 				add_new_completion(&com_lst, file_name->d_name);
 	}
 	else
-		while (file_name = readdir(dp))
+		while ((file_name = readdir(dp)))
 			add_new_completion(&com_lst, file_name->d_name);
 	closedir(dp);
 	return (com_lst);

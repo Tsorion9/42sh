@@ -41,7 +41,7 @@ t_completion	*add_files_path_env(void)
 		dp = opendir(path[i]);
 		if (dp)
 		{
-			while (file_name = readdir(dp))
+			while ((file_name = readdir(dp)))
 			{
 				if (executable_file(file_name->d_name, path[i]))
 					add_new_completion(&com_lst, file_name->d_name);

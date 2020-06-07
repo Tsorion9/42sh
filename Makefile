@@ -12,7 +12,7 @@
 NAME = 21sh
 CREADLINE = readline.c expansion.c strmove_cursor.c \
 			termcap_api.c history_list.c \
-			history_file.c free.c add_or_delete_symbol.c \
+			history_file.c add_or_delete_symbol.c \
 			check_quoting.c clear_all_line.c free_readline.c \
 			other.c reset_readline_position.c search_cur_pos.c
 
@@ -92,7 +92,7 @@ INCLUDE = includes
 PARSER_TMP_INC = src/parser
 LIB_INC = libft/includes
 INC_FLAGS = -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec  -I src/expansions
-FLAGS = -Wall -Wextra $(INC_FLAGS)
+FLAGS = -Wall -Wextra -Werror $(INC_FLAGS)
 LFLAGS = -L libft -lft -ltermcap 
 DFLAGS = -g # -DDBG_LEXER
 CFLAGS = $(DFLAGS) 

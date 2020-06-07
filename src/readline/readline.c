@@ -105,7 +105,7 @@ char        *readline(char *prompt)
     rp()->user_in[ft_strlen(rp()->user_in) - 1] = 0;
     write(STDERR_FILENO, "\n", 1);
     if (!(ret_user_in = ft_strdup(rp()->user_in)))
-        exit(1);
+		exit(1);
 	add_to_start_history(rp()->history, ret_user_in);
     return (ret_user_in);
 }

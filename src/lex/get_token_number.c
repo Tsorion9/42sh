@@ -13,7 +13,7 @@ t_token       get_token_number(char **user_in, int *index, char *buf,\
         ret_token.attribute = create_attribute(buf, *buf_index);
     }
     else if (is_letter((*user_in)[*index]) || (*user_in)[*index] == '\'' ||\
-    user_in[*index] == '\"')
+    (*user_in)[*index] == '\"')
         ret_token = get_token_word(user_in, index, buf, buf_index);
     else if (prev_token == LESS_AND || prev_token == GREATER_AND)
     {

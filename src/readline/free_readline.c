@@ -1,6 +1,6 @@
 #include "21sh.h"
 
-static void free_history_list(t_history *history)
+void		free_history_list(t_history *history)
 {
     if (!history)
         return ;

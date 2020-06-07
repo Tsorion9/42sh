@@ -4,7 +4,7 @@
 ** Удаляет все лишние символы backslash
 */
 
-static void delete_backslash(char *str)
+/*static void delete_backslash(char *str)
 {
     int     i;
     int     z;
@@ -31,7 +31,7 @@ static void delete_backslash(char *str)
         }
         i++;
     }
-}
+}*/
 
 /*
 ** Расширение тильды
