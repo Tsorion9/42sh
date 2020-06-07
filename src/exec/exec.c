@@ -26,6 +26,7 @@ static void	make_assignment(t_env env, char *as_wrd)
 
 	split_env_entry(as_wrd, &name, &value);
 	ft_setenv(env, name, value);
+	free(name);
 }
 
 static int	get_oflags(t_token_type op)
@@ -171,6 +172,11 @@ static int	task(t_simple_cmd *cmd, t_task_context *task_context)
 
 	enter_task_context(task_context);
 	make_assignments_redirections(cmd);
+	if (deque_len(cmd->wl) == 0)
+	{
+		rm_simple_cmd(cmd);
+		return (0);
+	}
 	av = collect_argwords(cmd);
 	if (!av)
 		return (1);

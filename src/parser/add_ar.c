@@ -12,4 +12,6 @@ void	add_ar(t_simple_cmd **cmd, void *data, t_ear what)
 	new->what = what;
 	new->data = (what == assignment) ? ((t_token *)data)->attribute : data;
 	push_back(&((*cmd)->arl), (void *)new);
+	if (what == assignment)
+		free(data);
 }
