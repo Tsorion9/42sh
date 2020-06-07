@@ -168,7 +168,6 @@ int         main(int ac, char **av, char **environ)
     (void)ac;
     (void)av;
 	static_env_action(init, (void *)environ);
-	static_env_action(save, NULL);
 	if ((tty_input = isatty(STDIN_FILENO)))
 		init_terminal();
 	set_signal();
