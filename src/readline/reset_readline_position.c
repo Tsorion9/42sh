@@ -15,6 +15,10 @@ static void	reset_cur_pos_rp(void)
 
 void		reset_rp_to_start(void)
 {
+	if (!(rp()->user_in = (char*)malloc(sizeof(char) * MIN_CMD_LENGTH)))
+		reset_exit(1);
+	rp()->max_len = MIN_CMD_LENGTH;
+	rp()->len = 0;
 	back_to_start_history_rp();
 	reset_cur_pos_rp();
 	rp()->user_in[0] = 0;

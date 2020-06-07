@@ -19,7 +19,7 @@ void        load_on_file_history(t_history *history)
 {
     int     fd;
     char    buf[1];
-    char    str[MAX_CMD_LENGTH];
+    char    str[MIN_CMD_LENGTH];
     int     i;
     
     fd = open_21sh_history(O_RDONLY);
@@ -31,7 +31,7 @@ void        load_on_file_history(t_history *history)
         if (buf[0] == '\n')
         {
             str[i] = 0;
-            add_to_start_history(history, str);
+            add_to_start_history(history, str, ft_strlen(str));
             i = 0;
         }
         else
@@ -46,7 +46,7 @@ void        load_on_file_history(t_history *history)
 static void save_in_file_history_sup(int fd, int n, char *history)
 {
     int     i;
-    char    buf[MAX_CMD_LENGTH];
+    char    buf[MIN_CMD_LENGTH];
 
     i = 0;
     while (n != HISTSIZE)

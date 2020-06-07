@@ -10,6 +10,8 @@ void        add_symbol(char c)
     int     tmp[2];
     int     i;
 
+	if (rp()->max_len <= rp()->len + 1)
+		expand_user_in();
     i = search_index();
     str = ft_strdup(rp()->user_in + i);
     ft_strcpy(rp()->user_in + i + 1, str);
@@ -20,6 +22,7 @@ void        add_symbol(char c)
     clear_all_line();
     rp()->cur_pos[0] = tmp[0] + 1;
     rp()->cur_pos[1] = tmp[1];
+	rp()->len++;
     ft_putstr_fd(rp()->user_in, STDERR_FILENO);
     if (rp()->cur_pos[0] - 1 == rp()->ws_col)
     {
@@ -78,6 +81,7 @@ void        delete_symbol(void)
 
     if ((i = search_index() - 1) < 0)
         return ;
+	rp()->len--;
     tmp[0] = delete_symbol_sup(i);
     tmp[1] = rp()->cur_pos[1];
     clear_all_line();

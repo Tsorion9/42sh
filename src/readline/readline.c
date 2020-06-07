@@ -1,5 +1,18 @@
 #include "21sh.h"
 
+void	expand_user_in(void)
+{
+	char	tmp[rp()->max_len];
+
+	ft_strcpy(tmp, rp()->user_in);
+	free(rp()->user_in);
+	rp()->max_len += MIN_CMD_LENGTH;
+	if (!(rp()->user_in = (char*)malloc(sizeof(char) * rp()->max_len)))
+		reset_exit(1);
+	ft_strcpy(rp()->user_in, tmp);
+	free(tmp);
+}
+
 int		is_print(long c)
 {
 	if (c >= ' ' && c <= '~')
@@ -28,7 +41,7 @@ static long readline_sup(void)
         delete_symbol();
     else if (c == DEL)
         delete_symbol_forward();
-    else if (is_print(c)) // Probably, ft_isprint() here?
+    else if (is_print(c))
         add_symbol(c);
     else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
         alt_left_right(c);
@@ -50,35 +63,16 @@ void	die(void)
 	exit(1);
 }
 
-void	read_till_newline(int *user_in_len, \
-		int tty)
+static void	read_till_newline(int *user_in_len)
 {
-	char	*nl;
     long    c;
 
 	c = 0;
-	if (tty)
-	{
-		while (c != '\n')
-			c = readline_sup();
-		*user_in_len = ft_strlen(rp()->user_in);
-		rp()->user_in[*user_in_len] = c;
-		rp()->user_in[*user_in_len + 1] = 0;
-	}
-	else
-	{
-		nl = 0;
-		c = get_next_line(STDIN_FILENO, &nl);
-		if (c == -1)
-			die();
-		rp()->user_in[0] = 0;
-		if (nl)
-			ft_strncpy(rp()->user_in, nl, MAX_CMD_LENGTH - 2);
-		rp()->user_in[MAX_CMD_LENGTH - 1] = 0;
-		if ((*user_in_len = ft_strlen(nl)) > MAX_CMD_LENGTH - 1)
-			die();
-		free(nl);
-	}
+	while (c != '\n')
+		c = readline_sup();
+	*user_in_len = ft_strlen(rp()->user_in);
+	rp()->user_in[*user_in_len] = c;
+	rp()->user_in[*user_in_len + 1] = 0;
 }
 
 /*
@@ -91,13 +85,10 @@ char        *readline(char *prompt)
     char    *ret_user_in;
     int     user_in_len;
     int     user_in_lines;
-	int		tty_input;
 
-	tty_input = isatty(STDIN_FILENO);
 	reset_rp_to_start();
-	if (tty_input)
-		write(STDERR_FILENO, prompt, ft_strlen(prompt));
-	read_till_newline(&user_in_len, tty_input);
+	write(STDERR_FILENO, prompt, ft_strlen(prompt));
+	read_till_newline(&user_in_len);
 	user_in_lines = str_n() - rp()->cur_pos[1];
 	while (user_in_lines-- > 0)
 		write(STDERR_FILENO, "\n", 1);
@@ -106,6 +97,8 @@ char        *readline(char *prompt)
     write(STDERR_FILENO, "\n", 1);
     if (!(ret_user_in = ft_strdup(rp()->user_in)))
 		exit(1);
-	add_to_start_history(rp()->history, ret_user_in);
+	free(rp()->user_in);
+	//printf("len = %ld, max_len = %ld\n", rp()->len, rp()->max_len);
+	add_to_start_history(rp()->history, ret_user_in, user_in_len);
     return (ret_user_in);
 }

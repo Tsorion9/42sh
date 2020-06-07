@@ -117,14 +117,14 @@ t_rp		*init_rp(void)
 	t_rp	*rp;
 
 	if (!(rp = (t_rp*)malloc(sizeof(t_rp))))
-		exit(1);
-	if (!(rp->user_in = (char*)malloc(sizeof(char) * MAX_CMD_LENGTH)))
-		exit(1);
+		reset_exit(1);
+	rp->len = 0;
+	rp->max_len = MIN_CMD_LENGTH;
 	rp->cur_pos[0] = START_COL_POS;
 	rp->cur_pos[1] = START_ROW_POS;
 	rp->flag = 0;
 	rp->line_shift = 0;
-	rp->history = create_history("");
+	rp->history = create_history("", 0);
 	rp->ws_col = ret_winsize(0);
 	rp->ws_row = ret_winsize(1);
 	return (rp);

@@ -22,7 +22,7 @@
 
 #include "expand.h"
 
-#define MAX_CMD_LENGTH 4096
+#define MIN_CMD_LENGTH 4096
 #define BUFFSIZE 4096
 #define HISTSIZE 1000
 #define bool _Bool // Remove this!
@@ -47,6 +47,7 @@ typedef struct			s_completion
 typedef struct          s_history
 {
     char                *str;
+	size_t				len;
     struct s_history    *prev;
     struct s_history    *next;
 }                       t_history;
@@ -54,6 +55,8 @@ typedef struct          s_history
 typedef struct          s_rp
 {
     char                *user_in;
+	size_t				len;
+	size_t				max_len;
     int                 count_lines;
     int                 cur_pos[2];
     char                flag;
@@ -153,6 +156,7 @@ typedef struct  s_token
 
 #define PROMPT_LEN 2
 
+void			expand_user_in(void);
 t_rp			*readline_position(t_rp *change_rp);
 void			reset_rp_to_start(void);
 int				ft_putint(int c);
@@ -175,8 +179,8 @@ int				ret_winsize(int a);
 int				check_backslash(char *user_in, int start_check);
 char			*expansion(char *user_in, char **env);
 t_history		*add_new_history(t_history *history, char *str);
-void			add_to_start_history(t_history *history, char *str);
-t_history		*create_history(char *str);
+void			add_to_start_history(t_history *history, char *str, size_t len);
+t_history		*create_history(char *str, size_t len);
 void			load_on_file_history(t_history *history);
 void			save_in_file_history(t_history *history);
 void			free_readline_position(void);
