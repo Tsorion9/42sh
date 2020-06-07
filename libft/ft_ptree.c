@@ -65,16 +65,16 @@ void			del_key(t_ptree *tree, char *key)
 	return ;
 }
 
-void			del_tree(t_ptree *tree)
+void			del_tree(t_ptree **tree)
 {
 	int	i;
 
 	i = 0;
-	if (!tree)
+	if (!tree || !*tree)
 		return ;
 	while (i < N_CHILDREN)
-		del_tree(tree->child[i++]);
-	if (tree->value)
-		free(tree->value);
-	ft_memdel((void *)&tree);
+		del_tree(&((*tree)->child[i++]));
+	if ((*tree)->value)
+		free((*tree)->value);
+	ft_memdel((void *)tree);
 }

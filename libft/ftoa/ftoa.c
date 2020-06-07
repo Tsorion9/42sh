@@ -42,7 +42,7 @@ char		*ftoa(long double x, int precision)
 	fill_t_float(x, &num, precision);
 	if (!~((num.exp << 1) + 1))
 		return (exp_all_ones(&num));
-	else if (!(num.exp << 1))
+	else if ((num.exp << 1) != 0)
 		return (exp_all_zeros(&num));
 	else
 		return (normal_case(&num));

@@ -1,5 +1,6 @@
 #include "21sh.h"
 
+<<<<<<< HEAD
 /*
 ** Удаляет все лишние символы backslash
 */
@@ -131,3 +132,5 @@ char        *expansion(char *user_in, char **env)
     //delete_backslash(str);
     return (ft_strdup(str));
 }
+=======
+>>>>>>> 33c7e838f5cd9222d4ebe79e9a1e0e7571502a35

@@ -261,6 +261,14 @@ typedef enum e_token_type
 	gr_and = GREATER_AND
 }				t_token_type;
 
+/*
+** Complete command is a deque of pipelines (t_pipeline)
+** t_pipeline->commands is a deque of simple commands (t_simple_cmd)
+** Simple command t_simple_cmd is 2 deques of words and redirections
+** (wl, arl)
+** arl is a deque of type t_ar
+*/
+
 typedef struct	s_pipeline
 {
 	t_deque		*commands;

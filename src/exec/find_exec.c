@@ -38,7 +38,8 @@ static void	execute(char *progname, char **args, char **child_env)
 
 static int	no_exec_rights(char *progname)
 {
-	ft_fprintf(2, "minishell: %s: Permission denied\n", progname);
+	ft_fprintf(2, "21sh: %s: Permission denied\n", progname);
+	exit(-1);
 	free(progname);
 	return (-1);
 }
@@ -55,6 +56,7 @@ int			find_exec(char **args, t_env env)
 	if (!progname)
 	{
 		ft_fprintf(2, "%s: command not found\n", args[0]);
+		exit(-1);
 		return (-1);
 	}
 	if (access(progname, X_OK) != 0)

@@ -26,7 +26,7 @@ static int	exit_(
 	else
 	{
 		flush_tokbuf(tokbuf_g, tokbuf_l);
-		rm_simple_cmd(cmd);
+		rm_simple_cmd(*cmd);
 		return (PARSER_FAILURE);
 	}
 }

@@ -139,7 +139,7 @@ void               *search_key(t_ptree *tree, char *key);
 
 int                 insert_value(t_ptree *tree, char *key, void *value);
 void                del_key(t_ptree *tree, char *key);
-void                del_tree(t_ptree *tree);
+void                del_tree(t_ptree **tree);
 
 /*
 ** Copy tree with all contents.

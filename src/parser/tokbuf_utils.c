@@ -58,8 +58,6 @@ void	erase_tokbuf(t_deque **tokbuf)
 
 void	flush_tokbuf(t_deque **tokbuf_g, t_deque **tokbuf_l)
 {
-	if (!*tokbuf_l)
-		return ;
-	while ((*tokbuf_l)->first)
+	while (*tokbuf_l && (*tokbuf_l)->first)
 		ungett(tokbuf_g, tokbuf_l);
 }
