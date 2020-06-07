@@ -73,7 +73,7 @@ void			del_tree(t_ptree **tree)
 	if (!tree || !*tree)
 		return ;
 	while (i < N_CHILDREN)
-		del_tree((*tree)->child[i++]);
+		del_tree(&((*tree)->child[i++]));
 	if ((*tree)->value)
 		free((*tree)->value);
 	ft_memdel((void *)tree);
