@@ -35,6 +35,18 @@ void	print_token(t_token *token)
 		print_op(token->token_type);
 }
 
+int		syntax_error_state_action(int request, int param)
+{
+	static int	error_state;
+
+	if (request == SYNTAX_ERROR_STATE_SET)
+	{
+		error_state = param;
+		return (0);
+	}
+	return (error_state);
+}
+
 void	syntax_error(t_token *token)
 {
 	ft_fprintf(2, "%s", "Syntax error at token: ");

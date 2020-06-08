@@ -8,6 +8,7 @@ int	match_complete_command(t_deque **command, t_deque **tokbuf_g)
 	if (match_list(command, tokbuf_g) == PARSER_FAILURE)
 	{
 		syntax_error(((t_token *)((*tokbuf_g)->last->data)));
+		erase_tokbuf(&tokbuf_l);
 		return (PARSER_FAILURE);
 	}
 	if (gett(tokbuf_g, &tokbuf_l)->token_type != sep)
