@@ -108,9 +108,10 @@ for file in sorted(files):
 	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(test_out, file,  bash, test_out, test_out) 
 	os.system(shell_cmd)
 	try:
-		diff = subprocess.check_output("diff {} {}".format(user_out, test_out), shell=True, executable="/bin/bash")
+		diff_cmd = "diff {} {}".format(user_out, test_out)
+		diff = subprocess.check_output(diff_cmd, shell=True, executable="/bin/bash")
 	except subprocess.CalledProcessError:
-		diff = ""
+		diff = "diff: error occured"
 	print(colored("{}{}{}{}{}{}".format(
 										count_tests, 
 										n_spaces(str(count_tests), 4), 
