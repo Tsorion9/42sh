@@ -38,16 +38,17 @@ void	enter_task_context(t_task_context *task_context)
 {
 	if (task_context->need_subshell)
 		static_env_action(save, NULL);
+	task_context->save_0 = dup(0);
+	task_context->save_1 = dup(1);
+	task_context->save_2 = dup(2);
 	/* Probably, make the copy of the environment*/
 	if (task_context->in_pipe != IGNORE_STREAM)
 	{
-		task_context->save_0 = dup(0);
 		dup2(task_context->in_pipe, 0);
 		close(task_context->in_pipe);
 	}
 	if (task_context->out_pipe != IGNORE_STREAM)
 	{
-		task_context->save_1 = dup(1);
 		dup2(task_context->out_pipe, 1);
 		close(task_context->out_pipe);
 	}
@@ -62,14 +63,12 @@ void	exit_task_context(t_task_context *task_context)
 	if (task_context->need_subshell)
 		static_env_action(restore, NULL);
 	/* Restore the copy of the environment*/
+	dup2(task_context->save_0, 0);
+	dup2(task_context->save_1, 1);
+	dup2(task_context->save_2, 2);
 	if (task_context->in_pipe != IGNORE_STREAM)
-	{
-		dup2(task_context->save_0, 0);
 		close(task_context->save_0);
-	}
 	if (task_context->out_pipe != IGNORE_STREAM)
-	{
-		dup2(task_context->save_1, 1);
 		close(task_context->save_1);
-	}
+	close(task_context->save_2);
 }

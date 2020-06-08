@@ -9,6 +9,7 @@ typedef struct	s_task_context
 	int			out_pipe;
 	int			save_0;
 	int			save_1;
+	int			save_2;
 	int			need_child;
 	int			need_subshell;
 }				t_task_context;
