@@ -53,8 +53,8 @@ def n_spaces(case_name, offset):
 
 def	valgrind_sumary(n_valgrind_errors, n_leaks):
 	if (n_valgrind_errors == 0 and n_leaks == 0):
-		return  "   VALGRIND OK        "
-	return (colored("  VALGRIND_WARNINGS   ", "red"))
+		return (colored("  VALGRIND_OK ", "green"))
+	return (colored("  VALGRIND_KO ", "red"))
 
 def get_color(diff, timeout, segfault, err_ok):
 	if (timeout == 0 and len(diff) == 0 and segfault == 0 and err_ok == 1):
