@@ -38,6 +38,7 @@ static void	make_io_redir(t_io_redir *redir)
 {
 	int	fd;
 	int	*heredoc;
+	int	copy;
 
 	if (redir->operation == lessand || redir->operation == gr_and)
 	{
@@ -46,8 +47,14 @@ static void	make_io_redir(t_io_redir *redir)
 			close(redir->fd);
 			return ;
 		}
-		dup2(ft_atoi(redir->where->content), redir->fd); 
-		close(ft_atoi(redir->where->content));
+		copy = dup(ft_atoi(redir->where->content)); //TODO: If not only digits or >1 element in list -> error!
+		if (copy == -1) // Previous guy was closed
+		{
+			close(redir->fd);
+			return ;
+		}
+		dup2(copy, redir->fd); 
+		close(copy);
 		return ;
 	}
 	if (redir->operation == dless || redir->operation == dlessash)

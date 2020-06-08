@@ -26,7 +26,7 @@ int	match_io_file(t_io_redir *redir, t_deque **tokbubf_g)
 	}
 	redir->operation = type;
 	figure_out_fd(redir);
-	if ((tok = gett(tokbubf_g, &tokbuf_l))->token_type != word)
+	if ((tok = gett(tokbubf_g, &tokbuf_l))->token_type != word && tok->token_type != number) // TODO: lex should handle this
 	{
 		flush_tokbuf(tokbubf_g, &tokbuf_l);
 		return (PARSER_FAILURE);
