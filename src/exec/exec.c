@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "expand.h"
 
 /*
 ** as_wrd is string in format name=value
@@ -350,6 +351,7 @@ int	exec_cmd(t_deque *cmd)
 	last_status = 1;
 	while ((pipeline = pop_front(cmd)))
 	{
+		expand_pipeline(pipeline);
 		last_status = exec_pipeline(pipeline->commands);
 		free(pipeline);
 	}

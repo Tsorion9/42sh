@@ -378,6 +378,7 @@ int			expand_dollar(char **word, int *pos);
 char		*expand(char *s);
 void		expand_tilda(char **s, int *pos);
 
+void	expand_pipeline(void *pipeline);
 void	expand_complete_cmd(t_deque *cmd);
 
 #endif
