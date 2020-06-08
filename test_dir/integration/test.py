@@ -17,6 +17,7 @@ offs = 30 #Offset for string succcess or failure
 my_timeout = 1# seconds for single test
 return_segfault_code = 139
 
+os.system("touch {}".format(valgrind_trace))
 
 def failure_or_success(diff, timeout, segfault):
 	if (segfault == 1):
@@ -132,4 +133,5 @@ print("")
 print(colored("Summary: {} out of {} tests passed!".format(good, good + bad), "magenta"))
 print(colored("See traces at {}/user_out_[CASE_NAME].txt and {}/test_out[CASE_NAME].txt".format(path_to_cases, path_to_cases), "green"))
 
+os.system("rm -rf test 1 2 12 trace.txt last_valgrind_output")
 #os.killpg(os.getpgid(os.getpid()), signal.SIGILL)
