@@ -19,6 +19,23 @@ return_segfault_code = 139
 
 os.system("touch {}".format(valgrind_trace))
 
+
+def	line_count(name):
+	count = 0
+	with open(name, 'r') as f:
+		for line in f:
+			count += 1
+	return count
+
+def is_err_ok(test_err, user_err):
+	err_lines_test = line_count(test_err)
+	err_lines_user = line_count(user_err)
+	if (err_lines_user == 0 and err_lines_test == 0):
+		return (1)
+	if (err_lines_user != 0 and err_lines_test != 0):
+		return (1)
+	return 0;
+
 def failure_or_success(diff, timeout, segfault):
 	if (segfault == 1):
 		return ("Segfault")
@@ -36,13 +53,18 @@ def n_spaces(case_name, offset):
 
 def	valgrind_sumary(n_valgrind_errors, n_leaks):
 	if (n_valgrind_errors == 0 and n_leaks == 0):
-		return  "  VALGRIND OK"
-	return (colored(" VALGRIND_WARNINGS", "red"))
+		return  "   VALGRIND OK        "
+	return (colored("  VALGRIND_WARNINGS   ", "red"))
 
-def get_color(diff, timeout, segfault):
-	if (timeout == 0 and len(diff) == 0 and segfault == 0):
+def get_color(diff, timeout, segfault, err_ok):
+	if (timeout == 0 and len(diff) == 0 and segfault == 0 and err_ok == 1):
 		return ("green")
 	return ("red")
+
+def stderr_string_message(err_ok):
+	if (err_ok == 1):
+		return (colored("  STDERR_OK", "green"))
+	return (colored("  STDERR_KO", "red"))
 
 def ignore(signalNumber, frame):
 	return
@@ -64,7 +86,11 @@ for file in sorted(files):
 	user_out = path_to_cases + "/user_out_" + case_name + ".txt"
 	test_out = path_to_cases + "/test_out_" + case_name + ".txt"
 
-	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(user_out, file,  our_shell, user_out, user_out) 
+	user_err = path_to_cases + "/user_err_" + case_name + ".txt" # Write stderror of program to the separate file
+	test_err = path_to_cases + "/test_err_" + case_name + ".txt" 
+	# We are interested only in number of lines in these files (both zero or both nonzero -> OK)
+
+	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(user_out, file,  our_shell, user_out, user_err) 
 	shell_cmd += '\nif [[ $? -eq 139 ]]; then exit 139; fi'
 	timeout = 0
 
@@ -106,24 +132,27 @@ for file in sorted(files):
 			n_leaks = int(float(n_leaks[0]))
 		
 
-	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(test_out, file,  bash, test_out, test_out) 
+	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(test_out, file,  bash, test_out, test_err) 
 	os.system(shell_cmd)
 	try:
 		diff_cmd = "diff {} {}".format(user_out, test_out)
 		diff = subprocess.check_output(diff_cmd, shell=True, executable="/bin/bash")
 	except subprocess.CalledProcessError:
 		diff = "diff: error occured"
-	print(colored("{}{}{}{}{}{}".format(
+	
+	err_ok = is_err_ok(test_err, user_err)
+	print(colored("{}{}{}{}{}{}{}".format(
 										count_tests, 
 										n_spaces(str(count_tests), 4), 
 										case_name, 
 										n_spaces(case_name, offs),
 										failure_or_success(diff, timeout, segfault),
-										valgrind_sumary(n_valgrind_errors, n_leaks)
+										valgrind_sumary(n_valgrind_errors, n_leaks),
+										stderr_string_message(err_ok)
 									  ), 
-				  get_color(diff, timeout, segfault)))
+				  get_color(diff, timeout, segfault, err_ok)))
 
-	if (timeout == 0 and len(diff) == 0 and segfault == 0 and n_valgrind_errors == 0 and n_leaks == 0):
+	if (timeout == 0 and len(diff) == 0 and segfault == 0 and n_valgrind_errors == 0 and n_leaks == 0 and err_ok == 1):
 		good += 1
 	else:
 		bad += 1
