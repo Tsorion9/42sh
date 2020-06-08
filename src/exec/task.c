@@ -33,6 +33,7 @@ int	task(t_simple_cmd *cmd, t_task_context *task_context)
 	make_assignments_redirections(cmd);
 	if (deque_len(cmd->wl) == 0)
 	{
+		exit_task_context(task_context);
 		rm_simple_cmd(cmd);
 		return (0);
 	}

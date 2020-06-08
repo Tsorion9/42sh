@@ -41,15 +41,13 @@ void	enter_task_context(t_task_context *task_context)
 	/* Probably, make the copy of the environment*/
 	if (task_context->in_pipe != IGNORE_STREAM)
 	{
-		if (!task_context->need_child)
-			task_context->save_0 = dup(0);
+		task_context->save_0 = dup(0);
 		dup2(task_context->in_pipe, 0);
 		close(task_context->in_pipe);
 	}
 	if (task_context->out_pipe != IGNORE_STREAM)
 	{
-		if (!task_context->need_child)
-			task_context->save_1 = dup(1);
+		task_context->save_1 = dup(1);
 		dup2(task_context->out_pipe, 1);
 		close(task_context->out_pipe);
 	}
