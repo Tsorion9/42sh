@@ -1,6 +1,10 @@
 #include "21sh.h"
 #include "static_env.h"
 
+#include <fcntl.h>
+#include <unistd.h>
+
+
 /*
 ** as_wrd is string in format name=value
 ** free the as_wrd (Or better not?)
@@ -34,7 +38,7 @@ static int	get_oflags(t_token_type op)
 ** TODO(2): redir->where is a list actually. Process error "ambigous redirect"
 */
 
-static void	make_io_redir(t_io_redir *redir)
+static int	make_io_redir(t_io_redir *redir)
 {
 	int	fd;
 	int	*heredoc;
@@ -45,17 +49,17 @@ static void	make_io_redir(t_io_redir *redir)
 		if (!ft_strcmp((char *)redir->where->content, CLOSE_STREAM))
 		{
 			close(redir->fd);
-			return ;
+			return (0);
 		}
 		copy = dup(ft_atoi(redir->where->content)); //TODO: If not only digits or >1 element in list -> error!
 		if (copy == -1) // Previous guy was closed
 		{
 			close(redir->fd);
-			return ;
+			return (0);
 		}
 		dup2(copy, redir->fd); 
 		close(copy);
-		return ;
+		return (0);
 	}
 	if (redir->operation == dless || redir->operation == dlessash)
 	{
@@ -63,10 +67,25 @@ static void	make_io_redir(t_io_redir *redir)
 		dup2(*heredoc, redir->fd);
 		close(*heredoc);
 		free(heredoc);
-		return ;
+		return (0);
+	}
+	if (redir->operation == less && access((char *)redir->where->content, F_OK) == -1)
+	{
+		ft_fprintf(2, "Error: file %s does not exist\n", (char *)redir->where->content);
+		if (!isatty(0))
+			exit(-1);
+		return (1); 
 	}
 	fd = open((char *)redir->where->content, get_oflags(redir->operation), 0666);
+	if (fd == -1)
+	{
+		ft_fprintf(2, "Error: could not open file %s\n", (char *)redir->where->content);
+		if (!isatty(0))
+			exit(-1);
+		return (1); 
+	}
 	dup2(fd, redir->fd);
+	return (0);
 }
 
 /*
@@ -78,6 +97,7 @@ int	make_assignments_redirections(t_simple_cmd *cmd)
 	t_ar		*ar;
 	char		*as_wrd;
 	t_env		env;
+	int			any_errors;
 
 	env = static_env_action(get, NULL);
 	while ((ar = (t_ar *)pop_front(cmd->arl)))
@@ -89,9 +109,11 @@ int	make_assignments_redirections(t_simple_cmd *cmd)
 		}
 		else 
 		{
-			make_io_redir((t_io_redir *)ar->data);
+			any_errors = make_io_redir((t_io_redir *)ar->data);
+			if (any_errors)
+				return (1);
 		}
 		rm_ar(ar);
 	}
-	return (1);
+	return (0);
 }

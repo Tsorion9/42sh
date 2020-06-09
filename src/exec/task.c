@@ -31,7 +31,9 @@ int	task(t_simple_cmd *cmd, t_task_context *task_context)
 	t_builtin	builtin;
 
 	enter_task_context(task_context);
-	make_assignments_redirections(cmd);
+	status = make_assignments_redirections(cmd);
+	if (status == 1)
+		return (1);
 	if (deque_len(cmd->wl) == 0)
 	{
 		exit_task_context(task_context);
