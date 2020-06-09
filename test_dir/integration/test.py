@@ -5,6 +5,25 @@ import glob
 import subprocess
 from termcolor import colored
 import signal
+import sys
+
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('-s', action='store', dest='start', type = int,
+                    help='Start test number', default = 0)
+parser.add_argument('-e', action='store', dest='end', type=int,
+                    help='Start test number', default = 1000000)
+
+parser.add_argument('-v', '--verbose', action='store_true', help="verbose")
+
+args = parser.parse_args()
+print(colored("Running tests for cases {}:{}".format(args.start, args.end), "cyan"))
+
+verbose = 0
+if (args.verbose):
+	verbose = 1;
 
 os.system("rm -f cases/user_out_* cases/test_out*")
 
@@ -80,7 +99,10 @@ bad = 0
 
 files = glob.glob(path_to_cases + "/in_*.txt")
 for file in sorted(files): 
+	os.system("echo 0 >{}".format(valgrind_trace))
 	count_tests += 1
+	if (count_tests < args.start or count_tests > args.end):
+		continue ;
 
 	case_name = file[9:-4]
 	user_out = path_to_cases + "/user_out_" + case_name + ".txt"
@@ -156,6 +178,29 @@ for file in sorted(files):
 		good += 1
 	else:
 		bad += 1
+
+	if (verbose == 1):
+		print("*" * 80)
+		print("Input:")
+		os.system("cat {}".format(file))
+		print("*" * 80)
+		print("Expected:")
+		os.system("cat {}".format(test_out))
+		print("*" * 80)
+		print("Got:")
+		os.system("cat {}".format(user_out))
+		print("*" * 80)
+		print("Expected error stream:")
+		os.system("cat {}".format(test_err))
+		print("*" * 80)
+		print("Got error stream:")
+		os.system("cat {}".format(user_err))
+		print("*" * 80)
+		print("Valgrind output:")
+		
+		shell_cmd_leaks = "cat {} | valgrind {}".format(file, our_shell)
+		process = subprocess.Popen(shell_cmd, shell=True, executable="/bin/bash")
+		print("*" * 80)
 
 print("")
 
