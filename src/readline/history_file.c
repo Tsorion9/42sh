@@ -22,9 +22,8 @@ void        load_on_file_history(t_history *history)
     char    str[MIN_CMD_LENGTH];
     int     i;
     
-    fd = open_21sh_history(O_RDONLY);
-    if (fd == -1)
-        return ;
+    if ((fd = open_21sh_history(O_RDONLY)) < 0)
+		return ;
     i = 0;
     while (read(fd, buf, 1) > 0)
     {

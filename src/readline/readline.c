@@ -10,7 +10,6 @@ void	expand_user_in(void)
 	if (!(rp()->user_in = (char*)malloc(sizeof(char) * rp()->max_len)))
 		reset_exit(1);
 	ft_strcpy(rp()->user_in, tmp);
-	free(tmp);
 }
 
 int		is_print(long c)
@@ -98,7 +97,6 @@ char        *readline(char *prompt)
     if (!(ret_user_in = ft_strdup(rp()->user_in)))
 		exit(1);
 	free(rp()->user_in);
-	//printf("len = %ld, max_len = %ld\n", rp()->len, rp()->max_len);
 	add_to_start_history(rp()->history, ret_user_in, user_in_len);
     return (ret_user_in);
 }

@@ -26,36 +26,35 @@ static int  is_token_assignment_word(char *buf)
     return (0);
 }
 
-t_token     get_token_word(char **user_in, int *index, char *buf,\
-    int *buf_index)
+t_token			get_token_word(char **user_in, int *index, t_attribute *attr)
 {
     t_token	ret_token;
 
     while (is_letter((*user_in)[*index]))
-        write_char_to_buf(*user_in, index, buf, buf_index);
+        write_char_to_buf(*user_in, index, attr);
     if ((*user_in)[*index] == '&' && (*user_in)[*index + 1] != '>')
     {
-        write_char_to_buf(*user_in, index, buf, buf_index);
-        ret_token = get_token_word(user_in, index, buf, buf_index);
+        write_char_to_buf(*user_in, index, attr);
+        ret_token = get_token_word(user_in, index, attr);
     }
     else if ((*user_in)[*index] == '\'' && check_backslash(*user_in, *index - 1))
 	{
 		close_quote(user_in);
-        return (write_singe_quotes_to_buf(user_in, index, buf, buf_index));
+        return (write_singe_quotes_to_buf(user_in, index, attr));
 	}
     else if ((*user_in)[*index] == '\"' && check_backslash(*user_in, *index - 1))
 	{
 		close_quote(user_in);
-        return (write_double_quotes_to_buf(user_in, index, buf, buf_index));
+        return (write_double_quotes_to_buf(user_in, index, attr));
 	}
     else if (!(check_backslash(*user_in, *index - 1)))
     {
-        write_char_to_buf(*user_in, index, buf, buf_index);
-        return (get_token_word(user_in, index, buf, buf_index));
+        write_char_to_buf(*user_in, index, attr);
+        return (get_token_word(user_in, index, attr));
     }
     ret_token.token_type = WORD;
-    if (is_token_assignment_word(buf))
+    if (is_token_assignment_word(attr->buf))
         ret_token.token_type = ASSIGNMENT_WORD;
-    ret_token.attribute = create_attribute(buf, *buf_index);
+    ret_token.attribute = create_attribute(attr);
     return (ret_token);
 }

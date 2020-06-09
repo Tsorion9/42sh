@@ -30,7 +30,7 @@
 #define false 0
 #define START_COL_POS 3
 #define START_ROW_POS 1
-#define rp() readline_position(NULL) // Norm!
+#define rp() readline_position(NULL)
 
 #define DEFAULT_PROMPT "$>"
 

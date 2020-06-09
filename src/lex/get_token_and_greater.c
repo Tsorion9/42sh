@@ -1,7 +1,6 @@
 #include "lex.h"
 
-t_token       get_token_and_greater(char **user_in, int *index, char *buf,\
-    int *buf_index)
+t_token       get_token_and_greater(char **user_in, int *index, t_attribute *attr)
 {
     t_token   ret_token;
 
@@ -12,8 +11,8 @@ t_token       get_token_and_greater(char **user_in, int *index, char *buf,\
     }
     else
     {
-        write_char_to_buf(*user_in, index, buf, buf_index);
-        ret_token = get_token_word(user_in, index, buf, buf_index);
+        write_char_to_buf(*user_in, index, attr);
+        ret_token = get_token_word(user_in, index, attr);
     }
     return (ret_token);
 }

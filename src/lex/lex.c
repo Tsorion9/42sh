@@ -39,22 +39,24 @@ void        skip_ws(char *user_in, int *index)
         (*index)++;
 }
 
-void        write_char_to_buf(char *user_in, int *index, char *buf,\
-    int *buf_index)
+void        write_char_to_buf(char *user_in, int *index, t_attribute *attr)
 {
-    buf[*buf_index] = user_in[*index];
+	if (attr->max_len <= attr->len + 1)
+		expand_attr(attr);
+    attr->buf[attr->index] = user_in[*index];
     (*index)++;
-    (*buf_index)++;
-    buf[*buf_index] = 0;
+    attr->index++;
+	attr->len++;
+    attr->buf[attr->index] = '\0';
 }
 
-char        *create_attribute(char *buf, int buf_index)
+char        *create_attribute(t_attribute *attr)
 {
     char    *attribute;
 
-    buf[buf_index] = 0;
-    if (!(attribute = ft_strdup(buf)))
-        exit(0);
+    attr->buf[attr->index] = 0;
+    if (!(attribute = ft_strdup(attr->buf)))
+        reset_exit(0);
     return (attribute);
 }
 
@@ -114,7 +116,7 @@ t_token			*lex(void)
     static int  index;
     static int  prev_token = -1;
     t_token       new_token;
-    char        buf[BUFFSIZE];
+    t_attribute	*attr;
     int         buf_index;
 	static int	need_new_line;
 
@@ -125,11 +127,11 @@ t_token			*lex(void)
         else if (!get_next_line(STDIN_FILENO, &user_in))
 		{
 			free_rp();
-			exit(1);// Тут перед выходом надо все почистить.
+			reset_exit(1);// Тут перед выходом надо все почистить.
 		}
 		need_new_line = 0;
 	}
-    buf_index = 0;
+	attr = init_attribute();
     skip_ws(user_in, &index);
     if (!user_in[index])
 	{
@@ -139,7 +141,7 @@ t_token			*lex(void)
 		need_new_line = 1;
 	}
     else if (is_digit(user_in[index]))
-        new_token = get_token_number(&user_in, &index, buf, &buf_index, prev_token);
+        new_token = get_token_number(&user_in, &index, attr, prev_token);
     else if (user_in[index] == '>')
         new_token = get_token_greater(user_in, &index);
     else if (user_in[index] == '<')
@@ -147,23 +149,24 @@ t_token			*lex(void)
     else if (user_in[index] == '|')
         new_token = get_token_pipe(&index);
     else if (is_letter(user_in[index]))
-        new_token = get_token_word(&user_in, &index, buf, &buf_index);
+        new_token = get_token_word(&user_in, &index, attr);
     else if (user_in[index] == ';')
         new_token = get_toket_line_separator(&index);
     else if (user_in[index] == '\'')
 	{
 		close_quote(&user_in);
-        new_token = write_singe_quotes_to_buf(&user_in, &index, buf, &buf_index);
+        new_token = write_singe_quotes_to_buf(&user_in, &index, attr);
 	}
     else if (user_in[index] == '&')
-        new_token = get_token_and_greater(&user_in, &index, buf, &buf_index);
+        new_token = get_token_and_greater(&user_in, &index, attr);
     else if (user_in[index] == '\"')
 	{
 		close_quote(&user_in);
-        new_token = write_double_quotes_to_buf(&user_in, &index, buf, &buf_index);
+        new_token = write_double_quotes_to_buf(&user_in, &index, attr);
 	}
 	if (!need_new_line)
-		add_to_start_history(rp()->history, user_in);
+		add_to_start_history(rp()->history, user_in, ft_strlen(user_in));
     prev_token = new_token.token_type;
+	free_attribute(attr);
     return (copy_init_token(new_token));
 }
