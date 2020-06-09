@@ -19,6 +19,7 @@ static char	**collect_argwords(t_simple_cmd *cmd)
 	while ((args[i] = pop_front(cmd->wl)))
 		i++;
 	free(cmd->wl);
+	cmd->wl = NULL;
 	return (args);
 }
 
@@ -45,7 +46,7 @@ int	task(t_simple_cmd *cmd, t_task_context *task_context)
 	else
 		find_exec(av, static_env_action(get, NULL));	
 	del_array(av);
-	free(cmd);
+	rm_simple_cmd(cmd);
 	exit_task_context(task_context);
 	return (status);
 }

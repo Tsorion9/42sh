@@ -90,7 +90,7 @@ for file in sorted(files):
 	test_err = path_to_cases + "/test_err_" + case_name + ".txt" 
 	# We are interested only in number of lines in these files (both zero or both nonzero -> OK)
 
-	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(user_out, file,  our_shell, user_out, user_err) 
+	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(user_err, file,  our_shell, user_out, user_err) 
 	shell_cmd += '\nif [[ $? -eq 139 ]]; then exit 139; fi'
 	timeout = 0
 
@@ -132,7 +132,7 @@ for file in sorted(files):
 			n_leaks = int(float(n_leaks[0]))
 		
 
-	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(test_out, file,  bash, test_out, test_err) 
+	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(test_err, file,  bash, test_out, test_err) 
 	os.system(shell_cmd)
 	try:
 		diff_cmd = "diff {} {}".format(user_out, test_out)
