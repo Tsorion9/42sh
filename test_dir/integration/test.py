@@ -85,6 +85,18 @@ def stderr_string_message(err_ok):
 		return (colored("  STDERR_OK", "green"))
 	return (colored("  STDERR_KO", "red"))
 
+def	check_valgrind(file, our_shell, valgrind_trace):
+	n_valgrind_errors = 0
+	shell_cmd = "cat {} | valgrind {} 2>&1 | grep 'ERROR\|definitely' | grep ': [1-9]' | wc -l > {}".format(file, our_shell, valgrind_trace)
+	process = subprocess.Popen(shell_cmd, shell=True, executable="/bin/bash")
+	trace = open(valgrind_trace, "r")
+	try:
+		n_valgrind_errors = int(trace.read())
+	except ValueError:
+		pass;
+	trace.close()
+	return (n_valgrind_errors)
+
 def ignore(signalNumber, frame):
 	return
 
@@ -134,25 +146,7 @@ for file in sorted(files):
 	n_leaks = 0
 	n_valgrind_errors = 0
 	if (segfault == 0 and timeout == 0):
-		shell_cmd = "cat {} | valgrind {} 2>&1 | grep ERROR | cut -f4 -d ' ' > {}".format(file, our_shell, valgrind_trace)
-		process = subprocess.Popen(shell_cmd, shell=True, executable="/bin/bash")
-		trace = open(valgrind_trace, "r")
-		try:
-			n_valgrind_errors = int(trace.read())
-		except ValueError:
-			pass;
-		trace.close()
-
-
-
-		shell_cmd_leaks = "cat {} | valgrind {} 2>&1 | grep definitely | rev | cut -f5 -d ' ' | rev > {}".format(file, our_shell, valgrind_trace)
-		process = subprocess.Popen(shell_cmd, shell=True, executable="/bin/bash")
-		trace = open(valgrind_trace, "r")
-		n_leaks = trace.read()
-		trace.close()
-		if (len(n_leaks) > 0):
-			n_leaks = int(float(n_leaks[0]))
-		
+		n_valgrind_errors = check_valgrind(file, our_shell, valgrind_trace)
 
 	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(test_err, file,  bash, test_out, test_err) 
 	os.system(shell_cmd)
@@ -198,8 +192,8 @@ for file in sorted(files):
 		print("*" * 80)
 		print("Valgrind output:")
 		
-		shell_cmd_leaks = "cat {} | valgrind {}".format(file, our_shell)
-		process = subprocess.Popen(shell_cmd, shell=True, executable="/bin/bash")
+		shell_cmd_leaks = "cat {} | valgrind {} 2>&1".format(file, our_shell)
+		process = subprocess.Popen(shell_cmd_leaks, shell=True, executable="/bin/bash")
 		print("*" * 80)
 
 print("")
