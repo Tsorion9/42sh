@@ -187,6 +187,7 @@ void	*heredoc_action(t_heredoc_action action, void *data)
 	static t_deque	*eof_words;
 	static t_deque	*fd_deque;
 	char			*current_strlit;	
+	char			*here_eof;
 
 	if (action == is_empty)
 		return ((eof_words && eof_words->first) ? NULL : (void *)1);
@@ -194,7 +195,8 @@ void	*heredoc_action(t_heredoc_action action, void *data)
 		return (push_back(&eof_words, data));
 	if (action == add_fd)
 	{
-		current_strlit = gather_string_literal((char *)pop_front(eof_words));
+		current_strlit = gather_string_literal((here_eof = (char *)pop_front(eof_words)));
+		free(here_eof);
 		push_back(&fd_deque, create_tmp_file(current_strlit));
 		return (NULL);
 	}
