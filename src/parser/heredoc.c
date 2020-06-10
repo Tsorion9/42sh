@@ -130,7 +130,7 @@ static char 	*temporary_readline_wrapper(char *prompt)
 		return (NULL);
 	if (gnl_status == 0)
 	{
-		free(s);
+		//free(s);
 		return (NULL);
 	}
 
