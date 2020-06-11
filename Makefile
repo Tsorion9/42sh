@@ -68,6 +68,10 @@ CEXEC = builtin_env.c\
 		env_actions.c\
 		static_env.c\
 		find_exec.c\
+		sync_heredoc.c\
+		task_context.c\
+		task.c\
+		make_assignments_redirections.c\
 		exec.c
 
 CEXPANSIONS = dollar_expansion.c\

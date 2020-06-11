@@ -393,6 +393,15 @@ int			expand_dollar(char **word, int *pos);
 char		*expand(char *s);
 void		expand_tilda(char **s, int *pos);
 
+void	expand_pipeline(void *pipeline);
 void	expand_complete_cmd(t_deque *cmd);
 
+/*
+** Syntax error
+*/
+#define SYNTAX_ERROR_STATE_GET 1
+#define SYNTAX_ERROR_STATE_SET 0
+#define SYNTAX_ERROR_STATE_OK 0
+#define SYNTAX_ERROR_STATE_NOT_OK 1
+int		syntax_error_state_action(int request, int param);
 #endif

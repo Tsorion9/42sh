@@ -129,7 +129,10 @@ static char 	*temporary_readline_wrapper(char *prompt)
 	if (gnl_status == -1)
 		return (NULL);
 	if (gnl_status == 0)
+	{
+		//free(s);
 		return (NULL);
+	}
 
 	return (s);
 }
@@ -169,7 +172,10 @@ static char		*gather_string_literal(char *here_eof)
 		if (!line)
 			ft_fprintf(2, "21sh: Warning! Here document delimited by end-of-file instead of %s\n", here_eof);
 		if (!line || ft_strcmp(line, here_eof) == 0)
+		{
+			free(line);
 			return (literal);
+		}
 		else
 		{
 			tmp1 = ft_strjoin(line, "\n");
@@ -187,6 +193,7 @@ void	*heredoc_action(t_heredoc_action action, void *data)
 	static t_deque	*eof_words;
 	static t_deque	*fd_deque;
 	char			*current_strlit;	
+	char			*here_eof;
 
 	if (action == is_empty)
 		return ((eof_words && eof_words->first) ? NULL : (void *)1);
@@ -194,7 +201,8 @@ void	*heredoc_action(t_heredoc_action action, void *data)
 		return (push_back(&eof_words, data));
 	if (action == add_fd)
 	{
-		current_strlit = gather_string_literal((char *)pop_front(eof_words));
+		current_strlit = gather_string_literal((here_eof = (char *)pop_front(eof_words)));
+		free(here_eof);
 		push_back(&fd_deque, create_tmp_file(current_strlit));
 		return (NULL);
 	}

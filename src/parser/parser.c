@@ -19,6 +19,9 @@ t_deque	*parser()
 	{
 		rm_compl_cmd(&command);
 		erase_tokbuf(&tokbuf_g);
+		if (!isatty(0))
+			exit (-1);
+		syntax_error_state_action(SYNTAX_ERROR_STATE_SET, SYNTAX_ERROR_STATE_NOT_OK);
 		return (NULL);
 	}
 	gather_heredocs();

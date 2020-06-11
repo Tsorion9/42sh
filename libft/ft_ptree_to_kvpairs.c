@@ -29,6 +29,7 @@ static int				add_kvpair(t_list **kvpairs, char *key, char *value)
 
 /*
 ** Add all key-value pairs from tree to linked list kvpairs
+** Super bad idea o(n^2)
 */
 
 static int		traverse_children(t_ptree *tree, char *prefix, t_list **kvpairs)

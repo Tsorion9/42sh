@@ -81,6 +81,7 @@ void	expand_tilda(char **s, int *pos)
 	if (!replacement)
 	{
 		(*pos)++;
+		free(tilde_prefix);
 		return ;
 	}
 	str_repl_inplace(s, *pos, *pos + ft_strlen(tilde_prefix) - 1, replacement);

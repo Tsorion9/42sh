@@ -1,0 +1,2 @@
+for file in cases/in_*; do echo $file; cat $file | valgrind ../../21sh 2>&1 | grep 'defin\|ERROR' | grep ': [1-9]' | wc -l; done
+

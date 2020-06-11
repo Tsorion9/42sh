@@ -1,2 +1,2 @@
 
-a=c; a=b echo $a			#expected "c"
+a=c; a=b echo $a			

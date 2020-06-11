@@ -62,8 +62,6 @@ static void		print_wrd(void **x)
 
 void	print_simple_command(t_simple_cmd *cmd)
 {
-	void		*s;
-
 	if (cmd->arl)
 		ft_printf("%s\n", "              Assignments or redirections:");
 	if (cmd->arl)

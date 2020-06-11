@@ -119,6 +119,14 @@ t_token			*lex(void)
     t_str		*attr;
 	static int	need_new_line;
 
+	if (syntax_error_state_action(SYNTAX_ERROR_STATE_GET, 0) == SYNTAX_ERROR_STATE_NOT_OK)
+	{
+		free(user_in);
+		user_in = 0;
+		need_new_line = 1;
+		index = 0;
+		syntax_error_state_action(SYNTAX_ERROR_STATE_SET, SYNTAX_ERROR_STATE_OK);
+	}
 	if (!user_in || need_new_line)
 	{
         if (isatty(STDIN_FILENO))

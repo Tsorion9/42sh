@@ -47,7 +47,7 @@ int			builtin_env(char **args, t_env env)
 		ft_fprintf(2, "%s", "Not enough memory\n");
 		return (0);
 	}
-	args = update_copy(args, copy);
+	//args = update_copy(args, copy);
 	if (!args)
 		return (0);
 	if (!*args)
