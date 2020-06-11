@@ -87,7 +87,7 @@ def stderr_string_message(err_ok):
 
 def	check_valgrind(file, our_shell, valgrind_trace):
 	n_valgrind_errors = 0
-	shell_cmd = "cat {} | valgrind {} 2>&1 | grep 'ERROR\|definitely' | grep ': [1-9]' | wc -l > {}".format(file, our_shell, valgrind_trace)
+	shell_cmd = "exec 2>>{} cat {} | valgrind {} 2>&1 | grep 'ERROR\|definitely' | grep ': [1-9]' | wc -l > {}".format(valgrind_trace, file, our_shell, valgrind_trace)
 	process = subprocess.Popen(shell_cmd, shell=True, executable="/bin/bash")
 	trace = open(valgrind_trace, "r")
 	try:
@@ -196,6 +196,10 @@ for file in sorted(files):
 		process = subprocess.Popen(shell_cmd_leaks, shell=True, executable="/bin/bash")
 		print("*" * 80)
 
+def	green_or_red(n_valgrind_errors):
+	if (n_valgrind_errors > 0):
+		return ("red")
+	return ("green")
 print("")
 
 print(colored("Summary: {} out of {} tests passed!".format(good, good + bad), "magenta"))
@@ -203,3 +207,11 @@ print(colored("See traces at {}/user_out_[CASE_NAME].txt and {}/test_out[CASE_NA
 
 os.system("rm -rf test 1 2 12 trace.txt last_valgrind_output")
 #os.killpg(os.getpgid(os.getpid()), signal.SIGILL)
+print("Nocrash!")
+files = glob.glob(path_to_cases + "/nocrash*.txt")
+for file in sorted(files): 
+	os.system("echo 0 >{}".format(valgrind_trace))
+	n_valgrind_errors = check_valgrind(file, our_shell, valgrind_trace)
+	print(colored("{} {}".format(file, "valgrind"), green_or_red(n_valgrind_errors)))
+
+
