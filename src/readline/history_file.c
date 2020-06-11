@@ -18,16 +18,16 @@ static int  open_21sh_history(int mode)
 void        load_on_file_history(t_history *history)
 {
     int     fd;
-    char    buf[1];
+    char    c;
     char    str[MIN_CMD_LENGTH];
     int     i;
     
     if ((fd = open_21sh_history(O_RDONLY)) < 0)
 		return ;
     i = 0;
-    while (read(fd, buf, 1) > 0)
+    while (read(fd, &c, 1) > 0)
     {
-        if (buf[0] == '\n')
+        if (c == '\n')
         {
             str[i] = 0;
             add_to_start_history(history, str, ft_strlen(str));
@@ -35,7 +35,7 @@ void        load_on_file_history(t_history *history)
         }
         else
         {
-            str[i] = buf[0];
+            str[i] = c;
             i++;
         }
     }
