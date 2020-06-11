@@ -39,10 +39,10 @@ void        skip_ws(char *user_in, int *index)
         (*index)++;
 }
 
-void        write_char_to_buf(char *user_in, int *index, t_attribute *attr)
+void        write_char_to_buf(char *user_in, int *index, t_str *attr)
 {
 	if (attr->max_len <= attr->len + 1)
-		expand_attr(attr);
+		expand_str(attr);
     attr->buf[attr->index] = user_in[*index];
     (*index)++;
     attr->index++;
@@ -50,7 +50,7 @@ void        write_char_to_buf(char *user_in, int *index, t_attribute *attr)
     attr->buf[attr->index] = '\0';
 }
 
-char        *create_attribute(t_attribute *attr)
+char        *create_attribute(t_str *attr)
 {
     char    *attribute;
 
@@ -115,9 +115,8 @@ t_token			*lex(void)
 	static char	*user_in;
     static int  index;
     static int  prev_token = -1;
-    t_token       new_token;
-    t_attribute	*attr;
-    int         buf_index;
+    t_token		new_token;
+    t_str		*attr;
 	static int	need_new_line;
 
 	if (!user_in || need_new_line)
@@ -131,7 +130,7 @@ t_token			*lex(void)
 		}
 		need_new_line = 0;
 	}
-	attr = init_attribute();
+	attr = init_str();
     skip_ws(user_in, &index);
     if (!user_in[index])
 	{
@@ -167,6 +166,6 @@ t_token			*lex(void)
 	if (!need_new_line)
 		add_to_start_history(rp()->history, user_in, ft_strlen(user_in));
     prev_token = new_token.token_type;
-	free_attribute(attr);
+	free_str(attr);
     return (copy_init_token(new_token));
 }

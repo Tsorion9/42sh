@@ -26,7 +26,7 @@ static int  is_token_assignment_word(char *buf)
     return (0);
 }
 
-t_token			get_token_word(char **user_in, int *index, t_attribute *attr)
+t_token			get_token_word(char **user_in, int *index, t_str *attr)
 {
     t_token	ret_token;
 

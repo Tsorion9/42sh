@@ -19,26 +19,29 @@ void        load_on_file_history(t_history *history)
 {
     int     fd;
     char    c;
-    char    str[MIN_CMD_LENGTH];
+    t_str	*str;
     int     i;
     
     if ((fd = open_21sh_history(O_RDONLY)) < 0)
 		return ;
-    i = 0;
+	str = init_str();
     while (read(fd, &c, 1) > 0)
     {
+		if (str->index >= str->max_len)
+			expand_str(str);
         if (c == '\n')
         {
-            str[i] = 0;
-            add_to_start_history(history, str, ft_strlen(str));
-            i = 0;
+            str->buf[str->index] = '\0';
+            add_to_start_history(history, str->buf, str->index);
+            str->index = 0;
         }
         else
         {
-            str[i] = c;
-            i++;
+            str->buf[str->index] = c;
+            str->index++;
         }
     }
+	free_str(str);
     close(fd);
 }
 
@@ -90,13 +93,13 @@ void        save_in_file_history(t_history *history)
     }
     if (n > HISTSIZE)
     {
-        save_in_file_history_sup(fd, n , history->str);
+        save_in_file_history_sup(fd, n, history->str);
         if (history->prev)
             history = history->prev;
     }
     while (history->prev)
     {
-        write(fd, history->str, ft_strlen(history->str));
+        write(fd, history->str, history->len);
         write(fd, "\n", 1);
         history = history->prev;
     }

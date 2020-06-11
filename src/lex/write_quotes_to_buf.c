@@ -1,6 +1,6 @@
 #include "lex.h"
 
-t_token       write_singe_quotes_to_buf(char **user_in, int *index, t_attribute *attr)
+t_token       write_singe_quotes_to_buf(char **user_in, int *index, t_str *attr)
 {
     write_char_to_buf(*user_in, index, attr);
     while ((*user_in)[*index] != '\'')
@@ -9,7 +9,7 @@ t_token       write_singe_quotes_to_buf(char **user_in, int *index, t_attribute 
     return (get_token_word(user_in, index, attr));
 }
 
-t_token       write_double_quotes_to_buf(char **user_in, int *index, t_attribute *attr)
+t_token       write_double_quotes_to_buf(char **user_in, int *index, t_str *attr)
 {
     write_char_to_buf(*user_in, index, attr);
     while (1)

@@ -1,6 +1,6 @@
 #include "lex.h"
 
-t_token       get_token_and_greater(char **user_in, int *index, t_attribute *attr)
+t_token       get_token_and_greater(char **user_in, int *index, t_str *attr)
 {
     t_token   ret_token;
 

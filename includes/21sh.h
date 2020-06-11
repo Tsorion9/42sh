@@ -38,6 +38,14 @@
 
 struct termios	g_saved_attribute;
 
+typedef struct			s_str
+{
+	char	*buf;
+	size_t	len;
+	size_t	max_len;
+	size_t	index;
+}						t_str;
+
 typedef struct			s_completion
 {
 	char				*str;
@@ -206,6 +214,9 @@ char			*cut_word(char cut_symbol, int i);
 t_completion	*ret_matches(t_completion *com_lst, char *str_search);
 void			free_rp(void);
 void        	free_history_list(t_history *history);
+t_str			*init_str(void);
+void			expand_str(t_str *str);
+void			free_str(t_str *str);
 
 /*
 ** Interface for lexer

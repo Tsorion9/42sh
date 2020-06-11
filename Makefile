@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 NAME = 21sh
-CREADLINE = readline.c strmove_cursor.c \
+CREADLINE = readline.c strmove_cursor.c t_str.c \
 			termcap_api.c history_list.c \
 			history_file.c add_or_delete_symbol.c \
 			check_quoting.c clear_all_line.c free_readline.c \
@@ -24,7 +24,7 @@ CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
 CLEX =	lex.c get_token_and_greater.c get_token_end_line.c \
 		get_token_greater.c get_token_less.c get_token_number.c \
 		get_token_pipe.c get_token_word.c get_token_line_separator.c \
-		write_quotes_to_buf.c attribute.c
+		write_quotes_to_buf.c
 
 CPARSER = deque.c \
 		  deque_apply.c\
