@@ -40,6 +40,17 @@ return_segfault_code = 139
 os.system("touch {}".format(valgrind_trace))
 
 
+def wait_for_children():
+	procs = psutil.Process(pid = os.getpid()).children(recursive = True)
+	if (len(procs) == 0):
+		return
+	for c in procs:
+		try:
+			os.waitpid(c.pid, 0)
+		except ChildProcessError:
+			pass
+
+
 def	line_count(name):
 	count = 0
 	with open(name, 'r') as f:
@@ -90,6 +101,7 @@ def	check_valgrind(file, our_shell, valgrind_trace):
 	n_valgrind_errors = 0
 	shell_cmd = "exec 2>>{} cat {} | valgrind {} 2>&1 | grep 'ERROR\|definitely' | grep ': [1-9]' | wc -l > {}".format(valgrind_trace, file, our_shell, valgrind_trace)
 	process = subprocess.Popen(shell_cmd, shell=True, executable="/bin/bash")
+	wait_for_children()
 	trace = open(valgrind_trace, "r")
 	try:
 		n_valgrind_errors = int(trace.read())
@@ -173,6 +185,7 @@ for file in sorted(files):
 	else:
 		bad += 1
 
+	wait_for_children()
 	if (verbose == 1):
 		print("*" * 80)
 		print("Input:")
@@ -202,15 +215,14 @@ def	green_or_red(n_valgrind_errors):
 	return ("green")
 print("")
 
+wait_for_children()
 print(colored("Summary: {} out of {} tests passed!".format(good, good + bad), "magenta"))
 print(colored("See traces at {}/user_out_[CASE_NAME].txt and {}/test_out[CASE_NAME].txt".format(path_to_cases, path_to_cases), "green"))
 
 os.system("rm -rf test 1 2 12 trace.txt last_valgrind_output")
+
+wait_for_children()
 #os.killpg(os.getpgid(os.getpid()), signal.SIGILL)
-
-for c in psutil.Process(pid = os.getpid()).children(recursive = True):
-	c.wait(timeout=1)
-
 if (args.start == 0 and args.end == 1000000 and verbose == 0):
 	print("Nocrash!")
 	files = glob.glob(path_to_cases + "/nocrash*.txt")
