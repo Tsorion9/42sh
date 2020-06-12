@@ -20,7 +20,6 @@ void        load_on_file_history(t_history *history)
     int     fd;
     char    c;
     t_str	*str;
-    int     i;
     
     if ((fd = open_21sh_history(O_RDONLY)) < 0)
 		return ;
@@ -62,7 +61,7 @@ static void save_in_file_history_sup(int fd, int n, char *history)
     write(fd, "\n", 1);
 }
 
-static int  str_naa(char *user_in)
+int  str_naa(char *user_in)
 {
     int n;
 

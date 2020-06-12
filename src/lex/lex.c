@@ -77,6 +77,22 @@ static t_token	*copy_init_token(t_token t)
 	return (copy);
 }
 
+static void		call_lex_error(char flag)
+{
+	char	*prog_name;
+
+	prog_name = get_prog_arg(0);
+	if (!prog_name)
+		reset_exit(1);
+	ft_putstr_fd(prog_name, STDERR_FILENO);
+	ft_putstr_fd(": unexpected EOF while looking for matching `", STDERR_FILENO);
+	write(STDERR_FILENO, &flag, 1);
+	write(STDERR_FILENO, "'\n", 2);
+	ft_putstr_fd(prog_name, STDERR_FILENO);
+	ft_putstr_fd(": syntax error: unexpected end of file\n", STDERR_FILENO);
+	reset_exit(1);
+}
+
 void			close_quote(char **user_in)
 {
 	char	*nuser_in;
@@ -91,12 +107,13 @@ void			close_quote(char **user_in)
 	while (flag)
 	{
 		reset_rp_to_start();
-		if (isatty(0))
+		if (isatty(STDIN_FILENO))
 			extra_line = readline("> ");
 		else
 		{
 			extra_line = NULL;
-			get_next_line(0, &extra_line);
+			if (!(get_next_line(STDIN_FILENO, &extra_line)))
+				call_lex_error(flag);
 		}
 		if (!(tmp = ft_strjoin(*user_in, "\n")))
 			exit(1);

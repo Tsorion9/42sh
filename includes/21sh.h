@@ -31,6 +31,7 @@
 #define START_COL_POS 3
 #define START_ROW_POS 1
 #define rp() readline_position(NULL)
+#define get_prog_arg(x) set_programm_args(x, NULL)
 
 #define DEFAULT_PROMPT "$>"
 
@@ -164,6 +165,8 @@ typedef struct  s_token
 
 #define PROMPT_LEN 2
 
+int				str_naa(char *user_in);
+char			*set_programm_args(int c_ac, char **c_av);
 void			expand_user_in(void);
 t_rp			*readline_position(t_rp *change_rp);
 void			reset_rp_to_start(void);

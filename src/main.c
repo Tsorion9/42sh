@@ -160,12 +160,27 @@ void		reset_exit(int status)
 	exit(status);
 }
 
+char		*set_programm_args(int c_ac, char **c_av)
+{
+	static int	ac;
+	static char	**av;
+
+	if (c_av)
+	{
+		ac = c_ac;
+		av = c_av;
+	}
+	else if (c_ac >= ac || c_ac < 0)
+		return (NULL);
+	else
+		return (av[c_ac]);
+}
+
 int         main(int ac, char **av, char **environ)
 {
-	int				tty_input;
+	int	tty_input;
 
-    (void)ac;
-    (void)av;
+	set_programm_args(ac, av);
 	static_env_action(init, (void *)environ);
 	if ((tty_input = isatty(STDIN_FILENO)))
 		init_terminal();
