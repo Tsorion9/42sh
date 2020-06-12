@@ -6,6 +6,7 @@ import subprocess
 from termcolor import colored
 import signal
 import sys
+import psutil
 
 import argparse
 
@@ -127,8 +128,7 @@ for file in sorted(files):
 	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(user_err, file,  our_shell, user_out, user_err) 
 	shell_cmd += '\nif [[ $? -eq 139 ]]; then exit 139; fi'
 	timeout = 0
-
-	#print("Shell command: {}".format(shell_cmd))
+	segfault = 0
 
 	process = subprocess.Popen(shell_cmd, shell=True, executable="/bin/bash")
 	try:
@@ -207,11 +207,15 @@ print(colored("See traces at {}/user_out_[CASE_NAME].txt and {}/test_out[CASE_NA
 
 os.system("rm -rf test 1 2 12 trace.txt last_valgrind_output")
 #os.killpg(os.getpgid(os.getpid()), signal.SIGILL)
-print("Nocrash!")
-files = glob.glob(path_to_cases + "/nocrash*.txt")
-for file in sorted(files): 
-	os.system("echo 0 >{}".format(valgrind_trace))
-	n_valgrind_errors = check_valgrind(file, our_shell, valgrind_trace)
-	print(colored("{} {}".format(file, "valgrind"), green_or_red(n_valgrind_errors)))
 
+for c in psutil.Process(pid = os.getpid()).children(recursive = True):
+	c.wait(timeout=1)
+
+if (args.start == 0 and args.end == 1000000 and verbose == 0):
+	print("Nocrash!")
+	files = glob.glob(path_to_cases + "/nocrash*.txt")
+	for file in sorted(files): 
+		os.system("echo 0 >{}".format(valgrind_trace))
+		n_valgrind_errors = check_valgrind(file, our_shell, valgrind_trace)
+		print(colored("{} {}".format(file, "valgrind"), green_or_red(n_valgrind_errors)))
 
