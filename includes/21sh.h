@@ -157,7 +157,7 @@ typedef struct  s_token
 #define END  4607771
 
 /* Sometimes 4*/
-#define CTRL_D 0
+#define CTRL_D 4
 #define CTRL_C 3
 #define CTRL_S 19
 #define CTRL_Z 26

@@ -49,18 +49,8 @@ int			ret_winsize(int a)
 
 static void	processing_sigint(int signal_code)
 {
-	/*size_t	user_in_lines;
-
 	(void)signal_code;
-	write(STDERR_FILENO, "^C", 2);
-	user_in_lines = str_n() + 2 - rp()->cur_pos[1];
-	while (user_in_lines-- > 0)
-		write(STDERR_FILENO, "\n", 1);
-	rp()->user_in -= rp()->line_shift;
-	write(STDERR_FILENO, "$>", 2);
-	reset_rp_to_start();*/
-	(void)signal_code;
-	reset_exit(0);
+	return ;
 }
 
 static void	processing_sigwinch(int signal_code)

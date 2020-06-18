@@ -52,6 +52,11 @@ static long readline_sup(void)
 		strmove_cursor(c);
 	else if (c == CTRL_W)
 		delete_last_word();
+	else if (c == CTRL_D && rp()->len == 0)
+	{
+		write(STDERR_FILENO, "\n", 1);
+		reset_exit(-1);
+	}	
 	else if (c == TAB_ARROW)
 		completion();
     return (c);
