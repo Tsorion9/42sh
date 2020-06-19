@@ -98,12 +98,11 @@ char        *readline(char *prompt)
 	user_in_lines = str_n() - rp()->cur_pos[1];
 	while (user_in_lines-- > 0)
 		write(STDERR_FILENO, "\n", 1);
-    rp()->user_in -= rp()->line_shift;
     rp()->user_in[ft_strlen(rp()->user_in) - 1] = 0;
     write(STDERR_FILENO, "\n", 1);
     if (!(ret_user_in = ft_strdup(rp()->user_in)))
 		exit(1);
-	free(rp()->user_in);
+	ft_memdel((void **)&(rp()->user_in));
 	add_to_start_history(rp()->history, ret_user_in, user_in_len);
     return (ret_user_in);
 }

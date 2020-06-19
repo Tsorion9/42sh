@@ -59,15 +59,23 @@ typedef struct          s_history
     struct s_history    *next;
 }                       t_history;
 
+/*
+** @user_in		buffer (heap)
+** @len			length of user input
+** @max_len		current size of buffer
+** @cur_pos		offset sursor from start of prompt (0 = cols, 1 = rows) count from 1
+** @history		position in history
+** @ws_col		window size columns
+** @ws_row		window size rows
+** @prompt_len	length of the prompt + 1 == start position of cursor
+*/
+
 typedef struct          s_rp
 {
     char                *user_in;
 	size_t				len;
 	size_t				max_len;
-    int                 count_lines;
     int                 cur_pos[2];
-    char                flag;
-    int                 line_shift;
     t_history           *history;
     unsigned short      ws_col;
     unsigned short      ws_row;

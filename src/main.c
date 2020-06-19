@@ -55,8 +55,10 @@ static void	processing_sigint(int signal_code)
 
 static void	processing_sigwinch(int signal_code)
 {
+	(void)signal_code;
 	rp()->ws_col = ret_winsize(0);
 	rp()->ws_row = ret_winsize(1);
+
 }
 
 /*
@@ -95,8 +97,6 @@ t_rp		*init_rp(void)
 		reset_exit(1);
 	rp->len = 0;
 	rp->max_len = MIN_CMD_LENGTH;
-	rp->flag = 0;
-	rp->line_shift = 0;
 	rp->history = create_history("", 0);
 	rp->ws_col = ret_winsize(0);
 	rp->ws_row = ret_winsize(1);
