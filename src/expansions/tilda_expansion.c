@@ -24,7 +24,7 @@ static char	*find_user_home(char *s)
 			return (NULL);
 		return (p->pw_dir);
 	}
-	p = getpwnam(s); // TODO: THIS IS FORBIDDEN. NEED TO PARSE /etc/passwd!!!
+	p = getpwnam(s);
 	if (!p)
 		return (NULL);
 	return (p->pw_dir);

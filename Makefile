@@ -14,7 +14,7 @@ CREADLINE = readline.c strmove_cursor.c t_str.c \
 			termcap_api.c history_list.c \
 			history_file.c add_or_delete_symbol.c \
 			check_quoting.c clear_all_line.c free_readline.c \
-			other.c reset_readline_position.c search_cur_pos.c
+			other.c reset_readline_position.c search_cur_pos.c get_prompt.c
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
