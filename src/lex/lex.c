@@ -151,7 +151,7 @@ t_token			*lex(void)
         else if (!get_next_line(STDIN_FILENO, &user_in))
 		{
 			free_rp();
-			reset_exit(1);// Тут перед выходом надо все почистить.
+			reset_exit(0);
 		}
 		need_new_line = 0;
 	}
