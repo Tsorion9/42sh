@@ -11,7 +11,6 @@
 
 #define TMP_DIR "."
 #define TMPF_ERRMESSG "Could not create a temporary file"
-#define HEREDOC_PROMPT "> "
 
 #define TMPFILE_SUFFIX_SIZE 9
 #define SYS_RNDGEN_FILENAME "/dev/urandom"

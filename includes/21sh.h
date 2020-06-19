@@ -31,11 +31,15 @@
 #define rp() readline_position(NULL)
 #define get_prog_arg(x) set_programm_args(x, NULL)
 
-#define DEFAULT_PROMPT "$>"
+#define PS1 0
+#define PS2 1
+
+#define DEFAULT_PROMPT get_prompt(PS1)
 
 #define CLOSE_STREAM "-"
 
 int	have_children_global_request(int set_value, int value);
+char	*get_prompt(int which);
 
 struct termios	g_saved_attribute;
 

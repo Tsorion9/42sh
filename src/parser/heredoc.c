@@ -168,7 +168,7 @@ static char		*gather_string_literal(char *here_eof)
 	literal = ft_strdup("");
 	while (1)
 	{
-		line = temporary_readline_wrapper(HEREDOC_PROMPT);
+		line = temporary_readline_wrapper(get_prompt(PS2));
 		if (!line)
 			ft_fprintf(2, "21sh: Warning! Here document delimited by end-of-file instead of %s\n", here_eof);
 		if (!line || ft_strcmp(line, here_eof) == 0)

@@ -127,15 +127,19 @@ void        start_program(int tty_input)
 
 	(void)tty_input;
 	command = NULL;
-	readline_position(init_rp());
-	load_on_file_history(rp()->history);
+	if (isatty(STDIN_FILENO))
+	{
+		readline_position(init_rp());
+		load_on_file_history(rp()->history);
+	}
 	while (1)
 	{
 		command = parser();
 		exec_cmd(command);
 	}
 	save_in_file_history(rp()->history);
-	free_rp();
+	if (isatty(STDIN_FILENO))
+		free_rp();
 }
 
 void		reset_exit(int status)
@@ -161,6 +165,12 @@ char		*set_programm_args(int c_ac, char **c_av)
 	return (NULL);
 }
 
+void	init_prompt(void)
+{
+	ft_setenv(static_env_action(get, NULL), "PS1", "PiEcE_oF_s_HELL: ");
+	ft_setenv(static_env_action(get, NULL), "PS2", "8===D ");
+}
+
 int         main(int ac, char **av, char **environ)
 {
 	int	tty_input;
@@ -168,7 +178,10 @@ int         main(int ac, char **av, char **environ)
 	set_programm_args(ac, av);
 	static_env_action(init, (void *)environ);
 	if ((tty_input = isatty(STDIN_FILENO)))
+	{
 		init_terminal();
+		init_prompt();
+	}
 	set_signal();
     start_program(tty_input);
 	if (tty_input)

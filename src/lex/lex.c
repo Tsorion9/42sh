@@ -106,9 +106,9 @@ void			close_quote(char **user_in)
 		return ;
 	while (flag)
 	{
-		reset_rp_to_start("> ");
+		reset_rp_to_start(get_prompt(PS2));
 		if (isatty(STDIN_FILENO))
-			extra_line = readline("> ");
+			extra_line = readline(get_prompt(PS2));
 		else
 		{
 			extra_line = NULL;
@@ -150,7 +150,6 @@ t_token			*lex(void)
 			user_in = readline(DEFAULT_PROMPT);
         else if (!get_next_line(STDIN_FILENO, &user_in))
 		{
-			free_rp();
 			reset_exit(0);
 		}
 		need_new_line = 0;
@@ -188,7 +187,7 @@ t_token			*lex(void)
 		close_quote(&user_in);
         new_token = write_double_quotes_to_buf(&user_in, &index, attr);
 	}
-	if (!need_new_line)
+	if (!need_new_line && isatty(STDIN_FILENO))
 		add_to_start_history(rp()->history, user_in, ft_strlen(user_in));
     prev_token = new_token.token_type;
 	free_str(attr);
