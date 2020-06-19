@@ -34,6 +34,25 @@ int         search_index(void)
     return (i);
 }
 
+void	inverse_search_index(int cur_pos[2], int index)
+{
+	int	i;
+
+	cur_pos[0] = rp()->prompt_len;
+	cur_pos[1] = 1;
+	i = 0;
+	while (i < index && rp()->user_in[i])
+	{
+		if (rp()->user_in[i] == '\n' || cur_pos[0] >= rp()->ws_col)
+        {
+            cur_pos[0] = 0;
+            cur_pos[1]++;
+        }
+        cur_pos[0]++;
+        i++;
+	}
+}
+
 void        ret_cur_to_original_pos(int *prev_cur_pos)
 {
     while (prev_cur_pos[0] > rp()->cur_pos[0])

@@ -176,6 +176,7 @@ int				str_naa(char *user_in);
 char			*set_programm_args(int c_ac, char **c_av);
 void			expand_user_in(void);
 t_rp			*readline_position(t_rp *change_rp);
+void			inverse_search_index(int cur_pos[2], int index);
 void			reset_rp_to_start(char *p);
 int				ft_putint(int c);
 char	        *readline(char *prompt);

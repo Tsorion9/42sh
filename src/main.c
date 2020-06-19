@@ -55,10 +55,19 @@ static void	processing_sigint(int signal_code)
 
 static void	processing_sigwinch(int signal_code)
 {
+	int	tmp_cur_pos[2];
+	int	index;
+
 	(void)signal_code;
+	index = search_index();
+	clear_all_line();
 	rp()->ws_col = ret_winsize(0);
 	rp()->ws_row = ret_winsize(1);
-
+	clear_all_line();
+    ft_putstr_fd(rp()->user_in, STDERR_FILENO);
+	inverse_search_index(rp()->cur_pos, index);
+	cur_pos_after_putstr(tmp_cur_pos);
+	ret_cur_to_original_pos(tmp_cur_pos);   
 }
 
 /*
