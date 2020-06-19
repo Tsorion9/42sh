@@ -50,6 +50,8 @@ int			ret_winsize(int a)
 static void	processing_sigint(int signal_code)
 {
 	(void)signal_code;
+	if (have_children_global_request(0, 0))
+		write(2, "\n", 1);
 	return ;
 }
 

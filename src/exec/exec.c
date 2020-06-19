@@ -18,6 +18,15 @@
 #include "exec_utils.h"
 #include "task.h"
 
+int	have_children_global_request(int set_value, int value)
+{
+	static int	have_children;
+
+	if (set_value == 1)
+		have_children = value;
+	return (have_children);
+}
+
 /*
 ** Status of parent process is ignored if there is a child
 ** in_pipe is a read end
@@ -40,6 +49,7 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 	/* This function calls execve, does not return */
 
 	/* Parent */
+	have_children_global_request(1, 1);
 	if (task_context.in_pipe != IGNORE_STREAM)
 		close(in_pipe);
 	if (task_context.out_pipe != IGNORE_STREAM)
@@ -57,6 +67,7 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 	if (task_context.out_pipe == IGNORE_STREAM)	
 		while (wait(&status) > 0) /* Wait returns -1 <==> no children */
 			;
+	have_children_global_request(1, 0);
 	return (status);
 }
 
