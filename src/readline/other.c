@@ -1,5 +1,9 @@
 #include "21sh.h"
 
+/*
+** Index of symbol under cursor
+*/
+
 int         search_index(void)
 {
     int     n;
@@ -9,8 +13,8 @@ int         search_index(void)
     n = 1;
     i = 0;
     if (rp()->cur_pos[1] == 1)
-        return (rp()->cur_pos[0] - 3);
-    cur_pos_col = 3;
+        return (rp()->cur_pos[0] - rp()->prompt_len);
+    cur_pos_col = rp()->prompt_len;
     while (n < rp()->cur_pos[1])
     {
         if (rp()->user_in[i] == '\n' || cur_pos_col >= rp()->ws_col)
@@ -99,7 +103,7 @@ int         str_n(void)
 
     user_in = rp()->user_in;
     n = 0;
-    cur_pos_col = 3;
+    cur_pos_col = rp()->prompt_len;
     while (*user_in && *user_in != '\n' && cur_pos_col <= rp()->ws_col)
     {
         cur_pos_col++;

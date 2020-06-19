@@ -2,6 +2,7 @@
 
 /*
 ** Добавляет символ и печатает новую строку.
+** TODO: use memmove instead of strdup
 */
 
 void        add_symbol(char c)
@@ -62,7 +63,7 @@ int        delete_symbol_sup(int i)
         {
             tc_cursor_right();
             tc_cursor_right();
-            rp()->cur_pos[0] = 3;
+            rp()->cur_pos[0] = rp()->prompt_len;
         }
         return (search_last_cur_pos_in_line() + 2);
     }

@@ -48,7 +48,7 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 int					ft_atoi(const char *str);
 void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
-void				*ft_memmove(void *dst, const void *src, size_t len);
+void				*ft_memmove(void *dst, void *src, size_t len);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
 char				*ft_strnstr(const char *hay, const char *need, size_t len);

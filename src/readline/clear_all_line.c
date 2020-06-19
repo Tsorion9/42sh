@@ -11,6 +11,18 @@ static void clear_line(int end_cl)
 	tc_clear_till_end();
 }
 
+static void	tc_cursor_n_right(int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		tc_cursor_right();
+		i++;
+	}
+}
+
 /*
 ** Чистит все строки, введенные пользователем.
 */
@@ -22,12 +34,10 @@ void        clear_all_line(void)
     n = str_n() + 1;
     if (n == 1)
     {
-        clear_line(3);
-        rp()->cur_pos[0] = 3;
+        clear_line(rp()->prompt_len);
+        rp()->cur_pos[0] = rp()->prompt_len;
         return ;
     }
-    //if (n == 3)
-    //    printf("2\n");
     while (rp()->cur_pos[0] != 1)
         tc_cursor_left();
     while (rp()->cur_pos[1] != n)
@@ -37,7 +47,6 @@ void        clear_all_line(void)
         clear_line(0);
         tc_cursor_up();
     }
-    tc_cursor_right();
-    tc_cursor_right();
+	tc_cursor_n_right(rp()->prompt_len - 1);
     tc_clear_till_end();
 }

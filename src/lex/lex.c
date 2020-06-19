@@ -106,7 +106,7 @@ void			close_quote(char **user_in)
 		return ;
 	while (flag)
 	{
-		reset_rp_to_start();
+		reset_rp_to_start("> ");
 		if (isatty(STDIN_FILENO))
 			extra_line = readline("> ");
 		else

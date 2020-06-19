@@ -13,8 +13,8 @@ static void move_cursor_up(void)
     last_cur_pos_in_line = search_last_cur_pos_in_line() + 1;
     if (rp()->cur_pos[0] > last_cur_pos_in_line)
         rp()->cur_pos[0] = last_cur_pos_in_line;
-    if (rp()->cur_pos[1] == 1 && rp()->cur_pos[0] < START_COL_POS)
-        rp()->cur_pos[0] = START_COL_POS;
+    if (rp()->cur_pos[1] == 1 && (long long)rp()->cur_pos[0] < (long long)rp()->prompt_len)
+        rp()->cur_pos[0] = rp()->prompt_len;
     ret_cur_to_original_pos(prev_cur_pos);
 }
 

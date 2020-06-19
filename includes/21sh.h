@@ -28,8 +28,6 @@
 #define bool _Bool // Remove this!
 #define true 1
 #define false 0
-#define START_COL_POS 3
-#define START_ROW_POS 1
 #define rp() readline_position(NULL)
 #define get_prog_arg(x) set_programm_args(x, NULL)
 
@@ -73,6 +71,7 @@ typedef struct          s_rp
     t_history           *history;
     unsigned short      ws_col;
     unsigned short      ws_row;
+	size_t				prompt_len;
 }                       t_rp;
 
 /*
@@ -169,7 +168,7 @@ int				str_naa(char *user_in);
 char			*set_programm_args(int c_ac, char **c_av);
 void			expand_user_in(void);
 t_rp			*readline_position(t_rp *change_rp);
-void			reset_rp_to_start(void);
+void			reset_rp_to_start(char *p);
 int				ft_putint(int c);
 char	        *readline(char *prompt);
 int				ft_isspace(char c);
@@ -200,7 +199,6 @@ void    	    up_down_arrow(long c);
 void			set_signal(void);
 void			set_input_mode(void);
 void		    reset_input_mode(void);
-void			reset_rp_to_start(void);
 void    	    strmove_cursor(long c);
 void			completion(void);
 int				is_print(long c);

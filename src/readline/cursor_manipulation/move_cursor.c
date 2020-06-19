@@ -14,9 +14,8 @@ static void	move_cursor_left(void)
 	{
 		rp()->cur_pos[1]--;
 		rp()->cur_pos[0] = search_last_cur_pos_in_line() + 1;
-		//printf("%d\n", rp()->cur_pos[0]);
 	}
-	else if (rp()->cur_pos[0] == 3 && rp()->cur_pos[1] == 1)
+	else if (rp()->cur_pos[0] == rp()->prompt_len && rp()->cur_pos[1] == 1)
 		return ;
 	else
 		rp()->cur_pos[0]--;

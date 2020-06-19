@@ -2,14 +2,16 @@
 
 void	expand_user_in(void)
 {
-	char	tmp[rp()->max_len];
+	char	*tmp;
 
+	tmp = malloc(rp()->max_len);
 	ft_strcpy(tmp, rp()->user_in);
 	free(rp()->user_in);
-	rp()->max_len += MIN_CMD_LENGTH;
+	rp()->max_len *= 2;
 	if (!(rp()->user_in = (char*)malloc(sizeof(char) * rp()->max_len)))
 		reset_exit(1);
 	ft_strcpy(rp()->user_in, tmp);
+	free(tmp);
 }
 
 int		is_print(long c)
@@ -90,7 +92,7 @@ char        *readline(char *prompt)
     int     user_in_len;
     int     user_in_lines;
 
-	reset_rp_to_start();
+	reset_rp_to_start(prompt);
 	write(STDERR_FILENO, prompt, ft_strlen(prompt));
 	read_till_newline(&user_in_len);
 	user_in_lines = str_n() - rp()->cur_pos[1];

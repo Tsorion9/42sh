@@ -55,17 +55,8 @@ static void	processing_sigint(int signal_code)
 
 static void	processing_sigwinch(int signal_code)
 {
-	int	i;
-	int	tmp[2];
-
-	(void)tmp;
-	(void)signal_code;
-	i = search_index();
-	(void)i;
 	rp()->ws_col = ret_winsize(0);
 	rp()->ws_row = ret_winsize(1);
-	add_symbol('a');
-	delete_symbol();
 }
 
 /*
@@ -83,12 +74,6 @@ void		back_to_start_history_rp(void)
 	if (rp()->history)
 		while (rp()->history->prev)
 			rp()->history = rp()->history->prev;
-}
-
-void		reset_cur_pos_rp(void)
-{
-	rp()->cur_pos[0] = START_COL_POS;
-	rp()->cur_pos[1] = START_ROW_POS;
 }
 
 t_rp		*readline_position(t_rp *change_rp)
@@ -110,8 +95,6 @@ t_rp		*init_rp(void)
 		reset_exit(1);
 	rp->len = 0;
 	rp->max_len = MIN_CMD_LENGTH;
-	rp->cur_pos[0] = START_COL_POS;
-	rp->cur_pos[1] = START_ROW_POS;
 	rp->flag = 0;
 	rp->line_shift = 0;
 	rp->history = create_history("", 0);
@@ -164,6 +147,7 @@ char		*set_programm_args(int c_ac, char **c_av)
 		return (NULL);
 	else
 		return (av[c_ac]);
+	return (NULL);
 }
 
 int         main(int ac, char **av, char **environ)
