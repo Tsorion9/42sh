@@ -16,7 +16,7 @@ void		set_input_mode()
 	new_settings.c_lflag &= ~ECHO;
 	new_settings.c_cc[VTIME] = 0;
 	new_settings.c_cc[VMIN] = 1;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_settings);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &new_settings);
 }
 
 void	    reset_input_mode()
