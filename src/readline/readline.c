@@ -61,6 +61,8 @@ static long readline_sup(void)
 	}	
 	else if (c == TAB_ARROW)
 		completion();
+	else if (c == SHIFT_TAB)
+		add_symbol('\t');
     return (c);
 }
 

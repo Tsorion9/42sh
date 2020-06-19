@@ -1,4 +1,5 @@
 #include "21sh.h"
+#include "static_env.h"
 
 int				executable_file(char *file_name, char *path)
 {
@@ -31,8 +32,10 @@ t_completion	*add_files_path_env(void)
 	struct dirent	*file_name;
 	char			**path;
 	size_t			i;
+	char			*p;
 
-	if (!(path = ft_strsplit(getenv("PATH"), ':')))
+	p  = ft_getenv(static_env_action(get, NULL), "PATH");
+	if (!(path = ft_strsplit(p, ':')))
 		return (NULL);
 	i = 0;
 	com_lst = NULL;

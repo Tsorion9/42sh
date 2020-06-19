@@ -35,6 +35,8 @@
 
 #define CLOSE_STREAM "-"
 
+int	have_children_global_request(int set_value, int value);
+
 struct termios	g_saved_attribute;
 
 typedef struct			s_str
@@ -152,6 +154,7 @@ typedef struct  s_token
 
 #define DEL 2117294875
 
+#define SHIFT_TAB 5921563
 #define CTRL_W 23
 #define CTRL_Q 17
 #define CTRL_R 18

@@ -1,4 +1,6 @@
 #include "21sh.h"
+#include "environment.h"
+#include "static_env.h"
 
 static int  open_21sh_history(int mode)
 {
@@ -6,7 +8,7 @@ static int  open_21sh_history(int mode)
     char    *home_dir;
     char    *file_path;
 
-    if (!(home_dir = getenv("HOME")))
+    if (!(home_dir = ft_getenv(static_env_action(get, NULL), "HOME")))
         return (-1);
     if (!(file_path = ft_strjoin(home_dir, "/.21sh_history")))
         return (-1);
