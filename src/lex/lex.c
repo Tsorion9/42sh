@@ -106,9 +106,11 @@ void			close_quote(char **user_in)
 		return ;
 	while (flag)
 	{
-		reset_rp_to_start(get_prompt(PS2));
 		if (isatty(STDIN_FILENO))
+		{
+			reset_rp_to_start(get_prompt(PS2));
 			extra_line = readline(get_prompt(PS2));
+		}
 		else
 		{
 			extra_line = NULL;
