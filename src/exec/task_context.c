@@ -15,6 +15,20 @@ static int	need_new_process(t_simple_cmd *cmd)
 	return (!b);
 }
 
+int		ignore_ass_for_builtin(t_simple_cmd *cmd)
+{
+	char	*word;
+
+	word = deque_n_th(cmd->wl, 0);
+	if (!word)
+		return (0);
+	else if (!ft_strcmp(word, "echo") || !ft_strcmp(word, "env") ||\
+		!ft_strcmp(word, "getenv") || !ft_strcmp(word, "setenv") ||\
+		!ft_strcmp(word, "unsetenv") || !ft_strcmp(word, "exit"))
+		return (0);
+	return (1);
+}
+
 //TODO: Not sure about subshell environment
 t_task_context init_task_context(t_simple_cmd *cmd, int in_pipe,\
 		int out_pipe)
@@ -31,6 +45,8 @@ t_task_context init_task_context(t_simple_cmd *cmd, int in_pipe,\
 	{
 		task_context.need_subshell = 0;
 	}
+	if (ignore_ass_for_builtin(cmd))
+		task_context.need_subshell = 1;
 	return (task_context);
 }
 
