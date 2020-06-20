@@ -1,9 +1,11 @@
 #include "environment.h"
 
-int			builtin_getenv(char **args, t_env env)
+int			builtin_getenv(char **args, t_env env, int subshell)
 {
 	char	*c;
 
+	if (subshell)
+		return (1);
 	if (!args[0])
 	{
 		ft_printf("%s", "Usage: getenv name\n");
@@ -27,10 +29,12 @@ int			builtin_getenv(char **args, t_env env)
 ** Bash also does not tolerate ':', but we do
 */
 
-int			builtin_setenv(char **args, t_env env)
+int			builtin_setenv(char **args, t_env env, int subshell)
 {
 	char	*tmp;
 
+	if (subshell)
+		return (1);
 	if (!*args)
 		return (1);
 	if (*args && !*(args+1))
@@ -53,8 +57,10 @@ int			builtin_setenv(char **args, t_env env)
 	return (1);
 }
 
-int			builtin_unsetenv(char **args, t_env env)
+int			builtin_unsetenv(char **args, t_env env, int subshell)
 {
+	if (subshell)
+		return (1);
 	while (*args)
 	{
 		ft_unsetenv(env, *args);

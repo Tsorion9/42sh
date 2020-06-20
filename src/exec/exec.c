@@ -91,8 +91,9 @@ static int	exec_pipeline(t_deque *p)
 	while (next)
 	{
 		read_fd = fd[0];		/* For the next process */
-		pipe(fd);				/* TODO: check the return value*/
-		status = exec_simple(next, read_fd, p->first ? fd[1] : IGNORE_STREAM);
+		if (deque_len(p))
+			pipe(fd);				/* TODO: check the return value*/
+		status = exec_simple(next, read_fd, deque_len(p) ? fd[1] : IGNORE_STREAM);
 		next = pop_front(p);
 	}
 	free(p);

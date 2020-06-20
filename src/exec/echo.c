@@ -6,12 +6,13 @@
 ** Implmented only -n flag which suppresses \n
 */
 
-int	builtin_echo(char **args, t_env env)
+int	builtin_echo(char **args, t_env env, int subshell)
 {
 	int	minus_n_flag;
 	int	i;
 
 	(void)env;
+	(void)subshell;
 	minus_n_flag = 0;
 	i = 0;
 	if (!*args)

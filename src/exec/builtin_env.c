@@ -37,11 +37,12 @@ char			**update_copy(char **args, t_env copy)
 ** env a=b c=d ./program
 */
 
-int			builtin_env(char **args, t_env env)
+int			builtin_env(char **args, t_env env, int subshell)
 {
 	int		memory_ok;
 	t_env	copy;
 
+	(void)subshell;
 	if (!(copy = copy_env(env)))
 	{
 		ft_fprintf(2, "%s", "Not enough memory\n");

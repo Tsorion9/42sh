@@ -44,7 +44,8 @@ int	task(t_simple_cmd *cmd, t_task_context *task_context)
 	if (!av)
 		return (1);
 	if (!task_context->need_child && (builtin = get_builtin(av[0])))
-		status = builtin(av + 1, static_env_action(get, NULL));
+		status = builtin(av + 1, static_env_action(get, NULL),\
+				task_context->need_subshell);
 	else
 		find_exec(av, static_env_action(get, NULL));	
 	del_array(av);

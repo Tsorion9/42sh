@@ -151,9 +151,7 @@ t_token			*lex(void)
         if (isatty(STDIN_FILENO))
 			user_in = readline(DEFAULT_PROMPT);
         else if (!get_next_line(STDIN_FILENO, &user_in))
-		{
 			reset_exit(0);
-		}
 		need_new_line = 0;
 	}
 	attr = init_str();
