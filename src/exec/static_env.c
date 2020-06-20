@@ -7,17 +7,17 @@ t_env	static_env_action(t_env_action action, void *opt_arg)
 
 	if (action == get)
 		return (original);
-	if (action == init)
+	else if (action == init)
 		original = init_env((char **)opt_arg);
-	if (action == save)
+	else if (action == save)
 		copy = copy_env(original);
-	if (action == restore)
+	else if (action == restore)
 	{
 		delenv(original);
 		original = copy;
 		copy = NULL;
 	}
-	if (action == del)
+	else 
 		delenv(original);
 	return (NULL);
 }

@@ -167,8 +167,8 @@ char		*set_programm_args(int c_ac, char **c_av)
 
 void	init_prompt(void)
 {
-	ft_setenv(static_env_action(get, NULL), "PS1", "PiEcE_oF_s_HELL: ");
-	ft_setenv(static_env_action(get, NULL), "PS2", "8===D ");
+	ft_setenv(static_env_action(get, NULL), "PS1", ft_strdup("PiEcE_oF_s_HELL: "));
+	ft_setenv(static_env_action(get, NULL), "PS2", ft_strdup("8===D "));
 }
 
 int         main(int ac, char **av, char **environ)
