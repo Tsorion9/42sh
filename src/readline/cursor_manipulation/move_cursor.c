@@ -15,7 +15,8 @@ static void	move_cursor_left(void)
 		rp()->cur_pos[1]--;
 		rp()->cur_pos[0] = search_last_cur_pos_in_line() + 1;
 	}
-	else if ((size_t)rp()->cur_pos[0] == (size_t)rp()->prompt_len && rp()->cur_pos[1] == 1)
+	else if ((size_t)rp()->cur_pos[0] == (size_t)rp()->prompt_len && \
+		rp()->cur_pos[1] == 1)
 		return ;
 	else
 		rp()->cur_pos[0]--;
@@ -26,7 +27,7 @@ static void	move_cursor_left(void)
 ** Перемещает курсор на одну позицию вправо.
 */
 
-static void move_cursor_right(void)
+static void	move_cursor_right(void)
 {
 	int	i;
 	int	prev_cur_pos[2];
@@ -38,12 +39,9 @@ static void move_cursor_right(void)
 	{
 		rp()->cur_pos[0] = 1;
 		rp()->cur_pos[1]++;
-		//printf("rp()->cur_pos[0] = %d, rp()->cur_pos[1] = %d\n", rp()->cur_pos[0], rp()->cur_pos[1]);
 	}
 	else if (rp()->user_in[i] != 0)
 		rp()->cur_pos[0]++;
-	//else
-	//	printf("rp()->cur_pos[0] = %d, rp()->cur_pos[1] = %d\n", rp()->cur_pos[0], rp()->cur_pos[1]);
 	ret_cur_to_original_pos(prev_cur_pos);
 }
 
@@ -51,7 +49,7 @@ static void move_cursor_right(void)
 ** Перемещает курсор на одну позицию.
 */
 
-void        move_cursor(long c)
+void		move_cursor(long c)
 {
 	if (c == LEFT_ARROW)
 		move_cursor_left();
