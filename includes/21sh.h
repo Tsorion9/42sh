@@ -252,6 +252,7 @@ void		tc_cursor_left(void);
 void		tc_cursor_right(void);
 void		tc_clear_till_end(void);
 
+void		tc_cursor_n_right(int n);
 /*
 ** Parser.h
 */

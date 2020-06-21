@@ -11,18 +11,6 @@ static void clear_line(int end_cl)
 	tc_clear_till_end();
 }
 
-static void	tc_cursor_n_right(int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n)
-	{
-		tc_cursor_right();
-		i++;
-	}
-}
-
 /*
 ** Чистит все строки, введенные пользователем.
 */
