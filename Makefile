@@ -101,8 +101,10 @@ $(NAME): $(OBJ) | lib
 lib:
 	make -C libft 
 
+-include $(OBJ:.o=.d)
+
 %.o : %.c 
-	gcc $(CFLAGS) -c $< -o $@
+	gcc $(CFLAGS) -c $< -o $@ -MD
 
 clean:
 	make -C libft clean

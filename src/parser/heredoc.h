@@ -2,19 +2,16 @@
 #define HEREDOC_H
 
 #include "deque.h"
-#include "21sh.h" /* For readline */
+#include "21sh.h"
 #include "libft.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#define TMP_DIR "."
-#define TMPF_ERRMESSG "Could not create a temporary file"
-
-#define TMPFILE_SUFFIX_SIZE 9
-#define SYS_RNDGEN_FILENAME "/dev/urandom"
-#define DEFAULT_TMPFILE_PREFIX "/tmp/"
+/*
+** Some comment
+*/
 
 typedef enum	e_heredoc_action
 {
