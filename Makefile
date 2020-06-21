@@ -1,15 +1,5 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tsorion <tsorion@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/10/12 15:20:15 by mphobos           #+#    #+#              #
-#    Updated: 2020/04/12 21:53:18 by tsorion          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 NAME = 21sh
+
 CREADLINE = readline.c strmove_cursor.c t_str.c \
 			termcap_api.c history_list.c search_index.c\
 			history_file.c add_or_delete_symbol.c up_down_arrow.c\
@@ -99,25 +89,20 @@ LIB_INC = libft/includes
 INC_FLAGS = -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec  -I src/expansions
 FLAGS = -Wall -Wextra -Werror $(INC_FLAGS)
 LFLAGS = -L libft -lft -ltermcap 
-DFLAGS = -g # -DDBG_LEXER
+DFLAGS = -g 
 CFLAGS = $(DFLAGS) 
 CFLAGS += $(FLAGS)
 
 all: $(NAME)
 
-debug: CFLAGS += -D DBG_LEXER
-debug: re
-
-$(NAME): lib $(OBJ)
+$(NAME): $(OBJ) | lib
 	$(CC) $(OBJ) $(LFLAGS) $(DFLAGS) -o $(NAME)
 
 lib:
 	make -C libft 
-	#TODO: readline should also be a lib
 
-#TODO: object modules should also depend on headers
-%o : %c 
-	gcc $(CFLAGS) -c $<
+%.o : %.c 
+	gcc $(CFLAGS) -c $< -o $@
 
 clean:
 	make -C libft clean
@@ -128,8 +113,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-val:
-	valgrind --leak-check=full ./21sh
 
 .PHONY: all clean fclean re
