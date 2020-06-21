@@ -46,8 +46,8 @@ static long readline_sup(void)
         add_symbol(c);
     else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
         alt_left_right(c);
-    /*else if (c == HOME || c == END) // Необходимо реализовать
-        home_end(c); // Проверить!*/
+    else if (c == HOME || c == END)
+		home_end(c);
     else if (c == CTRL_LEFT || c == CTRL_RIGHT)
         wordmove_cursor(c);
 	else if (c == CTRL_UP || c == CTRL_DOWN)

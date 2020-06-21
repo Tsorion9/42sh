@@ -179,6 +179,7 @@ typedef struct  s_token
 
 #define PROMPT_LEN 2
 
+void			home_end(long c);
 int				str_naa(char *user_in);
 char			*set_programm_args(int c_ac, char **c_av);
 void			expand_user_in(void);
