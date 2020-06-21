@@ -25,6 +25,26 @@ int				executable_file(char *file_name, char *path)
 	return (res);
 }
 
+static char		**get_paths(void)
+{
+	char	*p;
+	char	**path;
+
+	p = ft_getenv(static_env_action(get, NULL), "PATH");
+	path = ft_strsplit(p, ':');
+	free(p);
+	return (path);
+}
+
+void			free_strsplit(char **str)
+{
+	while (str)
+	{
+		free(*str);
+		str++;
+	}
+}
+
 t_completion	*add_files_path_env(void)
 {
 	t_completion	*com_lst;
@@ -32,17 +52,14 @@ t_completion	*add_files_path_env(void)
 	struct dirent	*file_name;
 	char			**path;
 	size_t			i;
-	char			*p;
 
-	p  = ft_getenv(static_env_action(get, NULL), "PATH");
-	if (!(path = ft_strsplit(p, ':')))
+	if (!(path = get_paths()))
 		return (NULL);
 	i = 0;
 	com_lst = NULL;
 	while (path[i])
 	{
-		dp = opendir(path[i]);
-		if (dp)
+		if ((dp = opendir(path[i])))
 		{
 			while ((file_name = readdir(dp)))
 			{
@@ -53,5 +70,6 @@ t_completion	*add_files_path_env(void)
 		}
 		i++;
 	}
+	free_strsplit(path);
 	return (com_lst);
 }

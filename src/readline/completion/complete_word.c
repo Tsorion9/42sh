@@ -25,7 +25,8 @@ static void	change_full_word(char *full_word, char *path)
 	full_word[full_word_len + 1] = '\0';
 }
 
-void		complete_word(t_completion *matches, char *remaider_word, char *path)
+void		complete_word(t_completion *matches, char *remaider_word,\
+		char *path)
 {
 	size_t		i;
 	char		full_word[BUFFSIZE];

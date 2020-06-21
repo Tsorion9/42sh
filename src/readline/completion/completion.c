@@ -1,6 +1,6 @@
 #include "21sh.h"
 
-static int			is_first_word(int i)
+static int	is_first_word(int i)
 {
 	if (rp()->user_in[i] == '\0')
 		i--;
@@ -16,8 +16,7 @@ static int			is_first_word(int i)
 	return (0);
 }
 
-
-void				completion(void)
+void		completion(void)
 {
 	char			*remaider_word;
 	t_completion	*com_lst;
