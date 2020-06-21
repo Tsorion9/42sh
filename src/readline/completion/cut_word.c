@@ -14,7 +14,8 @@ char	*cut_word(char cut_symbol, int i)
 		i++;
 	save_symbol = rp()->user_in[j];
 	rp()->user_in[j] = '\0';
-	remaider_word = ft_strdup(rp()->user_in + i);
+	if (!(remaider_word = ft_strdup(rp()->user_in + i)))
+		reset_exit(1);
 	rp()->user_in[j] = save_symbol;
 	return (remaider_word);
 }

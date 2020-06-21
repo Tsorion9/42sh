@@ -32,17 +32,24 @@ static char		**get_paths(void)
 
 	p = ft_getenv(static_env_action(get, NULL), "PATH");
 	path = ft_strsplit(p, ':');
-	free(p);
+	if (p)
+		free(p);
 	return (path);
 }
 
 void			free_strsplit(char **str)
 {
-	while (str)
+	int	i;
+
+	if (!str)
+		return ;
+	i = 0;
+	while (str[i])
 	{
-		free(*str);
-		str++;
+		free(str[i]);
+		i++;
 	}
+	free(str);
 }
 
 t_completion	*add_files_path_env(void)

@@ -35,6 +35,7 @@ void		completion(void)
 	{
 		path = return_path(remaider_word);
 		com_lst = ret_possible_matches(path, is_first_word(i));
+		free(remaider_word);
 		remaider_word = cut_word('/', i);
 	}
 	matches = ret_matches(com_lst, remaider_word);
