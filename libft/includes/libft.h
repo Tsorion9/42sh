@@ -165,5 +165,6 @@ typedef	struct		s_key_value
 
 t_list				*ptree_to_kvpairs(t_ptree *tree);
 
+void				*xmalloc(size_t n);
 
 #endif

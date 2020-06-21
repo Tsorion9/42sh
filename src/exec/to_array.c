@@ -11,7 +11,7 @@ static char		*concat_key_value(t_list *l)
 		return (NULL);
 	key = ((t_key_value *)l->content)->key;
 	value = (char *)((t_key_value *)l->content)->value;
-	res = malloc(ft_strlen(key) + ft_strlen(value) + 2);
+	res = xmalloc(ft_strlen(key) + ft_strlen(value) + 2);
 	if (!res)
 		return (NULL);
 	current = res;

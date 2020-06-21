@@ -4,11 +4,11 @@ void	expand_user_in(void)
 {
 	char	*tmp;
 
-	tmp = malloc(rp()->max_len);
+	tmp = xmalloc(rp()->max_len);
 	ft_strcpy(tmp, rp()->user_in);
 	free(rp()->user_in);
 	rp()->max_len *= 2;
-	if (!(rp()->user_in = (char*)malloc(sizeof(char) * rp()->max_len)))
+	if (!(rp()->user_in = (char*)xmalloc(sizeof(char) * rp()->max_len)))
 		reset_exit(1);
 	ft_strcpy(rp()->user_in, tmp);
 	free(tmp);

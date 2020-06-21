@@ -4,9 +4,9 @@ t_str	*init_str(void)
 {
 	t_str	*new_str;
 
-	if (!(new_str = (t_str*)malloc(sizeof(t_str))))
+	if (!(new_str = (t_str*)xmalloc(sizeof(t_str))))
 		reset_exit(1);
-	if (!(new_str->buf = (char*)malloc(sizeof(char) * MIN_CMD_LENGTH)))
+	if (!(new_str->buf = (char*)xmalloc(sizeof(char) * MIN_CMD_LENGTH)))
 		reset_exit(1);
 	new_str->len = 0;
 	new_str->max_len = MIN_CMD_LENGTH;
@@ -21,7 +21,7 @@ void		expand_str(t_str *str)
 	ft_strcpy(tmp, str->buf);
 	free(str->buf);
 	str->max_len += MIN_CMD_LENGTH;
-	if (!(str->buf = (char*)malloc(sizeof(char) * str->max_len)))
+	if (!(str->buf = (char*)xmalloc(sizeof(char) * str->max_len)))
 		reset_exit(1);
 	ft_strcpy(str->buf, tmp);
 }

@@ -59,13 +59,13 @@ int main()
 			print_deque_len(d);
 		if (!strncmp(buf, "af", 2))
 		{
-			n = malloc(sizeof(int));
+			n = xmalloc(sizeof(int));
 			*n = atoi(buf + 2);
 			push_front(&d, n);
 		}
 		else if (!strncmp(buf, "ab", 2))
 		{
-			n = malloc(sizeof(int));
+			n = xmalloc(sizeof(int));
 			*n = atoi(buf + 2);
 			push_back(&d, n);
 		}

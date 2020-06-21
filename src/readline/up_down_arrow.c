@@ -8,7 +8,7 @@ static void	up_down_arrow_sup(void)
 	lenh = rp()->history->len / MIN_CMD_LENGTH;
 	rp()->max_len = MIN_CMD_LENGTH * (lenh + 1);
 	free(rp()->user_in);
-	if (!(rp()->user_in = (char*)malloc(sizeof(char) * rp()->max_len)))
+	if (!(rp()->user_in = (char*)xmalloc(sizeof(char) * rp()->max_len)))
 		reset_exit(1);
 	ft_strcpy(rp()->user_in, rp()->history->str);
 	ft_putstr(rp()->user_in);

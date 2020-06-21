@@ -4,7 +4,7 @@ static t_completion	*create_completion(char *str)
 {
 	t_completion	*new_completion;
 
-	if (!(new_completion = (t_completion*)malloc(sizeof(t_completion))))
+	if (!(new_completion = (t_completion*)xmalloc(sizeof(t_completion))))
 		return (NULL);
 	if (!(new_completion->str = ft_strdup(str)))
 		return (NULL);

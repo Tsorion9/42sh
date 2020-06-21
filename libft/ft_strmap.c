@@ -20,7 +20,7 @@ char	*ft_strmap(const char *s, char (*f)(char))
 	if (s == NULL || f == NULL)
 		return (NULL);
 	len = ft_strlen(s);
-	if (!(res = (char*)malloc(sizeof(char) * (len + 1))))
+	if (!(res = (char*)xmalloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	res[len] = '\0';
 	len--;

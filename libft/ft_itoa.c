@@ -16,7 +16,7 @@ static char	*ft_minitoa(void)
 {
 	char	*res;
 
-	if (!(res = (char*)malloc(sizeof(char) * 12)))
+	if (!(res = (char*)xmalloc(sizeof(char) * 12)))
 		return (NULL);
 	res[0] = '-';
 	res[1] = '2';
@@ -60,7 +60,7 @@ char		*ft_itoa(int n)
 		return (ft_minitoa());
 	size = ft_sitoa(n);
 	sign = 0;
-	if (!(res = (char*)malloc(sizeof(char) * (size + 1))))
+	if (!(res = (char*)xmalloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	if (n < 0)
 	{

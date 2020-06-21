@@ -4,7 +4,7 @@ t_2list	*lst2_new(void	*data)
 {
 	t_2list	*d;
 
-	d = malloc(sizeof(t_2list));
+	d = xmalloc(sizeof(t_2list));
 	if (!d)
 		return (NULL);
 	d->data = data;

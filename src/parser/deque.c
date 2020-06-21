@@ -9,7 +9,7 @@ void			*push_front(t_deque **d, void *new)
 {
 	if (!*d)
 	{
-		*d = malloc(sizeof(t_deque));
+		*d = xmalloc(sizeof(t_deque));
 		if (!*d)
 			return (NULL);
 		(*d)->first = NULL;
@@ -28,7 +28,7 @@ void			*push_back(t_deque **d, void *new)
 
 	if (!*d)
 	{
-		*d = malloc(sizeof(t_deque));
+		*d = xmalloc(sizeof(t_deque));
 		if (!*d)
 			return (NULL);
 		(*d)->first = NULL;

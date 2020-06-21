@@ -24,7 +24,7 @@ char	*ctoa(char c)
 {
 	char	*res;
 
-	res = (char *)malloc(sizeof(char) * (1 + 1));
+	res = (char *)xmalloc(sizeof(char) * (1 + 1));
 	if (!res)
 		return (res);
 	res[0] = c;

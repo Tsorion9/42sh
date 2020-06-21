@@ -30,7 +30,7 @@ int	main()
 			lst2del_one(&l, del);
 		else if (*buf == 'a')
 		{
-			n = malloc(sizeof(int));
+			n = xmalloc(sizeof(int));
 			*n = ft_atoi(buf + 1);
 			lst2_add(&l, n);
 		}

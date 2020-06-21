@@ -16,7 +16,7 @@ static char		**create_argv(char *progname, char **args)
 	nargs = 0;
 	while (args[nargs++])
 		;
-	new = (char **)malloc(sizeof(char *) * (nargs + 1));
+	new = (char **)xmalloc(sizeof(char *) * (nargs + 1));
 	if (!new)
 		return (NULL);
 	nargs++;

@@ -39,7 +39,7 @@ static char	*get_varname(char *word, int pos)
 		len++;
 	if (!len)
 		return (NULL);
-	name = malloc(len + 1);
+	name = xmalloc(len + 1);
 	ft_strncpy(name, word + pos + 1, len);
 	name[len] = 0;
 	return (name);

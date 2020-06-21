@@ -68,7 +68,7 @@ static t_token	*copy_init_token(t_token t)
 {
 	t_token	*copy;
 
-	copy = malloc(sizeof(t_token));
+	copy = xmalloc(sizeof(t_token));
 	*copy = t;
 	if (copy->token_type != word &&\
 			copy->token_type != ass_word &&\
