@@ -63,6 +63,7 @@ CEXEC = builtin_env.c\
 		task_context.c\
 		task.c\
 		make_assignments_redirections.c\
+		redirections_utils.c\
 		exec.c
 
 CEXPANSIONS = dollar_expansion.c\
