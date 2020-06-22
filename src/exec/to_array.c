@@ -49,7 +49,7 @@ static char		**list_to_array(t_list *l)
 
 static void		del_list_entry(void *content, size_t content_size)
 {
-	(void) content_size;
+	(void)content_size;
 	free(((t_key_value *)content)->key);
 	free(((t_key_value *)content)->value);
 	free(content);
@@ -57,7 +57,7 @@ static void		del_list_entry(void *content, size_t content_size)
 
 /*
 ** Ptree to char **
-** Flatten a prefix tree to NULL-terminated array of strings in 
+** Flatten a prefix tree to NULL-terminated array of strings in
 ** format "key=value"
 ** In case of memory errors, fill memory_ok with 0
 */
