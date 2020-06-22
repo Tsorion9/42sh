@@ -67,7 +67,7 @@ int			delete_symbol_sup(int i)
 			tc_cursor_n_right(rp()->prompt_len);
 			rp()->cur_pos[0] = rp()->prompt_len;
 		}
-		return (search_last_cur_pos_in_line() + rp()->prompt_len);
+		return (search_last_cur_pos_in_line() + 2);
 	}
 	return (rp()->cur_pos[0]);
 }
