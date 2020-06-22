@@ -62,7 +62,7 @@ static int		traverse_children(t_ptree *tree, char *prefix, t_list **kvpairs)
 ** Return linked list of key-value pairs
 ** If no values are present on the tree and some keys (yes, this is possible)
 ** Return single node of list with empty content
-** Return 0 in case of malloc errors
+** Return 0 in case of xmalloc errors
 */
 
 t_list			*ptree_to_kvpairs(t_ptree *tree)

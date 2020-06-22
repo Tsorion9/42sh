@@ -3,7 +3,7 @@
 static void	enter(t_deque **tokbuf_l, t_io_redir **redir)
 {
 	*tokbuf_l = NULL;
-	*redir = malloc(sizeof(t_io_redir));
+	*redir = xmalloc(sizeof(t_io_redir));
 	if (*redir)
 	{
 		(*redir)->fd = 0;

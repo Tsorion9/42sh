@@ -4,11 +4,11 @@ void	expand_user_in(void)
 {
 	char	*tmp;
 
-	tmp = malloc(rp()->max_len);
+	tmp = xmalloc(rp()->max_len);
 	ft_strcpy(tmp, rp()->user_in);
 	free(rp()->user_in);
 	rp()->max_len *= 2;
-	if (!(rp()->user_in = (char*)malloc(sizeof(char) * rp()->max_len)))
+	if (!(rp()->user_in = (char*)xmalloc(sizeof(char) * rp()->max_len)))
 		reset_exit(1);
 	ft_strcpy(rp()->user_in, tmp);
 	free(tmp);
@@ -46,8 +46,8 @@ static long readline_sup(void)
         add_symbol(c);
     else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
         alt_left_right(c);
-    /*else if (c == HOME || c == END) // Необходимо реализовать
-        home_end(c); // Проверить!*/
+    else if (c == HOME || c == END)
+		home_end(c);
     else if (c == CTRL_LEFT || c == CTRL_RIGHT)
         wordmove_cursor(c);
 	else if (c == CTRL_UP || c == CTRL_DOWN)

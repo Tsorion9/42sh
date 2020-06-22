@@ -179,6 +179,7 @@ typedef struct  s_token
 
 #define PROMPT_LEN 2
 
+void			home_end(long c);
 int				str_naa(char *user_in);
 char			*set_programm_args(int c_ac, char **c_av);
 void			expand_user_in(void);
@@ -251,6 +252,7 @@ void		tc_cursor_left(void);
 void		tc_cursor_right(void);
 void		tc_clear_till_end(void);
 
+void		tc_cursor_n_right(int n);
 /*
 ** Parser.h
 */

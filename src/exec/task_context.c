@@ -2,12 +2,13 @@
 #include "task_context.h"
 #include "static_env.h"
 
-static int	need_new_process(t_simple_cmd *cmd)
+static int		need_new_process(t_simple_cmd *cmd)
 {
 	char		*word;
 	t_builtin	b;
 
-	b = get_builtin((word = pop_front(cmd->wl)));
+	word = pop_front(cmd->wl);
+	b = get_builtin(word);
 	if (word)
 		push_front(&(cmd->wl), (void *)word);
 	else
@@ -15,7 +16,7 @@ static int	need_new_process(t_simple_cmd *cmd)
 	return (!b);
 }
 
-int		ignore_ass_for_builtin(t_simple_cmd *cmd)
+int				ignore_ass_for_builtin(t_simple_cmd *cmd)
 {
 	char	*word;
 
@@ -29,8 +30,7 @@ int		ignore_ass_for_builtin(t_simple_cmd *cmd)
 	return (1);
 }
 
-//TODO: Not sure about subshell environment
-t_task_context init_task_context(t_simple_cmd *cmd, int in_pipe,\
+t_task_context	init_task_context(t_simple_cmd *cmd, int in_pipe,\
 		int out_pipe)
 {
 	t_task_context	task_context;
@@ -50,14 +50,13 @@ t_task_context init_task_context(t_simple_cmd *cmd, int in_pipe,\
 	return (task_context);
 }
 
-void	enter_task_context(t_task_context *task_context)
+void			enter_task_context(t_task_context *task_context)
 {
 	if (task_context->need_subshell)
 		static_env_action(save, NULL);
 	task_context->save_0 = dup(0);
 	task_context->save_1 = dup(1);
 	task_context->save_2 = dup(2);
-	/* Probably, make the copy of the environment*/
 	if (task_context->in_pipe != IGNORE_STREAM)
 	{
 		dup2(task_context->in_pipe, 0);
@@ -74,11 +73,10 @@ void	enter_task_context(t_task_context *task_context)
 ** Actually, we enter this function only in case of builltin or unknown command
 */
 
-void	exit_task_context(t_task_context *task_context)
+void			exit_task_context(t_task_context *task_context)
 {
 	if (task_context->need_subshell)
 		static_env_action(restore, NULL);
-	/* Restore the copy of the environment*/
 	dup2(task_context->save_0, 0);
 	dup2(task_context->save_1, 1);
 	dup2(task_context->save_2, 2);

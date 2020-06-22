@@ -2,7 +2,7 @@
 
 static void	enter(t_simple_cmd **cmd, t_deque **tokbuf_l)
 {
-	*cmd = malloc(sizeof(t_simple_cmd));
+	*cmd = xmalloc(sizeof(t_simple_cmd));
 	if (*cmd)
 	{
 		(*cmd)->wl = NULL;

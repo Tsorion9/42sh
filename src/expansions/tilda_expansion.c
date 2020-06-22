@@ -49,7 +49,7 @@ static char	*gather_tilde_prefix(char *s)
 	}
 	if (quotes_before)
 		return (ft_strdup("~"));
-	copy = malloc(len + 1);
+	copy = xmalloc(len + 1);
 	if (!copy)
 		return (NULL);
 	ft_strncpy(copy, s, len);

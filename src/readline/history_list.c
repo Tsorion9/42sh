@@ -4,7 +4,7 @@ t_history   *create_history(char *str, size_t len)
 {
     t_history   *history;
 
-    if (!(history = (t_history*)malloc(sizeof(t_history))))
+    if (!(history = (t_history*)xmalloc(sizeof(t_history))))
         exit(1);
     history->str = ft_strdup(str);
 	history->len = len;

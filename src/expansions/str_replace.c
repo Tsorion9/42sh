@@ -12,7 +12,7 @@ char	*str_repl(char *s, int start, int end, char *value)
 	int		len;
 
 	len = ft_strlen(s) - (end - start + 1) + ft_strlen(value) + 1;
-	new = malloc(len);
+	new = xmalloc(len);
 	if (!new)
 		return (NULL);
 	ft_strncpy(new, s, start);

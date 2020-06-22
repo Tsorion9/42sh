@@ -104,7 +104,7 @@ t_rp		*init_rp(void)
 {
 	t_rp	*rp;
 
-	if (!(rp = (t_rp*)malloc(sizeof(t_rp))))
+	if (!(rp = (t_rp*)xmalloc(sizeof(t_rp))))
 		reset_exit(1);
 	rp->len = 0;
 	rp->max_len = MIN_CMD_LENGTH;

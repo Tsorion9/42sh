@@ -15,7 +15,7 @@ static char	**collect_argwords(t_simple_cmd *cmd)
 	i = 0;
 	if (!deque_len(cmd->wl))
 		return (NULL);
-	args = malloc(sizeof(char *) * (deque_len(cmd->wl) + 1));
+	args = xmalloc(sizeof(char *) * (deque_len(cmd->wl) + 1));
 	while ((args[i] = pop_front(cmd->wl)))
 		i++;
 	free(cmd->wl);

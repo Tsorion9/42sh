@@ -3,7 +3,7 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-
+#include "redirections_utils.h"
 
 /*
 ** as_wrd is string in format name=value
@@ -31,9 +31,23 @@ static int	get_oflags(t_token_type op)
 	return (0);
 }
 
-/* 
-** TODO: fd should be open for reading or writeing respectively
-* (DONE): try to write 0 bytes into the file and check the return value
+static int	redirect_next_heredoc(int fd)
+{
+	int	*heredoc;
+
+	heredoc = heredoc_action(pop_fd, NULL);
+	if (!heredoc)
+		return (-1);
+	if (dup2(*heredoc, fd) == -1) 
+		return (-1);
+	close(*heredoc);
+	free(heredoc);
+	return (0);
+}
+
+/*
+** TODO: fd should be open for reading or writing respectively
+** (DONE): try to write 0 bytes into the file and check the return value
 **
 ** TODO(2): redir->where is a list actually. Process error "ambigous redirect"
 */
@@ -41,49 +55,18 @@ static int	get_oflags(t_token_type op)
 static int	make_io_redir(t_io_redir *redir)
 {
 	int	fd;
-	int	*heredoc;
-	int	copy;
 
 	if (redir->operation == lessand || redir->operation == gr_and)
-	{
-		if (!ft_strcmp((char *)redir->where->content, CLOSE_STREAM))
-		{
-			close(redir->fd);
-			return (0);
-		}
-		copy = dup(ft_atoi(redir->where->content)); //TODO: If not only digits or >1 element in list -> error!
-		if (copy == -1) // Previous guy was closed
-		{
-			close(redir->fd);
-			return (0);
-		}
-		dup2(copy, redir->fd); 
-		close(copy);
-		return (0);
-	}
+		return (normal_redirection(redir));
 	if (redir->operation == dless || redir->operation == dlessash)
-	{
-		heredoc = heredoc_action(pop_fd, NULL);
-		dup2(*heredoc, redir->fd);
-		close(*heredoc);
-		free(heredoc);
-		return (0);
-	}
-	if (redir->operation == less && access((char *)redir->where->content, F_OK) == -1)
-	{
-		ft_fprintf(2, "Error: file %s does not exist\n", (char *)redir->where->content);
-		if (!isatty(0))
-			exit(-1);
-		return (1); 
-	}
-	fd = open((char *)redir->where->content, get_oflags(redir->operation), 0666);
+		return (redirect_next_heredoc(redir->fd));
+	if (redir->operation == less &&\
+			access((char *)redir->where->content, F_OK) == -1)
+		return (no_file_error(redir));
+	fd = open((char *)redir->where->content,\
+			get_oflags(redir->operation), 0666);
 	if (fd == -1)
-	{
-		ft_fprintf(2, "Error: could not open file %s\n", (char *)redir->where->content);
-		if (!isatty(0))
-			exit(-1);
-		return (1); 
-	}
+		return (fail_open_file_error(redir));
 	dup2(fd, redir->fd);
 	return (0);
 }
@@ -92,7 +75,7 @@ static int	make_io_redir(t_io_redir *redir)
 ** TODO: handle possible errors
 */
 
-int	make_assignments_redirections(t_simple_cmd *cmd)
+int			make_assignments_redirections(t_simple_cmd *cmd)
 {
 	t_ar		*ar;
 	char		*as_wrd;
@@ -104,10 +87,10 @@ int	make_assignments_redirections(t_simple_cmd *cmd)
 	{
 		if (ar->what == assignment)
 		{
-			as_wrd = (char *)ar->data; 
+			as_wrd = (char *)ar->data;
 			make_assignment(env, as_wrd);
 		}
-		else 
+		else
 		{
 			any_errors = make_io_redir((t_io_redir *)ar->data);
 			if (any_errors)

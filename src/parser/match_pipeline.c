@@ -3,7 +3,7 @@
 static void	enter(t_deque **tokbuf_l, t_pipeline **pipeline)
 {
 	*tokbuf_l = NULL;
-	*pipeline = malloc(sizeof(t_pipeline));
+	*pipeline = xmalloc(sizeof(t_pipeline));
 	if (*pipeline)
 	{
 		(*pipeline)->bang = 0;

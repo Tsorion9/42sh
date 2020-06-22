@@ -1,21 +1,11 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tsorion <tsorion@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/10/12 15:20:15 by mphobos           #+#    #+#              #
-#    Updated: 2020/04/12 21:53:18 by tsorion          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 NAME = 21sh
+
 CREADLINE = readline.c strmove_cursor.c t_str.c \
 			termcap_api.c history_list.c search_index.c\
 			history_file.c add_or_delete_symbol.c up_down_arrow.c\
 			check_quoting.c clear_all_line.c free_readline.c \
 			other.c reset_readline_position.c search_cur_pos.c get_prompt.c \
-			str_n.c
+			str_n.c home_end.c
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
@@ -73,6 +63,7 @@ CEXEC = builtin_env.c\
 		task_context.c\
 		task.c\
 		make_assignments_redirections.c\
+		redirections_utils.c\
 		exec.c
 
 CEXPANSIONS = dollar_expansion.c\
@@ -99,25 +90,22 @@ LIB_INC = libft/includes
 INC_FLAGS = -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec  -I src/expansions
 FLAGS = -Wall -Wextra -Werror $(INC_FLAGS)
 LFLAGS = -L libft -lft -ltermcap 
-DFLAGS = -g # -DDBG_LEXER
+DFLAGS = -g 
 CFLAGS = $(DFLAGS) 
 CFLAGS += $(FLAGS)
 
 all: $(NAME)
 
-debug: CFLAGS += -D DBG_LEXER
-debug: re
-
-$(NAME): lib $(OBJ)
+$(NAME): $(OBJ) | lib
 	$(CC) $(OBJ) $(LFLAGS) $(DFLAGS) -o $(NAME)
 
 lib:
 	make -C libft 
-	#TODO: readline should also be a lib
 
-#TODO: object modules should also depend on headers
-%o : %c 
-	gcc $(CFLAGS) -c $<
+-include $(OBJ:.o=.d)
+
+%.o : %.c 
+	gcc $(CFLAGS) -c $< -o $@ -MD
 
 clean:
 	make -C libft clean
@@ -128,8 +116,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-val:
-	valgrind --leak-check=full ./21sh
 
 .PHONY: all clean fclean re

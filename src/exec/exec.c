@@ -18,7 +18,7 @@
 #include "exec_utils.h"
 #include "task.h"
 
-int	have_children_global_request(int set_value, int value)
+int			have_children_global_request(int set_value, int value)
 {
 	static int	have_children;
 
@@ -41,31 +41,19 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 
 	number_of_heredocs = n_heredocs(cmd);
 	task_context = init_task_context(cmd, in_pipe, out_pipe);
-	if (!task_context.need_child)					/* Single process */
-		return (task(cmd, &task_context));		   
-
-	if (!(child = fork()))				/* CHILD */
-		task(cmd, &task_context);	
-	/* This function calls execve, does not return */
-
-	/* Parent */
+	if (!task_context.need_child)
+		return (task(cmd, &task_context));
+	if (!(child = fork()))
+		task(cmd, &task_context);
 	have_children_global_request(1, 1);
 	if (task_context.in_pipe != IGNORE_STREAM)
 		close(in_pipe);
 	if (task_context.out_pipe != IGNORE_STREAM)
 		close(out_pipe);
-
 	sync_parent_heredoc_state(number_of_heredocs);
-
 	rm_simple_cmd(cmd);
-	/* 
-	** LAST command in the pipeline; The only command, whose status we care 
-	** about. Parent blocks until all children finish (parrent is 21sh, waits for 
-	** the last cmd in pipeline)
-	** TODO: return status of the last cmd;
-	*/
-	if (task_context.out_pipe == IGNORE_STREAM)	
-		while (wait(&status) > 0) /* Wait returns -1 <==> no children */
+	if (task_context.out_pipe == IGNORE_STREAM)
+		while (wait(&status) > 0)
 			;
 	have_children_global_request(1, 0);
 	return (status);
@@ -86,21 +74,23 @@ static int	exec_pipeline(t_deque *p)
 	fd[1] = IGNORE_STREAM;
 	cmd = pop_front(p);
 	if ((next = pop_front(p)))
-		pipe(fd);				/* TODO: check the return value*/
-	status = exec_simple(cmd, IGNORE_STREAM, next ? fd[1] : IGNORE_STREAM);
+		pipe(fd);
+	status = exec_simple(cmd, IGNORE_STREAM,\
+			next ? fd[1] : IGNORE_STREAM);
 	while (next)
 	{
-		read_fd = fd[0];		/* For the next process */
+		read_fd = fd[0];
 		if (deque_len(p))
-			pipe(fd);				/* TODO: check the return value*/
-		status = exec_simple(next, read_fd, deque_len(p) ? fd[1] : IGNORE_STREAM);
+			pipe(fd);
+		status = exec_simple(next, read_fd,\
+				deque_len(p) ? fd[1] : IGNORE_STREAM);
 		next = pop_front(p);
 	}
 	free(p);
 	return (status);
 }
 
-int	exec_cmd(t_deque *cmd)
+int			exec_cmd(t_deque *cmd)
 {
 	t_pipeline	*pipeline;
 	int			last_status;

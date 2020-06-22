@@ -11,7 +11,7 @@ int		is_a_directory(char *path)
 }
 
 /*
-** Check if certain component of path is a directory 
+** Check if certain component of path is a directory
 ** (non-destructive, in-place)
 */
 

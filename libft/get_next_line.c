@@ -41,7 +41,7 @@ static t_flist	*add_search_file(const int fd, t_flist *files)
 {
 	if (files == NULL)
 	{
-		files = (t_flist*)malloc(sizeof(t_flist));
+		files = (t_flist*)xmalloc(sizeof(t_flist));
 		files->fd = fd;
 		files->content = NULL;
 		files->next = NULL;
@@ -52,7 +52,7 @@ static t_flist	*add_search_file(const int fd, t_flist *files)
 			files = files->next;
 		if (files->fd != fd)
 		{
-			files->next = (t_flist*)malloc(sizeof(t_flist));
+			files->next = (t_flist*)xmalloc(sizeof(t_flist));
 			files = files->next;
 			files->fd = fd;
 			files->content = NULL;

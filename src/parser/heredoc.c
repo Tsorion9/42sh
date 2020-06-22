@@ -13,7 +13,7 @@ int		*intnew(int x)
 {
 	int	*res;
 
-	res = malloc(sizeof(int));
+	res = xmalloc(sizeof(int));
 	*res = x;
 	return (res);
 }
