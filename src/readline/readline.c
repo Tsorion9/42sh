@@ -66,10 +66,10 @@ static long readline_sup(void)
     return (c);
 }
 
-void	die(void)
+/*void	die(void)
 {
 	exit(1);
-}
+}*/
 
 static void	read_till_newline(int *user_in_len)
 {
