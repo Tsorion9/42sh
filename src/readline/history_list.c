@@ -1,35 +1,35 @@
 #include "21sh.h"
 
-t_history   *create_history(char *str, size_t len)
+t_history	*create_history(char *str, size_t len)
 {
-    t_history   *history;
+	t_history	*history;
 
-    if (!(history = (t_history*)xmalloc(sizeof(t_history))))
-        exit(1);
-    history->str = ft_strdup(str);
+	if (!(history = (t_history*)xmalloc(sizeof(t_history))))
+		exit(1);
+	history->str = ft_strdup(str);
 	history->len = len;
-    history->prev = NULL;
-    history->next = NULL;
-    return (history);
+	history->prev = NULL;
+	history->next = NULL;
+	return (history);
 }
 
-void        add_to_start_history(t_history *history, char *str, size_t len)
+void		add_to_start_history(t_history *history, char *str, size_t len)
 {
-    t_history   *new_history;
+	t_history	*new_history;
 
-    while (history->prev)
-        history = history->prev;
-    if (ft_strcmp(str, "") == 0 || str[0] == ' ')
-        return ;
-    if (history->next)
-        if (ft_strcmp(str, history->next->str) == 0)
-            return ;
-    while (history->prev)
-        history = history->prev;
-    new_history = create_history(str, len);
-    if (history->next)
-        history->next->prev = new_history;
-    new_history->next = history->next;
-    new_history->prev = history;
-    history->next = new_history;
+	while (history->prev)
+		history = history->prev;
+	if (ft_strcmp(str, "") == 0 || str[0] == ' ')
+		return ;
+	if (history->next)
+		if (ft_strcmp(str, history->next->str) == 0)
+			return ;
+	while (history->prev)
+		history = history->prev;
+	new_history = create_history(str, len);
+	if (history->next)
+		history->next->prev = new_history;
+	new_history->next = history->next;
+	new_history->prev = history;
+	history->next = new_history;
 }
