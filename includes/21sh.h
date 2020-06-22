@@ -203,7 +203,7 @@ int				search_last_cur_pos_in_line(void);
 int     		search_index(void);
 void			ret_cur_to_original_pos(int *prev_cur_pos);
 int				ret_winsize(int a);
-int				check_backslash(char *user_in, int start_check);
+int				check_slash(char *user_in, int start_check);
 char			*expansion(char *user_in, char **env);
 t_history		*add_new_history(t_history *history, char *str);
 void			add_to_start_history(t_history *history, char *str, size_t len);

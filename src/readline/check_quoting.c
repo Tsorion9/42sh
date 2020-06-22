@@ -4,7 +4,7 @@
 ** Проверяет, является ли '\', с индексом start_check, цитированием.
 */
 
-int		check_backslash(char *user_in, int start_check)
+int		check_slash(char *user_in, int start_check)
 {
 	int res;
 
@@ -33,10 +33,10 @@ void	check_flag(char *user_in, char *flag)
 		if (user_in[i] == *flag && *flag == '\'')
 			*flag = 0;
 		else if (user_in[i] == '\"' && user_in[i] == *flag\
-			&& check_backslash(user_in, i - 1) == 1)
+			&& check_slash(user_in, i - 1) == 1)
 			*flag = 0;
 		else if ((user_in[i] == '\'' || user_in[i] == '\"') && *flag == 0\
-			&& check_backslash(user_in, i - 1) == 1)
+			&& check_slash(user_in, i - 1) == 1)
 			*flag = user_in[i];
 		i++;
 	}
