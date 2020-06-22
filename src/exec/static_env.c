@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   static_env.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 01:48:43 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 01:48:46 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "static_env.h"
 
 t_env	static_env_action(t_env_action action, void *opt_arg)
@@ -17,7 +29,7 @@ t_env	static_env_action(t_env_action action, void *opt_arg)
 		original = copy;
 		copy = NULL;
 	}
-	else 
+	else
 		delenv(original);
 	return (NULL);
 }
