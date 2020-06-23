@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst2_apply.c                                       :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,22 +10,46 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "deque.h"
+#include "heredoc.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include "libft.h"
 
-void	lst2_apply(t_2list *l, void (*f)(void *))
+int				*intnew(int x)
 {
-	while (l)
-	{
-		f(l->data);
-		l = l->next;
-	}
+	int	*res;
+
+	res = xmalloc(sizeof(int));
+	*res = x;
+	return (res);
 }
 
-void	lst2_apply_inplace(t_2list *l, void (*f)(void **))
+void			noncritical_error(char *text)
 {
-	while (l)
+	ft_fprintf(2, "%s\n", text);
+}
+
+/*
+** Create pipe; Write content into it;
+** return int *fd; allocated in heap.
+** Free the content
+*/
+
+int				*create_tmp_file(char *content)
+{
+	int	fd[2];
+	int	*res;
+
+	if (-1 == pipe(fd))
 	{
-		f(&(l->data));
-		l = l->next;
+		ft_putstr_fd("Pipe failed\n", 2);
+		exit(-1);
 	}
+	if (!fork())
+		exit(write(fd[1], content, ft_strlen(content)));
+	close(fd[1]);
+	res = intnew(fd[0]);
+	free(content);
+	return (res);
 }

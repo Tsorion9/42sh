@@ -40,6 +40,7 @@ CPARSER = deque.c \
 			tokbuf_utils.c\
 			add_ar.c\
 			heredoc.c\
+			heredoc_utils.c\
 			del_inside_wl.c\
 			deque_len.c
 
