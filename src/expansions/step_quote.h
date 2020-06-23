@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   step_quote.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/24 01:29:37 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 01:37:50 by anton            ###   ########.fr       */
+/*   Created: 2020/06/24 01:29:39 by anton             #+#    #+#             */
+/*   Updated: 2020/06/24 01:37:52 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#ifndef STEP_QUOTE_H
+# define STEP_QUOTE_H
 
-# include "21sh.h"
+void	step_single_quote(char *s, int *position, t_exp_state *state);
+void	step_double_quote(char **s, int *position, t_exp_state *state);
+
 #endif

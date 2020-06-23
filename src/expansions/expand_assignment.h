@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   expand_assignment.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/24 01:29:37 by anton             #+#    #+#             */
+/*   Created: 2020/06/24 01:29:38 by anton             #+#    #+#             */
 /*   Updated: 2020/06/24 01:37:50 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#ifndef EXPAND_ASSIGNMENT_H
+# define EXPAND_ASSIGNMENT_H
 
-# include "21sh.h"
+char		*expand_assignment(char *s);
+
 #endif

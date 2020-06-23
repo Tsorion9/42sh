@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   remove_quotes.h                                    :+:      :+:    :+:   */
+/*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REMOVE_QUOTES_H
-# define REMOVE_QUOTES_H
+#include "expand.h"
+#include "remove_quotes.h"
+#include "21sh.h"
+#include "step_quote.h"
 
-void remove_quotes(char *s);
+/*
+** Decide whether to replace dollar or tilda.
+** Create new string with replacement
+** Free original, update *s
+** Increment *pos so that it points to the next char after replacement
+*/
 
-#endif
+void	replace(char **s, int *position)
+{
+	if ((*s)[*position] == '$')
+		expand_dollar(s, position);
+	else if ((*s)[*position] == '~')
+		expand_tilda(s, position);
+}

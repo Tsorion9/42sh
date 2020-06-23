@@ -72,7 +72,11 @@ CEXEC = builtin_env.c\
 
 CEXPANSIONS = dollar_expansion.c\
 				expand_word.c\
+				step_quote.c\
+				expand_assignment.c\
+				expand_complete_cmd.c\
 				str_replace.c\
+				replace.c\
 				remove_quotes.c\
 				tilda_expansion.c
 

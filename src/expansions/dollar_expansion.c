@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dollar_expansion.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/24 01:29:37 by anton             #+#    #+#             */
+/*   Updated: 2020/06/24 01:37:50 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "environment.h"
 #include "static_env.h"
 #include "str_replace.h"
@@ -24,18 +36,13 @@ static int			is_special_parameter(char c)
 		return (0);
 }
 
-static int			is_valid_namechar(char c)
-{
-	return (ft_isalnum(c) || c == '_');
-}
-
-static char	*get_varname(char *word, int pos)
+static char			*get_varname(char *word, int pos)
 {
 	int		len;
 	char	*name;
 
 	len = 0;
-	while (is_valid_namechar(word[pos + 1 + len]))
+	while (ft_isalnum(word[pos + 1 + len]) || word[pos + 1 + len] == '_')
 		len++;
 	if (!len)
 		return (NULL);
@@ -45,7 +52,7 @@ static char	*get_varname(char *word, int pos)
 	return (name);
 }
 
-int			expand_dollar(char **word, int *pos)
+int					expand_dollar(char **word, int *pos)
 {
 	char	*varname;
 	char	*value;
@@ -60,7 +67,7 @@ int			expand_dollar(char **word, int *pos)
 	{
 		if (!(value = ft_getenv(static_env_action(get, NULL), varname)))
 		{
-			*pos += ft_strlen(varname); // UNSPECIFIED BY POSIX. We ignore expansions, bash expands to emptystring
+			*pos += ft_strlen(varname);
 			free(varname);
 			return (0);
 		}
@@ -69,9 +76,6 @@ int			expand_dollar(char **word, int *pos)
 		free(varname);
 	}
 	else
-	{
-		/* Behaviour is unspeified! */
 		return (0);
-	}
 	return (0);
 }

@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_word.c                                      :+:      :+:    :+:   */
+/*   expand_assignment.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 01:29:38 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 01:37:51 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/24 01:37:50 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
 #include "remove_quotes.h"
 #include "21sh.h"
-#include "step_quote.h"
 #include "replace.h"
+#include "step_quote.h"
 
-static void	step_norm(char **s, int *position, t_exp_state *state)
+static void	step_norm_assignemt_sup(char **s, int *position, t_exp_state *state)
 {
-	if ((*s)[*position] == '\\')
-	{
-		*position += 2;
-		return ;
-	}
 	if ((*s)[*position] == '\'')
 	{
 		*state = in_sqt;
@@ -43,31 +38,46 @@ static void	step_norm(char **s, int *position, t_exp_state *state)
 	(*position)++;
 }
 
-/*
-** 1) Skip everything inside ''; or \$ or \~
-** 2) Expand all the symbols one by one (do not apply expansions to the result
-** of expansions)
-** Implemented as FSM.
-**
-** STRING MUST BE VALID!!!! no unpaired quotes ; no quoted '0'
-*/
-
-char		*expand_word(char *s)
+static void	step_norm_assignemt(char **s, int *position, t_exp_state *state, \
+			int *equal_sign_detected)
 {
-	t_exp_state	state;
-	int			position;
+	if ((*s)[*position] == '=' && !*equal_sign_detected)
+	{
+		*equal_sign_detected = 1;
+		*position += 1;
+		return ;
+	}
+	if ((*s)[*position] == '~' && *equal_sign_detected && *position > 0 && \
+		((*s)[*position - 1] == '=' || (*s)[*position - 1] == ':'))
+	{
+		replace(s, position);
+		return ;
+	}
+	if ((*s)[*position] == '\\')
+	{
+		*position += 2;
+		return ;
+	}
+	step_norm_assignemt_sup(s, position, state);
+}
 
+char		*expand_assignment(char *s)
+{
+	t_exp_state		state;
+	int				position;
+	int				equal_sign_detected;
+
+	equal_sign_detected = -1;
 	state = norm;
 	position = 0;
 	while (s[position])
 	{
 		if (state == norm)
-			step_norm(&s, &position, &state);
+			step_norm_assignemt(&s, &position, &state, &equal_sign_detected);
 		else if (state == in_sqt)
 			step_single_quote(s, &position, &state);
 		else
 			step_double_quote(&s, &position, &state);
 	}
-	remove_quotes(s);
 	return (s);
 }
