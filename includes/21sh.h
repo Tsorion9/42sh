@@ -1,42 +1,42 @@
 #ifndef F21_SH_H
-#define F21_SH_H
+# define F21_SH_H
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <dirent.h>
-#include <termios.h>
-#include <term.h>
-#include <fcntl.h>
-#include "libft.h"
-#include "get_next_line.h"
-#include <stdio.h>
-#include <sys/ioctl.h>
-#include <signal.h>
-#include "parser.h"
-#include "heredoc.h"
-#include "exec.h"
-#include <dirent.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <stdlib.h>
+# include <dirent.h>
+# include <termios.h>
+# include <term.h>
+# include <fcntl.h>
+# include "libft.h"
+# include "get_next_line.h"
+# include <stdio.h>
+# include <sys/ioctl.h>
+# include <signal.h>
+# include "parser.h"
+# include "heredoc.h"
+# include "exec.h"
+# include <dirent.h>
 
-#include "expand.h"
+# include "expand.h"
 
-#define MIN_CMD_LENGTH 4096
-#define BUFFSIZE 4096
-#define HISTSIZE 1000
-#define bool _Bool // Remove this!
-#define true 1
-#define false 0
-#define rp() readline_position(NULL)
-#define get_prog_arg(x) set_programm_args(x, NULL)
+# define MIN_CMD_LENGTH 4096
+# define BUFFSIZE 4096
+# define HISTSIZE 1000
+# define bool _Bool
+# define true 1
+# define false 0
+# define rp() readline_position(NULL)
+# define get_prog_arg(x) set_programm_args(x, NULL)
 
-#define PS1 0
-#define PS2 1
+# define PS1 0
+# define PS2 1
 
-#define DEFAULT_PROMPT get_prompt(PS1)
+# define DEFAULT_PROMPT get_prompt(PS1)
 
-#define CLOSE_STREAM "-"
+# define CLOSE_STREAM "-"
 
 int	have_children_global_request(int set_value, int value);
 char	*get_prompt(int which);
@@ -57,13 +57,13 @@ typedef struct			s_completion
 	struct s_completion	*next;
 }						t_completion;
 
-typedef struct          s_history
+typedef struct		  s_history
 {
-    char                *str;
+	char				*str;
 	size_t				len;
-    struct s_history    *prev;
-    struct s_history    *next;
-}                       t_history;
+	struct s_history	*prev;
+	struct s_history	*next;
+}					   t_history;
 
 /*
 ** @user_in		buffer (heap)
@@ -76,17 +76,17 @@ typedef struct          s_history
 ** @prompt_len	length of the prompt + 1 == start position of cursor
 */
 
-typedef struct          s_rp
+typedef struct		  s_rp
 {
-    char                *user_in;
+	char				*user_in;
 	size_t				len;
 	size_t				max_len;
-    int                 cur_pos[2];
-    t_history           *history;
-    unsigned short      ws_col;
-    unsigned short      ws_row;
+	int				 cur_pos[2];
+	t_history		   *history;
+	unsigned short	  ws_col;
+	unsigned short	  ws_row;
 	size_t				prompt_len;
-}                       t_rp;
+}					   t_rp;
 
 /*
 ** TOKEN
@@ -94,9 +94,9 @@ typedef struct          s_rp
 
 typedef struct  s_token
 {
-    int         token_type;
-    char        *attribute;
-}               t_token;
+	int		 token_type;
+	char		*attribute;
+}			   t_token;
 
 #define TOKEN t_token // Unneeded macro
 
@@ -187,20 +187,20 @@ t_rp			*readline_position(t_rp *change_rp);
 void			inverse_search_index(int cur_pos[2], int index);
 void			reset_rp_to_start(char *p);
 int				ft_putint(int c);
-char	        *readline(char *prompt);
+char			*readline(char *prompt);
 int				ft_isspace(char c);
-void	        move_cursor(long c);
-void	        delete_symbol(void);
-void	        add_symbol(char c);
-void	        alt_left_right(long c);
-void	        delete_last_word(void);
+void			move_cursor(long c);
+void			delete_symbol(void);
+void			add_symbol(char c);
+void			alt_left_right(long c);
+void			delete_last_word(void);
 void			wordmove_cursor(long c);
 void			delete_symbol_forward(void);
-int        		str_n(void);
+int				str_n(void);
 void			clear_all_line(void);
 void			cur_pos_after_putstr(int *cur_pos);
 int				search_last_cur_pos_in_line(void);
-int     		search_index(void);
+int	 		search_index(void);
 void			ret_cur_to_original_pos(int *prev_cur_pos);
 int				ret_winsize(int a);
 int				check_slash(char *user_in, int start_check);
@@ -212,11 +212,11 @@ void			load_on_file_history(t_history *history);
 void			save_in_file_history(t_history *history);
 void			free_readline_position(void);
 void			check_flag(char *user_in, char *flag);
-void    	    up_down_arrow(long c);
+void			up_down_arrow(long c);
 void			set_signal(void);
 void			set_input_mode(void);
-void		    reset_input_mode(void);
-void    	    strmove_cursor(long c);
+void			reset_input_mode(void);
+void			strmove_cursor(long c);
 void			completion(void);
 int				is_print(long c);
 int				executable_file(char *file_name, char *path);
@@ -231,7 +231,7 @@ t_completion	*ret_possible_matches(char *path, int first_word);
 char			*cut_word(char cut_symbol, int i);
 t_completion	*ret_matches(t_completion *com_lst, char *str_search);
 void			free_rp(void);
-void        	free_history_list(t_history *history);
+void			free_history_list(t_history *history);
 t_str			*init_str(void);
 void			expand_str(t_str *str);
 void			free_str(t_str *str);
@@ -246,8 +246,8 @@ t_token		*lex(void);
 ** Funcions that make termcaps interactions more readable
 */
 
-void	    tc_cursor_up(void);
-void        tc_cursor_down(void);
+void		tc_cursor_up(void);
+void		tc_cursor_down(void);
 void		tc_cursor_left(void);
 void		tc_cursor_right(void);
 void		tc_clear_till_end(void);
