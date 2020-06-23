@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+# define EOF_WRN_S "Warning! Heredoc delimited by end-of-file instead of %s\n"
+
 /*
 ** Some comment
 */

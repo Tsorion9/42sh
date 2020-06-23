@@ -1,6 +1,6 @@
 #include "deque.h"
 
-t_2list	*lst2_new(void	*data)
+t_2list	*lst2_new(void *data)
 {
 	t_2list	*d;
 
@@ -48,29 +48,9 @@ int		lst2del_one(t_2list **l, void (*del)(void *))
 	return (second != 0);
 }
 
-
 int		lst2del(t_2list **l, void (*del)(void *))
 {
 	while (lst2del_one(l, del))
 		;
 	return (0);
-}
-
-void	lst2_apply(t_2list *l, void (*f)(void *))
-{
-	while (l)
-	{
-		f(l->data);
-		l = l->next;
-	}
-}
-
-
-void	lst2_apply_inplace(t_2list *l, void (*f)(void **))
-{
-	while (l)
-	{
-		f(&(l->data));
-		l = l->next;
-	}
 }

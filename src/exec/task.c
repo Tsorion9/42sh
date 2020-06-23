@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:32:48 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 01:48:49 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/23 18:08:45 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	**collect_argwords(t_simple_cmd *cmd)
 	return (args);
 }
 
-static int	cleanup(t_simple_cmd *cmd, t_task_context *task_context)
+static int	cleanup_(t_simple_cmd *cmd, t_task_context *task_context)
 {
 	exit_task_context(task_context);
 	rm_simple_cmd(cmd);
@@ -53,7 +53,7 @@ int			task(t_simple_cmd *cmd, t_task_context *task_context)
 	if (status == 1)
 		return (1);
 	if (deque_len(cmd->wl) == 0)
-		return (cleanup(cmd, task_context));
+		return (cleanup_(cmd, task_context));
 	av = collect_argwords(cmd);
 	if (!av)
 		return (1);

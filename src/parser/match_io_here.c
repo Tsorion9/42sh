@@ -8,7 +8,7 @@ int	match_io_here(t_io_redir *redir, t_deque **tokbubf_g)
 
 	tokbuf_l = NULL;
 	type = gett(tokbubf_g, &tokbuf_l)->token_type;
-	if (type != dless && type != dlessash) 
+	if (type != dless && type != dlessash)
 	{
 		ungett(tokbubf_g, &tokbuf_l);
 		return (PARSER_FAILURE);

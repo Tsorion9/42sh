@@ -2,17 +2,7 @@
 #include "parser.h"
 #include "deque.h"
 #include "libft.h"
-
-void	rm_word(void *word)
-{
-	free(word);
-}
-
-void	del_inside_wl(void *content, size_t content_size)
-{
-	(void)content_size;
-	free(content);
-}
+#include "del_inside_wl.h"
 
 void	rm_redir(t_io_redir *redir)
 {
@@ -25,7 +15,7 @@ void	rm_redir(t_io_redir *redir)
 void	rm_ar(void *p)
 {
 	t_ar *ar;
-	
+
 	ar = (t_ar *)p;
 	if (ar->what == assignment)
 		free(ar->data);
@@ -33,7 +23,6 @@ void	rm_ar(void *p)
 		rm_redir((t_io_redir *)ar->data);
 	free(ar);
 }
-
 
 void	rm_simple_cmd(void *command)
 {
@@ -58,7 +47,7 @@ void	rm_pipeline(void *pipeline)
 	return ;
 }
 
-void rm_compl_cmd(t_deque **command)
+void	rm_compl_cmd(t_deque **command)
 {
 	deque_del(command, rm_pipeline);
 }

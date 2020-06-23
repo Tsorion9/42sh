@@ -23,7 +23,6 @@ void	print_op(t_token_type t)
 		ft_fprintf(2, "%s\n", "!");
 	else
 		return ;
-
 }
 
 void	print_token(t_token *token)

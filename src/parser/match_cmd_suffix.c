@@ -5,11 +5,11 @@ static void	save_string(t_simple_cmd **cmd, t_deque *tokbuf_l)
 	t_token	*tok;
 
 	tok = pop_front(tokbuf_l);
-	push_back(&((*cmd)->wl), tok->attribute); 
+	push_back(&((*cmd)->wl), tok->attribute);
 	free(tok);
 }
 
-int	match_cmd_suffix(t_simple_cmd **cmd, t_deque **tokbubf_g)
+int			match_cmd_suffix(t_simple_cmd **cmd, t_deque **tokbubf_g)
 {
 	t_deque	*tokbuf_l;
 	int		success;

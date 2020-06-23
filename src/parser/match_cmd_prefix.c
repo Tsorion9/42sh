@@ -1,14 +1,19 @@
 #include "parser.h"
 
-int	match_cmd_prefix(t_simple_cmd **cmd, t_deque **tokbubf_g)
+static	void	init_locals(t_deque **tokbuf_l, int *success, int *any_success)
+{
+	*tokbuf_l = NULL;
+	*any_success = -1;
+	*success = 1;
+}
+
+int				match_cmd_prefix(t_simple_cmd **cmd, t_deque **tokbubf_g)
 {
 	t_deque	*tokbuf_l;
 	int		success;
 	int		any_success;
 
-	tokbuf_l = NULL;
-	any_success = -1;
-	success = 1;
+	init_locals(&tokbuf_l, &success, &any_success);
 	while (success)
 	{
 		any_success += success;

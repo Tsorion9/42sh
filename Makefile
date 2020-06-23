@@ -20,6 +20,8 @@ CLEX =	lex.c get_token_and_greater.c get_token_end_line.c \
 
 CPARSER = deque.c \
 		  deque_apply.c\
+		  deque_n_th.c\
+		  lst2_apply.c\
 			match_cmd_prefix.c\
 			match_cmd_suffix.c\
 			match_complete_comand.c\
@@ -32,13 +34,13 @@ CPARSER = deque.c \
 			match_pipe_seq.c\
 			match_simple_comand.c\
 			parser.c\
-			print_cmd_dbg.c\
 			remove_command.c\
 			syntax_error.c\
 			t2list.c\
 			tokbuf_utils.c\
 			add_ar.c\
 			heredoc.c\
+			del_inside_wl.c\
 			deque_len.c
 
 CEXEC = builtin_env.c\

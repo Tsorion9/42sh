@@ -15,8 +15,7 @@ static int	exit_(
 				t_simple_cmd **cmd, \
 				t_deque **tokbuf_l,\
 				t_deque **tokbuf_g,
-				int status
-				)
+				int status)
 {
 	if (status == PARSER_SUCCESS)
 	{
@@ -31,7 +30,7 @@ static int	exit_(
 	}
 }
 
-int	match_simple_command(t_simple_cmd **cmd, t_deque **tokbuf_g)
+int			match_simple_command(t_simple_cmd **cmd, t_deque **tokbuf_g)
 {
 	t_deque	*tokbuf_l;
 	int		prefix_matched;
@@ -40,8 +39,7 @@ int	match_simple_command(t_simple_cmd **cmd, t_deque **tokbuf_g)
 	enter(cmd, &tokbuf_l);
 	if ((prefix_matched = match_cmd_prefix(cmd, tokbuf_g)) == PARSER_FAILURE)
 	{
-		/* Cleanup the side-effects of match_cmd_prefix() */
-		exit_(cmd, &tokbuf_l, tokbuf_g, PARSER_FAILURE); 
+		exit_(cmd, &tokbuf_l, tokbuf_g, PARSER_FAILURE);
 		enter(cmd, &tokbuf_l);
 	}
 	if (gett(tokbuf_g, &tokbuf_l)->token_type != word)
@@ -52,7 +50,7 @@ int	match_simple_command(t_simple_cmd **cmd, t_deque **tokbuf_g)
 					PARSER_FAILURE : PARSER_SUCCESS));
 	}
 	tok = pop_front(tokbuf_l);
-	push_back(&((*cmd)->wl), tok->attribute); //First word to wordlist
+	push_back(&((*cmd)->wl), tok->attribute);
 	free(tok);
 	match_cmd_suffix(cmd, tokbuf_g);
 	return (exit_(cmd, &tokbuf_l, tokbuf_g, PARSER_SUCCESS));

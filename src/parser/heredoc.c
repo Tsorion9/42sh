@@ -5,10 +5,6 @@
 
 #include "libft.h"
 
-/*
-** Allocate the number in heap
-*/
-
 int		*intnew(int x)
 {
 	int	*res;
@@ -37,7 +33,7 @@ static int		*create_tmp_file(char *content)
 	if (-1 == pipe(fd))
 	{
 		ft_putstr_fd("Pipe failed\n", 2);
-		exit (-1);
+		exit(-1);
 	}
 	if (!fork())
 		exit(write(fd[1], content, ft_strlen(content)));
@@ -47,10 +43,6 @@ static int		*create_tmp_file(char *content)
 	return (res);
 }
 
-/*
-** TODO: refactor readline
-*/
-
 static char 	*temporary_readline_wrapper(char *prompt)
 {
 	char	*s;
@@ -58,38 +50,13 @@ static char 	*temporary_readline_wrapper(char *prompt)
 
 	if (isatty(0))
 		return (readline(prompt));
-	gnl_status = get_next_line(0, &s); // TODO: Check corner cases with EOF and empty string
+	gnl_status = get_next_line(0, &s);
 	if (gnl_status == -1)
 		return (NULL);
 	if (gnl_status == 0)
-	{
-		//free(s);
 		return (NULL);
-	}
-
 	return (s);
 }
-
-/*
-	FIX BEFORE SUBMITTING THE PROJECT
-
-	TODO:
-	If any part of word is quoted, the delimiter shall be formed by performing 
-	quote removal on word, and the here-document lines shall not be expanded. 
-	Otherwise, the delimiter shall be the word itself.
-
-	If no part of word is quoted, all lines of the here-document shall be 
-	expanded for parameter expansion, command substitution, and arithmetic 
-	expansion. In this case, the <backslash> in the input behaves as the 
-	<backslash> inside double-quotes (see Double-Quotes). However, the 
-	double-quote character ( ' )' shall not be treated specially within a 
-	here-document, except when the double-quote appears within 
-	"$()", "``", or "${}".
-
-	TODO: multiline here-doc delimiter 
-
-	(Bash does not support both of them)
-*/
 
 static char		*gather_string_literal(char *here_eof)
 {
@@ -103,7 +70,7 @@ static char		*gather_string_literal(char *here_eof)
 	{
 		line = temporary_readline_wrapper(get_prompt(PS2));
 		if (!line)
-			ft_fprintf(2, "21sh: Warning! Here document delimited by end-of-file instead of %s\n", here_eof);
+			ft_fprintf(2, EOF_WRN_S, here_eof);
 		if (!line || ft_strcmp(line, here_eof) == 0)
 		{
 			free(line);
@@ -112,7 +79,7 @@ static char		*gather_string_literal(char *here_eof)
 		else
 		{
 			tmp1 = ft_strjoin(line, "\n");
-			tmp = ft_strjoin(literal, tmp1); // TODO: o(n^2), fix later maybe
+			tmp = ft_strjoin(literal, tmp1);
 			ft_memdel((void *)&literal);
 			ft_memdel((void *)&line);
 			ft_memdel((void *)&tmp1);
@@ -125,7 +92,7 @@ void	*heredoc_action(t_heredoc_action action, void *data)
 {
 	static t_deque	*eof_words;
 	static t_deque	*fd_deque;
-	char			*current_strlit;	
+	char			*current_strlit;
 	char			*here_eof;
 
 	if (action == is_empty)
@@ -134,7 +101,8 @@ void	*heredoc_action(t_heredoc_action action, void *data)
 		return (push_back(&eof_words, data));
 	if (action == add_fd)
 	{
-		current_strlit = gather_string_literal((here_eof = (char *)pop_front(eof_words)));
+		here_eof = (char *)pop_front(eof_words);
+		current_strlit = gather_string_literal(here_eof);
 		free(here_eof);
 		push_back(&fd_deque, create_tmp_file(current_strlit));
 		return (NULL);

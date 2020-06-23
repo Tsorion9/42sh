@@ -13,4 +13,3 @@ void	deque_apply_inplace(t_deque *d, void (*f)(void **))
 		return ;
 	lst2_apply_inplace(d->first, f);
 }
-
