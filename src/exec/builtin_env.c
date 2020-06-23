@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 01:48:09 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 01:48:11 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "environment.h"
 
 /*
@@ -6,7 +18,7 @@
 ** Return NULL in case of memory errors
 */
 
-char			**update_copy(char **args, t_env copy)
+char		**update_copy(char **args, t_env copy)
 {
 	char	*key;
 	char	*value;
@@ -48,7 +60,6 @@ int			builtin_env(char **args, t_env env, int subshell)
 		ft_fprintf(2, "%s", "Not enough memory\n");
 		return (0);
 	}
-	//args = update_copy(args, copy);
 	if (!args)
 		return (0);
 	if (!*args)
@@ -58,8 +69,6 @@ int			builtin_env(char **args, t_env env, int subshell)
 		if (!memory_ok)
 			ft_fprintf(2, "%s", "Not enough memory\n");
 	}
-	//else
-	//	run_cmd(copy, args, NULL);
 	delenv(copy);
 	return (1);
 }

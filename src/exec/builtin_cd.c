@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 01:33:02 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 01:33:05 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "environment.h"
 #include <sys/types.h>
@@ -6,7 +18,7 @@
 #include "cd_utils.h"
 #include <limits.h>
 
-static int		change_wd(char *where, int flag_p, t_env env)
+static int	change_wd(char *where, int flag_p, t_env env)
 {
 	char	*pwd;
 	char	wd[PATH_MAX];
@@ -28,7 +40,7 @@ static int		change_wd(char *where, int flag_p, t_env env)
 	return (1);
 }
 
-static int		cd_minus(t_env env)
+static int	cd_minus(t_env env)
 {
 	char	*oldpwd;
 	char	*pwd;
@@ -63,7 +75,7 @@ static char	*curpath_to_canonic(char **curpath, t_env env)
 	if (**curpath != '/')
 	{
 		if (!(pwd = ft_getenv(env, "PWD")))
-		{	
+		{
 			ft_putstr_fd(ERR_UNSET_PWD, 2);
 			ft_memdel((void **)curpath);
 			return (NULL);
@@ -91,7 +103,7 @@ static char	*curpath_to_canonic(char **curpath, t_env env)
 ** We inplement flag -P and cd - but ignore flag -P in case of cd -
 */
 
-int		builtin_cd(char **args, t_env env, int subshell)
+int			builtin_cd(char **args, t_env env, int subshell)
 {
 	int			flag_p;
 	char		*curpath;

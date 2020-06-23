@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_assignments_redirections.c                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 01:48:39 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 01:48:41 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "21sh.h"
 #include "static_env.h"
 
@@ -38,7 +50,7 @@ static int	redirect_next_heredoc(int fd)
 	heredoc = heredoc_action(pop_fd, NULL);
 	if (!heredoc)
 		return (-1);
-	if (dup2(*heredoc, fd) == -1) 
+	if (dup2(*heredoc, fd) == -1)
 		return (-1);
 	close(*heredoc);
 	free(heredoc);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_related_builtins.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 01:48:21 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 01:48:22 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "environment.h"
 
 int			builtin_getenv(char **args, t_env env, int subshell)
@@ -37,7 +49,7 @@ int			builtin_setenv(char **args, t_env env, int subshell)
 		return (1);
 	if (!*args)
 		return (1);
-	if (*args && !*(args+1))
+	if (*args && !*(args + 1))
 	{
 		ft_setenv(env, *args, ft_strdup(""));
 		return (1);

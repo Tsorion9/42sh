@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_actions.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 01:48:19 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 01:48:21 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "environment.h"
 
 void			delenv(t_env env)
@@ -7,7 +19,7 @@ void			delenv(t_env env)
 
 t_env			copy_env(t_env env)
 {
-	return ((t_env)copy_ptree((t_ptree *) env));
+	return ((t_env)copy_ptree((t_ptree *)env));
 }
 
 /*

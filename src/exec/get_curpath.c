@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_curpath.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 01:48:34 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 01:48:36 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "environment.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-/* 
-** Check if first component of directory is'.' or '..' maybe ./ ../ 
+/*
+** Check if first component of directory is'.' or '..' maybe ./ ../
 */
 
 static int		first_comp_dot_dotdot(char *dir, int *errors)
@@ -30,11 +42,11 @@ static int		first_comp_dot_dotdot(char *dir, int *errors)
 }
 
 /*
-** If CDPATH is set (which is ":" - separated list of dirs), try to concatenate 
+** If CDPATH is set (which is ":" - separated list of dirs), try to concatenate
 ** each component of CDPATH with dir and check if it is a directory.
 ** If is a directory, return it.
 **
-** If all values of CDPATH/dir are not a directory, return directory 
+** If all values of CDPATH/dir are not a directory, return directory
 ** (always duplicate)
 ** In case of errors return NULL
 */
@@ -75,7 +87,7 @@ static char		*try_cdpath(char *dir, t_env env)
 ** In case of errors return NULL
 */
 
-char		*get_curpath(char **args, t_env env)
+char			*get_curpath(char **args, t_env env)
 {
 	char		*home;
 	char		*directory;

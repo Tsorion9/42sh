@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   task.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 01:32:48 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 01:48:49 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exec_utils.h"
 #include "make_assignments_redirections.h"
 #include "static_env.h"
@@ -23,8 +35,14 @@ static char	**collect_argwords(t_simple_cmd *cmd)
 	return (args);
 }
 
+static int	cleanup(t_simple_cmd *cmd, t_task_context *task_context)
+{
+	exit_task_context(task_context);
+	rm_simple_cmd(cmd);
+	return (0);
+}
 
-int	task(t_simple_cmd *cmd, t_task_context *task_context)
+int			task(t_simple_cmd *cmd, t_task_context *task_context)
 {
 	char		**av;
 	int			status;
@@ -35,11 +53,7 @@ int	task(t_simple_cmd *cmd, t_task_context *task_context)
 	if (status == 1)
 		return (1);
 	if (deque_len(cmd->wl) == 0)
-	{
-		exit_task_context(task_context);
-		rm_simple_cmd(cmd);
-		return (0);
-	}
+		return (cleanup(cmd, task_context));
 	av = collect_argwords(cmd);
 	if (!av)
 		return (1);
@@ -47,7 +61,7 @@ int	task(t_simple_cmd *cmd, t_task_context *task_context)
 		status = builtin(av + 1, static_env_action(get, NULL),\
 				task_context->need_subshell);
 	else
-		find_exec(av, static_env_action(get, NULL));	
+		find_exec(av, static_env_action(get, NULL));
 	del_array(av);
 	rm_simple_cmd(cmd);
 	exit_task_context(task_context);
