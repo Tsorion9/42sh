@@ -1,49 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 18:31:24 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 18:31:24 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "heredoc.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
 #include "libft.h"
+#include "heredoc_utils.h"
 
-int		*intnew(int x)
-{
-	int	*res;
-
-	res = xmalloc(sizeof(int));
-	*res = x;
-	return (res);
-}
-
-void noncritical_error(char *text)
-{
-	ft_fprintf(2, "%s\n", text);
-}
-
-/*
-** Create pipe; Write content into it;
-** return int *fd; allocated in heap. 
-** Free the content
-*/
-
-static int		*create_tmp_file(char *content)
-{
-	int	fd[2];
-	int	*res;
-
-	if (-1 == pipe(fd))
-	{
-		ft_putstr_fd("Pipe failed\n", 2);
-		exit(-1);
-	}
-	if (!fork())
-		exit(write(fd[1], content, ft_strlen(content)));
-	close(fd[1]);
-	res = intnew(fd[0]);
-	free(content);
-	return (res);
-}
-
-static char 	*temporary_readline_wrapper(char *prompt)
+static char		*temporary_readline_wrapper(char *prompt)
 {
 	char	*s;
 	int		gnl_status;
@@ -68,8 +42,7 @@ static char		*gather_string_literal(char *here_eof)
 	literal = ft_strdup("");
 	while (1)
 	{
-		line = temporary_readline_wrapper(get_prompt(PS2));
-		if (!line)
+		if (!(line = temporary_readline_wrapper(get_prompt(PS2))))
 			ft_fprintf(2, EOF_WRN_S, here_eof);
 		if (!line || ft_strcmp(line, here_eof) == 0)
 		{
@@ -88,7 +61,7 @@ static char		*gather_string_literal(char *here_eof)
 	}
 }
 
-void	*heredoc_action(t_heredoc_action action, void *data)
+void			*heredoc_action(t_heredoc_action action, void *data)
 {
 	static t_deque	*eof_words;
 	static t_deque	*fd_deque;
@@ -115,7 +88,7 @@ void	*heredoc_action(t_heredoc_action action, void *data)
 	}
 }
 
-void	gather_heredocs(void)
+void			gather_heredocs(void)
 {
 	while (!heredoc_action(is_empty, NULL))
 		heredoc_action(add_fd, NULL);

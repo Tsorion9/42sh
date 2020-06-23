@@ -1,8 +1,20 @@
-#ifndef	DEQUE_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   deque.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 18:43:59 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 18:43:59 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef DEQUE_H
 # define DEQUE_H
 
-#include "libft.h"
-#include "t2list.h"
+# include "libft.h"
+# include "t2list.h"
 
 /*
 ** Commonly used data structure.

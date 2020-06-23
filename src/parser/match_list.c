@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   match_list.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/23 18:31:26 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 18:31:26 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 int	match_list_dash(t_deque **command, t_deque **tokbuf_g)
@@ -20,7 +32,7 @@ int	match_list_dash(t_deque **command, t_deque **tokbuf_g)
 	return (PARSER_SUCCESS);
 }
 
-int match_list(t_deque **command, t_deque **tokbuf_g)
+int	match_list(t_deque **command, t_deque **tokbuf_g)
 {
 	if (match_pipeline(command, tokbuf_g) == PARSER_FAILURE)
 		return (PARSER_FAILURE);

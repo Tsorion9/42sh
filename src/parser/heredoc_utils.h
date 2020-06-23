@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst2_apply.c                                       :+:      :+:    :+:   */
+/*   heredoc_utils.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 18:31:25 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 18:31:25 by anton            ###   ########.fr       */
+/*   Created: 2020/06/23 18:43:59 by anton             #+#    #+#             */
+/*   Updated: 2020/06/23 18:43:59 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "deque.h"
+#ifndef HEREDOC_UTILS_H
+# define HEREDOC_UTILS_H
 
-void	lst2_apply(t_2list *l, void (*f)(void *))
-{
-	while (l)
-	{
-		f(l->data);
-		l = l->next;
-	}
-}
+int				*intnew(int x);
+void			noncritical_error(char *text);
+int				*create_tmp_file(char *content);
 
-void	lst2_apply_inplace(t_2list *l, void (*f)(void **))
-{
-	while (l)
-	{
-		f(&(l->data));
-		l = l->next;
-	}
-}
+#endif
