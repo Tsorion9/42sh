@@ -58,7 +58,7 @@ int			expand_dollar(char **word, int *pos)
 		return (expand_positional_parameter(word, pos));
 	else if ((varname = get_varname(*word, *pos)))
 	{
-		if(!(value = ft_getenv(static_env_action(get, NULL), varname)))
+		if (!(value = ft_getenv(static_env_action(get, NULL), varname)))
 		{
 			*pos += ft_strlen(varname); // UNSPECIFIED BY POSIX. We ignore expansions, bash expands to emptystring
 			free(varname);
