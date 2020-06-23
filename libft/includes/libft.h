@@ -103,9 +103,7 @@ char				*ft_path_append(char *path, char *name);
 ** ft_ptree.g
 */
 
-
 # define N_CHILDREN 256
-
 
 /*
 ** Prefix tree data structure
@@ -119,17 +117,17 @@ char				*ft_path_append(char *path, char *name);
 
 typedef struct		s_ptree
 {
-  struct s_ptree	*child[N_CHILDREN];
-  void				*value;
+	struct s_ptree	*child[N_CHILDREN];
+	void			*value;
 }					t_ptree;
 
-t_ptree            *new_tree(void);
+t_ptree				*new_tree(void);
 
 /*
 ** Return value of key if it exists
 */
 
-void               *search_key(t_ptree *tree, char *key);
+void				*search_key(t_ptree *tree, char *key);
 
 /*
 ** Return nonzero on success
@@ -137,9 +135,9 @@ void               *search_key(t_ptree *tree, char *key);
 ** If NULL is provided instead of tree, create a new tree
 */
 
-int                 insert_value(t_ptree *tree, char *key, void *value);
-void                del_key(t_ptree *tree, char *key);
-void                del_tree(t_ptree **tree);
+int					insert_value(t_ptree *tree, char *key, void *value);
+void				del_key(t_ptree *tree, char *key);
+void				del_tree(t_ptree **tree);
 
 /*
 ** Copy tree with all contents.
