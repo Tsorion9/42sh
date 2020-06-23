@@ -1,5 +1,4 @@
 #include "21sh.h"
-#include <stdio.h>
 
 static void	add_symbol_sup(int tmp[2], char c)
 {
@@ -68,10 +67,7 @@ int			delete_symbol_sup(int i)
 			tc_cursor_n_right(rp()->prompt_len);
 			rp()->cur_pos[0] = rp()->prompt_len;
 			if ((rp()->prompt_len + rp()->len - 2) != rp()->ws_col)
-			{
 				tc_cursor_left();
-				//printf("SSQWD\n");
-			}
 		}
 		return (search_last_cur_pos_in_line() + 2);
 	}
@@ -99,9 +95,8 @@ void		delete_symbol(void)
 	}
 	rp()->user_in[i] = 0;
 	rp()->cur_pos[0] = tmp[0] - 1;
-	if ((rp()->prompt_len + rp()->len - 2) != rp()->ws_col)
-		rp()->cur_pos[0] = tmp[0] - 1;
-	else if (tmp[1] == 1)
+	if (((rp()->prompt_len + rp()->len - 2) % rp()->ws_col == 0) && \
+		!ft_strchr(rp()->user_in, '\n'))
 		rp()->cur_pos[0] = tmp[0];
 	rp()->cur_pos[1] = tmp[1];
 	rp()->len--;

@@ -1,5 +1,4 @@
 #include "21sh.h"
-#include <stdio.h>
 
 /*
 ** Очищает строку.
@@ -21,14 +20,12 @@ void		clear_all_line(void)
 	int n;
 
 	n = str_n() + 1;
-	if (n == 1) //|| (rp()->prompt_len + rp()->len) == rp()->ws_col)
+	if (n == 1)
 	{
 		clear_line(rp()->prompt_len);
 		rp()->cur_pos[0] = rp()->prompt_len;
 		return ;
 	}
-	//else
-	//	printf("n = 1\n");
 	while (rp()->cur_pos[0] != 1)
 		tc_cursor_left();
 	while (rp()->cur_pos[1] != n)
