@@ -1,4 +1,5 @@
 #include "21sh.h"
+#include <stdio.h>
 
 static void	add_symbol_sup(int tmp[2], char c)
 {
@@ -6,7 +7,7 @@ static void	add_symbol_sup(int tmp[2], char c)
 
 	i = search_index();
 	ft_memmove(rp()->user_in + i + 1, rp()->user_in + i, \
-	ft_strlen(rp()->user_in + i));
+		ft_strlen(rp()->user_in + i) + 1);
 	rp()->user_in[i] = c;
 	tmp[0] = rp()->cur_pos[0];
 	tmp[1] = rp()->cur_pos[1];
@@ -84,7 +85,6 @@ void		delete_symbol(void)
 
 	if ((i = search_index() - 1) < 0)
 		return ;
-	rp()->len--;
 	tmp[0] = delete_symbol_sup(i);
 	tmp[1] = rp()->cur_pos[1];
 	clear_all_line();
@@ -95,9 +95,15 @@ void		delete_symbol(void)
 		i++;
 	}
 	rp()->user_in[i] = 0;
-	rp()->cur_pos[0] = tmp[0] - 1;
+	if ((rp()->prompt_len + len - 2) != rp()->ws_col)
+		rp()->cur_pos[0] = tmp[0] - 1;
+	else
+		rp()->cur_pos[0] = tmp[0];
 	rp()->cur_pos[1] = tmp[1];
-	ft_putstr(rp()->user_in);
+	rp()->len--;
+	ft_putstr_fd(rp()->user_in, STDERR_FILENO);
+	len = tmp[0] - 1;
 	cur_pos_after_putstr(tmp);
 	ret_cur_to_original_pos(tmp);
+	rp()->cur_pos[0] = len;
 }
