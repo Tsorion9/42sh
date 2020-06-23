@@ -67,8 +67,11 @@ int			delete_symbol_sup(int i)
 		{
 			tc_cursor_n_right(rp()->prompt_len);
 			rp()->cur_pos[0] = rp()->prompt_len;
-			//if ((rp()->prompt_len + rp()->len - 2) == rp()->ws_col)
-			tc_cursor_left();
+			if ((rp()->prompt_len + rp()->len - 2) != rp()->ws_col)
+			{
+				tc_cursor_left();
+				//printf("SSQWD\n");
+			}
 		}
 		return (search_last_cur_pos_in_line() + 2);
 	}
@@ -81,7 +84,6 @@ int			delete_symbol_sup(int i)
 
 void		delete_symbol(void)
 {
-	int	len;
 	int	i;
 	int	tmp[2];
 
@@ -90,22 +92,22 @@ void		delete_symbol(void)
 	tmp[0] = delete_symbol_sup(i);
 	tmp[1] = rp()->cur_pos[1];
 	clear_all_line();
-	len = ft_strlen(rp()->user_in);
-	while (i < len - 1)
+	while (i < (int)rp()->len - 1)
 	{
 		rp()->user_in[i] = rp()->user_in[i + 1];
 		i++;
 	}
 	rp()->user_in[i] = 0;
-	if ((rp()->prompt_len + len - 2) != rp()->ws_col)
+	rp()->cur_pos[0] = tmp[0] - 1;
+	if ((rp()->prompt_len + rp()->len - 2) != rp()->ws_col)
 		rp()->cur_pos[0] = tmp[0] - 1;
-	else
+	else if (tmp[1] == 1)
 		rp()->cur_pos[0] = tmp[0];
 	rp()->cur_pos[1] = tmp[1];
 	rp()->len--;
 	ft_putstr_fd(rp()->user_in, STDERR_FILENO);
-	len = tmp[0] - 1;
+	i = tmp[0] - 1;
 	cur_pos_after_putstr(tmp);
 	ret_cur_to_original_pos(tmp);
-	rp()->cur_pos[0] = len;
+	rp()->cur_pos[0] = i;
 }
