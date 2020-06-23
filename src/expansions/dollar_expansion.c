@@ -24,7 +24,7 @@ static int			is_special_parameter(char c)
 		return (0);
 }
 
-static int is_valid_namechar(char c)
+static int			is_valid_namechar(char c)
 {
 	return (ft_isalnum(c) || c == '_');
 }

@@ -17,7 +17,7 @@ static void	step_normal_state(char **pos, int *state)
 		ft_strcpy(*pos, *pos + 1);
 		(*pos)++;
 	}
-	else 
+	else
 		(*pos)++;
 }
 
@@ -31,7 +31,6 @@ static void	step_single_quote(char **pos, int *state)
 	}
 	*pos += 1;
 }
-
 
 static void	step_double_quote(char **pos, int *state)
 {
@@ -59,7 +58,7 @@ static void	step_double_quote(char **pos, int *state)
 ** Remove all the quotes and '\' in-place
 */
 
-void remove_quotes(char *s)
+void		remove_quotes(char *s)
 {
 	char	*pos;
 	int		state;

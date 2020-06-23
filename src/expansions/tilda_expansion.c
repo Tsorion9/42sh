@@ -28,7 +28,6 @@ static char	*find_user_home(char *s)
 	if (!p)
 		return (NULL);
 	return (p->pw_dir);
-
 }
 
 static char	*gather_tilde_prefix(char *s)
@@ -44,7 +43,7 @@ static char	*gather_tilde_prefix(char *s)
 		if (s[len] == '\'' || s[len] == '\"' || s[len] == '\\')
 			quotes_before = 1;
 		if (s[len] == '/' && !quotes_before)
-			break;
+			break ;
 		len++;
 	}
 	if (quotes_before)
@@ -71,7 +70,7 @@ static char	*get_replacement(char *tilde_prefix)
 	return (ft_strdup(find_user_home(tilde_prefix + 1)));
 }
 
-void	expand_tilda(char **s, int *pos)
+void		expand_tilda(char **s, int *pos)
 {
 	char	*tilde_prefix;
 	char	*replacement;
@@ -89,4 +88,3 @@ void	expand_tilda(char **s, int *pos)
 	free(replacement);
 	free(tilde_prefix);
 }
-

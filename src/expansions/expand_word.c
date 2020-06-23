@@ -33,14 +33,14 @@ static void	step_double_quote(char **s, int *position, t_exp_state *state)
 	else if ((*s)[*position] == '\\')
 		(*position)++;
 	else if ((*s)[*position] == '$')
-	{	
+	{
 		replace(s, position);
 		return ;
 	}
 	(*position)++;
 }
 
-static void step_norm(char **s, int *position, t_exp_state *state)
+static void	step_norm(char **s, int *position, t_exp_state *state)
 {
 	if ((*s)[*position] == '\\')
 	{
@@ -60,14 +60,37 @@ static void step_norm(char **s, int *position, t_exp_state *state)
 		return ;
 	}
 	if ((*s)[*position] == '~' || (*s)[*position] == '$')
-	{	
+	{
 		replace(s, position);
 		return ;
 	}
 	(*position)++;
 }
 
-static void step_norm_assignemt(char **s, int *position, t_exp_state *state, int *equal_sign_detected)
+static void	step_norm_assignemt_sup(char **s, int *position, t_exp_state *state)
+{
+	if ((*s)[*position] == '\'')
+	{
+		*state = in_sqt;
+		*position += 1;
+		return ;
+	}
+	if ((*s)[*position] == '\"')
+	{
+		*state = in_dqt;
+		*position += 1;
+		return ;
+	}
+	if ((*s)[*position] == '~' || (*s)[*position] == '$')
+	{
+		replace(s, position);
+		return ;
+	}
+	(*position)++;
+}
+
+static void	step_norm_assignemt(char **s, int *position, t_exp_state *state, \
+			int *equal_sign_detected)
 {
 	if ((*s)[*position] == '=' && !*equal_sign_detected)
 	{
@@ -75,7 +98,8 @@ static void step_norm_assignemt(char **s, int *position, t_exp_state *state, int
 		*position += 1;
 		return ;
 	}
-	if ((*s)[*position] == '~' && *equal_sign_detected && *position > 0 && ((*s)[*position - 1] == '=' || (*s)[*position - 1] == ':'))
+	if ((*s)[*position] == '~' && *equal_sign_detected && *position > 0 && \
+		((*s)[*position - 1] == '=' || (*s)[*position - 1] == ':'))
 	{
 		replace(s, position);
 		return ;
@@ -85,41 +109,23 @@ static void step_norm_assignemt(char **s, int *position, t_exp_state *state, int
 		*position += 2;
 		return ;
 	}
-	if ((*s)[*position] == '\'')
-	{
-		*state = in_sqt;
-		*position += 1;
-		return ;
-	}
-	if ((*s)[*position] == '\"')
-	{
-		*state = in_dqt;
-		*position += 1;
-		return ;
-	}
-	if ((*s)[*position] == '~' || (*s)[*position] == '$')
-	{	
-		replace(s, position);
-		return ;
-	}
-	(*position)++;
+	step_norm_assignemt_sup(s, position, state);
 }
-
 
 /*
 ** 1) Skip everything inside ''; or \$ or \~
-** 2) Expand all the symbols one by one (do not apply expansions to the result 
+** 2) Expand all the symbols one by one (do not apply expansions to the result
 ** of expansions)
 ** Implemented as FSM.
 **
 ** STRING MUST BE VALID!!!! no unpaired quotes ; no quoted '0'
 */
 
-char	*expand_word(char *s)
+char		*expand_word(char *s)
 {
-	t_exp_state		state;
-	int				position;
-	
+	t_exp_state	state;
+	int			position;
+
 	state = norm;
 	position = 0;
 	while (s[position])
@@ -135,12 +141,12 @@ char	*expand_word(char *s)
 	return (s);
 }
 
-char	*expand_assignment(char *s)
+char		*expand_assignment(char *s)
 {
 	t_exp_state		state;
 	int				position;
 	int				equal_sign_detected;
-	
+
 	equal_sign_detected = -1;
 	state = norm;
 	position = 0;
@@ -156,12 +162,10 @@ char	*expand_assignment(char *s)
 	return (s);
 }
 
-
 void	expand_inside_wl(void **p)
 {
 	*p = expand_word(*p);
 }
-
 
 void	expand_inside_arl(void *p)
 {
