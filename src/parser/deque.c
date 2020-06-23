@@ -57,21 +57,21 @@ void			*pop_back(t_deque *d)
 	t_2list	*l;
 	void	*data;
 
-	if (!d)	
+	if (!d)
 		return (NULL);
 	l = d->last;
-	if (d->last)	 /* Deque is nonempty */
+	if (d->last)
 	{
 		data = l->data;
 		d->last = d->last->prev;
 		free(l);
-		if (d->last) /* Deque containned >1 elements */
+		if (d->last)
 			d->last->next = NULL;
-		else		 /* Deque containned ==1 element. We removed it */
+		else
 			d->first = NULL;
 	}
 	else
-		return (NULL); /* Deque was empty */
+		return (NULL);
 	return (data);
 }
 
@@ -80,38 +80,17 @@ void			*pop_front(t_deque *d)
 	t_2list	*l;
 	void	*data;
 
-	if (!d || !d->first)		/* Deque was empty or did not exist */
+	if (!d || !d->first)
 		return (NULL);
 	l = d->first;
 	data = l->data;
 	d->first = d->first->next;
 	free(l);
-	if (d->first)				/* Deque containned >1 elements */
+	if (d->first)
 		d->first->prev = NULL;
-	else						/* Deque containned ==1 element. */
+	else
 		d->last = NULL;
 	return (data);
-}
-
-/*
-** Return the n-th element from start
-*/
-
-void			*deque_n_th(t_deque *deque, int n)
-{
-	t_2list *tmp;
-
-	if (!deque)
-		return (NULL);
-	tmp = deque->first;
-	while (n--)
-	{
-		if (tmp->next)
-			tmp = tmp->next;
-		else 
-			return (NULL);
-	}
-	return (tmp->data);
 }
 
 void			deque_del(t_deque **d, void (*del)(void *))

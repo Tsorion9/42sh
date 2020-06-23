@@ -2,15 +2,15 @@
 
 static void	figure_out_fd(t_io_redir *redir)
 {
-	if (redir->fd) /* Nonzero => initialized by user! */
+	if (redir->fd)
 		return ;
 	if (redir->operation == greater ||\
 		redir->operation == dgreat ||\
 		redir->operation == gr_and)
-		redir->fd = 1; /* default stdout fd */
+		redir->fd = 1;
 }
 
-int	match_io_file(t_io_redir *redir, t_deque **tokbubf_g)
+int			match_io_file(t_io_redir *redir, t_deque **tokbubf_g)
 {
 	t_deque			*tokbuf_l;
 	t_token_type	type;
@@ -26,7 +26,8 @@ int	match_io_file(t_io_redir *redir, t_deque **tokbubf_g)
 	}
 	redir->operation = type;
 	figure_out_fd(redir);
-	if ((tok = gett(tokbubf_g, &tokbuf_l))->token_type != word && tok->token_type != number) // TODO: lex should handle this
+	if ((tok = gett(tokbubf_g, &tokbuf_l))->token_type != word &&\
+			tok->token_type != number)
 	{
 		flush_tokbuf(tokbubf_g, &tokbuf_l);
 		return (PARSER_FAILURE);

@@ -1,7 +1,7 @@
 #include "parser.h"
 
 /*
-** Return type is void when we have EMPTY as one of the right parts of 
+** Return type is void when we have EMPTY as one of the right parts of
 ** production
 ** Optimized tail recursion from 2 grammar rules.
 ** This is the only usage of nonterminal

@@ -2,7 +2,7 @@
 
 /*
 ** We do not know how many tokens are in local buffer after
-** Watch out the order of commands in pipeline 
+** Watch out the order of commands in pipeline
 */
 
 static void	match_pipe_seq_d(t_pipeline *pipeline, t_deque **tokbuf_g)
@@ -27,7 +27,7 @@ static void	match_pipe_seq_d(t_pipeline *pipeline, t_deque **tokbuf_g)
 		flush_tokbuf(tokbuf_g, &tokbuf_l);
 }
 
-int	match_pipe_sequence(t_pipeline *pipeline, t_deque **tokbuf_g)
+int			match_pipe_sequence(t_pipeline *pipeline, t_deque **tokbuf_g)
 {
 	t_simple_cmd	*cmd;
 

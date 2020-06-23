@@ -1,10 +1,6 @@
 #include "parser.h"
 
-/*
-** TODO: heredocs. xmalloc
-*/
-
-t_deque	*parser()
+t_deque	*parser(void)
 {
 	t_deque			*command;
 	static t_deque	*tokbuf_g;
@@ -20,8 +16,9 @@ t_deque	*parser()
 		rm_compl_cmd(&command);
 		erase_tokbuf(&tokbuf_g);
 		if (!isatty(0))
-			exit (-1);
-		syntax_error_state_action(SYNTAX_ERROR_STATE_SET, SYNTAX_ERROR_STATE_NOT_OK);
+			exit(-1);
+		syntax_error_state_action(SYNTAX_ERROR_STATE_SET,\
+				SYNTAX_ERROR_STATE_NOT_OK);
 		return (NULL);
 	}
 	gather_heredocs();

@@ -12,7 +12,7 @@ static void	enter(t_deque **tokbuf_l, t_io_redir **redir)
 	}
 }
 
-int	match_io_redirect(t_simple_cmd *cmd, t_deque **tokbubf_g)
+int			match_io_redirect(t_simple_cmd *cmd, t_deque **tokbubf_g)
 {
 	t_deque		*tokbuf_l;
 	t_io_redir	*redir;
@@ -23,8 +23,7 @@ int	match_io_redirect(t_simple_cmd *cmd, t_deque **tokbubf_g)
 	else
 		redir->fd = ft_atoi(((t_token *)deque_n_th(tokbuf_l, 0))->attribute);
 	if (match_io_file(redir, tokbubf_g) == PARSER_SUCCESS ||\
-		match_io_here(redir, tokbubf_g) == PARSER_SUCCESS
-			)
+		match_io_here(redir, tokbubf_g) == PARSER_SUCCESS)
 	{
 		erase_tokbuf(&tokbuf_l);
 		add_ar(&cmd, redir, redirection);
