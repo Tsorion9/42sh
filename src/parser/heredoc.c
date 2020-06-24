@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:24 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 23:44:32 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 00:25:25 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,22 @@ static char		*temporary_readline_wrapper(char *prompt)
 	{
 		s = readline(prompt);
 		if (!s || !*s)
+		{
+			free(s);
 			return (NULL);
+		}
 		s[ft_strlen(s) - 1] = '\0';
 		return (s);
 	}
-	gnl_status = get_next_line(0, &s);
+	gnl_status = get_next_line_wrapper(0, &s);
 	if (gnl_status == -1)
 		return (NULL);
 	if (gnl_status == 0)
+	{
+		free(s);
 		return (NULL);
+	}
+	s[ft_strlen(s) - 1] = '\0';
 	return (s);
 }
 
@@ -53,6 +60,8 @@ static char		*gather_string_literal(char *here_eof)
 		if (!line || ft_strcmp(line, here_eof) == 0)
 		{
 			free(line);
+			if (!*literal)
+				ft_memdel((void **)&literal);
 			return (literal);
 		}
 		else

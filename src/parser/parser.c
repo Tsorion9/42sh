@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:27 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 23:01:38 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 00:14:01 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ t_deque	*parser(void)
 
 	command = NULL;
 	tokbuf_l = NULL;
-	if (gett(&tokbuf_g, &tokbuf_l)->token_type == eof)
-		reset_exit(0);
-	ungett(&tokbuf_g, &tokbuf_l);
 	while (gett(&tokbuf_g, &tokbuf_l)->token_type == __newline)
 		erase_tokbuf(&tokbuf_l);
+	ungett(&tokbuf_g, &tokbuf_l);
+	if (gett(&tokbuf_g, &tokbuf_l)->token_type == eof)
+		reset_exit(0);
 	ungett(&tokbuf_g, &tokbuf_l);
 	if (PARSER_FAILURE == match_complete_command(&command, &tokbuf_g))
 	{

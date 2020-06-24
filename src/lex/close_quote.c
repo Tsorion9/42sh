@@ -33,7 +33,7 @@ static void		init_extra_line(char **extra_line, char flag)
 	else
 	{
 		*extra_line = NULL;
-		if (!(get_next_line(STDIN_FILENO, extra_line)))
+		if (!(get_next_line_wrapper(STDIN_FILENO, extra_line)))
 			call_lex_error(flag);
 	}
 }

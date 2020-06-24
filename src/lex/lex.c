@@ -100,7 +100,7 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 		if (isatty(STDIN_FILENO))
 			*user_in = readline(get_prompt(PS1));
 		else
-			res_gnl = get_next_line(STDIN_FILENO, user_in);
+			res_gnl = get_next_line_wrapper(STDIN_FILENO, user_in);
 		*need_new_line = 0;
 		if (!(*user_in) || !(**user_in) || !res_gnl)
 			return (0);
