@@ -43,11 +43,14 @@ void			close_quote(char **user_in)
 	char	*nuser_in;
 	char	*extra_line;
 	char	flag;
+	int		flagt;
 
+	flagt = 0;
 	flag = 0;
 	check_flag(*user_in, &flag);
 	if (flag)
 	{
+		flagt = 1;
 		(*user_in)[ft_strlen(*user_in) + 1] = '\0';
 		(*user_in)[ft_strlen(*user_in)] = '\n';
 	}
@@ -61,6 +64,6 @@ void			close_quote(char **user_in)
 		free(extra_line);
 		*user_in = nuser_in;
 	}
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && flagt)
 		(*user_in)[ft_strlen(*user_in) - 1] = '\0';
 }
