@@ -6,35 +6,13 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 01:29:37 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 01:37:50 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 01:43:36 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environment.h"
 #include "static_env.h"
 #include "str_replace.h"
-
-static int			expand_special_parameter(char **word, int *pos)
-{
-	(void)word;
-	(void)pos;
-	ft_fprintf(2, "%s\n", "Warning: Special parameters not implemented!");
-	return (0);
-}
-
-static int			expand_positional_parameter(char **word, int *pos)
-{
-	(void)word;
-	(void)pos;
-	ft_fprintf(2, "%s\n", "Warning: Positional parameters not implemented!");
-	return (0);
-}
-
-static int			is_special_parameter(char c)
-{
-	if (c == '@' || c == '*' || c == '?' || c || '-' || c == '$' || c == '!')
-		return (0);
-}
 
 static char			*get_varname(char *word, int pos)
 {
@@ -58,11 +36,10 @@ int					expand_dollar(char **word, int *pos)
 	char	*value;
 
 	if (!(*word)[*pos + 1])
+	{
+		*pos += 1;
 		return (0);
-	else if (is_special_parameter((*word)[*pos + 1]))
-		return (expand_special_parameter(word, pos));
-	else if (ft_isdigit((*word)[*pos + 1]))
-		return (expand_positional_parameter(word, pos));
+	}
 	else if ((varname = get_varname(*word, *pos)))
 	{
 		if (!(value = ft_getenv(static_env_action(get, NULL), varname)))
@@ -76,6 +53,9 @@ int					expand_dollar(char **word, int *pos)
 		free(varname);
 	}
 	else
+	{
+		(*pos)++;
 		return (0);
+	}
 	return (0);
 }
