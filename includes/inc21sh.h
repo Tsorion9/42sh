@@ -45,31 +45,31 @@
 # include "command.h"
 # include "deque.h"
 
-void	set_signal(void);
-int	have_children_global_request(int set_value, int value);
-char	*get_prompt(int which);
+void					set_signal(void);
+int						have_children_global_request(int set_value, int value);
+char					*get_prompt(int which);
 
-typedef struct	s_str
+typedef struct			s_str
 {
-	char	*buf;
-	size_t	len;
-	size_t	max_len;
-	size_t	index;
-}	t_str;
+	char				*buf;
+	size_t				len;
+	size_t				max_len;
+	size_t				index;
+}						t_str;
 
-typedef struct	s_completion
+typedef struct			s_completion
 {
-	char	*str;
+	char				*str;
 	struct s_completion	*next;
-}	t_completion;
+}						t_completion;
 
-typedef struct	s_history
+typedef struct			s_history
 {
-	char	*str;
-	size_t	len;
+	char				*str;
+	size_t				len;
 	struct s_history	*prev;
 	struct s_history	*next;
-}	t_history;
+}						t_history;
 
 /*
 ** @user_in	buffer (heap)
@@ -83,27 +83,27 @@ typedef struct	s_history
 ** @prompt_len	length of the prompt + 1 == start position of cursor
 */
 
-typedef struct	s_rp
+typedef struct			s_rp
 {
-	char	*user_in;
-	size_t	len;
-	size_t	max_len;
-	int	cur_pos[2];
-	t_history	*history;
-	unsigned short	ws_col;
-	unsigned short	ws_row;
-	size_t	prompt_len;
-}	t_rp;
+	char				*user_in;
+	size_t				len;
+	size_t				max_len;
+	int					cur_pos[2];
+	t_history			*history;
+	unsigned short		ws_col;
+	unsigned short		ws_row;
+	size_t				prompt_len;
+}						t_rp;
 
 /*
 ** TOKEN
 */
 
-typedef struct	s_token
+typedef struct			s_token
 {
-	int	token_type;
-	char	*attribute;
-}	t_token;
+	int					token_type;
+	char				*attribute;
+}						t_token;
 
 # define TOKEN t_token
 
@@ -181,86 +181,86 @@ typedef struct	s_token
 
 # define PROMPT_LEN 2
 
-t_rp	*rp(t_rp *change_rp);
-t_rp	*init_rp(void);
-void	free_rp(void);
-void	back_to_start_history_rp(void);
-void	init_terminal();
-void	reset_input_mode();
-struct termios	*set_input_mode(int a);
-int	ft_putint(int c);
-
-void	home_end(long c);
-int	str_naa(char *user_in);
-void	expand_user_in(void);
-t_rp	*rp(t_rp *change_rp);
-void	inverse_search_index(int cur_pos[2], int index);
-void	reset_rp_to_start(char *p);
-int	ft_putint(int c);
-char	*readline(char *prompt);
-int	ft_isspace(char c);
-void	move_cursor(long c);
-void	delete_symbol(void);
-void	add_symbol(char c);
-void	alt_left_right(long c);
-void	delete_last_word(void);
-void	wordmove_cursor(long c);
-void	delete_symbol_forward(void);
-int	str_n(void);
-void	clear_all_line(void);
-void	cur_pos_after_putstr(int *cur_pos);
-int	search_last_cur_pos_in_line(void);
-int	search_index(void);
-void	ret_cur_to_original_pos(int *prev_cur_pos);
-int	ret_winsize(int a);
-int	check_slash(char *user_in, int start_check);
-char	*expansion(char *user_in, char **env);
-t_history	*add_new_history(t_history *history, char *str);
-void	add_to_start_history(t_history *history, char *str, size_t len);
-t_history	*create_history(char *str, size_t len);
-void	load_on_file_history(t_history *history);
-void	save_in_file_history(t_history *history);
-void	free_readline_position(void);
-void	check_flag(char *user_in, char *flag);
-void	up_down_arrow(long c);
-void	set_signal(void);
-void	reset_input_mode(void);
-void	strmove_cursor(long c);
-void	completion(void);
-int	is_print(long c);
-int	executable_file(char *file_name, char *path);
-void	add_new_completion(t_completion **com_lst, char *str);
-void	free_completion(t_completion *com_lst, \
-	t_completion *matches, char *remaider_word, char *path);
-t_completion	*add_files_path_env(void);
-char	*return_path(char *remaider_word);
-void	complete_word(t_completion *matches, char *remaider_word,\
-	char *path);
-t_completion	*ret_possible_matches(char *path, int first_word);
-char	*cut_word(char cut_symbol, int i);
-t_completion	*ret_matches(t_completion *com_lst, char *str_search);
-void	free_rp(void);
-void	free_history_list(t_history *history);
-t_str	*init_str(void);
-void	expand_str(t_str *str);
-void	free_str(t_str *str);
+t_rp					*rp(t_rp *change_rp);
+t_rp					*init_rp(void);
+void					free_rp(void);
+void					back_to_start_history_rp(void);
+void					init_terminal();
+void					reset_input_mode();
+struct termios			*set_input_mode(int a);
+int						ft_putint(int c);
+void					home_end(long c);
+int						str_naa(char *user_in);
+void					expand_user_in(void);
+t_rp					*rp(t_rp *change_rp);
+void					inverse_search_index(int cur_pos[2], int index);
+void					reset_rp_to_start(char *p);
+int						ft_putint(int c);
+char					*readline(char *prompt);
+int						ft_isspace(char c);
+void					move_cursor(long c);
+void					delete_symbol(void);
+void					add_symbol(char c);
+void					alt_left_right(long c);
+void					delete_last_word(void);
+void					wordmove_cursor(long c);
+void					delete_symbol_forward(void);
+int						str_n(void);
+void					clear_all_line(void);
+void					cur_pos_after_putstr(int *cur_pos);
+int						search_last_cur_pos_in_line(void);
+int						search_index(void);
+void					ret_cur_to_original_pos(int *prev_cur_pos);
+int						ret_winsize(int a);
+int						check_slash(char *user_in, int start_check);
+char					*expansion(char *user_in, char **env);
+t_history				*add_new_history(t_history *history, char *str);
+void					add_to_start_history(t_history *history, char *str, \
+						size_t len);
+t_history				*create_history(char *str, size_t len);
+void					load_on_file_history(t_history *history);
+void					save_in_file_history(t_history *history);
+void					free_readline_position(void);
+void					check_flag(char *user_in, char *flag);
+void					up_down_arrow(long c);
+void					set_signal(void);
+void					reset_input_mode(void);
+void					strmove_cursor(long c);
+void					completion(void);
+int						is_print(long c);
+int						executable_file(char *file_name, char *path);
+void					add_new_completion(t_completion **com_lst, char *str);
+void					free_completion(t_completion *com_lst, \
+						t_completion *matches, char *remaider_word, char *path);
+t_completion			*add_files_path_env(void);
+char					*return_path(char *remaider_word);
+void					complete_word(t_completion *matches,\
+						char *remaider_word, char *path);
+t_completion			*ret_possible_matches(char *path, int first_word);
+char					*cut_word(char cut_symbol, int i);
+t_completion			*ret_matches(t_completion *com_lst, char *str_search);
+void					free_rp(void);
+void					free_history_list(t_history *history);
+t_str					*init_str(void);
+void					expand_str(t_str *str);
+void					free_str(t_str *str);
 
 /*
 ** Interface for lexer
 */
 
-t_token	*lex(void);
+t_token					*lex(void);
 
 /*
 ** Funcions that make termcaps interactions more readable
 */
 
-void	tc_cursor_up(void);
-void	tc_cursor_down(void);
-void	tc_cursor_left(void);
-void	tc_cursor_right(void);
-void	tc_clear_till_end(void);
-void	tc_cursor_n_right(int n);
+void					tc_cursor_up(void);
+void					tc_cursor_down(void);
+void					tc_cursor_left(void);
+void					tc_cursor_right(void);
+void					tc_clear_till_end(void);
+void					tc_cursor_n_right(int n);
 
 # define PARSER_FAILURE 0
 # define PARSER_SUCCESS 1
@@ -276,7 +276,7 @@ void	tc_cursor_n_right(int n);
 # define BANG -10
 # define DLESSDASH -11
 
-typedef enum	e_token_type
+typedef enum			e_token_type
 {
 	eof = -1,
 	number = NUMBER,
@@ -294,7 +294,7 @@ typedef enum	e_token_type
 	bang = BANG,
 	lessand = LESS_AND,
 	gr_and = GREATER_AND
-}	t_token_type;
+}						t_token_type;
 
 /*
 ** Complete command is a deque of pipelines (t_pipeline)
@@ -304,104 +304,107 @@ typedef enum	e_token_type
 ** arl is a deque of type t_ar
 */
 
-typedef struct	s_pipeline
+typedef struct			s_pipeline
 {
-	t_deque	*commands;
-	int	bang;
-}	t_pipeline;
+	t_deque				*commands;
+	int					bang;
+}						t_pipeline;
 
-typedef struct	s_simple_cmd
+typedef struct			s_simple_cmd
 {
-	t_deque	*wl;
-	t_deque	*arl;
-}	t_simple_cmd;
+	t_deque				*wl;
+	t_deque				*arl;
+}						t_simple_cmd;
 
-typedef enum	e_ar
+typedef enum			e_ar
 {
 	assignment,
 	redirection
-}	t_ear;
+}						t_ear;
 
-typedef struct	s_ar
+typedef struct			s_ar
 {
-	void	*data;
-	t_ear	what;
-}	t_ar;
+	void				*data;
+	t_ear				what;
+}						t_ar;
 
-typedef struct	s_io_redir
+typedef struct			s_io_redir
 {
-	int	fd;
-	t_token_type	operation;
-	t_list	*where;
-}	t_io_redir;
+	int					fd;
+	t_token_type		operation;
+	t_list				*where;
+}						t_io_redir;
 
 /*
 ** Parser's internal token buffer. Needed for backtracking
 ** Equivalrnt to getc() ungetc()
 */
 
-void	ungett(t_deque **tokbuf_g, t_deque **tokbuf_l);
-t_token	*gett(t_deque **tokbuf_g, t_deque **tokbuf_l);
-void	erase_tokbuf(t_deque **tokbuf);
-void	flush_tokbuf(t_deque **tokbuf_g, t_deque **tokbubf_l);
-
-void	syntax_error(t_token *token);
-
-void	add_ar(t_simple_cmd **cmd, void *data, t_ear what);
+void					ungett(t_deque **tokbuf_g, t_deque **tokbuf_l);
+t_token					*gett(t_deque **tokbuf_g, t_deque **tokbuf_l);
+void					erase_tokbuf(t_deque **tokbuf);
+void					flush_tokbuf(t_deque **tokbuf_g, t_deque **tokbubf_l);
+void					syntax_error(t_token *token);
+void					add_ar(t_simple_cmd **cmd, void *data, t_ear what);
 
 /*
 ** Nonterminal recursive procedures
 */
 
-int	match_complete_command(t_deque **command, t_deque **tokbuf_g);
-int match_list(t_deque **command, t_deque **tokbuf_g);
-int	match_list_dash(t_deque **command, t_deque **tokbuf_g);
-int	match_pipeline(t_deque **command, t_deque **tokbuf_g);
-int	match_pipe_sequence(t_pipeline *pipeline, t_deque **tokbuf_g);
-int	match_simple_command(t_simple_cmd **cmd, t_deque **tokbubf_g);
-void	match_linebreak(t_deque **tokbubf_g, t_deque **tokbubf_l);
-int	match_cmd_suffix(t_simple_cmd **cmd, t_deque **tokbubf_g);
-int	match_cmd_prefix(t_simple_cmd **cmd, t_deque **tokbubf_g);
-int	match_io_redirect(t_simple_cmd *cmd, t_deque **tokbubf_g);
-int	match_io_file(t_io_redir *redir, t_deque **tokbubf_g);
-int	match_io_here(t_io_redir *redir, t_deque **tokbubf_g);
+int						match_complete_command(t_deque **command,\
+						t_deque **tokbuf_g);
+int						match_list(t_deque **command, t_deque **tokbuf_g);
+int						match_list_dash(t_deque **command, t_deque **tokbuf_g);
+int						match_pipeline(t_deque **command, t_deque **tokbuf_g);
+int						match_pipe_sequence(t_pipeline *pipeline,\
+						t_deque **tokbuf_g);
+int						match_simple_command(t_simple_cmd **cmd,\
+						t_deque **tokbubf_g);
+void					match_linebreak(t_deque **tokbubf_g,\
+						t_deque **tokbubf_l);
+int						match_cmd_suffix(t_simple_cmd **cmd,\
+						t_deque **tokbubf_g);
+int						match_cmd_prefix(t_simple_cmd **cmd,\
+						t_deque **tokbubf_g);
+int						match_io_redirect(t_simple_cmd *cmd,\
+						t_deque **tokbubf_g);
+int						match_io_file(t_io_redir *redir, t_deque **tokbubf_g);
+int						match_io_here(t_io_redir *redir, t_deque **tokbubf_g);
 
 /*
 ** DEBUG; Do not use in project!
 */
 
-void	print_cmd_dbg(t_deque *command);
+void					print_cmd_dbg(t_deque *command);
+void					rm_compl_cmd(t_deque **command);
+void					rm_pipeline(void *pipeline);
+void					rm_simple_cmd(void *command);
+void					rm_ar(void *p);
+void					rm_redir(t_io_redir *redir);
+void					del_inside_wl(void *content, size_t content_size);
 
-void	rm_compl_cmd(t_deque **command);
-void	rm_pipeline(void *pipeline);
-void	rm_simple_cmd(void *command);
-void	rm_ar(void *p);
-void	rm_redir(t_io_redir *redir);
-void	del_inside_wl(void *content, size_t content_size);
+void					*del_array(char **env);
 
-void	*del_array(char **env);
+t_deque					*parser(void);
 
-t_deque	*parser(void);
-
-void	reset_exit(int status);
+void					reset_exit(int status);
 
 /*
 ** Expand.h
 */
 
-typedef enum	e_exp_state
+typedef enum			e_exp_state
 {
 	norm,
 	in_sqt,
 	in_dqt
-}	t_exp_state;
+}						t_exp_state;
 
-int	expand_dollar(char **word, int *pos);
-char	*expand(char *s);
-void	expand_tilda(char **s, int *pos);
-
-void	expand_pipeline(void *pipeline);
-void	expand_complete_cmd(t_deque *cmd);
+int						expand_dollar(char **word, int *pos);
+char					*expand(char *s);
+void					expand_tilda(char **s, int *pos);
+void					expand_pipeline(void *pipeline);
+void					expand_complete_cmd(t_deque *cmd);
 
 /*
 ** Syntax error
@@ -412,8 +415,8 @@ void	expand_complete_cmd(t_deque *cmd);
 # define SYNTAX_ERROR_STATE_OK 0
 # define SYNTAX_ERROR_STATE_NOT_OK 1
 
-int	syntax_error_state_action(int request, int param);
+int						syntax_error_state_action(int request, int param);
 
-void	init_prompt(void);
+void					init_prompt(void);
 
 #endif
