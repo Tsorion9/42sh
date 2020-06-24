@@ -103,6 +103,7 @@ LFLAGS = -L libft -lft -ltermcap
 DFLAGS = -g 
 CFLAGS = $(DFLAGS) 
 CFLAGS += $(FLAGS)
+DEPENDENCIES = $(OBJ:.o=.d)
 
 all: $(NAME)
 
@@ -116,11 +117,12 @@ lib:
 %.o : %.c 
 	gcc $(CFLAGS) -c $< -o $@ -MD
 
--include $(OBJ:.o=.d)
+-include $(DEPENDENCIES)
 
 clean:
 	make -C libft clean
 	rm -f $(OBJ)
+	rm -f $(DEPENDENCIES)
 
 fclean: clean
 	make -C libft fclean
