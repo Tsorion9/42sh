@@ -25,7 +25,11 @@ static void		call_lex_error(char flag)
 static void		init_extra_line(char **extra_line, char flag)
 {
 	if (isatty(STDIN_FILENO))
+	{
 		*extra_line = readline(get_prompt(PS2));
+		if (!(**extra_line))
+			call_lex_error(flag);
+	}
 	else
 	{
 		*extra_line = NULL;
