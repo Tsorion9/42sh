@@ -104,7 +104,7 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 		*need_new_line = 0;
 		if (!(*user_in) || !(**user_in) || !res_gnl)
 			return (0);
-		else if (isatty(STDIN_FILENO))
+		else
 			(*user_in)[ft_strlen(*user_in) - 1] = '\0';
 	}
 	return (1);
