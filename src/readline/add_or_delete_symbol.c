@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:10:07 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:12:26 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/06/24 19:05:04 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,12 @@ void		add_symbol(char c)
 
 void		delete_symbol_forward(void)
 {
-	int tmp;
+	int tmp[2];
 
-	tmp = rp()->cur_pos[0];
+	tmp[0] = rp()->cur_pos[0];
+	tmp[1] = rp()->cur_pos[1];
 	move_cursor(RIGHT_ARROW);
-	if (tmp != rp()->cur_pos[0])
+	if (tmp[0] != rp()->cur_pos[0] || tmp[1] != rp()->cur_pos[1])
 		delete_symbol();
 }
 
