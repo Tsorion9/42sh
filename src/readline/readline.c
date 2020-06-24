@@ -93,6 +93,5 @@ char		*readline(char *prompt)
 	if (!(ret_user_in = ft_strdup(rp(NULL)->user_in)))
 		exit(1);
 	ft_memdel((void **)&(rp(NULL)->user_in));
-	add_to_start_history(rp(NULL)->history, ret_user_in, user_in_len);
 	return (ret_user_in);
 }
