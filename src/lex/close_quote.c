@@ -41,23 +41,26 @@ static void		init_extra_line(char **extra_line, char flag)
 void			close_quote(char **user_in)
 {
 	char	*nuser_in;
-	char	*tmp;
 	char	*extra_line;
 	char	flag;
 
 	flag = 0;
 	check_flag(*user_in, &flag);
+	if (flag)
+	{
+		(*user_in)[ft_strlen(*user_in)] = '\0';
+		(*user_in)[ft_strlen(*user_in) - 1] = '\n';
+	}
 	while (flag)
 	{
 		init_extra_line(&extra_line, flag);
-		if (!(tmp = ft_strjoin(*user_in, "\n")))
+		if (!(nuser_in = ft_strjoin(*user_in, extra_line)))
 			reset_exit(1);
-		if (!(nuser_in = ft_strjoin(tmp, extra_line)))
-			reset_exit(1);
-		free(tmp);
 		check_flag(extra_line, &flag);
 		free(*user_in);
 		free(extra_line);
 		*user_in = nuser_in;
 	}
+	if (isatty(STDIN_FILENO))
+		(*user_in)[ft_strlen(*user_in) - 1] = '\0';
 }
