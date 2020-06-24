@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 void	home_end(long c)
 {
 	int i;
 
-	i = rp()->len;
+	i = rp(NULL)->len;
 	while (i--)
 		move_cursor(c == HOME ? LEFT_ARROW : RIGHT_ARROW);
 }

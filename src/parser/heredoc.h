@@ -14,7 +14,7 @@
 # define HEREDOC_H
 
 # include "deque.h"
-# include "21sh.h"
+# include "inc21sh.h"
 # include "libft.h"
 
 # include <sys/types.h>

@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 void	tc_cursor_left(void)
 {
 	tputs(tgetstr("le", NULL), STDERR_FILENO, ft_putint);
-	rp()->cur_pos[0]--;
+	rp(NULL)->cur_pos[0]--;
 }
 
 void	tc_clear_till_end(void)
@@ -26,18 +26,18 @@ void	tc_clear_till_end(void)
 void	tc_cursor_right(void)
 {
 	tputs(tgetstr("nd", NULL), STDERR_FILENO, ft_putint);
-	rp()->cur_pos[0]++;
+	rp(NULL)->cur_pos[0]++;
 }
 
 void	tc_cursor_up(void)
 {
 	tputs(tgetstr("up", NULL), STDERR_FILENO, ft_putint);
-	rp()->cur_pos[0] = 1;
-	rp()->cur_pos[1] -= 1;
+	rp(NULL)->cur_pos[0] = 1;
+	rp(NULL)->cur_pos[1] -= 1;
 }
 
 void	tc_cursor_down(void)
 {
 	write(STDERR_FILENO, "\n", 1);
-	rp()->cur_pos[1]++;
+	rp(NULL)->cur_pos[1]++;
 }

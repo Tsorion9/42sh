@@ -12,35 +12,35 @@
 
 #include "lex.h"
 
-bool		is_letter(char c)
+int			is_letter(char c)
 {
-	bool	f;
+	int		f;
 
-	f = true;
+	f = 1;
 	if (c == '>' || c == '<' || c == '|' ||\
 	c == ' ' || c == '\t' || c == ';' ||\
 	c == '\'' || c == 0 || c == '&' ||\
 	c == '\"' || is_ws(c))
-		f = false;
+		f = 0;
 	return (f);
 }
 
-bool		is_digit(char c)
+int			is_digit(char c)
 {
-	bool	f;
+	int		f;
 
-	f = false;
+	f = 0;
 	if (c >= '0' && c <= '9')
-		f = true;
+		f = 1;
 	return (f);
 }
 
-bool		is_ws(char c)
+int			is_ws(char c)
 {
-	bool	f;
+	int		f;
 
-	f = false;
+	f = 0;
 	if (c == ' ' || c == '\t')
-		f = true;
+		f = 1;
 	return (f);
 }

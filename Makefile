@@ -5,7 +5,8 @@ CREADLINE = readline.c strmove_cursor.c t_str.c \
 			history_file.c add_or_delete_symbol.c up_down_arrow.c\
 			check_quoting.c clear_all_line.c free_readline.c \
 			other.c reset_readline_position.c search_cur_pos.c get_prompt.c \
-			str_n.c home_end.c tc_cursor_n_right.c expand_user_in.c
+			str_n.c home_end.c tc_cursor_n_right.c expand_user_in.c readline_position.c\
+			input_mode.c reset_exit.c
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
@@ -88,7 +89,7 @@ PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 EXPAND = $(patsubst %,src/expansions/%,$(CEXPANSIONS))
 
-SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEX) $(PARSER) $(EXEC) $(EXPAND)
+SRC = src/main.c src/signal.c src/init_prompt.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEX) $(PARSER) $(EXEC) $(EXPAND)
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
@@ -110,10 +111,11 @@ $(NAME): $(OBJ) | lib
 lib:
 	make -C libft 
 
--include $(OBJ:.o=.d)
 
 %.o : %.c 
 	gcc $(CFLAGS) -c $< -o $@ -MD
+
+-include $(OBJ:.o=.d)
 
 clean:
 	make -C libft clean

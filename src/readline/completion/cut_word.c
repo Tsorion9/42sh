@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 char	*cut_word(char cut_symbol, int i)
 {
@@ -19,15 +19,15 @@ char	*cut_word(char cut_symbol, int i)
 	char	save_symbol;
 
 	j = i;
-	while (rp()->user_in[i] != ' ' && rp()->user_in[i] != '\t' && \
-		rp()->user_in[i] != '\n' && i && rp()->user_in[i] != cut_symbol)
+	while (rp(NULL)->user_in[i] != ' ' && rp(NULL)->user_in[i] != '\t' && \
+		rp(NULL)->user_in[i] != '\n' && i && rp(NULL)->user_in[i] != cut_symbol)
 		i--;
-	if (i || rp()->user_in[i] == cut_symbol)
+	if (i || rp(NULL)->user_in[i] == cut_symbol)
 		i++;
-	save_symbol = rp()->user_in[j];
-	rp()->user_in[j] = '\0';
-	if (!(remaider_word = ft_strdup(rp()->user_in + i)))
+	save_symbol = rp(NULL)->user_in[j];
+	rp(NULL)->user_in[j] = '\0';
+	if (!(remaider_word = ft_strdup(rp(NULL)->user_in + i)))
 		reset_exit(1);
-	rp()->user_in[j] = save_symbol;
+	rp(NULL)->user_in[j] = save_symbol;
 	return (remaider_word);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 void		alt_left_right(long c)
 {
@@ -22,7 +22,7 @@ void		alt_left_right(long c)
 			move_cursor(LEFT_ARROW);
 	else
 	{
-		while (rp()->user_in[i++])
+		while (rp(NULL)->user_in[i++])
 			move_cursor(RIGHT_ARROW);
 	}
 }

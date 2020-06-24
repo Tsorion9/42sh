@@ -84,7 +84,7 @@ static t_token	*ret_token(char **user_in, int *need_new_line, int *index)
 	else
 		new_token = ret_token_sup(user_in, index, attr);
 	if (!(*need_new_line) && isatty(STDIN_FILENO))
-		add_to_start_history(rp()->history, *user_in, ft_strlen(*user_in));
+		add_to_start_history(rp(NULL)->history, *user_in, ft_strlen(*user_in));
 	prev_token = new_token.token_type;
 	free_str(attr);
 	return (copy_init_token(new_token));
@@ -109,7 +109,7 @@ t_token			*lex(void)
 	if (!user_in || need_new_line)
 	{
 		if (isatty(STDIN_FILENO))
-			user_in = readline(DEFAULT_PROMPT);
+			user_in = readline(get_prompt(PS1));
 		else if (!get_next_line(STDIN_FILENO, &user_in))
 			reset_exit(0);
 		need_new_line = 0;

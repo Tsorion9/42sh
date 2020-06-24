@@ -1,32 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   init_prompt.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 01:48:25 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 01:48:27 by anton            ###   ########.fr       */
+/*   Created: 2020/06/24 20:17:03 by anton             #+#    #+#             */
+/*   Updated: 2020/06/24 20:17:05 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environment.h"
 #include "inc21sh.h"
+#include "static_env.h"
 
-int	g_last_command_status;
-
-/*
-** TODO: exit status must be static
-*/
-
-int	builtin_exit(char **args, t_env env, int subshell)
+void	init_prompt(void)
 {
-	(void)env;
-	if (subshell)
-		return (1);
-	if (*args)
-		reset_exit(ft_atoi(args[0]));
-	else
-		reset_exit(g_last_command_status);
-	return (1);
+	ft_setenv(static_env_action(get, NULL), "PS1",\
+			ft_strdup("PiEcE_oF_s_HELL: "));
+	ft_setenv(static_env_action(get, NULL), "PS2", ft_strdup("8===D "));
 }

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "heredoc.h"
-#include "21sh.h"
+#include "inc21sh.h"
 
 static int		is_heredoc(t_ar *ar)
 {

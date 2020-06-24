@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 static int	is_first_word(int i)
 {
-	if (rp()->user_in[i] == '\0')
+	if (rp(NULL)->user_in[i] == '\0')
 		i--;
-	while (is_print(rp()->user_in[i]) && i && rp()->user_in[i] != ' ')
+	while (is_print(rp(NULL)->user_in[i]) && i && rp(NULL)->user_in[i] != ' ')
 		i--;
 	if (!i)
 		return (1);
-	while ((rp()->user_in[i] == ' ' || rp()->user_in[i] == '\t' || \
-		rp()->user_in[i] == '\n') && i)
+	while ((rp(NULL)->user_in[i] == ' ' || rp(NULL)->user_in[i] == '\t' || \
+		rp(NULL)->user_in[i] == '\n') && i)
 		i--;
 	if (!i)
 		return (1);

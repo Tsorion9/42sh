@@ -10,26 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 void		ret_cur_to_original_pos(int *prev_cur_pos)
 {
-	while (prev_cur_pos[0] > rp()->cur_pos[0])
+	while (prev_cur_pos[0] > rp(NULL)->cur_pos[0])
 	{
 		tputs(tgetstr("le", NULL), STDERR_FILENO, ft_putint);
 		prev_cur_pos[0]--;
 	}
-	while (prev_cur_pos[1] > rp()->cur_pos[1])
+	while (prev_cur_pos[1] > rp(NULL)->cur_pos[1])
 	{
 		tputs(tgetstr("up", NULL), STDERR_FILENO, ft_putint);
 		prev_cur_pos[1]--;
 	}
-	while (prev_cur_pos[1] < rp()->cur_pos[1])
+	while (prev_cur_pos[1] < rp(NULL)->cur_pos[1])
 	{
 		tputs(tgetstr("do", NULL), STDERR_FILENO, ft_putint);
 		prev_cur_pos[1]++;
 	}
-	while (prev_cur_pos[0] < rp()->cur_pos[0])
+	while (prev_cur_pos[0] < rp(NULL)->cur_pos[0])
 	{
 		tputs(tgetstr("nd", NULL), STDERR_FILENO, ft_putint);
 		prev_cur_pos[0]++;
@@ -42,14 +42,14 @@ void		delete_last_word(void)
 
 	while ((i = search_index() - 1) >= 0)
 	{
-		if (ft_isspace(rp()->user_in[i]))
+		if (ft_isspace(rp(NULL)->user_in[i]))
 			delete_symbol();
 		else
 			break ;
 	}
 	while ((i = search_index() - 1) >= 0)
 	{
-		if (!ft_isspace(rp()->user_in[i]))
+		if (!ft_isspace(rp(NULL)->user_in[i]))
 			delete_symbol();
 		else
 			break ;

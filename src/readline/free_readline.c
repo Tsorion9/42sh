@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 void	free_history_list(t_history *history)
 {
@@ -30,7 +30,7 @@ void	free_history_list(t_history *history)
 
 void	free_readline_position(void)
 {
-	free(rp()->user_in);
-	free_history_list(rp()->history);
-	free(rp());
+	free(rp(NULL)->user_in);
+	free_history_list(rp(NULL)->history);
+	free(rp(NULL));
 }

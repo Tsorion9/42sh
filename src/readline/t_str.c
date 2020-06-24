@@ -6,13 +6,13 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:14:18 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/06/24 19:25:08 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
-t_str	*init_str(void)
+t_str		*init_str(void)
 {
 	t_str	*new_str;
 

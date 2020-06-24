@@ -12,7 +12,7 @@
 
 #include "expand.h"
 #include "remove_quotes.h"
-#include "21sh.h"
+#include "inc21sh.h"
 #include "expand_word.h"
 #include "expand_assignment.h"
 

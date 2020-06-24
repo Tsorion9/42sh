@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 void		expand_user_in(void)
 {
 	char	*tmp;
 
-	tmp = xmalloc(rp()->max_len);
-	ft_strcpy(tmp, rp()->user_in);
-	free(rp()->user_in);
-	rp()->max_len *= 2;
-	if (!(rp()->user_in = (char*)xmalloc(sizeof(char) * rp()->max_len)))
+	tmp = xmalloc(rp(NULL)->max_len);
+	ft_strcpy(tmp, rp(NULL)->user_in);
+	free(rp(NULL)->user_in);
+	rp(NULL)->max_len *= 2;
+	if (!(rp(NULL)->user_in = (char*)xmalloc(sizeof(char) * rp(NULL)->max_len)))
 		reset_exit(1);
-	ft_strcpy(rp()->user_in, tmp);
+	ft_strcpy(rp(NULL)->user_in, tmp);
 	free(tmp);
 }

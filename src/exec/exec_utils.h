@@ -13,7 +13,7 @@
 #ifndef EXEC_UTILS_H
 # define EXEC_UTILS_H
 
-# include "21sh.h"
+# include "inc21sh.h"
 # include "task_context.h"
 
 int				n_heredocs(const t_simple_cmd *cmd);

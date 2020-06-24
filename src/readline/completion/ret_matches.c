@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 t_completion	*ret_matches(t_completion *com_lst, char *str_search)
 {

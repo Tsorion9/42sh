@@ -13,5 +13,5 @@
 #ifndef EXPAND_H
 # define EXPAND_H
 
-# include "21sh.h"
+# include "inc21sh.h"
 #endif

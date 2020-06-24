@@ -13,6 +13,6 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "21sh.h"
+# include "inc21sh.h"
 
 #endif

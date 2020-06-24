@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 static int	str_n_sup(char *user_in, int n)
 {
@@ -19,7 +19,7 @@ static int	str_n_sup(char *user_in, int n)
 	cur_pos_col = 1;
 	while (*user_in)
 	{
-		if (*user_in == '\n' || cur_pos_col >= rp()->ws_col)
+		if (*user_in == '\n' || cur_pos_col >= rp(NULL)->ws_col)
 		{
 			cur_pos_col = 0;
 			n++;
@@ -32,7 +32,7 @@ static int	str_n_sup(char *user_in, int n)
 
 /*
 ** Возвращает количество строк, занимаемых в терминале,
-** командой (rp()->user_in).
+** командой (rp(NULL)->user_in).
 */
 
 int			str_n(void)
@@ -41,15 +41,15 @@ int			str_n(void)
 	int				n;
 	unsigned short	cur_pos_col;
 
-	user_in = rp()->user_in;
+	user_in = rp(NULL)->user_in;
 	n = 0;
-	cur_pos_col = rp()->prompt_len;
-	while (*user_in && *user_in != '\n' && cur_pos_col <= rp()->ws_col)
+	cur_pos_col = rp(NULL)->prompt_len;
+	while (*user_in && *user_in != '\n' && cur_pos_col <= rp(NULL)->ws_col)
 	{
 		cur_pos_col++;
 		user_in++;
 	}
-	if ((*user_in == '\n' || cur_pos_col > rp()->ws_col) && *user_in)
+	if ((*user_in == '\n' || cur_pos_col > rp(NULL)->ws_col) && *user_in)
 	{
 		n++;
 		user_in++;

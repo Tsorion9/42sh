@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:16:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:16:40 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/06/24 19:38:05 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,11 @@
 
 static void		call_lex_error(char flag)
 {
-	char	*prog_name;
-
-	prog_name = get_prog_arg(0);
-	if (!prog_name)
-		reset_exit(1);
-	ft_putstr_fd(prog_name, STDERR_FILENO);
-	ft_putstr_fd(": unexpected EOF while looking for matching `", \
+	ft_putstr_fd("21sh: unexpected EOF while looking for matching `", \
 		STDERR_FILENO);
 	write(STDERR_FILENO, &flag, 1);
 	write(STDERR_FILENO, "'\n", 2);
-	ft_putstr_fd(prog_name, STDERR_FILENO);
-	ft_putstr_fd(": syntax error: unexpected end of file\n", STDERR_FILENO);
+	ft_putstr_fd("21sh: syntax error: unexpected end of file\n", STDERR_FILENO);
 	reset_exit(1);
 }
 

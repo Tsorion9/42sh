@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "inc21sh.h"
 
 int			is_print(long c)
 {
@@ -27,7 +27,7 @@ static void	handle_click_sup(long c)
 		strmove_cursor(c);
 	else if (c == CTRL_W)
 		delete_last_word();
-	else if (c == CTRL_D && rp()->len == 0)
+	else if (c == CTRL_D && rp(NULL)->len == 0)
 	{
 		write(STDERR_FILENO, "\n", 1);
 		reset_exit(-1);
@@ -70,9 +70,9 @@ static void	read_till_newline(int *user_in_len)
 	c = 0;
 	while (c != '\n')
 		c = handle_click();
-	*user_in_len = ft_strlen(rp()->user_in);
-	rp()->user_in[*user_in_len] = c;
-	rp()->user_in[*user_in_len + 1] = 0;
+	*user_in_len = ft_strlen(rp(NULL)->user_in);
+	rp(NULL)->user_in[*user_in_len] = c;
+	rp(NULL)->user_in[*user_in_len + 1] = 0;
 }
 
 /*
@@ -89,14 +89,14 @@ char		*readline(char *prompt)
 	reset_rp_to_start(prompt);
 	write(STDERR_FILENO, prompt, ft_strlen(prompt));
 	read_till_newline(&user_in_len);
-	user_in_lines = str_n() - rp()->cur_pos[1];
+	user_in_lines = str_n() - rp(NULL)->cur_pos[1];
 	while (user_in_lines-- > 0)
 		write(STDERR_FILENO, "\n", 1);
-	rp()->user_in[ft_strlen(rp()->user_in) - 1] = 0;
+	rp(NULL)->user_in[ft_strlen(rp(NULL)->user_in) - 1] = 0;
 	write(STDERR_FILENO, "\n", 1);
-	if (!(ret_user_in = ft_strdup(rp()->user_in)))
+	if (!(ret_user_in = ft_strdup(rp(NULL)->user_in)))
 		exit(1);
-	ft_memdel((void **)&(rp()->user_in));
-	add_to_start_history(rp()->history, ret_user_in, user_in_len);
+	ft_memdel((void **)&(rp(NULL)->user_in));
+	add_to_start_history(rp(NULL)->history, ret_user_in, user_in_len);
 	return (ret_user_in);
 }

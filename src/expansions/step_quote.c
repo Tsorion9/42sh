@@ -12,7 +12,7 @@
 
 #include "expand.h"
 #include "remove_quotes.h"
-#include "21sh.h"
+#include "inc21sh.h"
 #include "replace.h"
 
 void	step_single_quote(char *s, int *position, t_exp_state *state)
