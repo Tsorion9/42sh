@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:18:17 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 20:18:17 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/24 21:18:24 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void		reset_exit(int status)
 {
-	reset_input_mode();
+	if (isatty(0))
+		reset_input_mode();
 	exit(status);
 }
