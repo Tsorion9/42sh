@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:10:53 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:11:02 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/06/25 02:55:08 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static char		**get_paths(void)
 	char	**path;
 
 	p = ft_getenv(static_env_action(get, NULL), "PATH");
+	if (!p)
+		return (NULL);
 	path = ft_strsplit(p, ':');
-	if (p)
-		free(p);
 	return (path);
 }
 

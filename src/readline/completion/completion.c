@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:11:19 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/06/25 02:56:54 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void		completion(void)
 	char			*path;
 	int				i;
 
+	return ;
 	i = search_index();
 	path = NULL;
 	remaider_word = cut_word(' ', i);
