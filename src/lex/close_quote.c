@@ -64,6 +64,6 @@ void			close_quote(char **user_in)
 		free(extra_line);
 		*user_in = nuser_in;
 	}
-	if (isatty(STDIN_FILENO) && flagt)
+	if (flagt)
 		(*user_in)[ft_strlen(*user_in) - 1] = '\0';
 }
