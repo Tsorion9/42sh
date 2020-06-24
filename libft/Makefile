@@ -59,13 +59,14 @@ SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memchr.c ft_memcmp.c \
 	ft_straddchar.c\
 	ft_lstlen.c\
 	ft_lstnew_inplace.c\
+	get_next_line_wrapper.c\
 	xmalloc.c
 
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 CC = gcc
 INCLUDE = includes
-CFLAGS = -Wall -Wextra -I $(INCLUDE) -I ft_printf -I ftoa
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE) -I ft_printf -I ftoa
 DFLAGS = $(CFLAGS) -g
 
 %.o: %.c

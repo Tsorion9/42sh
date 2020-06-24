@@ -87,7 +87,6 @@ static t_token	*ret_token(char **user_in, int *need_new_line, int *index)
 		add_to_start_history(rp(NULL)->history, *user_in, ft_strlen(*user_in));
 	prev_token = new_token.token_type;
 	free_str(attr);
-	//printf("\n%d\n", new_token.token_type);
 	return (copy_init_token(new_token));
 }
 
@@ -103,9 +102,9 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 		else
 			res_gnl = get_next_line(STDIN_FILENO, user_in);
 		*need_new_line = 0;
-		if (!(**user_in) || !res_gnl)
+		if (!(*user_in) || !(**user_in) || !res_gnl)
 			return (0);
-		else
+		else if (isatty(STDIN_FILENO))
 			(*user_in)[ft_strlen(*user_in) - 1] = '\0';
 	}
 	return (1);

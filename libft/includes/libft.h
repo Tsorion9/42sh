@@ -16,6 +16,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "get_next_line.h"
 # include "ft_ptree.h"
 
 typedef struct		s_list
@@ -25,6 +26,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+int					get_next_line_wrapper(const int fd, char **line);
 size_t				ft_strlen(const char *s);
 int					ft_tolower(int c);
 char				*ft_strcpy(char *dst, const char *src);
