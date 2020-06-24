@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:24 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 18:31:24 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/24 23:44:32 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@ static char		*temporary_readline_wrapper(char *prompt)
 	int		gnl_status;
 
 	if (isatty(0))
-		return (readline(prompt));
+	{
+		s = readline(prompt);
+		if (!s || !*s)
+			return (NULL);
+		s[ft_strlen(s) - 1] = '\0';
+		return (s);
+	}
 	gnl_status = get_next_line(0, &s);
 	if (gnl_status == -1)
 		return (NULL);
