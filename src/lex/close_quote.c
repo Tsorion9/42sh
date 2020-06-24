@@ -48,8 +48,8 @@ void			close_quote(char **user_in)
 	check_flag(*user_in, &flag);
 	if (flag)
 	{
-		(*user_in)[ft_strlen(*user_in)] = '\0';
-		(*user_in)[ft_strlen(*user_in) - 1] = '\n';
+		(*user_in)[ft_strlen(*user_in) + 1] = '\0';
+		(*user_in)[ft_strlen(*user_in)] = '\n';
 	}
 	while (flag)
 	{
