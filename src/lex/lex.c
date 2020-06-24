@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:17:34 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:17:34 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/06/25 02:05:12 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,6 @@ static void		skip_ws(char *user_in, int *index)
 {
 	while (is_ws(user_in[*index]))
 		(*index)++;
-}
-
-/*
-** returns a initialized copy of the next token
-*/
-
-static t_token	*copy_init_token(t_token t)
-{
-	t_token	*copy;
-
-	copy = xmalloc(sizeof(t_token));
-	*copy = t;
-	if (copy->token_type != word &&\
-			copy->token_type != ass_word &&\
-			copy->token_type != number)
-		copy->attribute = NULL;
-	return (copy);
 }
 
 static t_token	ret_token_sup(char **user_in, int *index, t_str *attr)
@@ -108,16 +91,6 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 			(*user_in)[ft_strlen(*user_in) - 1] = '\0';
 	}
 	return (1);
-}
-
-t_token			*new_eof(void)
-{
-	t_token	*t_eof;
-
-	t_eof = xmalloc(sizeof(t_token));
-	t_eof->token_type = eof;
-	t_eof->attribute = NULL;
-	return (t_eof);
 }
 
 t_token			*lex(void)

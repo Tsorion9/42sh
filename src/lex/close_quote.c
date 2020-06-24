@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:16:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/24 19:38:05 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 02:09:22 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ static void		init_extra_line(char **extra_line, char flag)
 	}
 }
 
+static void		init_locals(char *flag, int *flagt)
+{
+	*flagt = 0;
+	*flag = 0;
+}
+
 void			close_quote(char **user_in)
 {
 	char	*nuser_in;
@@ -45,8 +51,7 @@ void			close_quote(char **user_in)
 	char	flag;
 	int		flagt;
 
-	flagt = 0;
-	flag = 0;
+	init_locals(&flag, &flagt);
 	check_flag(*user_in, &flag);
 	if (flag)
 	{

@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 01:29:37 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 01:43:36 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 01:55:18 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,19 @@ static char			*get_varname(char *word, int pos)
 	return (name);
 }
 
+static int			return_update_pos(int *pos)
+{
+	*pos += 1;
+	return (0);
+}
+
 int					expand_dollar(char **word, int *pos)
 {
 	char	*varname;
 	char	*value;
 
 	if (!(*word)[*pos + 1])
-	{
-		*pos += 1;
-		return (0);
-	}
+		return_update_pos(pos);
 	else if ((varname = get_varname(*word, *pos)))
 	{
 		if (!(value = ft_getenv(static_env_action(get, NULL), varname)))
@@ -53,9 +56,6 @@ int					expand_dollar(char **word, int *pos)
 		free(varname);
 	}
 	else
-	{
-		(*pos)++;
-		return (0);
-	}
+		return_update_pos(pos);
 	return (0);
 }

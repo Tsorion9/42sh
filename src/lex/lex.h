@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:17:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/24 20:32:08 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 02:06:12 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ int		is_ws(char c);
 void	write_char_to_buf(char *user_in, int *index, t_str *attr);
 int		is_digit(char c);
 int		is_letter(char c);
+t_token	*copy_init_token(t_token t);
+t_token	*new_eof(void);
 
 #endif

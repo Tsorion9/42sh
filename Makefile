@@ -17,7 +17,7 @@ CLEX =	lex.c get_token_and_greater.c get_token_end_line.c \
 		get_token_greater.c get_token_less.c get_token_number.c \
 		get_token_pipe.c get_token_word.c get_token_line_separator.c \
 		write_quotes_to_buf.c close_quote.c create_attrinute.c \
-		write_char_to_buf.c other.c
+		write_char_to_buf.c other.c token_init.c
 
 CPARSER = deque.c \
 		  deque_apply.c\
@@ -43,6 +43,7 @@ CPARSER = deque.c \
 			heredoc.c\
 			heredoc_utils.c\
 			del_inside_wl.c\
+			memdel3.c\
 			deque_len.c
 
 CEXEC = builtin_env.c\

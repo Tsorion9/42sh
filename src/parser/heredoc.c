@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:24 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 00:25:25 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 02:09:45 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include "libft.h"
 #include "heredoc_utils.h"
+#include "memdel3.h"
 
 static char		*temporary_readline_wrapper(char *prompt)
 {
@@ -68,9 +69,7 @@ static char		*gather_string_literal(char *here_eof)
 		{
 			tmp1 = ft_strjoin(line, "\n");
 			tmp = ft_strjoin(literal, tmp1);
-			ft_memdel((void *)&literal);
-			ft_memdel((void *)&line);
-			ft_memdel((void *)&tmp1);
+			memdel3((void **)&literal, (void **)&line, (void **)&tmp1);
 			literal = tmp;
 		}
 	}
