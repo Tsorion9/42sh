@@ -27,11 +27,6 @@ static void	handle_click_sup(long c)
 		strmove_cursor(c);
 	else if (c == CTRL_W)
 		delete_last_word();
-	else if (c == CTRL_D && rp(NULL)->len == 0)
-	{
-		write(STDERR_FILENO, "\n", 1);
-		reset_exit(-1);
-	}
 	else if (c == TAB_ARROW)
 		completion();
 	else if (c == SHIFT_TAB)
@@ -58,6 +53,8 @@ static long	handle_click(void)
 		alt_left_right(c);
 	else if (c == HOME || c == END)
 		home_end(c);
+	else if (c == CTRL_D && rp(NULL)->len == 0)
+		return (-1);
 	else
 		handle_click_sup(c);
 	return (c);
@@ -68,10 +65,10 @@ static void	read_till_newline(int *user_in_len)
 	long	c;
 
 	c = 0;
-	while (c != '\n')
+	while (c != '\n' && c != -1)
 		c = handle_click();
 	*user_in_len = ft_strlen(rp(NULL)->user_in);
-	rp(NULL)->user_in[*user_in_len] = c;
+	rp(NULL)->user_in[*user_in_len] = (char)(c == -1 ? 0 : '\n');
 	rp(NULL)->user_in[*user_in_len + 1] = 0;
 }
 
@@ -92,7 +89,6 @@ char		*readline(char *prompt)
 	user_in_lines = str_n() - rp(NULL)->cur_pos[1];
 	while (user_in_lines-- > 0)
 		write(STDERR_FILENO, "\n", 1);
-	rp(NULL)->user_in[ft_strlen(rp(NULL)->user_in) - 1] = 0;
 	write(STDERR_FILENO, "\n", 1);
 	if (!(ret_user_in = ft_strdup(rp(NULL)->user_in)))
 		exit(1);

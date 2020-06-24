@@ -87,7 +87,38 @@ static t_token	*ret_token(char **user_in, int *need_new_line, int *index)
 		add_to_start_history(rp(NULL)->history, *user_in, ft_strlen(*user_in));
 	prev_token = new_token.token_type;
 	free_str(attr);
+	//printf("\n%d\n", new_token.token_type);
 	return (copy_init_token(new_token));
+}
+
+int				bad__21sh_line(char **user_in, int *need_new_line)
+{
+	int	res_gnl;
+
+	res_gnl = 1;
+	if (*need_new_line)
+	{
+		if (isatty(STDIN_FILENO))
+			*user_in = readline(get_prompt(PS1));
+		else
+			res_gnl = get_next_line(STDIN_FILENO, user_in);
+		*need_new_line = 0;
+		if (!(**user_in) || !res_gnl)
+			return (0);
+		else
+			(*user_in)[ft_strlen(*user_in) - 1] = '\0';
+	}
+	return (1);
+}
+
+t_token			*new_eof(void)
+{
+	t_token	*t_eof;
+
+	t_eof = xmalloc(sizeof(t_token));
+	t_eof->token_type = eof;
+	t_eof->attribute = NULL;
+	return (t_eof);
 }
 
 t_token			*lex(void)
@@ -96,6 +127,8 @@ t_token			*lex(void)
 	static int	need_new_line;
 	static int	index;
 
+	if (!user_in)
+		need_new_line = 1;
 	if (syntax_error_state_action(SYNTAX_ERROR_STATE_GET, 0) == \
 		SYNTAX_ERROR_STATE_NOT_OK)
 	{
@@ -106,13 +139,7 @@ t_token			*lex(void)
 		syntax_error_state_action(SYNTAX_ERROR_STATE_SET, \
 			SYNTAX_ERROR_STATE_OK);
 	}
-	if (!user_in || need_new_line)
-	{
-		if (isatty(STDIN_FILENO))
-			user_in = readline(get_prompt(PS1));
-		else if (!get_next_line(STDIN_FILENO, &user_in))
-			reset_exit(0);
-		need_new_line = 0;
-	}
+	if (!(bad__21sh_line(&user_in, &need_new_line)))
+		return (new_eof());
 	return (ret_token(&user_in, &need_new_line, &index));
 }
