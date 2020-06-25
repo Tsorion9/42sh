@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ptree_to_kvpairs.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/25 03:18:50 by anton             #+#    #+#             */
+/*   Updated: 2020/06/25 03:18:52 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ptree.h"
 
 void					del_kvpair(t_key_value **kv)
@@ -32,7 +44,8 @@ static int				add_kvpair(t_list **kvpairs, char *key, char *value)
 ** Super bad idea o(n^2)
 */
 
-static int		traverse_children(t_ptree *tree, char *prefix, t_list **kvpairs)
+static int				traverse_children(t_ptree *tree, char *prefix,\
+		t_list **kvpairs)
 {
 	int			i;
 	char		*new_prefix;
@@ -65,7 +78,7 @@ static int		traverse_children(t_ptree *tree, char *prefix, t_list **kvpairs)
 ** Return 0 in case of xmalloc errors
 */
 
-t_list			*ptree_to_kvpairs(t_ptree *tree)
+t_list					*ptree_to_kvpairs(t_ptree *tree)
 {
 	t_list	*kvpairs;
 	char	*prefix;
