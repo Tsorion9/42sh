@@ -6,11 +6,12 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 18:53:46 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 18:56:26 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 19:26:55 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "err_const.h"
 
 int		*fd_crutch(int fd[2])
 {
@@ -31,10 +32,17 @@ int		pipe_wrapper(int fd[2])
 
 	res = pipe(fd);
 	if (res == -1)
-	{
-		write(2, "Warning! pipe() failed.\n",\
-				sizeof("Warning! pipe() failed.\n"));
-	}
+		write(2, PIPE_FAIL_ERRMSG, sizeof(PIPE_FAIL_ERRMSG));
 	fd_crutch(fd);
+	return (res);
+}
+
+int		dup2_wrapper(int old_fd, int new_fd)
+{
+	int	res;
+
+	res = dup2(old_fd, new_fd);
+	if (res == -1)
+		write(2, BAD_FD_ERRMSG, sizeof(BAD_FD_ERRMSG));
 	return (res);
 }

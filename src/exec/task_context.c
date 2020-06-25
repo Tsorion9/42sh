@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:49 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 18:52:25 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 19:23:07 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,14 @@ void			enter_task_context(t_task_context *task_context)
 	}
 	if (task_context->in_pipe != IGNORE_STREAM)
 	{
-		dup2(task_context->in_pipe, 0);
+		dup2_wrapper(task_context->in_pipe, 0);
 		close(task_context->in_pipe);
 	}
 	else if (task_context->out_pipe != IGNORE_STREAM)
 		close(fd_crutch(NULL)[0]);
 	if (task_context->out_pipe != IGNORE_STREAM)
 	{
-		dup2(task_context->out_pipe, 1);
+		dup2_wrapper(task_context->out_pipe, 1);
 		close(task_context->out_pipe);
 	}
 }
@@ -98,9 +98,9 @@ void			exit_task_context(t_task_context *task_context)
 		static_env_action(restore, NULL);
 	if (task_context->need_child)
 		return ;
-	dup2(task_context->save_0, 0);
-	dup2(task_context->save_1, 1);
-	dup2(task_context->save_2, 2);
+	dup2_wrapper(task_context->save_0, 0);
+	dup2_wrapper(task_context->save_1, 1);
+	dup2_wrapper(task_context->save_2, 2);
 	if (task_context->in_pipe != IGNORE_STREAM)
 		close(task_context->save_0);
 	if (task_context->out_pipe != IGNORE_STREAM)

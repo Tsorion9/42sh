@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:42 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 01:48:43 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 19:23:00 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include "fd_crutch.h"
 
 int	fail_open_file_error(t_io_redir *redir)
 {
@@ -49,7 +50,7 @@ int	normal_redirection(t_io_redir *redir)
 		close(redir->fd);
 		return (0);
 	}
-	dup2(copy, redir->fd);
+	dup2_wrapper(copy, redir->fd);
 	close(copy);
 	return (0);
 }

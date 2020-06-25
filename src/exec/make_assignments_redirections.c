@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:39 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 17:41:39 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 19:28:45 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "redirections_utils.h"
+#include "fd_crutch.h"
 
 /*
 ** as_wrd is string in format name=value
@@ -50,7 +51,7 @@ static int	redirect_next_heredoc(int fd)
 	heredoc = heredoc_action(pop_fd, NULL);
 	if (!heredoc)
 		return (-1);
-	if (dup2(*heredoc, fd) == -1)
+	if (dup2_wrapper(*heredoc, fd) == -1)
 		return (-1);
 	close(*heredoc);
 	free(heredoc);
@@ -79,7 +80,7 @@ static int	make_io_redir(t_io_redir *redir)
 			get_oflags(redir->operation), 0666);
 	if (fd == -1)
 		return (fail_open_file_error(redir));
-	dup2(fd, redir->fd);
+	dup2_wrapper(fd, redir->fd);
 	close(fd);
 	return (0);
 }
