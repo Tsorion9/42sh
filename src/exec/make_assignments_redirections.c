@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:39 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 01:48:41 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 17:41:39 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static int	make_io_redir(t_io_redir *redir)
 	if (fd == -1)
 		return (fail_open_file_error(redir));
 	dup2(fd, redir->fd);
+	close(fd);
 	return (0);
 }
 

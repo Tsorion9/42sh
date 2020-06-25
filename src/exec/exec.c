@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:22 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 01:48:25 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 18:57:31 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 #include "exec_utils.h"
 #include "task.h"
+#include "fd_crutch.h"
 
 int			have_children_global_request(int set_value, int value)
 {
@@ -86,16 +87,17 @@ static int	exec_pipeline(t_deque *p)
 	fd[1] = IGNORE_STREAM;
 	cmd = pop_front(p);
 	if ((next = pop_front(p)))
-		pipe(fd);
-	status = exec_simple(cmd, IGNORE_STREAM,\
-			next ? fd[1] : IGNORE_STREAM);
+		pipe_wrapper(fd);
+	status = exec_simple(cmd, IGNORE_STREAM, next ? fd[1] : IGNORE_STREAM);
 	while (next)
 	{
 		read_fd = fd[0];
 		if (deque_len(p))
-			pipe(fd);
+			pipe_wrapper(fd);
 		status = exec_simple(next, read_fd,\
 				deque_len(p) ? fd[1] : IGNORE_STREAM);
+		close(read_fd);
+		close(fd[1]);
 		next = pop_front(p);
 	}
 	free(p);

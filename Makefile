@@ -65,6 +65,7 @@ CEXEC = builtin_env.c\
 		env_actions.c\
 		static_env.c\
 		find_exec.c\
+		fd_crutch.c\
 		sync_heredoc.c\
 		task_context.c\
 		task.c\
