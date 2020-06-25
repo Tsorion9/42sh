@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:13:42 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/06/25 03:29:15 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	handle_click_sup(long c)
 	else if (c == TAB_ARROW)
 		completion();
 	else if (c == SHIFT_TAB)
-		add_symbol('\t');
+		add_symbol(' ');
 }
 
 static long	handle_click(void)
