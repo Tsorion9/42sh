@@ -24,9 +24,21 @@ int			ret_winsize(int a)
 
 static void	processing_sigint(int signal_code)
 {
+	int	user_in_lines;
+
 	(void)signal_code;
 	if (have_children_global_request(0, 0))
 		write(2, "\n", 1);
+	if (rp(NULL)->in_readline)
+	{
+		write(STDERR_FILENO, "^C", 2);
+		user_in_lines = str_n() - rp(NULL)->cur_pos[1] + 2;
+		while (user_in_lines-- > 0)
+			write(STDERR_FILENO, "\n", 1);
+		ft_memdel((void **)&(rp(NULL)->user_in));
+		reset_rp_to_start(get_prompt(PS1));
+		write(STDERR_FILENO, get_prompt(PS1), ft_strlen(get_prompt(PS1)));
+	}
 	return ;
 }
 

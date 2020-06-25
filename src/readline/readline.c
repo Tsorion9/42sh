@@ -93,5 +93,6 @@ char		*readline(char *prompt)
 	if (!(ret_user_in = ft_strdup(rp(NULL)->user_in)))
 		exit(1);
 	ft_memdel((void **)&(rp(NULL)->user_in));
+	rp(NULL)->in_readline = 0;
 	return (ret_user_in);
 }

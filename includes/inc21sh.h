@@ -93,6 +93,7 @@ typedef struct			s_rp
 	unsigned short		ws_col;
 	unsigned short		ws_row;
 	size_t				prompt_len;
+	int					in_readline;
 }						t_rp;
 
 /*

@@ -26,5 +26,6 @@ void		reset_rp_to_start(char *new_prompt)
 	rp(NULL)->len = 0;
 	back_to_start_history_rp();
 	rp(NULL)->prompt_len = ft_strlen(new_prompt) + 1;
+	rp(NULL)->in_readline = 1;
 	reset_cur_pos_rp();
 }
