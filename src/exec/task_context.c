@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:49 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 01:48:50 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/25 03:14:01 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int				ignore_ass_for_builtin(t_simple_cmd *cmd)
 		return (0);
 	else if (!ft_strcmp(word, "echo") || !ft_strcmp(word, "env") ||\
 		!ft_strcmp(word, "getenv") || !ft_strcmp(word, "setenv") ||\
-		!ft_strcmp(word, "unsetenv") || !ft_strcmp(word, "exit"))
+		!ft_strcmp(word, "unsetenv") || !ft_strcmp(word, "exit") ||\
+		!ft_strcmp(word, "cd"))
 		return (0);
 	return (1);
 }
