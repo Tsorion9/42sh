@@ -6,11 +6,12 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/25 03:29:15 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/26 21:48:26 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
+#include "gayprompt.h"
 
 int			is_print(long c)
 {
@@ -86,7 +87,7 @@ char		*readline(char *prompt)
 	int		user_in_lines;
 
 	reset_rp_to_start(prompt);
-	write(STDERR_FILENO, prompt, ft_strlen(prompt));
+	gayprompt(prompt);
 	read_till_newline(&user_in_len);
 	user_in_lines = str_n() - rp(NULL)->cur_pos[1];
 	while (user_in_lines-- > 0)
