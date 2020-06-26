@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:43:59 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 18:43:59 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/26 23:28:19 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ typedef enum	e_heredoc_action
 	add_hd,
 	add_fd,
 	pop_fd,
-	is_empty
+	is_empty,
+	total_cleanup
 }				t_heredoc_action;
 
 void			*heredoc_action(t_heredoc_action action, void *data);

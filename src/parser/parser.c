@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:27 by anton             #+#    #+#             */
-/*   Updated: 2020/06/26 18:04:56 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/26 23:35:15 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,12 @@ t_deque	*parser(void)
 		return (NULL);
 	}
 	gather_heredocs();
+	if (fuck_checklist_signal_state(0, 0))
+	{
+		rm_compl_cmd(&command);
+		erase_tokbuf(&tokbuf_g);
+		erase_tokbuf(&tokbuf_l);
+		return (NULL);
+	}
 	return (command);
 }
