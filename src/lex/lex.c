@@ -75,7 +75,8 @@ static t_token	*ret_token(char **user_in, int *need_new_line, int *index)
 
 int				bad__21sh_line(char **user_in, int *need_new_line)
 {
-	int	res_gnl;
+	int		res_gnl;
+	char	flag;
 
 	res_gnl = 1;
 	if (*need_new_line)
@@ -88,7 +89,15 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 		if (!(*user_in) || !(**user_in) || !res_gnl)
 			return (0);
 		else
+		{
 			(*user_in)[ft_strlen(*user_in) - 1] = '\0';
+			if (isatty(STDIN_FILENO))
+			{
+				flag = 0;
+				check_flag(*user_in, &flag);
+				close_backslash(user_in, flag);
+			}
+		}
 	}
 	return (1);
 }

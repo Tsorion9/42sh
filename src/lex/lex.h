@@ -15,6 +15,8 @@
 
 # include "inc21sh.h"
 
+
+void	close_backslash(char **user_in, char flag);
 char	*quoting(void);
 void	close_quote(char **user_in);
 void	read_till_newline(int *user_in_len, \

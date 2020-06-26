@@ -22,19 +22,27 @@ static void		call_lex_error(char flag)
 	reset_exit(1);
 }
 
-static void		init_extra_line(char **extra_line, char flag)
+static void		init_extra_line(char **extra_line, char *flag)
 {
+	size_t	len_extra_line;
+
 	if (isatty(STDIN_FILENO))
 	{
 		*extra_line = readline(get_prompt(PS2));
+		(*extra_line)[ft_strlen(*extra_line) - 1] = '\0';
+		check_flag(*extra_line, flag);
+		close_backslash(extra_line, *flag);
+		len_extra_line = ft_strlen(*extra_line);
+		(*extra_line)[len_extra_line] = '\n';
+		(*extra_line)[len_extra_line + 1] = '\0';
 		if (!(**extra_line))
-			call_lex_error(flag);
+			call_lex_error(*flag);
 	}
 	else
 	{
 		*extra_line = NULL;
 		if (!(get_next_line_wrapper(STDIN_FILENO, extra_line)))
-			call_lex_error(flag);
+			call_lex_error(*flag);
 	}
 }
 
@@ -61,10 +69,9 @@ void			close_quote(char **user_in)
 	}
 	while (flag)
 	{
-		init_extra_line(&extra_line, flag);
+		init_extra_line(&extra_line, &flag);
 		if (!(nuser_in = ft_strjoin(*user_in, extra_line)))
 			reset_exit(1);
-		check_flag(extra_line, &flag);
 		free(*user_in);
 		free(extra_line);
 		*user_in = nuser_in;
