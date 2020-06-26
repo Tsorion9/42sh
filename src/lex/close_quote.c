@@ -24,21 +24,26 @@ static void		call_lex_error(char flag)
 	reset_exit(1);
 }
 
+static void		expand_new_line(char **str)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(*str, "\n");
+	free(*str);
+	*str = tmp;
+}
+
 static void		init_extra_line(char **extra_line, char *flag)
 {
-	size_t	len_extra_line;
-
 	if (isatty(STDIN_FILENO))
 	{
 		*extra_line = readline(get_prompt(PS2));
 		if (!(**extra_line) && !fuck_checklist_signal_state(0, 0))
-			call_lex_error(flag);
+			call_lex_error(*flag);
 		(*extra_line)[ft_strlen(*extra_line) - 1] = '\0';
 		check_flag(*extra_line, flag);
 		close_backslash(extra_line, *flag);
-		len_extra_line = ft_strlen(*extra_line);
-		(*extra_line)[len_extra_line] = '\n';
-		(*extra_line)[len_extra_line + 1] = '\0';
+		expand_new_line(extra_line);
 	}
 	else
 	{
@@ -54,6 +59,7 @@ static void		init_locals(char *flag, int *flagt)
 	*flag = 0;
 }
 
+
 void			close_quote(char **user_in)
 {
 	char	*nuser_in;
@@ -66,12 +72,11 @@ void			close_quote(char **user_in)
 	if (flag)
 	{
 		flagt = 1;
-		(*user_in)[ft_strlen(*user_in) + 1] = '\0';
-		(*user_in)[ft_strlen(*user_in)] = '\n';
+		expand_new_line(user_in);
 	}
 	while (flag)
 	{
-		init_extra_line(&extra_line, flag);
+		init_extra_line(&extra_line, &flag);
 		if (fuck_checklist_signal_state(0, 0))
 		{
 			*user_in = extra_line;
