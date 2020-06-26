@@ -6,11 +6,12 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:17:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:17:19 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/06/26 17:55:39 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lex.h"
+#include "special_signal_token.h"
 
 static int		is_token_assignment_word(char *buf)
 {
@@ -61,11 +62,15 @@ t_token			get_token_word(char **user_in, int *index, t_str *attr)
 	else if ((*user_in)[*index] == '\'' && check_slash(*user_in, *index - 1))
 	{
 		close_quote(user_in);
+		if (fuck_checklist_signal_state(0, 0))
+			return (stack_special_signal_token());
 		return (write_singe_quotes_to_buf(user_in, index, attr));
 	}
 	else if ((*user_in)[*index] == '\"' && check_slash(*user_in, *index - 1))
 	{
 		close_quote(user_in);
+		if (fuck_checklist_signal_state(0, 0))
+			return (stack_special_signal_token());
 		return (write_double_quotes_to_buf(user_in, index, attr));
 	}
 	else if (!(check_slash(*user_in, *index - 1)))

@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:27 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 18:31:27 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/26 18:07:29 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	exit_(
 	}
 	else
 	{
+		if (fuck_checklist_signal_state(0, 0))
+			erase_tokbuf(tokbuf_l);
 		flush_tokbuf(tokbuf_g, tokbuf_l);
 		rm_simple_cmd(*cmd);
 		return (PARSER_FAILURE);

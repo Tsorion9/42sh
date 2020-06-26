@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:16:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/25 02:09:22 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/26 18:01:32 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void		init_extra_line(char **extra_line, char flag)
 		*extra_line = readline(get_prompt(PS2));
 		if (!(**extra_line) && !fuck_checklist_signal_state(0, 0))
 			call_lex_error(flag);
+		if (fuck_checklist_signal_state(0, 0))
+			ft_memdel((void **)extra_line);
 	}
 	else
 	{
