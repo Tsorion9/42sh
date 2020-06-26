@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:18:27 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 20:56:49 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 01:37:09 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,23 @@ void			reset_input_mode(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, set_input_mode(0));
 }
 
+void			set_canon_input_mode(int reset)
+{
+	struct termios			new_settings;
+	static struct termios	g_saved_attribute;
+
+	if (reset)
+	{
+		tcgetattr(STDIN_FILENO, &g_saved_attribute);
+		new_settings = g_saved_attribute;
+		new_settings.c_lflag |= ICANON;
+		new_settings.c_lflag |= ECHO;
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &new_settings);
+	}
+	else
+		tcsetattr(STDIN_FILENO, TCSANOW, &g_saved_attribute);
+}
+
 void			init_terminal(void)
 {
 	char	*termtype;
@@ -49,7 +66,7 @@ void			init_terminal(void)
 	termtype = getenv("TERM");
 	if (termtype == NULL || tgetent(NULL, termtype) != 1)
 	{
-		ft_putstr_fd("error\n", STDERR_FILENO);
+		ft_putstr_fd("Terminal initialisation error\n", STDERR_FILENO);
 		exit(1);
 	}
 	set_input_mode(1);
