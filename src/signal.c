@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:15:38 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 20:15:40 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/26 18:50:58 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ static void	processing_sigwinch(int signal_code)
 
 void		set_signal(void)
 {
-	signal(SIGINT, processing_sigint);
-	signal(SIGWINCH, processing_sigwinch);
+	if (isatty(STDIN_FILENO))
+	{
+		signal(SIGINT, processing_sigint);
+		signal(SIGWINCH, processing_sigwinch);
+	}
 }
