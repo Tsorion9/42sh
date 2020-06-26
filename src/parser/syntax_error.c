@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "inc21sh.h"
 #include "parser.h"
 #include "libft.h"
 
@@ -62,6 +63,8 @@ int		syntax_error_state_action(int request, int param)
 
 void	syntax_error(t_token *token)
 {
+	if (fuck_checklist_signal_state(0, 0))
+		return ;
 	ft_fprintf(2, "%s", "Syntax error at token: ");
 	print_token(token);
 }

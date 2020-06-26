@@ -26,8 +26,10 @@ void	repl(int tty_input)
 	}
 	while (1)
 	{
+		fuck_checklist_signal_state(1, 0);
 		command = parser();
-		exec_cmd(command);
+		if (command)
+			exec_cmd(command);
 	}
 	save_in_file_history(rp(NULL)->history);
 	if (isatty(STDIN_FILENO))

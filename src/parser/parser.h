@@ -15,4 +15,6 @@
 
 # include "inc21sh.h"
 
+int	check_parser_signals(void);
+
 #endif

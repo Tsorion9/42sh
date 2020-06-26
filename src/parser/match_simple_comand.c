@@ -32,7 +32,7 @@ static int	exit_(
 	if (status == PARSER_SUCCESS)
 	{
 		erase_tokbuf(tokbuf_l);
-		return (PARSER_SUCCESS);
+		return (check_parser_signals());
 	}
 	else
 	{
@@ -59,11 +59,11 @@ int			match_simple_command(t_simple_cmd **cmd, t_deque **tokbuf_g)
 		ungett(tokbuf_g, &tokbuf_l);
 		return (exit_(cmd, &tokbuf_l, tokbuf_g,\
 					(prefix_matched == PARSER_FAILURE) ?\
-					PARSER_FAILURE : PARSER_SUCCESS));
+					PARSER_FAILURE : check_parser_signals()));
 	}
 	tok = pop_front(tokbuf_l);
 	push_back(&((*cmd)->wl), tok->attribute);
 	free(tok);
 	match_cmd_suffix(cmd, tokbuf_g);
-	return (exit_(cmd, &tokbuf_l, tokbuf_g, PARSER_SUCCESS));
+	return (exit_(cmd, &tokbuf_l, tokbuf_g, check_parser_signals()));
 }

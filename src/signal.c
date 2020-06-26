@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "inc21sh.h"
+#include "fuck_norme_lexer_state.h"
 
 int			ret_winsize(int a)
 {
@@ -22,6 +23,15 @@ int			ret_winsize(int a)
 	return (w.ws_row);
 }
 
+int			fuck_checklist_signal_state(int need_update, int new_value)
+{
+	static int	signal_arrived;
+
+	if (need_update)
+		signal_arrived = new_value;
+	return (signal_arrived);
+}
+
 static void	processing_sigint(int signal_code)
 {
 	int	user_in_lines;
@@ -29,15 +39,16 @@ static void	processing_sigint(int signal_code)
 	(void)signal_code;
 	if (have_children_global_request(0, 0))
 		write(2, "\n", 1);
-	if (rp(NULL)->in_readline)
+	if (rp(NULL)->in_read)
 	{
-		write(STDERR_FILENO, "^C", 2);
 		user_in_lines = str_n() - rp(NULL)->cur_pos[1] + 2;
 		while (user_in_lines-- > 0)
 			write(STDERR_FILENO, "\n", 1);
 		ft_memdel((void **)&(rp(NULL)->user_in));
 		reset_rp_to_start(get_prompt(PS1));
 		write(STDERR_FILENO, get_prompt(PS1), ft_strlen(get_prompt(PS1)));
+		fuck_checklist_signal_state(1, 1);
+		fuck_norme_lexer_state(1, NULL, NULL, NULL);
 	}
 	return ;
 }

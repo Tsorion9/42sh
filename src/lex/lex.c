@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "lex.h"
+#include "fuck_norme_lexer_state.h"
+#include "special_signal_token.h"
+#include "inc21sh.h"
 
 static void		skip_ws(char *user_in, int *index)
 {
@@ -33,6 +36,8 @@ static t_token	ret_token_sup(char **user_in, int *index, t_str *attr)
 	else if ((*user_in)[*index] == '\'')
 	{
 		close_quote(user_in);
+		if (fuck_checklist_signal_state(0, 0))
+			return (stack_special_signal_token());
 		new_token = write_singe_quotes_to_buf(user_in, index, attr);
 	}
 	else if ((*user_in)[*index] == '&')
@@ -40,6 +45,8 @@ static t_token	ret_token_sup(char **user_in, int *index, t_str *attr)
 	else if ((*user_in)[*index] == '\"')
 	{
 		close_quote(user_in);
+		if (fuck_checklist_signal_state(0, 0))
+			return (stack_special_signal_token());
 		new_token = write_double_quotes_to_buf(user_in, index, attr);
 	}
 	return (new_token);
@@ -99,6 +106,7 @@ t_token			*lex(void)
 	static int	need_new_line;
 	static int	index;
 
+	fuck_norme_lexer_state(0, &user_in, &need_new_line, &index);
 	if (!user_in)
 		need_new_line = 1;
 	if (syntax_error_state_action(SYNTAX_ERROR_STATE_GET, 0) == \
@@ -112,6 +120,10 @@ t_token			*lex(void)
 			SYNTAX_ERROR_STATE_OK);
 	}
 	if (!(bad__21sh_line(&user_in, &need_new_line)))
-		return (new_eof());
+	{
+		return (fuck_checklist_signal_state(0, 0) ? special_signal_token() : new_eof());
+	}
+	if (fuck_checklist_signal_state(0, 0))
+		return (special_signal_token());
 	return (ret_token(&user_in, &need_new_line, &index));
 }

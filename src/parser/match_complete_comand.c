@@ -33,5 +33,5 @@ int	match_complete_command(t_deque **command, t_deque **tokbuf_g)
 		return (PARSER_FAILURE);
 	}
 	erase_tokbuf(&tokbuf_l);
-	return (PARSER_SUCCESS);
+	return (check_parser_signals());
 }

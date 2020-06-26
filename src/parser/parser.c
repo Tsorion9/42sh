@@ -33,8 +33,8 @@ t_deque	*parser(void)
 		erase_tokbuf(&tokbuf_g);
 		if (!isatty(0))
 			exit(-1);
-		syntax_error_state_action(SYNTAX_ERROR_STATE_SET,\
-				SYNTAX_ERROR_STATE_NOT_OK);
+		if (!fuck_checklist_signal_state(0, 0))
+			syntax_error_state_action(SYNTAX_ERROR_STATE_SET, SYNTAX_ERROR_STATE_NOT_OK);
 		return (NULL);
 	}
 	gather_heredocs();

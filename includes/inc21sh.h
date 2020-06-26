@@ -47,6 +47,8 @@
 
 void					set_signal(void);
 int						have_children_global_request(int set_value, int value);
+int						fuck_checklist_signal_state(int need_update,\
+		int new_value);
 char					*get_prompt(int which);
 
 typedef struct			s_str
@@ -94,6 +96,7 @@ typedef struct			s_rp
 	unsigned short		ws_row;
 	size_t				prompt_len;
 	int					in_readline;
+	int					in_read;
 }						t_rp;
 
 /*
@@ -294,7 +297,8 @@ typedef enum			e_token_type
 	clobber = CLOBBER,
 	bang = BANG,
 	lessand = LESS_AND,
-	gr_and = GREATER_AND
+	gr_and = GREATER_AND,
+	signal_token
 }						t_token_type;
 
 /*

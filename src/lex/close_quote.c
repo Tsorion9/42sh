@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "lex.h"
+#include "fuck_norme_lexer_state.h"
+#include "special_signal_token.h"
 
 static void		call_lex_error(char flag)
 {
@@ -27,7 +29,7 @@ static void		init_extra_line(char **extra_line, char flag)
 	if (isatty(STDIN_FILENO))
 	{
 		*extra_line = readline(get_prompt(PS2));
-		if (!(**extra_line))
+		if (!(**extra_line) && !fuck_checklist_signal_state(0, 0))
 			call_lex_error(flag);
 	}
 	else
@@ -62,6 +64,8 @@ void			close_quote(char **user_in)
 	while (flag)
 	{
 		init_extra_line(&extra_line, flag);
+		if (fuck_checklist_signal_state(0, 0))
+			return ;
 		if (!(nuser_in = ft_strjoin(*user_in, extra_line)))
 			reset_exit(1);
 		check_flag(extra_line, &flag);
