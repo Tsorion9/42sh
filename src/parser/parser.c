@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:27 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 00:14:01 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/26 18:04:56 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ t_deque	*parser(void)
 	{
 		rm_compl_cmd(&command);
 		erase_tokbuf(&tokbuf_g);
+		erase_tokbuf(&tokbuf_l);
 		if (!isatty(0))
 			exit(-1);
-		syntax_error_state_action(SYNTAX_ERROR_STATE_SET,\
-				SYNTAX_ERROR_STATE_NOT_OK);
+		if (!fuck_checklist_signal_state(0, 0))
+			syntax_error_state_action(SYNTAX_ERROR_STATE_SET, SYNTAX_ERROR_STATE_NOT_OK);
 		return (NULL);
 	}
 	gather_heredocs();

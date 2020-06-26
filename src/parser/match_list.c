@@ -20,16 +20,16 @@ int	match_list_dash(t_deque **command, t_deque **tokbuf_g)
 	if (gett(tokbuf_g, &tokbuf_l)->token_type != sep)
 	{
 		ungett(tokbuf_g, &tokbuf_l);
-		return (PARSER_SUCCESS);
+		return (check_parser_signals());
 	}
 	if (match_pipeline(command, tokbuf_g) == PARSER_FAILURE)
 	{
 		ungett(tokbuf_g, &tokbuf_l);
-		return (PARSER_SUCCESS);
+		return (check_parser_signals());
 	}
 	match_list_dash(command, tokbuf_g);
 	erase_tokbuf(&tokbuf_l);
-	return (PARSER_SUCCESS);
+	return (check_parser_signals());
 }
 
 int	match_list(t_deque **command, t_deque **tokbuf_g)

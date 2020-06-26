@@ -38,7 +38,9 @@ static long	handle_click(void)
 	long	c;
 
 	c = 0;
+	rp(NULL)->in_read = 1;
 	read(STDIN_FILENO, &c, sizeof(long));
+	rp(NULL)->in_read = 0;
 	if (c == LEFT_ARROW || c == RIGHT_ARROW)
 		move_cursor(c);
 	else if (c == UP_ARROW || c == DOWN_ARROW)

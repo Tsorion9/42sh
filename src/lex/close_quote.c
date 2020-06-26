@@ -6,11 +6,13 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:16:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/25 02:09:22 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/26 18:47:47 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lex.h"
+#include "fuck_norme_lexer_state.h"
+#include "special_signal_token.h"
 
 static void		call_lex_error(char flag)
 {
@@ -29,14 +31,14 @@ static void		init_extra_line(char **extra_line, char *flag)
 	if (isatty(STDIN_FILENO))
 	{
 		*extra_line = readline(get_prompt(PS2));
+		if (!(**extra_line) && !fuck_checklist_signal_state(0, 0))
+			call_lex_error(flag);
 		(*extra_line)[ft_strlen(*extra_line) - 1] = '\0';
 		check_flag(*extra_line, flag);
 		close_backslash(extra_line, *flag);
 		len_extra_line = ft_strlen(*extra_line);
 		(*extra_line)[len_extra_line] = '\n';
 		(*extra_line)[len_extra_line + 1] = '\0';
-		if (!(**extra_line))
-			call_lex_error(*flag);
 	}
 	else
 	{
@@ -69,7 +71,12 @@ void			close_quote(char **user_in)
 	}
 	while (flag)
 	{
-		init_extra_line(&extra_line, &flag);
+		init_extra_line(&extra_line, flag);
+		if (fuck_checklist_signal_state(0, 0))
+		{
+			*user_in = extra_line;
+			return ;
+		}
 		if (!(nuser_in = ft_strjoin(*user_in, extra_line)))
 			reset_exit(1);
 		free(*user_in);

@@ -48,5 +48,5 @@ int			match_pipe_sequence(t_pipeline *pipeline, t_deque **tokbuf_g)
 		return (PARSER_FAILURE);
 	push_front(&(pipeline->commands), cmd);
 	match_pipe_seq_d(pipeline, tokbuf_g);
-	return (PARSER_SUCCESS);
+	return (check_parser_signals());
 }

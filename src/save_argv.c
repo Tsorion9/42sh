@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   save_argv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 18:43:59 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 18:43:59 by anton            ###   ########.fr       */
+/*   Created: 2020/06/25 22:05:04 by anton             #+#    #+#             */
+/*   Updated: 2020/06/25 22:05:23 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+char	**global_argv_request(char **save)
+{
+	static char	**argv;
 
-# include "inc21sh.h"
-
-int	check_parser_signals(void);
-
-#endif
+	if (save)
+	{
+		argv = save;
+		return (argv);
+	}
+	return (argv);
+}

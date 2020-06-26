@@ -44,5 +44,5 @@ int				match_cmd_prefix(t_simple_cmd **cmd, t_deque **tokbubf_g)
 		success = 1;
 	}
 	flush_tokbuf(tokbubf_g, &tokbuf_l);
-	return (any_success > 0 ? PARSER_SUCCESS : PARSER_FAILURE);
+	return (any_success > 0 ? check_parser_signals() : PARSER_FAILURE);
 }
