@@ -75,6 +75,8 @@ void			init_terminal(void)
 void			back_to_start_history_rp(void)
 {
 	if (rp(NULL)->history)
+	{
 		while (rp(NULL)->history->prev)
 			rp(NULL)->history = rp(NULL)->history->prev;
+	}
 }
