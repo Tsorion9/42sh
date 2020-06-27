@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:27 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 23:03:22 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 16:20:40 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	print_op(t_token_type t)
 		ft_fprintf(2, "%s\n", "!");
 	if (t == eof)
 		ft_fprintf(2, "%s\n", "EOF");
+	if (t == __newline)
+		ft_fprintf(2, "%s\n", "'\\n'");
 	else
 		return ;
 }
