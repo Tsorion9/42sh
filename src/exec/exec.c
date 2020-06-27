@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:22 by anton             #+#    #+#             */
-/*   Updated: 2020/06/27 17:26:34 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 22:36:39 by bgian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
 	t_task_context	task_context;
 	int				number_of_heredocs;
 
+	status = 0;
 	number_of_heredocs = n_heredocs(cmd);
 	task_context = init_task_context(cmd, in_pipe, out_pipe);
 	if (!task_context.need_child)
