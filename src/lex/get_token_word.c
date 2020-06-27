@@ -54,12 +54,7 @@ t_token			get_token_word(char **user_in, int *index, t_str *attr)
 {
 	while (is_letter((*user_in)[*index]))
 		write_char_to_buf(*user_in, index, attr);
-	if ((*user_in)[*index] == '&' && (*user_in)[*index + 1] != '>')
-	{
-		write_char_to_buf(*user_in, index, attr);
-		return (get_token_word(user_in, index, attr));
-	}
-	else if ((*user_in)[*index] == '\'' && check_slash(*user_in, *index - 1))
+	if ((*user_in)[*index] == '\'' && check_slash(*user_in, *index - 1))
 	{
 		close_quote(user_in);
 		if (fuck_checklist_signal_state(0, 0))

@@ -40,8 +40,8 @@ static t_token	ret_token_sup(char **user_in, int *index, t_str *attr)
 			return (stack_special_signal_token());
 		new_token = write_singe_quotes_to_buf(user_in, index, attr);
 	}
-	else if ((*user_in)[*index] == '&')
-		new_token = get_token_and_greater(user_in, index, attr);
+	//else if ((*user_in)[*index] == '&')
+	//	new_token = get_token_and_greater(user_in, index, attr);
 	else if ((*user_in)[*index] == '\"')
 	{
 		close_quote(user_in);

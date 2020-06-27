@@ -13,7 +13,7 @@ CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
 				create_and_free_com.c cut_word.c ret_matches.c \
 				ret_possible_matches.c return_path.c
 
-CLEX =	lex.c get_token_and_greater.c get_token_end_line.c \
+CLEX =	lex.c get_token_end_line.c \
 		get_token_greater.c get_token_less.c get_token_number.c \
 		get_token_pipe.c get_token_word.c get_token_line_separator.c \
 		write_quotes_to_buf.c close_quote.c create_attrinute.c \
