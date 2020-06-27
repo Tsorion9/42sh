@@ -130,7 +130,10 @@ t_token			*lex(void)
 	}
 	if (!(bad__21sh_line(&user_in, &need_new_line)))
 	{
-		return (fuck_checklist_signal_state(0, 0) ? special_signal_token() : new_eof());
+		if (isatty(STDIN_FILENO) && (!user_in || !(*user_in)))
+			return (new_eof());
+		return (fuck_checklist_signal_state(0, 0) ? \
+			special_signal_token() : new_eof());
 	}
 	if (fuck_checklist_signal_state(0, 0))
 		return (special_signal_token());
