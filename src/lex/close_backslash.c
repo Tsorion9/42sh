@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lex.h"
+#include "fuck_norme_lexer_state.h"
 
 void			close_backslash(char **user_in, char flag)
 {
@@ -26,6 +27,12 @@ void			close_backslash(char **user_in, char flag)
 		check_slash(*user_in + shift, user_in_len - 2))
 	{
 		extra_line = readline(get_prompt(PS2));
+		if (fuck_checklist_signal_state(0, 0))
+		{
+			extra_line[ft_strlen(extra_line) - 1] = '\0';
+			fuck_norme_lexer_state(1, &extra_line, NULL, NULL);
+			return ;
+		}
 		extra_line[ft_strlen(extra_line) - 1] = '\0';
 		user_in_len = ft_strlen(extra_line);
 		nuser_in = ft_strjoin(*user_in, extra_line);
