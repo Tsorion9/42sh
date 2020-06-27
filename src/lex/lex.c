@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:17:34 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/27 22:34:31 by bgian            ###   ########.fr       */
+/*   Updated: 2020/06/28 01:48:50 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 			}
 		}
 	}
-	return (1);
+	return ((*user_in && ft_strlen(*user_in)) ? 1 : 0);
 }
 
 t_token			*lex(void)

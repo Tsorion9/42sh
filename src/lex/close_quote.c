@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:16:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/26 18:47:47 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 01:35:08 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void		init_extra_line(char **extra_line, char *flag)
 		*extra_line = readline(get_prompt(PS2));
 		if (!(**extra_line) && !fuck_checklist_signal_state(0, 0))
 			call_lex_error(*flag);
-		(*extra_line)[ft_strlen(*extra_line) - 1] = '\0';
+		(*extra_line)[(int)(ft_strlen(*extra_line) - 1) < 0 ? 0 : ft_strlen(*extra_line) - 1] = '\0';
 		check_flag(*extra_line, flag);
 		close_backslash(extra_line, *flag);
 		expand_new_line(extra_line);
@@ -79,7 +79,7 @@ void			close_quote(char **user_in)
 		init_extra_line(&extra_line, &flag);
 		if (fuck_checklist_signal_state(0, 0))
 		{
-			extra_line[ft_strlen(extra_line) - 1] = '\0';
+			extra_line[(int)(ft_strlen(extra_line) - 1) < 0 ? 0 : ft_strlen(extra_line) - 1] = '\0';
 			fuck_norme_lexer_state(1, &extra_line, NULL, NULL);
 			return ;
 		}
@@ -90,5 +90,5 @@ void			close_quote(char **user_in)
 		*user_in = nuser_in;
 	}
 	if (flagt)
-		(*user_in)[ft_strlen(*user_in) - 1] = '\0';
+		(*user_in)[(int)(ft_strlen(extra_line) - 1) < 0 ? 0 : ft_strlen(extra_line) - 1] = '\0';
 }
