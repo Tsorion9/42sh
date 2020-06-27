@@ -198,7 +198,7 @@ int						str_naa(char *user_in);
 void					expand_user_in(void);
 t_rp					*rp(t_rp *change_rp);
 void					inverse_search_index(int cur_pos[2], int index);
-void					reset_rp_to_start(char *p);
+void					reset_rp_to_start(void);
 int						ft_putint(int c);
 char					*readline(char *prompt);
 int						ft_isspace(char c);

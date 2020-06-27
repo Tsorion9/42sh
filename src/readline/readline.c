@@ -85,8 +85,8 @@ char		*readline(char *prompt)
 	int		user_in_len;
 	int		user_in_lines;
 
-	reset_rp_to_start(prompt);
 	write(STDERR_FILENO, prompt, ft_strlen(prompt));
+	reset_rp_to_start();
 	read_till_newline(&user_in_len);
 	user_in_lines = str_n() - rp(NULL)->cur_pos[1];
 	while (user_in_lines-- > 0)
