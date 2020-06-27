@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:16:51 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 20:16:52 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 17:42:08 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,19 @@ void	repl(int tty_input)
 int		main(int ac, char **av, char **environ)
 {
 	int	tty_input;
+	int	fd;
 
-	(void)ac;
-	(void)av;
+	if (ac > 1)
+	{
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
+		{
+			ft_fprintf(2, "21sh: Error! Could not open file: %s\n", av[1]);
+			exit(1);
+		}
+		dup2(fd, 0);
+		close(fd);
+	}
 	static_env_action(init, (void *)environ);
 	if ((tty_input = isatty(STDIN_FILENO)))
 	{
