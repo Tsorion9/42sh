@@ -17,6 +17,7 @@ void		reset_exit(int status)
 	if (isatty(0))
 	{
 		reset_input_mode();
+		//back_to_start_history_rp();
 		save_in_file_history(rp(NULL)->history);
 	}
 	exit(status);

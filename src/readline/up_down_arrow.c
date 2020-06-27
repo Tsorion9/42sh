@@ -23,17 +23,18 @@ static void	up_down_arrow_sup(void)
 	if (!(rp(NULL)->user_in = (char*)xmalloc(sizeof(char) * rp(NULL)->max_len)))
 		reset_exit(1);
 	ft_strcpy(rp(NULL)->user_in, rp(NULL)->history->str);
-	ft_putstr(rp(NULL)->user_in);
+	ft_putstr_fd(rp(NULL)->user_in, STDERR_FILENO);
 	rp(NULL)->len = ft_strlen(rp(NULL)->user_in);
 	cur_pos_after_putstr(rp(NULL)->cur_pos);
 }
 
 void		up_down_arrow(long c)
 {
-	if (ft_strcmp(rp(NULL)->user_in, rp(NULL)->history->str) != 0)
+	if (ft_strcmp(rp(NULL)->user_in, rp(NULL)->history->str))
 	{
 		free(rp(NULL)->history->str);
 		rp(NULL)->history->str = ft_strdup(rp(NULL)->user_in);
+		rp(NULL)->history->len = ft_strlen(rp(NULL)->history->str);
 	}
 	if (c == UP_ARROW && rp(NULL)->history->next != NULL)
 	{

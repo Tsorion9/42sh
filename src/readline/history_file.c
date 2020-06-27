@@ -45,7 +45,7 @@ void		load_on_file_history(t_history *history)
 		if (c == '\n')
 		{
 			str->buf[str->index] = '\0';
-			add_to_start_history(history, str->buf, str->index);
+			add_to_start_history(history, str->buf, ft_strlen(str->buf));
 			str->index = 0;
 		}
 		else
