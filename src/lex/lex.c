@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:17:34 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/28 01:48:50 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 02:01:27 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 {
 	int		res_gnl;
 	char	flag;
+	int		newline_erased;
 
+	newline_erased = 0;
 	res_gnl = 1;
 	if (*need_new_line)
 	{
@@ -97,6 +99,7 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 			return (0);
 		else
 		{
+			newline_erased = 1;
 			(*user_in)[ft_strlen(*user_in) - 1] = '\0';
 			if (isatty(STDIN_FILENO))
 			{
@@ -106,7 +109,7 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 			}
 		}
 	}
-	return ((*user_in && ft_strlen(*user_in)) ? 1 : 0);
+	return ((newline_erased || (*user_in && ft_strlen(*user_in))) ? 1 : 0);
 }
 
 t_token			*lex(void)
