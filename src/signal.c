@@ -12,6 +12,7 @@
 
 #include "inc21sh.h"
 #include "fuck_norme_lexer_state.h"
+#include "gayprompt.h"
 
 int			ret_winsize(int a)
 {
@@ -45,7 +46,7 @@ static void	processing_sigint(int signal_code)
 		while (user_in_lines-- > 0)
 			write(STDERR_FILENO, "\n", 1);
 		ft_memdel((void **)&(rp(NULL)->user_in));
-		write(STDERR_FILENO, get_prompt(PS1), ft_strlen(get_prompt(PS1)));
+		gayprompt(get_prompt(PS1));
 		reset_rp_to_start();
 		fuck_checklist_signal_state(1, 1);
 		fuck_norme_lexer_state(1, NULL, NULL, NULL);

@@ -79,7 +79,8 @@ void			close_quote(char **user_in)
 		init_extra_line(&extra_line, &flag);
 		if (fuck_checklist_signal_state(0, 0))
 		{
-			*user_in = extra_line;
+			extra_line[ft_strlen(extra_line) - 1] = '\0';
+			fuck_norme_lexer_state(1, &extra_line, NULL, NULL);
 			return ;
 		}
 		if (!(nuser_in = ft_strjoin(*user_in, extra_line)))
