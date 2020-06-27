@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:33 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 01:48:34 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/26 22:08:11 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ t_builtin	get_builtin(char *name)
 		return (&builtin_unsetenv);
 	if (!ft_strcmp(name, "exit"))
 		return (&builtin_exit);
+	if (!ft_strcmp(name, "21shopt"))
+		return (&builtin_21shopt);
 	return (NULL);
 }

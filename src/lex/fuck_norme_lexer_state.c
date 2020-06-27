@@ -14,6 +14,12 @@ void	fuck_norme_lexer_state(int need_update, char **u_in,\
 	if (need_update)
 	{
 		ft_memdel((void **)user_in);
+		if (u_in)
+		{
+			*user_in = *u_in;
+			*need_new_line = 0;
+			return ;
+		}
 		*need_new_line = 1;
 		*index = 0;
 	}

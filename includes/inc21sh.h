@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 20:56:29 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 01:14:40 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 # include "command.h"
 # include "deque.h"
 
+
+void					set_canon_input_mode(int reset);
 void					set_signal(void);
 int						have_children_global_request(int set_value, int value);
 int						fuck_checklist_signal_state(int need_update,\

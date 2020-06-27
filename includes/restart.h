@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reset_exit.c                                       :+:      :+:    :+:   */
+/*   restart.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/24 20:18:17 by anton             #+#    #+#             */
-/*   Updated: 2020/06/27 01:43:25 by anton            ###   ########.fr       */
+/*   Created: 2020/06/25 22:17:34 by anton             #+#    #+#             */
+/*   Updated: 2020/06/25 22:18:23 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#ifndef RESTART_H
+# define RESTART_H
 
-void		reset_exit(int status)
-{
-	if (isatty(0))
-	{
-		reset_input_mode();
-		back_to_start_history_rp();
-		save_in_file_history(rp(NULL)->history);
-	}
-	exit(status);
-}
+int	restart_shell(void);
+
+#endif

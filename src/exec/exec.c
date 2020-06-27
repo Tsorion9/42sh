@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:22 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 18:57:31 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 01:34:21 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int			exec_cmd(t_deque *cmd)
 	int			last_status;
 
 	last_status = 1;
+	set_canon_input_mode(1);
 	while ((pipeline = pop_front(cmd)))
 	{
 		expand_pipeline(pipeline);
@@ -117,5 +118,6 @@ int			exec_cmd(t_deque *cmd)
 		free(pipeline);
 	}
 	free(cmd);
+	set_canon_input_mode(0);
 	return (last_status);
 }
