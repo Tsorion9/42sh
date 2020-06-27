@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:39 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 19:28:45 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 16:55:54 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	get_oflags(t_token_type op)
 	if (op == less)
 		return (O_RDONLY);
 	if (op == greater)
-		return (O_WRONLY | O_CREAT);
+		return (O_WRONLY | O_CREAT | O_TRUNC);
 	if (op == dgreat)
 		return (O_WRONLY | O_APPEND | O_CREAT);
 	return (0);
@@ -108,7 +108,10 @@ int			make_assignments_redirections(t_simple_cmd *cmd)
 		{
 			any_errors = make_io_redir((t_io_redir *)ar->data);
 			if (any_errors)
+			{
+				rm_ar(ar);
 				return (1);
+			}
 		}
 		rm_ar(ar);
 	}

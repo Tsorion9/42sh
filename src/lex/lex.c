@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:17:34 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/25 02:05:12 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 22:34:31 by bgian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static t_token	ret_token_sup(char **user_in, int *index, t_str *attr)
 {
 	t_token	new_token;
 
+	new_token.token_type = 0;
+	new_token.attribute = 0;
 	if ((*user_in)[*index] == '<')
 		new_token = get_token_less(*user_in, index);
 	else if ((*user_in)[*index] == '|')

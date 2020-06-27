@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:32:48 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 18:08:45 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 16:48:10 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ int			task(t_simple_cmd *cmd, t_task_context *task_context)
 
 	enter_task_context(task_context);
 	status = make_assignments_redirections(cmd);
-	if (status == 1)
+	if (status && task_context->need_child)
+		exit(1);
+	if (status)
 		return (1);
 	if (deque_len(cmd->wl) == 0)
 		return (cleanup_(cmd, task_context));
