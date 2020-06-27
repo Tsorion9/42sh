@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:42 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 19:23:00 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 16:50:14 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	normal_redirection(t_io_redir *redir)
 	if (copy == -1)
 	{
 		close(redir->fd);
-		return (0);
+		return (1);
 	}
 	dup2_wrapper(copy, redir->fd);
 	close(copy);
