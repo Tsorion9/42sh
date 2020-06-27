@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:27:07 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 19:27:19 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/27 17:33:01 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 
 # define PIPE_FAIL_ERRMSG "Warning! pipe() failed.\n"
 # define BAD_FD_ERRMSG "Warning! Bad fd.\n"
+# define RO_REDIR_FD "21sh: Error! Attempt to redirect into closed fd"
 
 #endif
