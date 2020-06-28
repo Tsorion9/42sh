@@ -50,6 +50,9 @@ static void		init_extra_line(char **extra_line, char *flag)
 		*extra_line = NULL;
 		if (!(get_next_line_wrapper(STDIN_FILENO, extra_line)))
 			call_lex_error(*flag);
+		(*extra_line)[(int)(ft_strlen(*extra_line) - 1) < 0 ? 0 : ft_strlen(*extra_line) - 1] = '\0';
+		check_flag(*extra_line, flag);
+		expand_new_line(extra_line);
 	}
 }
 
@@ -90,5 +93,5 @@ void			close_quote(char **user_in)
 		*user_in = nuser_in;
 	}
 	if (flagt)
-		(*user_in)[(int)(ft_strlen(extra_line) - 1) < 0 ? 0 : ft_strlen(extra_line) - 1] = '\0';
+		(*user_in)[(int)(ft_strlen(*user_in) - 1) < 0 ? 0 : ft_strlen(*user_in) - 1] = '\0';
 }
