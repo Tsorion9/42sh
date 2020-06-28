@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 12:58:56 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 13:06:28 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 13:39:59 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static char		*temporary_readline_wrapper(char *prompt)
 		s = readline(prompt);
 		if (fuck_checklist_signal_state(0, 0))
 		{
-			s[ft_strlen(s) > 0 ? ft_strlen(s) - 1 : 0] = 0;
+			if (ft_strcmp(s, "\n"))
+				s[ft_strlen(s) > 0 ? ft_strlen(s) - 1 : 0] = 0;
 			fuck_norme_lexer_state(1, &s, 0, 0);
 			return (NULL);
 		}
