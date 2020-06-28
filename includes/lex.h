@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:17:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/25 02:06:12 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 11:32:05 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define LEX_H
 
 # include "inc21sh.h"
-
 
 void	close_backslash(char **user_in, char flag);
 char	*quoting(void);

@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/06/27 22:34:58 by bgian            ###   ########.fr       */
+/*   Updated: 2020/06/28 11:33:30 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@
 # define CLOSE_STREAM "-"
 # include "command.h"
 # include "deque.h"
-
 
 void					set_canon_input_mode(int reset);
 void					set_signal(void);
@@ -147,16 +146,15 @@ typedef struct			s_token
 # define UP_ARROW  4283163
 # define DOWN_ARROW 4348699
 
-
 # define TAB_ARROW 9
 
 # if defined(__APPLE__) || defined(__NetBSD__)
 
-#   define ALT_LEFT_ARROW 25115
-#   define ALT_RIGHT_ARROW 26139
+#  define ALT_LEFT_ARROW 25115
+#  define ALT_RIGHT_ARROW 26139
 
-#   define __S_IREAD S_IRUSR
-#   define __S_IWRITE S_IWUSR
+#  define __S_IREAD S_IRUSR
+#  define __S_IWRITE S_IWUSR
 
 # else
 
