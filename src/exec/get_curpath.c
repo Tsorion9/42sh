@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:34 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 11:34:53 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 23:29:56 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char			*get_curpath(char **args, t_env env)
 	{
 		if (!(home = ft_getenv(env, "HOME")) || !*home)
 		{
-			ft_putstr_fd("minishell: cd: HOME not set (or set to NULL)\n", 2);
+			ft_putstr_fd("21sh: cd: HOME not set (or set to NULL)\n", 2);
 			return (NULL);
 		}
 		directory = home;
