@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:18:27 by anton             #+#    #+#             */
-/*   Updated: 2020/06/27 01:37:09 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 23:41:02 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void			set_canon_input_mode(int reset)
 	struct termios			new_settings;
 	static struct termios	g_saved_attribute;
 
+	if (!isatty(0))
+		return ;
 	if (reset)
 	{
 		tcgetattr(STDIN_FILENO, &g_saved_attribute);

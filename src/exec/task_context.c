@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:49 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 11:34:54 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/29 00:11:23 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void			enter_task_context(t_task_context *task_context)
 		dup2_wrapper(task_context->in_pipe, 0);
 		close(task_context->in_pipe);
 	}
-	else if (task_context->out_pipe != IGNORE_STREAM)
+	else if (task_context->out_pipe != IGNORE_STREAM &&\
+			task_context->need_child)
 		close(fd_crutch(NULL)[0]);
 	if (task_context->out_pipe != IGNORE_STREAM)
 	{
