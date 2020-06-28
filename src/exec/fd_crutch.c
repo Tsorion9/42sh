@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 18:53:46 by anton             #+#    #+#             */
-/*   Updated: 2020/06/25 19:26:55 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 02:45:34 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,5 @@ int		dup2_wrapper(int old_fd, int new_fd)
 	int	res;
 
 	res = dup2(old_fd, new_fd);
-	if (res == -1)
-		write(2, BAD_FD_ERRMSG, sizeof(BAD_FD_ERRMSG));
 	return (res);
 }
