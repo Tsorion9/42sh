@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:18 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 11:34:51 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 22:59:17 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,16 @@
 int	builtin_echo(char **args, t_env env, int subshell)
 {
 	int	minus_n_flag;
-	int	i;
 
 	(void)env;
 	(void)subshell;
 	minus_n_flag = 0;
-	i = 0;
 	if (!*args)
 		return (1);
 	if (!ft_strcmp(args[0], "-n"))
 	{
 		minus_n_flag = 1;
-		i++;
+		args++;
 	}
 	while (*args)
 	{
