@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 11:33:30 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 16:25:13 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # include "command.h"
 # include "deque.h"
 
+int						last_cmd_status(int need_update, int new_value);
 void					set_canon_input_mode(int reset);
 void					set_signal(void);
 int						have_children_global_request(int set_value, int value);
