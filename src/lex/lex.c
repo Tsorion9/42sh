@@ -119,8 +119,11 @@ t_token			*lex(void)
 	static int	index;
 
 	fuck_norme_lexer_state(0, &user_in, &need_new_line, &index);
-	if (!user_in)
+	if (!user_in || user_in[0] == '\n')
+	{
+		ft_memdel((void **)&user_in);
 		need_new_line = 1;
+	}
 	if (syntax_error_state_action(SYNTAX_ERROR_STATE_GET, 0) == \
 		SYNTAX_ERROR_STATE_NOT_OK)
 	{
