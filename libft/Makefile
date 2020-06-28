@@ -23,15 +23,54 @@ SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memchr.c ft_memcmp.c \
 	  ft_putnbr.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 	  ft_putnbr_fd.c ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c \
 	  ft_lstiter.c ft_lstmap.c ft_memmove.c ft_strlcat.c get_next_line.c \
-	  ft_freestrsplit.c
+	  ft_freestrsplit.c \
+	ftoa/decimal_arithmetic2.c\
+	ftoa/decimal_arithmetic3.c\
+	ftoa/decimal_arithmetic4.c\
+	ftoa/decimal_arithmetic5.c\
+	ftoa/decimal_arithmetic.c\
+	ftoa/ftoa2.c\
+	ftoa/ftoa.c\
+	ft_printf/apply_spec2.c\
+	ft_printf/apply_spec3.c\
+	ft_printf/apply_spec4.c\
+	ft_printf/apply_spec5.c\
+	ft_printf/apply_spec6.c\
+	ft_printf/apply_spec.c\
+	ft_printf/arg_extractors2.c\
+	ft_printf/arg_extractors.c\
+	ft_printf/conv_int2.c\
+	ft_printf/conv_int.c\
+	ft_printf/conv_other.c\
+	ft_printf/conv_wrappers_int2.c\
+	ft_printf/conv_wrappers_int.c\
+	ft_printf/conv_wrappers_other.c\
+	ft_printf/find_action.c\
+	ft_printf/fprintf.c\
+	ft_printf/printf.c\
+	ft_printf/read_spec2.c\
+	ft_printf/read_spec.c\
+	ft_itoa_base.c\
+	ft_strrev.c\
+	ft_ptree_to_kvpairs.c\
+	ft_ptree.c\
+	ft_path_append.c\
+	ft_copy_ptree.c\
+	ft_straddchar.c\
+	ft_lstlen.c\
+	ft_lstnew_inplace.c\
+	get_next_line_wrapper.c\
+	xmalloc.c
+
+
 OBJ = $(patsubst %.c,%.o,$(SRC))
 CC = gcc
 INCLUDE = includes
-CFLAGS = -I $(INCLUDE)
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE) -I ft_printf -I ftoa
 DFLAGS = $(CFLAGS) -g
 
 %.o: %.c
-	$(CC) $(DFLAGS) -c $<
+	$(CC) $(DFLAGS) -c -o $@ $<
 
 $(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)

@@ -45,7 +45,7 @@ char		*ft_strtrim(const char *s)
 	if (s == NULL)
 		return (NULL);
 	size = ft_size_strtrim(s);
-	if (!(res = (char*)malloc(sizeof(char) * (size + 1))))
+	if (!(res = (char*)xmalloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	i = 0;
 	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')

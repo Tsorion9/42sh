@@ -1,0 +1,4 @@
+
+setenv a b
+echo $a
+

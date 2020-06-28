@@ -1,56 +1,64 @@
-#include "21sh.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/24 20:16:51 by anton             #+#    #+#             */
+/*   Updated: 2020/06/28 16:26:47 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int			ft_putint(int c)
+#include "inc21sh.h"
+#include "static_env.h"
+
+void	repl(int tty_input)
 {
-	return (write(STDOUT_FILENO, &c, 1));
-}
+	t_deque		*command;
 
-void		set_term_settings(void)
-{
-	struct termios	new_settings;
-
-	tcgetattr(STDIN_FILENO, &g_settings);
-	new_settings = g_settings;
-	new_settings.c_lflag &= ~ICANON;
-	new_settings.c_lflag &= ~ECHO;
-	new_settings.c_cc[VTIME] = 0;
-	new_settings.c_cc[VMIN] = 1;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_settings);
-}
-
-void	    return_term_settings(void)
-{
-	tcsetattr(STDIN_FILENO, TCSANOW, &g_settings);
-}
-
-void        start_program(char **env)
-{
-    char *str = readline();
-	while (ft_strcmp(str, "exit\n") != 0)
+	(void)tty_input;
+	command = NULL;
+	if (isatty(STDIN_FILENO))
 	{
-		write(STDIN_FILENO, "\n", 1);
-		str = expansion(str, env);
-		ft_putstr(str);
-		free(str);
-		str = readline();
+		rp(init_rp());
+		load_on_file_history(rp(NULL)->history);
 	}
+	while (1)
+	{
+		fuck_checklist_signal_state(1, 0);
+		command = parser();
+		if (command)
+			last_cmd_status(1, exec_cmd(command));
+	}
+	save_in_file_history(rp(NULL)->history);
+	if (isatty(STDIN_FILENO))
+		free_rp();
 }
 
-int         main(int ac, char **av, char **environ)
+int		main(int ac, char **av, char **environ)
 {
-    char	*termtype;
-	char	room_termtype[2048];
+	int	tty_input;
+	int	fd;
 
-	termtype = getenv("TERM");
-	if (termtype == NULL || tgetent(room_termtype, termtype) != 1)
+	if (ac > 1)
 	{
-		ft_putstr("error\n");
-		exit(0);
-    }
-    (void)ac;
-    (void)av;
-    set_term_settings();
-    start_program(environ);
-    return_term_settings();
-    return (0);
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
+		{
+			ft_fprintf(2, "21sh: Error! Could not open file: %s\n", av[1]);
+			exit(1);
+		}
+		dup2(fd, 0);
+		close(fd);
+	}
+	static_env_action(init, (void *)environ);
+	if ((tty_input = isatty(STDIN_FILENO)))
+	{
+		init_terminal();
+		init_prompt();
+	}
+	set_signal();
+	repl(tty_input);
+	return (0);
 }

@@ -1,0 +1,6 @@
+
+echo a>remove_me
+echo a>>remove_me
+cat remove_me
+cat <remove_me
+rm -f remove_me

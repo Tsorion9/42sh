@@ -1,0 +1,9 @@
+
+
+cat <<a
+l1
+l2
+"" asd
+'' asdsad
+a
+

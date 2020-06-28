@@ -1,0 +1,8 @@
+
+ls -tr1 -l | grep src | wc -l | xargs echo | cat | cat > 1.txt; cat 1.txt ; cat < 1.txt | cat ; cat <<a
+
+asd
+dfg
+
+g
+a

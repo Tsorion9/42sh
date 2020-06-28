@@ -1,0 +1,6 @@
+
+exit | cat					#should not exit
+
+a=c; a=b echo $a			#expected "c"
+
+a=b; a=ccccccc | echo $a	#expected "b"

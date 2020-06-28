@@ -1,0 +1,10 @@
+21sh
+*.dSYM
+*.o
+.D*
+.*.swp
+*cscope*
+cscope.files
+cscope.out
+tags
+**/*.d

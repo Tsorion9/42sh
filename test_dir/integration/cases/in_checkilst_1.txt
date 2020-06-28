@@ -1,0 +1,2 @@
+
+foo 2>&1 | wc -l | tail -n 1  

@@ -1,0 +1,2 @@
+
+a=remove_me ;unsetenv a; ls >$a ;rm -f $a
