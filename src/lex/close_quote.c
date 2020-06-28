@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:16:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/28 01:35:08 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 21:46:12 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ static void		init_extra_line(char **extra_line, char *flag)
 		*extra_line = readline(get_prompt(PS2));
 		if (!(**extra_line) && !fuck_checklist_signal_state(0, 0))
 			call_lex_error(*flag);
+
+		if (fuck_checklist_signal_state(0, 0) && **extra_line == '\n')
+		{
+			global_close_quote_newline_erased(1, 1);
+		}
+
 		(*extra_line)[(int)(ft_strlen(*extra_line) - 1) < 0 ? 0 : \
 			ft_strlen(*extra_line) - 1] = '\0';
 		check_flag(*extra_line, flag);
@@ -65,13 +71,13 @@ static void		init_locals(char *flag, int *flagt, char *user_in)
 	check_flag(user_in, flag);
 }
 
-int				global_close_quote_newline_eraste(int need_update, int value)
+int				global_close_quote_newline_erased(int need_update, int value)
 {
-	static int	newline_eraste;
+	static int	newline_erased;
 
 	if (need_update)
-		newline_eraste = value;
-	return (newline_eraste);
+		newline_erased = value;
+	return (newline_erased);
 }
 
 void			close_quote(char **user_in)
@@ -91,11 +97,7 @@ void			close_quote(char **user_in)
 		init_extra_line(&extra_line, &flag);
 		if (fuck_checklist_signal_state(0, 0))
 		{
-			if (ft_strlen(extra_line) && \
-				extra_line[0] == '\n')
-				global_close_quote_newline_eraste(1, 1);
-			extra_line[(int)(ft_strlen(extra_line) - 1) < 0 ? 0 : \
-				ft_strlen(extra_line) - 1] = '\0';
+			extra_line[(int)(ft_strlen(extra_line) - 1) < 0 ? 0 : ft_strlen(extra_line) - 1] = '\0';
 			fuck_norme_lexer_state(1, &extra_line, NULL, NULL);
 			return ;
 		}

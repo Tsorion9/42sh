@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:53:21 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/28 16:53:22 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/06/28 22:43:21 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void		ret_token_sup1(char **user_in, int *index, t_str *attr, \
 	close_quote(user_in);
 	if (fuck_checklist_signal_state(0, 0))
 		*new_token = stack_special_signal_token();
-	*new_token = write_singe_quotes_to_buf(user_in, index, attr);
+	else
+		*new_token = write_singe_quotes_to_buf(user_in, index, attr);
 }
 
 static t_token	ret_token_sup(char **user_in, int *index, t_str *attr)
