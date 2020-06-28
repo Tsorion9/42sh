@@ -17,7 +17,7 @@ t_token	get_token_number(char **user_in, int *index, t_str *attr, \
 {
 	t_token	ret_token;
 
-	while (is_digit((*user_in)[*index]))
+	while (*index <= (int)ft_strlen(*user_in) && is_digit((*user_in)[*index]))
 		write_char_to_buf(*user_in, index, attr);
 	if ((*user_in)[*index] == '>' || (*user_in)[*index] == '<')
 	{

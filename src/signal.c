@@ -13,6 +13,7 @@
 #include "inc21sh.h"
 #include "fuck_norme_lexer_state.h"
 #include "gayprompt.h"
+#include "lex.h"
 
 int			ret_winsize(int a)
 {
@@ -50,6 +51,7 @@ static void	processing_sigint(int signal_code)
 		reset_rp_to_start();
 		fuck_checklist_signal_state(1, 1);
 		fuck_norme_lexer_state(1, NULL, NULL, NULL);
+		global_newline_erased(1, 0);
 	}
 	return ;
 }

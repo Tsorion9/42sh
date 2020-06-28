@@ -65,6 +65,15 @@ static void		init_locals(char *flag, int *flagt, char *user_in)
 	check_flag(user_in, flag);
 }
 
+int				global_close_quote_newline_eraste(int need_update, int value)
+{
+	static int	newline_eraste;
+
+	if (need_update)
+		newline_eraste = value;
+	return (newline_eraste);
+}
+
 void			close_quote(char **user_in)
 {
 	char	*extra_line;
@@ -82,6 +91,9 @@ void			close_quote(char **user_in)
 		init_extra_line(&extra_line, &flag);
 		if (fuck_checklist_signal_state(0, 0))
 		{
+			if (ft_strlen(extra_line) && \
+				extra_line[0] == '\n')
+				global_close_quote_newline_eraste(1, 1);
 			extra_line[(int)(ft_strlen(extra_line) - 1) < 0 ? 0 : \
 				ft_strlen(extra_line) - 1] = '\0';
 			fuck_norme_lexer_state(1, &extra_line, NULL, NULL);

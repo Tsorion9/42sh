@@ -52,16 +52,18 @@ static t_token	get_token_word_sup(t_str *attr)
 
 t_token			get_token_word(char **user_in, int *index, t_str *attr)
 {
-	while (is_letter((*user_in)[*index]))
+	while (*index <= (int)ft_strlen(*user_in) && is_letter((*user_in)[*index]))
 		write_char_to_buf(*user_in, index, attr);
-	if ((*user_in)[*index] == '\'' && check_slash(*user_in, *index - 1))
+	if (*index <= (int)ft_strlen(*user_in) && (*user_in)[*index] == '\'' && \
+		check_slash(*user_in, *index - 1))
 	{
 		close_quote(user_in);
 		if (fuck_checklist_signal_state(0, 0))
 			return (stack_special_signal_token());
 		return (write_singe_quotes_to_buf(user_in, index, attr));
 	}
-	else if ((*user_in)[*index] == '\"' && check_slash(*user_in, *index - 1))
+	else if (*index <= (int)ft_strlen(*user_in) && \
+		(*user_in)[*index] == '\"' && check_slash(*user_in, *index - 1))
 	{
 		close_quote(user_in);
 		if (fuck_checklist_signal_state(0, 0))

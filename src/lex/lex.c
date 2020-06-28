@@ -26,7 +26,8 @@ int				global_newline_erased(int need_update, int new_value)
 
 void			bad__21sh_line_sup(char **user_in, char *flag)
 {
-	global_newline_erased(1, 1);
+	if ((*user_in)[0] == '\n')
+		global_newline_erased(1, 1);
 	(*user_in)[ft_strlen(*user_in) - 1] = '\0';
 	if (isatty(STDIN_FILENO))
 	{
@@ -81,11 +82,14 @@ t_token			*lex(void)
 	static int	index;
 
 	fuck_norme_lexer_state(0, &user_in, &need_new_line, &index);
-	if ((!user_in || user_in[0] == '\n') || (global_newline_erased(0, 0) && \
-		!*user_in))
+	if ((!user_in || user_in[0] == '\n') \
+		|| (global_newline_erased(0, 0) && !*user_in) \
+		|| global_close_quote_newline_eraste(0, 0))
 	{
 		ft_memdel((void **)&user_in);
 		need_new_line = 1;
+		global_newline_erased(1, 0);
+		global_close_quote_newline_eraste(1, 0);
 	}
 	lex_check_syntax_err(&user_in, &need_new_line, &index);
 	if (!(bad__21sh_line(&user_in, &need_new_line)))

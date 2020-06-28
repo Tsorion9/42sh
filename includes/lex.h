@@ -15,6 +15,8 @@
 
 # include "inc21sh.h"
 
+int		global_close_quote_newline_eraste(int need_update, int value);
+int		global_newline_erased(int need_update, int new_value);
 t_token	*ret_token(char **user_in, int *need_new_line, int *index);
 void	init_new_user_in(char **user_in, char *extra_line);
 void	close_backslash(char **user_in, char flag);

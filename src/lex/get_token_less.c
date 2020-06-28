@@ -18,12 +18,12 @@ t_token	get_token_less(char *user_in, int *index)
 
 	ret_token.token_type = LESS;
 	(*index)++;
-	if (user_in[*index] == '<')
+	if (*index <= (int)ft_strlen(user_in) && user_in[*index] == '<')
 	{
 		ret_token.token_type = LESS_LESS;
 		(*index)++;
 	}
-	else if (user_in[*index] == '&')
+	else if (*index <= (int)ft_strlen(user_in) && user_in[*index] == '&')
 	{
 		ret_token.token_type = LESS_AND;
 		(*index)++;
