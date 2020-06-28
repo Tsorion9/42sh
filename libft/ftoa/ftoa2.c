@@ -25,7 +25,7 @@ void					fill_t_float(long double x, t_float *num, int precision)
 		num->precision = 6;
 }
 
-int						abs(int x)
+int						abs_(int x)
 {
 	return (x >= 0 ? x : -x);
 }
@@ -53,7 +53,7 @@ char					*eval_power_sum(t_float *num, int power_of2)
 	cut_float(num, &power_of2);
 	positive_ascii_to(&accum, "0");
 	positive_ascii_to(&total, power_of2 > 0 ? "2" : "0.5");
-	power_positive_decimal(&total, abs(power_of2));
+	power_positive_decimal(&total, abs_(power_of2));
 	while (num->mask_shift < 64)
 	{
 		if (num->mant_mask >> num->mask_shift & num->mant)

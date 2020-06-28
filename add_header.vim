@@ -1,2 +1,0 @@
-Stdheader
-wq

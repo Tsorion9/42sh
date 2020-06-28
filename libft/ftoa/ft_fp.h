@@ -52,7 +52,7 @@ typedef struct			s_float
 char					*ftoa(long double x, int precision);
 void					fill_t_float(long double x, t_float *num, \
 								int precision);
-int						abs(int x);
+int						abs_(int x);
 void					cut_float(t_float *num, int *power_of2);
 char					*eval_power_sum(t_float *num, int power_of2);
 char					*normal_case(t_float *num);
