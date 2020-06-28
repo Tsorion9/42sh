@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:16:51 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 13:55:24 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 16:26:47 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	repl(int tty_input)
 		fuck_checklist_signal_state(1, 0);
 		command = parser();
 		if (command)
-			exec_cmd(command);
+			last_status(1, exec_cmd(command));
 	}
 	save_in_file_history(rp(NULL)->history);
 	if (isatty(STDIN_FILENO))
