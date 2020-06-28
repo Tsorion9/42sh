@@ -80,13 +80,21 @@ static t_token	*ret_token(char **user_in, int *need_new_line, int *index)
 	return (copy_init_token(new_token));
 }
 
+int				global_newline_erased(int need_update, int new_value)
+{
+	static int	newline_erased;
+
+	if (need_update)
+		newline_erased = new_value;
+	return (newline_erased);
+}
+
 int				bad__21sh_line(char **user_in, int *need_new_line)
 {
 	int		res_gnl;
 	char	flag;
-	int		newline_erased;
 
-	newline_erased = 0;
+	global_newline_erased(1, 0);
 	res_gnl = 1;
 	if (*need_new_line)
 	{
@@ -99,7 +107,7 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 			return (0);
 		else
 		{
-			newline_erased = 1;
+			global_newline_erased(1, 1);
 			(*user_in)[ft_strlen(*user_in) - 1] = '\0';
 			if (isatty(STDIN_FILENO))
 			{
@@ -109,7 +117,7 @@ int				bad__21sh_line(char **user_in, int *need_new_line)
 			}
 		}
 	}
-	return ((newline_erased || (*user_in && ft_strlen(*user_in))) ? 1 : 0);
+	return ((global_newline_erased(0, 0) || (*user_in && ft_strlen(*user_in))) ? 1 : 0);
 }
 
 t_token			*lex(void)
@@ -119,7 +127,7 @@ t_token			*lex(void)
 	static int	index;
 
 	fuck_norme_lexer_state(0, &user_in, &need_new_line, &index);
-	if (!user_in || user_in[0] == '\n')
+	if ((!user_in || user_in[0] == '\n') || (global_newline_erased(0, 0) && !*user_in))
 	{
 		ft_memdel((void **)&user_in);
 		need_new_line = 1;
