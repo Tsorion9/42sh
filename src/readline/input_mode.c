@@ -71,12 +71,3 @@ void			init_terminal(void)
 	}
 	set_input_mode(1);
 }
-
-void			back_to_start_history_rp(void)
-{
-	if (rp(NULL)->history)
-	{
-		while (rp(NULL)->history->prev)
-			rp(NULL)->history = rp(NULL)->history->prev;
-	}
-}

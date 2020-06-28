@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reset_exit.c                                       :+:      :+:    :+:   */
+/*   init_new_user_in.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/24 20:18:17 by anton             #+#    #+#             */
-/*   Updated: 2020/06/27 01:43:25 by anton            ###   ########.fr       */
+/*   Created: 2020/06/28 16:53:27 by mphobos           #+#    #+#             */
+/*   Updated: 2020/06/28 16:53:28 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "libft.h"
 
-void		reset_exit(int status)
+void	init_new_user_in(char **user_in, char *extra_line)
 {
-	if (isatty(0))
-	{
-		reset_input_mode();
-		save_in_file_history(rp(NULL)->history);
-	}
-	exit(status);
+	char	*nuser_in;
+
+	nuser_in = ft_strjoin(*user_in, extra_line);
+	free(extra_line);
+	free(*user_in);
+	*user_in = nuser_in;
 }

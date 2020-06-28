@@ -40,7 +40,8 @@ static void		init_extra_line(char **extra_line, char *flag)
 		*extra_line = readline(get_prompt(PS2));
 		if (!(**extra_line) && !fuck_checklist_signal_state(0, 0))
 			call_lex_error(*flag);
-		(*extra_line)[(int)(ft_strlen(*extra_line) - 1) < 0 ? 0 : ft_strlen(*extra_line) - 1] = '\0';
+		(*extra_line)[(int)(ft_strlen(*extra_line) - 1) < 0 ? 0 : \
+			ft_strlen(*extra_line) - 1] = '\0';
 		check_flag(*extra_line, flag);
 		close_backslash(extra_line, *flag);
 		expand_new_line(extra_line);
@@ -50,28 +51,27 @@ static void		init_extra_line(char **extra_line, char *flag)
 		*extra_line = NULL;
 		if (!(get_next_line_wrapper(STDIN_FILENO, extra_line)))
 			call_lex_error(*flag);
-		(*extra_line)[(int)(ft_strlen(*extra_line) - 1) < 0 ? 0 : ft_strlen(*extra_line) - 1] = '\0';
+		(*extra_line)[(int)(ft_strlen(*extra_line) - 1) < 0 ? 0 \
+			: ft_strlen(*extra_line) - 1] = '\0';
 		check_flag(*extra_line, flag);
 		expand_new_line(extra_line);
 	}
 }
 
-static void		init_locals(char *flag, int *flagt)
+static void		init_locals(char *flag, int *flagt, char *user_in)
 {
 	*flagt = 0;
 	*flag = 0;
+	check_flag(user_in, flag);
 }
-
 
 void			close_quote(char **user_in)
 {
-	char	*nuser_in;
 	char	*extra_line;
 	char	flag;
 	int		flagt;
 
-	init_locals(&flag, &flagt);
-	check_flag(*user_in, &flag);
+	init_locals(&flag, &flagt, *user_in);
 	if (flag)
 	{
 		flagt = 1;
@@ -82,16 +82,14 @@ void			close_quote(char **user_in)
 		init_extra_line(&extra_line, &flag);
 		if (fuck_checklist_signal_state(0, 0))
 		{
-			extra_line[(int)(ft_strlen(extra_line) - 1) < 0 ? 0 : ft_strlen(extra_line) - 1] = '\0';
+			extra_line[(int)(ft_strlen(extra_line) - 1) < 0 ? 0 : \
+				ft_strlen(extra_line) - 1] = '\0';
 			fuck_norme_lexer_state(1, &extra_line, NULL, NULL);
 			return ;
 		}
-		if (!(nuser_in = ft_strjoin(*user_in, extra_line)))
-			reset_exit(1);
-		free(*user_in);
-		free(extra_line);
-		*user_in = nuser_in;
+		init_new_user_in(user_in, extra_line);
 	}
 	if (flagt)
-		(*user_in)[(int)(ft_strlen(*user_in) - 1) < 0 ? 0 : ft_strlen(*user_in) - 1] = '\0';
+		(*user_in)[(int)(ft_strlen(*user_in) - 1) < 0 ? 0 : \
+			ft_strlen(*user_in) - 1] = '\0';
 }

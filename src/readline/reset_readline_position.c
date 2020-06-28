@@ -12,6 +12,15 @@
 
 #include "inc21sh.h"
 
+void		back_to_start_history_rp(void)
+{
+	if (rp(NULL)->history)
+	{
+		while (rp(NULL)->history->prev)
+			rp(NULL)->history = rp(NULL)->history->prev;
+	}
+}
+
 static void	reset_cur_pos_rp(void)
 {
 	rp(NULL)->cur_pos[0] = rp(NULL)->prompt_len;
@@ -37,19 +46,19 @@ static void	parse_cur_pos(char *buf)
 
 static int	get_cursor_position(void)
 {
-    int		i;
-    char	buf[32];
+	int		i;
+	char	buf[32];
 	char	*ptr_buf;
 
 	i = 0;
-    write(STDERR_FILENO, "\e[6n", 4);
+	write(STDERR_FILENO, "\e[6n", 4);
 	parse_cur_pos(buf);
-    while (buf[i])
-    {
+	while (buf[i])
+	{
 		if (buf[i] == ';')
 			break ;
 		i++;
-    }
+	}
 	ptr_buf = buf;
 	return (ft_atoi(ptr_buf + i + 1));
 }

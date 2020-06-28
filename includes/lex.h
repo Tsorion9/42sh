@@ -15,6 +15,8 @@
 
 # include "inc21sh.h"
 
+t_token	*ret_token(char **user_in, int *need_new_line, int *index);
+void	init_new_user_in(char **user_in, char *extra_line);
 void	close_backslash(char **user_in, char flag);
 char	*quoting(void);
 void	close_quote(char **user_in);
