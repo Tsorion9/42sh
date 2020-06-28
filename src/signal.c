@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:15:38 by anton             #+#    #+#             */
-/*   Updated: 2020/06/26 18:50:58 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 19:11:39 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ void		set_signal(void)
 	{
 		signal(SIGINT, processing_sigint);
 		signal(SIGWINCH, processing_sigwinch);
+		signal(SIGTSTP, SIG_IGN);
 	}
 }
