@@ -46,6 +46,7 @@ CPARSER = deque.c \
 			del_inside_wl.c\
 			memdel3.c\
 			check_parser_signals.c\
+			gather_string_literal.c\
 			deque_len.c
 
 CEXEC = builtin_env.c\

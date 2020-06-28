@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   gather_string_literal.h                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 01:48:25 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 11:34:52 by anton            ###   ########.fr       */
+/*   Created: 2020/06/28 12:59:11 by anton             #+#    #+#             */
+/*   Updated: 2020/06/28 12:59:44 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environment.h"
-#include "inc21sh.h"
+#ifndef GATHER_STRING_LITERAL_H
+# define GATHER_STRING_LITERAL_H
 
-int	g_last_command_status;
+char			*gather_string_literal(char *here_eof);
 
-/*
-** TODO: exit status must be static
-*/
-
-int	builtin_exit(char **args, t_env env, int subshell)
-{
-	(void)env;
-	if (subshell)
-		return (1);
-	if (*args)
-		reset_exit(ft_atoi(args[0]));
-	else
-		reset_exit(g_last_command_status);
-	return (1);
-}
+#endif

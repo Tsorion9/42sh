@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:16:51 by anton             #+#    #+#             */
-/*   Updated: 2020/06/27 17:42:08 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 13:55:24 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,5 @@ int		main(int ac, char **av, char **environ)
 	}
 	set_signal();
 	repl(tty_input);
-	if (tty_input)
-		reset_input_mode();
-	static_env_action(del, NULL);
 	return (0);
 }

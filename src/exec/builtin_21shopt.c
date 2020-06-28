@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_21shopt.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/28 11:34:50 by anton             #+#    #+#             */
+/*   Updated: 2020/06/28 11:35:51 by anton            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "environment.h"
 #include "gayprompt.h"
 
-static int	print_usage()
+static int	print_usage(void)
 {
 	ft_putstr_fd("Usage: 21shopt option_name new_value\n", 2);
 	return (0);

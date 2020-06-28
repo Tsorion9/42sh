@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:42 by anton             #+#    #+#             */
-/*   Updated: 2020/06/27 17:33:22 by anton            ###   ########.fr       */
+/*   Updated: 2020/06/28 11:36:16 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	normal_redirection(t_io_redir *redir)
 		close(redir->fd);
 		return (0);
 	}
-	if (write(ft_atoi(redir->where->content), &errors, 0)== -1)
+	if (write(ft_atoi(redir->where->content), &errors, 0) == -1)
 	{
 		ft_fprintf(2, "%s: (%s)\n", RO_REDIR_FD, redir->where->content);
 		return (1);
