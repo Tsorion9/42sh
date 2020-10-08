@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   completion.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/25 02:56:54 by anton            ###   ########.fr       */
+/*   Updated: 2020/10/08 21:26:46 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
+
+// termcap_api.c - работа с курсором
+// clear_all_line.c - чистка команды
+// user_in - массив положения курсора [положение столбца начинается от 0][положение строки начинается от 0]
+// str_n(void) - возвращает количество строк занимаемых командой
 
 static int	is_first_word(int i)
 {
@@ -36,8 +41,10 @@ void		completion(void)
 	char			*path;
 	int				i;
 
-	return ;
+	// return ; //lol
 	i = search_index();
+	// ft_printf("\n%d\n%d", i, str_n());
+	// while (1);
 	path = NULL;
 	remaider_word = cut_word(' ', i);
 	if (is_first_word(i) && !ft_strchr(remaider_word, '/'))

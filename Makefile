@@ -117,22 +117,22 @@ $(NAME): $(OBJ) | lib
 	$(CC) $(OBJ) $(LFLAGS) $(DFLAGS) -o $(NAME)
 
 lib:
-	make -C libft 
+	@make -C libft 
 
 
 %.o : %.c 
-	gcc $(CFLAGS) -c $< -o $@ -MD
+	@gcc $(CFLAGS) -c $< -o $@ -MD
 
 -include $(DEPENDENCIES)
 
 clean:
-	make -C libft clean
-	rm -f $(OBJ)
-	rm -f $(DEPENDENCIES)
+	@make -C libft clean
+	@rm -f $(OBJ)
+	@rm -f $(DEPENDENCIES)
 
 fclean: clean
-	make -C libft fclean
-	rm -f $(NAME)
+	@make -C libft fclean
+	@rm -f $(NAME)
 
 re: fclean all
 

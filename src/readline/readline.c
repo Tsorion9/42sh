@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/26 21:48:26 by anton            ###   ########.fr       */
+/*   Updated: 2020/10/08 20:37:16 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	handle_click_sup(long c)
 	else if (c == CTRL_W)
 		delete_last_word();
 	else if (c == TAB_ARROW)
-		completion();
+		completion(); //Здесь вызываем обработку TAB
 	else if (c == SHIFT_TAB)
 		add_symbol(' ');
 }

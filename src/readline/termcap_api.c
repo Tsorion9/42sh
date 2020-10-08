@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   termcap_api.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:14:40 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/10/08 20:58:33 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	tc_cursor_left(void)
 	tputs(tgetstr("le", NULL), STDERR_FILENO, ft_putint);
 	rp(NULL)->cur_pos[0]--;
 }
+
+/*
+** Очистка до конца строки.
+** Аналог - функция clear_line
+** clear_all_line - вызов в цикле этой функции, для очистки всей команды
+*/
 
 void	tc_clear_till_end(void)
 {

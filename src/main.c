@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:16:51 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 16:26:47 by anton            ###   ########.fr       */
+/*   Updated: 2020/10/08 21:20:28 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		main(int ac, char **av, char **environ)
 		init_terminal();
 		init_prompt();
 	}
-	set_signal();
+	// set_signal();
 	repl(tty_input);
 	return (0);
 }
