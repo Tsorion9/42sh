@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/16 20:35:28 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 00:00:49 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,55 @@ static int	is_first_word(char *user_in, int i)
 {
 	if (user_in[i] == '\0')
 		i--;
-	while (is_print(user_in[i]) && i && user_in[i] != ' ')
+	if (tab_check_space(user_in, i))
+	{
+		while (i >= 0 && (user_in[i] == ' ' || user_in[i] == '\t'))
+			i--;
+		if (i >= 0 && user_in[i] != ' ' && user_in[i] != '\t')
+			return (0);
+	}
+	else if (i > 0 && user_in[i - 1] != ' ' && user_in[i - 1] != '\t')
 		i--;
-	if (!i)
+	// ft_printf("\n%d", i);
+	// while (1);
+	if (i < 0)
 		return (1);
-	while ((user_in[i] == ' ' || user_in[i] == '\t' || \
-		rp(NULL)->user_in[i] == '\n') && i)
+	while (i >= 0 && is_print(user_in[i]) && user_in[i] != ' ' && \
+			user_in[i] != '\t')
 		i--;
-	if (!i)
+	// ft_printf("\n%d", i);
+	// while (1);
+	if (i < 0)
 		return (1);
+	while (i >= 0 && (user_in[i] == ' ' || user_in[i] == '\t'))
+		i--;
+	// ft_printf("\n%d", i);
+	// while (1);
+	if (i < 0)
+		return (1);
+	return (0);
+	// ft_printf("\n%d", i);
+	// if (user_in[i] == '\0')
+	// 	i--;
+	// ft_printf("\n%d", i);
+	// while (i && (!is_print(user_in[i]) || user_in[i] == ' ' || \
+	// 	user_in[i] == '\t' || user_in[i] == '\0'))
+	// 	i--;
+	// if (i < 0)
+	// 	return (1);
+	// // ft_printf("\n%d", i);
+	// // while (1);
+	// while (i && is_print(user_in[i]) && user_in[i] != ' ')
+	// 	i--;
+	// // ft_printf("\n%d", i);
+	// if (!i)
+	// 	return (1);
+	// while (i && (user_in[i] == ' ' || user_in[i] == '\t' || \
+	// 	user_in[i] == '\n'))
+	// 	i--;
+	// // ft_printf("\n%d", i);
+	// if (!i)
+	// 	return (1);
 	return (0);
 }
 
@@ -53,7 +93,7 @@ void		completion(void)
 	// while(1);
 	if (is_first_word(rp(NULL)->user_in, i) && !ft_strchr(remainder_word, '/'))
 	{
-		// while (1);
+		while (1);
 		com_lst = add_files_path_env();
 	}
 	else if (!ft_strchr(remainder_word, '/'))
@@ -68,5 +108,17 @@ void		completion(void)
 	matches = ret_matches(com_lst, remainder_word);
 	if (matches)
 		complete_word(matches, remainder_word, path);
+	
+	// while (com_lst)
+	// {
+	// 	ft_printf("\n%s", com_lst->str);
+	// 	com_lst = com_lst->next;
+	// }
+	
+	// while (matches)
+	// {
+	// 	ft_printf("\n%s", matches->str);
+	// 	matches = matches->next;
+	// }
 	free_completion(com_lst, matches, remainder_word, path);
 }

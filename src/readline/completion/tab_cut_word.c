@@ -6,13 +6,13 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 18:05:50 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/10/16 20:23:24 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 00:00:01 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
 
-int		check_space(char *user_in, int i)
+int		tab_check_space(char *user_in, int i)
 {
 	if (i && user_in[i - 1] == ' ' && user_in[i] == ' ')
 		return (1);
@@ -36,7 +36,11 @@ char	*get_word(char *user_in, int i)
 	while (i < len_com && user_in[i] != ' ' \
 		&& user_in[i] != '\t' && user_in[i] != '\n')
 		i++;
-	if (!(remainder_word = (char*)ft_memalloc((int)i - j))
+	// ft_printf("\n%d \n%d", i, j);
+	// while (1);
+	if (i - j == 1)
+		i++;
+	if (!(remainder_word = (char*)ft_memalloc((int)i - j + 1))
 		|| !(remainder_word = ft_strncpy(remainder_word, user_in + \
 		(j + 1), i - j - 1)))
 		reset_exit(1);
@@ -48,7 +52,7 @@ char	*tab_cut_word(int i)
 	int		j;
 
 	j = i;
-	if (check_space(rp(NULL)->user_in, i))
+	if (tab_check_space(rp(NULL)->user_in, i))
 		return (ft_strdup(" "));
 	else
 		return (get_word(rp(NULL)->user_in, i));
