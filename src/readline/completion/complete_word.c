@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   complete_word.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:10:59 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:11:01 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/10/13 20:27:00 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	change_full_word(char *full_word, char *path)
 	full_word[full_word_len + 1] = '\0';
 }
 
-void		complete_word(t_completion *matches, char *remaider_word,\
+void		complete_word(t_completion *matches, char *remainder_word,\
 		char *path)
 {
 	size_t		i;
@@ -58,7 +58,7 @@ void		complete_word(t_completion *matches, char *remaider_word,\
 	}
 	else
 		change_full_word(full_word, path);
-	i = ft_strlen(remaider_word);
+	i = ft_strlen(remainder_word);
 	while (full_word[i])
 	{
 		add_symbol(full_word[i]);

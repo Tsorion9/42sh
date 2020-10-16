@@ -11,7 +11,8 @@ CREADLINE = readline.c strmove_cursor.c t_str.c \
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
 				create_and_free_com.c cut_word.c ret_matches.c \
-				ret_possible_matches.c return_path.c
+				ret_possible_matches.c return_path.c \
+				tab_cut_word.c
 
 CLEX =	lex.c get_token_end_line.c \
 		get_token_greater.c get_token_less.c get_token_number.c \
@@ -114,10 +115,10 @@ DEPENDENCIES = $(OBJ:.o=.d)
 all: $(NAME)
 
 $(NAME): $(OBJ) | lib
-	$(CC) $(OBJ) $(LFLAGS) $(DFLAGS) -o $(NAME)
+	@$(CC) $(OBJ) $(LFLAGS) $(DFLAGS) -o $(NAME)
 
 lib:
-	@make -C libft 
+	make -C libft 
 
 
 %.o : %.c 

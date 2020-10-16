@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inc21sh.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 16:25:13 by anton            ###   ########.fr       */
+/*   Updated: 2020/10/16 18:57:55 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,12 @@ void					free_history_list(t_history *history);
 t_str					*init_str(void);
 void					expand_str(t_str *str);
 void					free_str(t_str *str);
+
+/*
+** Complection
+*/
+
+char					*tab_cut_word(int i);
 
 /*
 ** Interface for lexer

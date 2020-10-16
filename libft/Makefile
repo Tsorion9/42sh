@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tsorion <tsorion@student.42.fr>            +#+  +:+       +#+         #
+#    By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 15:04:53 by mphobos           #+#    #+#              #
-#    Updated: 2020/01/27 16:42:44 by tsorion          ###   ########.fr        #
+#    Updated: 2020/10/13 20:40:46 by alexbuyanov      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE) -I ft_printf -I ftoa
 DFLAGS = $(CFLAGS) -g
 
 %.o: %.c
-	$(CC) $(DFLAGS) -c -o $@ $<
+	@$(CC) $(DFLAGS) -c -o $@ $<
 
 $(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)
