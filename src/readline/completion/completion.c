@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/17 18:04:38 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 18:25:29 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,19 @@ static int	is_first_word(char *user_in, int i)
 	j = i;
 	if (check_first_word(user_in, i))
 		return (1);
-	while (j >= 0 && user_in[j] != '|' /*&& \
-		(user_in[i] == ' ' || user_in[i] == '\t')*/)
+	while (j >= 0 && user_in[j] != '|' && user_in[j] != '&')
 		j--;
-	if (j >= 0 && user_in[j] == '|')
+	if (j >= 0 && (user_in[j] == '|' || user_in[j] == '&'))
 	{
 		while (user_in[j] == ' ' || user_in[j] == '\t' || \
-			user_in[j] == '|')
+			user_in[j] == '|' || user_in[j] == '&')
 			j++;
 		// while (1);
 			// j++;
 		while (j < i)
 		{
 			if ((user_in[j] == '\t' || user_in[j] == ' ' || user_in[j] == '|' \
-				|| user_in[j] == '\0') && j == i)
+				|| user_in[j] == '\0' || user_in[j] == '&') && j == i)
 				return (2);
 			else if (user_in[j] == '\t' || user_in[j] == ' ' \
 				/*|| user_in[j] == '|'*/ || user_in[j] == '\0')
