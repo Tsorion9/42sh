@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/17 11:09:06 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 11:33:45 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		completion(void)
 	int				i;
 
 	// return ; //lol
-	i = search_index(); //получение индекса нахождения курсора из массива user_in
+	i = search_index(); //получение индекса нахождения курсора из массива
 	path = NULL;
 	if (!(remainder_word = tab_cut_word(rp(NULL)->user_in, i)))
 		return ;
@@ -58,7 +58,7 @@ void		completion(void)
 	// while(1);
 	if (is_first_word(rp(NULL)->user_in, i) && !ft_strchr(remainder_word, '/'))
 	{
-		while (1);
+		// while (1);
 		com_lst = add_files_path_env();
 	}
 	else if (!ft_strchr(remainder_word, '/'))

@@ -6,11 +6,45 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:10:59 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/13 20:27:00 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 13:38:37 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
+
+int		delete_prev_word(char *user_in, char *remainder_word, int i)
+{
+	size_t		len;
+
+	len = ft_strlen(remainder_word);
+	if (i && user_in[i - 1] != ' ' && user_in[i - 1] != '\t' && \
+		(user_in[i] == ' ' || user_in[i] == '\t' || user_in[i] == '\0'))
+		return (0);
+	while (user_in[i + 1] && user_in[i + 1] != ' ' && user_in[i + 1] != '\t')
+	{
+		tc_cursor_right();
+		i++;
+	}
+	tc_cursor_right();
+	i++;
+		// rp(NULL)->cur_pos[0]--;
+	// 	tc_cursor_right();
+		// delete_symbol();
+	// while (1);
+	// while (i && user_in[i - 1] != ' ' && user_in[i - 1] != '\t')
+	// ft_printf("\n%d", len);
+	// while (1);
+	while (len--)
+	{
+		delete_symbol();
+		// tc_cursor_left();
+		i--;
+		// while (1);
+	}
+	// ft_printf("\n%d", i);
+	// while (1);
+	return (1);
+}
 
 static void	change_full_word(char *full_word, char *path)
 {
@@ -59,6 +93,12 @@ void		complete_word(t_completion *matches, char *remainder_word,\
 	else
 		change_full_word(full_word, path);
 	i = ft_strlen(remainder_word);
+	// ft_printf("\n%s\n%c", full_word, full_word[i]);
+	// while (1);
+	// i = 0;
+	if (full_word[i] && \
+		delete_prev_word(rp(NULL)->user_in, remainder_word, search_index()))
+		i = 0;
 	while (full_word[i])
 	{
 		add_symbol(full_word[i]);
