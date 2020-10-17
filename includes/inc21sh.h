@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/10/17 10:56:33 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 15:43:22 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ void					complete_word(t_completion *matches,\
 						char *remaider_word, char *path);
 t_completion			*ret_possible_matches(char *path, int first_word);
 char					*cut_word(char cut_symbol, int i);
-t_completion			*ret_matches(t_completion *com_lst, char *str_search);
+t_completion			*ret_matches(t_completion *com_lst, char **str_search);
 void					free_rp(void);
 void					free_history_list(t_history *history);
 t_str					*init_str(void);
