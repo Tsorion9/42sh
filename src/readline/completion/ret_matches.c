@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:36 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/17 15:45:59 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 16:04:01 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char			*word_without_path(char *str_search)
 {
-	// int			len_new_str;
 	size_t		i;
 	char		*new_str;
 
@@ -27,8 +26,6 @@ char			*word_without_path(char *str_search)
 		i--;
 	if (!(new_str = ft_strdup(str_search + i)))
 		return NULL;
-	// ft_printf("\n%s", new_str);
-	// while(1);
 	free(str_search);
 	return (new_str);
 }

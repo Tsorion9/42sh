@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/17 15:42:42 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 18:04:38 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 // termcap_api.c - работа с курсором
 // clear_all_line.c - чистка команды
-// user_in - массив положения курсора [положение столбца начинается от 0][положение строки начинается от 0]
+// user_in - ввод
 // str_n(void) - возвращает количество строк занимаемых командой
 // rp() - получение статической структуры позиции курсора
 
-static int	is_first_word(char *user_in, int i)
+int			check_first_word(char *user_in, int i)
 {
 	int		j;
 
@@ -37,6 +37,40 @@ static int	is_first_word(char *user_in, int i)
 		j++;
 	}
 	return (1);
+}
+
+static int	is_first_word(char *user_in, int i)
+{
+	int		j;
+
+	j = i;
+	if (check_first_word(user_in, i))
+		return (1);
+	while (j >= 0 && user_in[j] != '|' /*&& \
+		(user_in[i] == ' ' || user_in[i] == '\t')*/)
+		j--;
+	if (j >= 0 && user_in[j] == '|')
+	{
+		while (user_in[j] == ' ' || user_in[j] == '\t' || \
+			user_in[j] == '|')
+			j++;
+		// while (1);
+			// j++;
+		while (j < i)
+		{
+			if ((user_in[j] == '\t' || user_in[j] == ' ' || user_in[j] == '|' \
+				|| user_in[j] == '\0') && j == i)
+				return (2);
+			else if (user_in[j] == '\t' || user_in[j] == ' ' \
+				/*|| user_in[j] == '|'*/ || user_in[j] == '\0')
+				return (0);
+			// ft_printf("\n%d %d", j, i);
+			// while (1);
+			j++;
+		}
+		return (2);
+	}
+	return (0);
 }
 
 void		completion(void)

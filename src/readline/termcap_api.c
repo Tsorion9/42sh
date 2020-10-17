@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/13 20:43:13 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 15:56:36 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	tc_cursor_left(void)
 /*
 ** Очистка до конца строки.
 ** Аналог - функция clear_line
-** clear_all_line - вызов в цикле этой функции, для очистки всей команды
+** clear_all_line - вызов в цикле tc_clear_till_end(), для очистки всей  введенной команды
 */
 
 void	tc_clear_till_end(void)

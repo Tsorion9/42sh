@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 18:05:50 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/10/17 11:07:42 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 18:02:33 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ char	*tab_cut_word(char *user_in, int i)
 	line = user_in;
 	x = i;
 	if (!ft_strlen(line) || (!x && line[x] == ' '))
-		return (0);
+		return (NULL);
 	if (line[x] != ' ' || (line[x - 1] != ' '))
 	{
-		while (x > 0 && line[x - 1] != '\t' && line[x - 1] != ' ')
+		while (x > 0 && line[x - 1] != '\t' && line[x - 1] != ' ' \
+			&& line[x - 1] != '|')
 			x--;
 		x = check_point_slesh(line, x);
 		sx = x;

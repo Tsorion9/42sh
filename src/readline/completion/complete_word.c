@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:10:59 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/17 14:01:43 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 16:03:19 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,11 @@ int		delete_prev_word(char *user_in, char *remainder_word, int i)
 	}
 	tc_cursor_right();
 	i++;
-		// rp(NULL)->cur_pos[0]--;
-	// 	tc_cursor_right();
-		// delete_symbol();
-	// while (1);
-	// while (i && user_in[i - 1] != ' ' && user_in[i - 1] != '\t')
-	// ft_printf("\n%d", len);
-	// while (1);
 	while (len--)
 	{
 		delete_symbol();
-		// tc_cursor_left();
 		i--;
-		// while (1);
 	}
-	// ft_printf("\n%d", i);
-	// while (1);
 	return (1);
 }
 
@@ -71,12 +60,26 @@ static void	change_full_word(char *full_word, char *path)
 	full_word[full_word_len + 1] = '\0';
 }
 
+void		complete_word2(size_t i, char *remainder_word, char *full_word)
+{
+	i = ft_strlen(remainder_word);
+	if (full_word[i] && \
+		delete_prev_word(rp(NULL)->user_in, remainder_word, search_index()))
+		i = 0;
+	while (full_word[i])
+	{
+		add_symbol(full_word[i]);
+		i++;
+	}	
+}
+
 void		complete_word(t_completion *matches, char *remainder_word,\
 		char *path)
 {
 	size_t		i;
 	char		full_word[BUFFSIZE];
 
+	i = 0;
 	ft_strcpy(full_word, matches->str);
 	if (matches->next)
 	{
@@ -92,16 +95,5 @@ void		complete_word(t_completion *matches, char *remainder_word,\
 	}
 	else
 		change_full_word(full_word, path);
-	i = ft_strlen(remainder_word);
-	// ft_printf("\n%s\n%c", full_word, full_word[i]);
-	// while (1);
-	// i = 0;
-	if (full_word[i] && \
-		delete_prev_word(rp(NULL)->user_in, remainder_word, search_index()))
-		i = 0;
-	while (full_word[i])
-	{
-		add_symbol(full_word[i]);
-		i++;
-	}
+	complete_word2(i, remainder_word, full_word);
 }
