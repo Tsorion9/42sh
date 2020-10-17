@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/17 00:00:49 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 11:09:06 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,58 +20,23 @@
 
 static int	is_first_word(char *user_in, int i)
 {
-	if (user_in[i] == '\0')
-		i--;
-	if (tab_check_space(user_in, i))
+	int		j;
+
+	j = 0;
+	if (!ft_strlen(user_in))
+		return (1);
+	while (user_in[j] == ' ' || user_in[j] == '\t')
+		j++;
+	while (j < i)
 	{
-		while (i >= 0 && (user_in[i] == ' ' || user_in[i] == '\t'))
-			i--;
-		if (i >= 0 && user_in[i] != ' ' && user_in[i] != '\t')
+		if ((user_in[j] == '\t' || user_in[j] == ' ')
+			&& j == i)
+			return (1);
+		else if ((user_in[j] == '\t' || user_in[j] == ' '))
 			return (0);
+		j++;
 	}
-	else if (i > 0 && user_in[i - 1] != ' ' && user_in[i - 1] != '\t')
-		i--;
-	// ft_printf("\n%d", i);
-	// while (1);
-	if (i < 0)
-		return (1);
-	while (i >= 0 && is_print(user_in[i]) && user_in[i] != ' ' && \
-			user_in[i] != '\t')
-		i--;
-	// ft_printf("\n%d", i);
-	// while (1);
-	if (i < 0)
-		return (1);
-	while (i >= 0 && (user_in[i] == ' ' || user_in[i] == '\t'))
-		i--;
-	// ft_printf("\n%d", i);
-	// while (1);
-	if (i < 0)
-		return (1);
-	return (0);
-	// ft_printf("\n%d", i);
-	// if (user_in[i] == '\0')
-	// 	i--;
-	// ft_printf("\n%d", i);
-	// while (i && (!is_print(user_in[i]) || user_in[i] == ' ' || \
-	// 	user_in[i] == '\t' || user_in[i] == '\0'))
-	// 	i--;
-	// if (i < 0)
-	// 	return (1);
-	// // ft_printf("\n%d", i);
-	// // while (1);
-	// while (i && is_print(user_in[i]) && user_in[i] != ' ')
-	// 	i--;
-	// // ft_printf("\n%d", i);
-	// if (!i)
-	// 	return (1);
-	// while (i && (user_in[i] == ' ' || user_in[i] == '\t' || \
-	// 	user_in[i] == '\n'))
-	// 	i--;
-	// // ft_printf("\n%d", i);
-	// if (!i)
-	// 	return (1);
-	return (0);
+	return (1);
 }
 
 void		completion(void)
@@ -85,7 +50,7 @@ void		completion(void)
 	// return ; //lol
 	i = search_index(); //получение индекса нахождения курсора из массива user_in
 	path = NULL;
-	if (!(remainder_word = tab_cut_word(i)))
+	if (!(remainder_word = tab_cut_word(rp(NULL)->user_in, i)))
 		return ;
 	// is_first_word(i) 1 = first word
 	// ft_printf("\n%d", is_first_word(i));
@@ -103,7 +68,7 @@ void		completion(void)
 		path = return_path(remainder_word);
 		com_lst = ret_possible_matches(path, is_first_word(rp(NULL)->user_in, i));
 		free(remainder_word);
-		remainder_word = cut_word('/', i);
+		remainder_word = tab_cut_word(rp(NULL)->user_in, i);
 	}
 	matches = ret_matches(com_lst, remainder_word);
 	if (matches)

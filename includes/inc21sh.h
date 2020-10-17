@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/10/16 22:31:18 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/10/17 10:56:33 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,7 @@ void					free_str(t_str *str);
 ** Complection
 */
 
-char					*tab_cut_word(int i);
+char					*tab_cut_word(char *user_in, int i);
 int						tab_check_space(char *user_in, int i);
 
 /*
