@@ -1,0 +1,17 @@
+lsapp = first word
+Make = second word
+
+> |lsapp
+> ls ls|>&Make +
+> ls ls|lsapp
+> |&lsapp
+> |>&Make -
+> |>& Make
+
+
+>      lsapp>&
+> | >&Make
+
+> lsapp |lsapp>&Make |>&Make >&&lsapp >&&&Make
+> as &lsapp &&lsapp &&&lsapp
+>
