@@ -270,8 +270,9 @@ void					tc_cursor_up(void);
 void					tc_cursor_down(void);
 void					tc_cursor_left(void);
 void					tc_cursor_right(void);
-void					tc_clear_till_end(void);
+void					tc_clear_till_end_line(void);
 void					tc_cursor_n_right(int n);
+void					tc_clear_till_end(void);
 
 # define PARSER_FAILURE 0
 # define PARSER_SUCCESS 1

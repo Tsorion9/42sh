@@ -22,11 +22,11 @@ static void	add_symbol_sup(int tmp[2], char c)
 	rp(NULL)->user_in[i] = c;
 	tmp[0] = rp(NULL)->cur_pos[0];
 	tmp[1] = rp(NULL)->cur_pos[1];
-	clear_all_line();
+	tc_clear_till_end();
 	rp(NULL)->cur_pos[0] = tmp[0] + 1;
 	rp(NULL)->cur_pos[1] = tmp[1];
 	rp(NULL)->len++;
-	ft_putstr_fd(rp(NULL)->user_in, STDERR_FILENO);
+	ft_putstr_fd(rp(NULL)->user_in + i, STDERR_FILENO);
 }
 
 /*

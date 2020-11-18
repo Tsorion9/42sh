@@ -18,7 +18,7 @@ void	tc_cursor_left(void)
 	rp(NULL)->cur_pos[0]--;
 }
 
-void	tc_clear_till_end(void)
+void	tc_clear_till_end_line(void)
 {
 	tputs(tgetstr("ce", NULL), STDERR_FILENO, ft_putint);
 }
@@ -40,4 +40,9 @@ void	tc_cursor_down(void)
 {
 	write(STDERR_FILENO, "\n", 1);
 	rp(NULL)->cur_pos[1]++;
+}
+
+void	tc_clear_till_end(void)
+{
+	tputs(tgetstr("cd", NULL), STDERR_FILENO, ft_putint);
 }
