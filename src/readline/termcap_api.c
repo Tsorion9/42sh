@@ -32,7 +32,6 @@ void	tc_cursor_right(void)
 void	tc_cursor_up(void)
 {
 	tputs(tgetstr("up", NULL), STDERR_FILENO, ft_putint);
-	rp(NULL)->cur_pos[0] = 1;
 	rp(NULL)->cur_pos[1] -= 1;
 }
 
