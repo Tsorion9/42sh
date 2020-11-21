@@ -26,6 +26,12 @@ static void	up_down_arrow_sup(void)
 	ft_putstr_fd(rp(NULL)->user_in, STDERR_FILENO);
 	rp(NULL)->len = ft_strlen(rp(NULL)->user_in);
 	cur_pos_after_putstr(rp(NULL)->cur_pos);
+	if (rp(NULL)->cur_pos[0] - 1 == rp(NULL)->ws_col)
+	{
+		rp(NULL)->cur_pos[0] = 1;
+		rp(NULL)->cur_pos[1]++;
+		write(STDERR_FILENO, " \r", 2);
+	}
 }
 
 void		up_down_arrow(long c)
