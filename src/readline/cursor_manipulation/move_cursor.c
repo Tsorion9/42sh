@@ -32,7 +32,7 @@ static void	move_cursor_left(void)
 		return ;
 	else
 		rp(NULL)->cur_pos[0]--;
-	ret_cur_to_original_pos(prev_cur_pos, rp(NULL)->cur_pos);
+	move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
 }
 
 /*
@@ -55,7 +55,7 @@ static void	move_cursor_right(void)
 	}
 	else if (rp(NULL)->user_in[i] != 0)
 		rp(NULL)->cur_pos[0]++;
-	ret_cur_to_original_pos(prev_cur_pos, rp(NULL)->cur_pos);
+	move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
 }
 
 /*

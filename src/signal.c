@@ -70,7 +70,7 @@ static void	processing_sigwinch(int signal_code)
 	ft_putstr_fd(rp(NULL)->user_in, STDERR_FILENO);
 	inverse_search_index(rp(NULL)->cur_pos, index);
 	cur_pos_after_putstr(tmp_cur_pos);
-	ret_cur_to_original_pos(tmp_cur_pos, rp(NULL)->cur_pos);
+	move_cursor_to_new_position(tmp_cur_pos, rp(NULL)->cur_pos);
 }
 
 void		set_signal(void)

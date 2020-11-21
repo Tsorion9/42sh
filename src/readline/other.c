@@ -12,27 +12,27 @@
 
 #include "inc21sh.h"
 
-void		ret_cur_to_original_pos(int *prev_cur_pos, int *original_cur_pos)
+void		move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos)
 {
-	while (prev_cur_pos[0] > original_cur_pos[0])
+	while (actual_cur_pos[0] > new_cur_pos[0])
 	{
 		tputs(tgetstr("le", NULL), STDERR_FILENO, ft_putint);
-		prev_cur_pos[0]--;
+		actual_cur_pos[0]--;
 	}
-	while (prev_cur_pos[1] > original_cur_pos[1])
+	while (actual_cur_pos[1] > new_cur_pos[1])
 	{
 		tputs(tgetstr("up", NULL), STDERR_FILENO, ft_putint);
-		prev_cur_pos[1]--;
+		actual_cur_pos[1]--;
 	}
-	while (prev_cur_pos[1] < original_cur_pos[1])
+	while (actual_cur_pos[1] < new_cur_pos[1])
 	{
 		tputs(tgetstr("do", NULL), STDERR_FILENO, ft_putint);
-		prev_cur_pos[1]++;
+		actual_cur_pos[1]++;
 	}
-	while (prev_cur_pos[0] < original_cur_pos[0])
+	while (actual_cur_pos[0] < new_cur_pos[0])
 	{
 		tputs(tgetstr("nd", NULL), STDERR_FILENO, ft_putint);
-		prev_cur_pos[0]++;
+		actual_cur_pos[0]++;
 	}
 }
 
