@@ -22,13 +22,13 @@ static void	move_cursor_up(void)
 	if (rp(NULL)->cur_pos[1] == 1)
 		return ;
 	rp(NULL)->cur_pos[1]--;
-	last_cur_pos_in_line = search_last_cur_pos_in_line() + 1;
+	last_cur_pos_in_line = search_last_cur_pos_in_line(rp(NULL)->cur_pos[1]) + 1;
 	if (rp(NULL)->cur_pos[0] > last_cur_pos_in_line)
 		rp(NULL)->cur_pos[0] = last_cur_pos_in_line;
 	if (rp(NULL)->cur_pos[1] == 1 && \
 		(long long)rp(NULL)->cur_pos[0] < (long long)rp(NULL)->prompt_len)
 		rp(NULL)->cur_pos[0] = rp(NULL)->prompt_len;
-	ret_cur_to_original_pos(prev_cur_pos);
+	ret_cur_to_original_pos(prev_cur_pos, rp(NULL)->cur_pos);
 }
 
 static void	move_cursor_down(void)
@@ -43,10 +43,10 @@ static void	move_cursor_down(void)
 	if (n == rp(NULL)->cur_pos[1])
 		return ;
 	rp(NULL)->cur_pos[1]++;
-	last_cur_pos_in_line = search_last_cur_pos_in_line() + 1;
+	last_cur_pos_in_line = search_last_cur_pos_in_line(rp(NULL)->cur_pos[1]) + 1;
 	if (rp(NULL)->cur_pos[0] > last_cur_pos_in_line)
 		rp(NULL)->cur_pos[0] = last_cur_pos_in_line;
-	ret_cur_to_original_pos(prev_cur_pos);
+	ret_cur_to_original_pos(prev_cur_pos, rp(NULL)->cur_pos);
 	while (prev_cur_pos[0]-- != 1)
 		tputs(tgetstr("nd", NULL), STDERR_FILENO, ft_putint);
 }

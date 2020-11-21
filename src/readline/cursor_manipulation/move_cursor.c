@@ -25,14 +25,14 @@ static void	move_cursor_left(void)
 	if (rp(NULL)->cur_pos[0] == 1)
 	{
 		rp(NULL)->cur_pos[1]--;
-		rp(NULL)->cur_pos[0] = search_last_cur_pos_in_line() + 1;
+		rp(NULL)->cur_pos[0] = search_last_cur_pos_in_line(rp(NULL)->cur_pos[1]) + 1;
 	}
 	else if ((size_t)rp(NULL)->cur_pos[0] == (size_t)rp(NULL)->prompt_len && \
 		rp(NULL)->cur_pos[1] == 1)
 		return ;
 	else
 		rp(NULL)->cur_pos[0]--;
-	ret_cur_to_original_pos(prev_cur_pos);
+	ret_cur_to_original_pos(prev_cur_pos, rp(NULL)->cur_pos);
 }
 
 /*
@@ -55,7 +55,7 @@ static void	move_cursor_right(void)
 	}
 	else if (rp(NULL)->user_in[i] != 0)
 		rp(NULL)->cur_pos[0]++;
-	ret_cur_to_original_pos(prev_cur_pos);
+	ret_cur_to_original_pos(prev_cur_pos, rp(NULL)->cur_pos);
 }
 
 /*
