@@ -66,6 +66,6 @@ void		move_cursor(long c)
 {
 	if (c == LEFT_ARROW)
 		move_cursor_left();
-	else
+	else if (c == RIGHT_ARROW)
 		move_cursor_right();
 }
