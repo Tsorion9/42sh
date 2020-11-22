@@ -69,6 +69,7 @@ void		reset_rp_to_start(void)
 		reset_exit(1);
 	rp(NULL)->max_len = MIN_CMD_LENGTH;
 	rp(NULL)->len = 0;
+	rp(NULL)->index = 0;
 	back_to_start_history_rp();
 	rp(NULL)->prompt_len = get_cursor_position();
 	rp(NULL)->in_readline = 1;

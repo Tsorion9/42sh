@@ -31,6 +31,7 @@ t_rp		*init_rp(void)
 		reset_exit(1);
 	rp->len = 0;
 	rp->max_len = MIN_CMD_LENGTH;
+	rp->index = 0;
 	rp->history = create_history("", 0);
 	rp->ws_col = ret_winsize(0);
 	rp->ws_row = ret_winsize(1);

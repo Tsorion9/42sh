@@ -92,6 +92,7 @@ typedef struct			s_rp
 	char				*user_in;
 	size_t				len;
 	size_t				max_len;
+	size_t				index;
 	int					cur_pos[2];
 	t_history			*history;
 	unsigned short		ws_col;

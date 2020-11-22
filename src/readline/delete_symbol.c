@@ -25,15 +25,13 @@ static void	delete_symbol_in_str(char *str, int symbol_index)
 
 void		delete_symbol(void)
 {
-	int	symbol_index;
-
-	symbol_index = search_index() - 1;
-	if (symbol_index < 0)
+	if (rp(NULL)->index <= 0)
 		return ;
 	move_cursor(LEFT_ARROW);
-	delete_symbol_in_str(rp(NULL)->user_in, symbol_index);
+	delete_symbol_in_str(rp(NULL)->user_in, rp(NULL)->index);
 	tc_save_cursor_pos();
 	tc_clear_till_end();
-	ft_putstr_fd(rp(NULL)->user_in + symbol_index, STDERR_FILENO);
+	ft_putstr_fd(rp(NULL)->user_in + rp(NULL)->index, STDERR_FILENO);
 	tc_restore_saved_cursor_pos();
+	rp(NULL)->len--;
 }

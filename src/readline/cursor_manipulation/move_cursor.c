@@ -33,6 +33,8 @@ static void	move_cursor_left(void)
 	else
 		rp(NULL)->cur_pos[0]--;
 	move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
+	if (rp(NULL)->index > 0)
+		rp(NULL)->index--;
 }
 
 /*
@@ -41,21 +43,21 @@ static void	move_cursor_left(void)
 
 static void	move_cursor_right(void)
 {
-	int	i;
-	int	prev_cur_pos[2];
+	int		prev_cur_pos[2];
 
 	prev_cur_pos[0] = rp(NULL)->cur_pos[0];
 	prev_cur_pos[1] = rp(NULL)->cur_pos[1];
-	i = search_index();
-	if (rp(NULL)->user_in[i] == '\n' ||\
+	if (rp(NULL)->user_in[rp(NULL)->index] == '\n' ||\
 			rp(NULL)->cur_pos[0] == rp(NULL)->ws_col)
 	{
 		rp(NULL)->cur_pos[0] = 1;
 		rp(NULL)->cur_pos[1]++;
 	}
-	else if (rp(NULL)->user_in[i] != 0)
+	else if (rp(NULL)->user_in[rp(NULL)->index] != 0)
 		rp(NULL)->cur_pos[0]++;
 	move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
+	if (rp(NULL)->index <= rp(NULL)->len)
+		rp(NULL)->index++;
 }
 
 /*

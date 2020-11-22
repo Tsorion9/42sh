@@ -16,7 +16,7 @@ void		alt_left_right(long c)
 {
 	int	i;
 
-	i = search_index();
+	i = rp(NULL)->index;
 	if (c == ALT_LEFT_ARROW)
 		while (i--)
 			move_cursor(LEFT_ARROW);
