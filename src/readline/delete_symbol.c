@@ -30,8 +30,8 @@ void		delete_symbol(void)
 	symbol_index = search_index() - 1;
 	if (symbol_index < 0)
 		return ;
-	delete_symbol_in_str(rp(NULL)->user_in, symbol_index);
 	move_cursor(LEFT_ARROW);
+	delete_symbol_in_str(rp(NULL)->user_in, symbol_index);
 	tc_save_cursor_pos();
 	tc_clear_till_end();
 	ft_putstr_fd(rp(NULL)->user_in + symbol_index, STDERR_FILENO);
