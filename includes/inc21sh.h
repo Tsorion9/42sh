@@ -255,6 +255,8 @@ void					free_history_list(t_history *history);
 t_str					*init_str(void);
 void					expand_str(t_str *str);
 void					free_str(t_str *str);
+void					tc_save_cursor_pos(void);
+void					tc_restore_saved_cursor_pos(void);
 
 /*
 ** Interface for lexer

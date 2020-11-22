@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "inc21sh.h"
+#include <stdio.h>
 
 static void	add_symbol_sup(int tmp[2], char c)
 {
@@ -49,13 +50,13 @@ void		add_symbol(char c)
 		else
 		{
 			cur_pos_after_putstr(tmp);
-			ret_cur_to_original_pos(tmp);
+			move_cursor_to_new_position(tmp, rp(NULL)->cur_pos);
 		}
 	}
 	else
 	{
 		cur_pos_after_putstr(tmp);
-		ret_cur_to_original_pos(tmp);
+		move_cursor_to_new_position(tmp, rp(NULL)->cur_pos);
 	}
 }
 
@@ -70,52 +71,34 @@ void		delete_symbol_forward(void)
 		delete_symbol();
 }
 
-int			delete_symbol_sup(int i)
+/*static void	print_cur_pos(int *cur_pos)
 {
-	if (rp(NULL)->user_in[i] == '\n' || rp(NULL)->cur_pos[0] == 1)
-	{
-		tc_cursor_up();
-		if (rp(NULL)->cur_pos[1] == 1)
-		{
-			tc_cursor_n_right(rp(NULL)->prompt_len);
-			rp(NULL)->cur_pos[0] = rp(NULL)->prompt_len;
-			if ((rp(NULL)->prompt_len + rp(NULL)->len - 2) != rp(NULL)->ws_col)
-				tc_cursor_left();
-		}
-		return (search_last_cur_pos_in_line() + 2);
-	}
-	return (rp(NULL)->cur_pos[0]);
-}
+	printf("\n x = %d , y = %d \n", cur_pos[0], cur_pos[1]);
+}*/
 
-/*
-** Удаляет символ и печатает новую строку.
-*/
+static void	delete_symbol_in_str(char *str, int symbol_index)
+{
+	int	str_len = ft_strlen(str) - 1;
+
+	while (symbol_index < str_len)
+	{
+		str[symbol_index] = str[symbol_index + 1];
+		symbol_index++;
+	}
+	str[symbol_index] = '\0';
+}
 
 void		delete_symbol(void)
 {
-	int	i;
-	int	tmp[2];
+	int	symbol_index;
 
-	if ((i = search_index() - 1) < 0)
-		return ;
-	tmp[0] = delete_symbol_sup(i);
-	tmp[1] = rp(NULL)->cur_pos[1];
-	clear_all_line();
-	while (i < (int)rp(NULL)->len - 1)
-	{
-		rp(NULL)->user_in[i] = rp(NULL)->user_in[i + 1];
-		i++;
-	}
-	rp(NULL)->user_in[i] = 0;
-	rp(NULL)->cur_pos[0] = tmp[0] - 1;
-	if (((rp(NULL)->prompt_len + rp(NULL)->len - 2) % rp(NULL)->ws_col == 0) &&\
-		!ft_strchr(rp(NULL)->user_in, '\n'))
-		rp(NULL)->cur_pos[0] = tmp[0];
-	rp(NULL)->cur_pos[1] = tmp[1];
-	rp(NULL)->len--;
-	ft_putstr_fd(rp(NULL)->user_in, STDERR_FILENO);
-	i = tmp[0] - 1;
-	cur_pos_after_putstr(tmp);
-	ret_cur_to_original_pos(tmp);
-	rp(NULL)->cur_pos[0] = i;
+	symbol_index = search_index() - 1;
+	if (symbol_index < 0)
+		return;
+	delete_symbol_in_str(rp(NULL)->user_in, symbol_index);
+	move_cursor(LEFT_ARROW);
+	tc_save_cursor_pos();
+	tc_clear_till_end();
+	ft_putstr_fd(rp(NULL)->user_in + symbol_index, STDERR_FILENO);
+	tc_restore_saved_cursor_pos();
 }
