@@ -38,18 +38,16 @@ void		move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos)
 
 void		delete_last_word(void)
 {
-	int i;
-
-	while ((i = search_index() - 1) >= 0)
+	while (rp(NULL)->index)
 	{
-		if (ft_isspace(rp(NULL)->user_in[i]))
+		if (ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
 			delete_symbol();
 		else
 			break ;
 	}
-	while ((i = search_index() - 1) >= 0)
+	while (rp(NULL)->index)
 	{
-		if (!ft_isspace(rp(NULL)->user_in[i]))
+		if (!ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
 			delete_symbol();
 		else
 			break ;

@@ -29,7 +29,7 @@ static void	move_cursor_up(void)
 		(long long)rp(NULL)->cur_pos[0] < (long long)rp(NULL)->prompt_len)
 		rp(NULL)->cur_pos[0] = rp(NULL)->prompt_len;
 	move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
-	rp(NULL)->index = search_index();
+	rp(NULL)->index = search_index(rp(NULL)->cur_pos, rp(NULL)->prompt_len);
 }
 
 static void	move_cursor_down(void)
@@ -50,7 +50,7 @@ static void	move_cursor_down(void)
 	move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
 	while (prev_cur_pos[0]-- != 1)
 		tputs(tgetstr("nd", NULL), STDERR_FILENO, ft_putint);
-	rp(NULL)->index = search_index();
+	rp(NULL)->index = search_index(rp(NULL)->cur_pos, rp(NULL)->prompt_len);
 }
 
 /*

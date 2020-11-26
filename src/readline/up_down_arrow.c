@@ -16,7 +16,7 @@ static void	up_down_arrow_sup(void)
 {
 	size_t	lenh;
 
-	clear_all_line();
+	clear_all_line(rp(NULL)->prompt_len);
 	lenh = rp(NULL)->history->len / MIN_CMD_LENGTH;
 	rp(NULL)->max_len = MIN_CMD_LENGTH * (lenh + 1);
 	free(rp(NULL)->user_in);
@@ -26,7 +26,7 @@ static void	up_down_arrow_sup(void)
 	ft_putstr_fd(rp(NULL)->user_in, STDERR_FILENO);
 	rp(NULL)->len = ft_strlen(rp(NULL)->user_in);
 	rp(NULL)->index = rp(NULL)->len;
-	cur_pos_after_putstr(rp(NULL)->cur_pos);
+	cur_pos_after_putstr(rp(NULL)->cur_pos, rp(NULL)->prompt_len);
 	if (rp(NULL)->cur_pos[0] - 1 == rp(NULL)->ws_col)
 	{
 		rp(NULL)->cur_pos[0] = 1;
@@ -41,6 +41,8 @@ void		up_down_arrow(long c)
 	{
 		free(rp(NULL)->history->str);
 		rp(NULL)->history->str = ft_strdup(rp(NULL)->user_in);
+		if (!rp(NULL)->history->str)
+			reset_exit(1);
 		rp(NULL)->history->len = ft_strlen(rp(NULL)->history->str);
 	}
 	if (c == UP_ARROW && rp(NULL)->history->next != NULL)

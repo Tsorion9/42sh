@@ -42,6 +42,10 @@
 # define PS2 1
 
 # define CLOSE_STREAM "-"
+
+# define HISTORY_SEARCH_STR_BEFORE "(reverse-i-search)`"
+# define HISTORY_SEARCH_STR_AFTER "': "
+
 # include "command.h"
 # include "deque.h"
 
@@ -100,6 +104,7 @@ typedef struct			s_rp
 	size_t				prompt_len;
 	int					in_readline;
 	int					in_read;
+	int					history_search_mode;
 }						t_rp;
 
 /*
@@ -187,6 +192,7 @@ typedef struct			s_token
 
 # define CTRL_D 4
 # define CTRL_C 3
+# define CTRL_R 18
 # define CTRL_S 19
 # define CTRL_Z 26
 # define CTRL_V 22
@@ -205,7 +211,7 @@ void					home_end(long c);
 int						str_naa(char *user_in);
 void					expand_user_in(void);
 t_rp					*rp(t_rp *change_rp);
-void					inverse_search_index(int cur_pos[2], int index);
+void					inverse_search_index(int cur_pos[2], int index, size_t prompt_len);
 void					reset_rp_to_start(void);
 int						ft_putint(int c);
 char					*readline(char *prompt);
@@ -218,10 +224,10 @@ void					delete_last_word(void);
 void					wordmove_cursor(long c);
 void					delete_symbol_forward(void);
 int						str_n(void);
-void					clear_all_line(void);
-void					cur_pos_after_putstr(int *cur_pos);
+void					clear_all_line(size_t prompt_len);
+void					cur_pos_after_putstr(int *cur_pos, size_t prompt_len);
 int						search_last_cur_pos_in_line(int line);
-int						search_index(void);
+int						search_index(int *cur_pos, size_t prompt_len);
 void					move_cursor_to_new_position(int *prev_cur_pos, int *original_cur_pos);
 int						ret_winsize(int a);
 int						check_slash(char *user_in, int start_check);
@@ -258,6 +264,8 @@ void					expand_str(t_str *str);
 void					free_str(t_str *str);
 void					tc_save_cursor_pos(void);
 void					tc_restore_saved_cursor_pos(void);
+void					history_search_print(char *history_search_buf, char *user_in, int *cur_pos);
+void					history_search(long c);
 
 /*
 ** Interface for lexer

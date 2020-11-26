@@ -37,7 +37,7 @@ void		completion(void)
 	int				i;
 
 	return ;
-	i = search_index();
+	i = 0;//search_index();
 	path = NULL;
 	remaider_word = cut_word(' ', i);
 	if (is_first_word(i) && !ft_strchr(remaider_word, '/'))

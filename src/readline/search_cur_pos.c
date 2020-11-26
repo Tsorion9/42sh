@@ -61,7 +61,7 @@ int			search_last_cur_pos_in_line(int line)
 ** курсора после вывода строки (rp(NULL)->user_in).
 */
 
-void		cur_pos_after_putstr(int *cur_pos)
+void		cur_pos_after_putstr(int *cur_pos, size_t prompt_len)
 {
 	int	i;
 	int	n;
@@ -69,12 +69,12 @@ void		cur_pos_after_putstr(int *cur_pos)
 
 	cur_pos[1] = str_n() + 1;
 	if (cur_pos[1] == 1)
-		cur_pos[0] = ft_strlen(rp(NULL)->user_in) + rp(NULL)->prompt_len;
+		cur_pos[0] = ft_strlen(rp(NULL)->user_in) + prompt_len;
 	else
 	{
 		i = 0;
 		n = cur_pos[1] - 1;
-		cur_pos_col = rp(NULL)->prompt_len;
+		cur_pos_col = prompt_len;
 		while (n)
 		{
 			if (rp(NULL)->user_in[i] == '\n' || cur_pos_col >= rp(NULL)->ws_col)

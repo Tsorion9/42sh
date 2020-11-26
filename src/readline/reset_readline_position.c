@@ -74,4 +74,5 @@ void		reset_rp_to_start(void)
 	rp(NULL)->prompt_len = get_cursor_position();
 	rp(NULL)->in_readline = 1;
 	reset_cur_pos_rp();
+	rp(NULL)->history_search_mode = 0;
 }

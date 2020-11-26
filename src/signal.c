@@ -62,14 +62,14 @@ static void	processing_sigwinch(int signal_code)
 	int	index;
 
 	(void)signal_code;
-	index = search_index();
-	clear_all_line();
+	index = search_index(rp(NULL)->cur_pos, rp(NULL)->prompt_len);
+	clear_all_line(rp(NULL)->prompt_len);
 	rp(NULL)->ws_col = ret_winsize(0);
 	rp(NULL)->ws_row = ret_winsize(1);
-	clear_all_line();
+	clear_all_line(rp(NULL)->prompt_len);
 	ft_putstr_fd(rp(NULL)->user_in, STDERR_FILENO);
-	inverse_search_index(rp(NULL)->cur_pos, index);
-	cur_pos_after_putstr(tmp_cur_pos);
+	inverse_search_index(rp(NULL)->cur_pos, index, rp(NULL)->prompt_len);
+	cur_pos_after_putstr(tmp_cur_pos, rp(NULL)->prompt_len);
 	move_cursor_to_new_position(tmp_cur_pos, rp(NULL)->cur_pos);
 }
 

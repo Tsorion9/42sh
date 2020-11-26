@@ -16,7 +16,7 @@
 ** Index of symbol under cursor
 */
 
-int		search_index(void)
+int		search_index(int *cur_pos, size_t prompt_len)
 {
 	int	n;
 	int	i;
@@ -24,10 +24,10 @@ int		search_index(void)
 
 	n = 1;
 	i = 0;
-	if (rp(NULL)->cur_pos[1] == 1)
-		return (rp(NULL)->cur_pos[0] - rp(NULL)->prompt_len);
-	cur_pos_col = rp(NULL)->prompt_len;
-	while (n < rp(NULL)->cur_pos[1])
+	if (cur_pos[1] == 1)
+		return (cur_pos[0] - prompt_len);
+	cur_pos_col = prompt_len;
+	while (n < cur_pos[1])
 	{
 		if (rp(NULL)->user_in[i] == '\n' || cur_pos_col >= rp(NULL)->ws_col)
 		{
@@ -37,15 +37,15 @@ int		search_index(void)
 		cur_pos_col++;
 		i++;
 	}
-	i += rp(NULL)->cur_pos[0] - 1;
+	i += cur_pos[0] - 1;
 	return (i);
 }
 
-void	inverse_search_index(int cur_pos[2], int index)
+void	inverse_search_index(int cur_pos[2], int index, size_t prompt_len)
 {
 	int	i;
 
-	cur_pos[0] = rp(NULL)->prompt_len;
+	cur_pos[0] = prompt_len;
 	cur_pos[1] = 1;
 	i = 0;
 	while (i < index && rp(NULL)->user_in[i])

@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/26 21:48:26 by anton            ###   ########.fr       */
+/*   Updated: 2020/11/26 19:33:56 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ static long	handle_click(void)
 	rp(NULL)->in_read = 1;
 	read(STDIN_FILENO, &c, sizeof(long));
 	rp(NULL)->in_read = 0;
+
+	if (c == CTRL_R && !rp(NULL)->history_search_mode)
+		rp(NULL)->history_search_mode = 1;
+	if (rp(NULL)->history_search_mode)
+		history_search(c);
 	if (c == LEFT_ARROW || c == RIGHT_ARROW)
 		move_cursor(c);
 	else if (c == UP_ARROW || c == DOWN_ARROW)

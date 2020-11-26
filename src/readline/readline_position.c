@@ -36,6 +36,7 @@ t_rp		*init_rp(void)
 	rp->ws_col = ret_winsize(0);
 	rp->ws_row = ret_winsize(1);
 	rp->in_readline = 0;
+	rp->history_search_mode = 0;
 	return (rp);
 }
 

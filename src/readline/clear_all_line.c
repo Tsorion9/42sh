@@ -15,13 +15,15 @@
 /*
 ** Чистит все строки, введенные пользователем.
 */
-void		clear_all_line(void)
+void		clear_all_line(size_t prompt_len)
 {
+	if (!prompt_len)
+		return ;
 	while (rp(NULL)->cur_pos[1] > 1)
 		tc_cursor_up();
-	while ((size_t)rp(NULL)->cur_pos[0] < rp(NULL)->prompt_len)
+	while ((size_t)rp(NULL)->cur_pos[0] < prompt_len)
 		tc_cursor_right();
-	while ((size_t)rp(NULL)->cur_pos[0] > rp(NULL)->prompt_len)
+	while ((size_t)rp(NULL)->cur_pos[0] > prompt_len)
 		tc_cursor_left();
 	tc_clear_till_end();
 }
