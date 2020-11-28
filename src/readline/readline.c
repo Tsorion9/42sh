@@ -46,8 +46,8 @@ static long	handle_click(void)
 	if (c == CTRL_R && !rp(NULL)->history_search_mode)
 		rp(NULL)->history_search_mode = 1;
 	if (rp(NULL)->history_search_mode)
-		history_search(c);
-	if (c == LEFT_ARROW || c == RIGHT_ARROW)
+		history_search_start(c);
+	else if (c == LEFT_ARROW || c == RIGHT_ARROW)
 		move_cursor(c);
 	else if (c == UP_ARROW || c == DOWN_ARROW)
 		up_down_arrow(c);

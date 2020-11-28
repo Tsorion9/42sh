@@ -14,15 +14,8 @@
 
 static void	up_down_arrow_sup(void)
 {
-	size_t	lenh;
-
+	set_new_user_in(rp(NULL)->history->str);
 	clear_all_line(rp(NULL)->prompt_len);
-	lenh = rp(NULL)->history->len / MIN_CMD_LENGTH;
-	rp(NULL)->max_len = MIN_CMD_LENGTH * (lenh + 1);
-	free(rp(NULL)->user_in);
-	if (!(rp(NULL)->user_in = (char*)xmalloc(sizeof(char) * rp(NULL)->max_len)))
-		reset_exit(1);
-	ft_strcpy(rp(NULL)->user_in, rp(NULL)->history->str);
 	ft_putstr_fd(rp(NULL)->user_in, STDERR_FILENO);
 	rp(NULL)->len = ft_strlen(rp(NULL)->user_in);
 	rp(NULL)->index = rp(NULL)->len;

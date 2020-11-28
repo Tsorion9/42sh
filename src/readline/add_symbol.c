@@ -12,14 +12,18 @@
 
 #include "inc21sh.h"
 
-static void	add_symbol_in_str(char *str, char symbol, int symbol_index)
+void	add_symbol_in_str(char *str, char symbol, size_t symbol_index)
 {
+	size_t str_len;
+
+	str_len = ft_strlen(str);
 	ft_memmove(str + symbol_index + 1, str + symbol_index, \
 		ft_strlen(str + symbol_index) + 1);
 	str[symbol_index] = symbol;
+	str[str_len + 1] = '\0';
 }
 
-void		add_symbol(char c)
+void	add_symbol(char c)
 {
 	if (rp(NULL)->max_len <= rp(NULL)->len + 1)
 		expand_user_in();

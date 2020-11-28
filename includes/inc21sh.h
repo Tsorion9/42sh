@@ -79,6 +79,13 @@ typedef struct			s_history
 	struct s_history	*next;
 }						t_history;
 
+typedef struct			s_history_search
+{
+	char				str[BUFFSIZE];
+	size_t				len;
+	size_t				index;
+}						t_history_search;
+
 /*
 ** @user_in	buffer (heap)
 ** @len	length of user input
@@ -264,8 +271,10 @@ void					expand_str(t_str *str);
 void					free_str(t_str *str);
 void					tc_save_cursor_pos(void);
 void					tc_restore_saved_cursor_pos(void);
-void					history_search_print(char *history_search_buf, char *user_in, int *cur_pos);
-void					history_search(long c);
+void					history_search_start(long c);
+void					add_symbol_in_str(char *str, char symbol, size_t symbol_index);
+void					delete_symbol_in_str(char *str, size_t symbol_index);
+void					set_new_user_in(const char *str);
 
 /*
 ** Interface for lexer

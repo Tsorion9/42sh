@@ -13,7 +13,7 @@
 
 #include "inc21sh.h"
 
-void		delete_symbol_forward(void)
+void	delete_symbol_forward(void)
 {
 	int tmp[2];
 
@@ -24,10 +24,11 @@ void		delete_symbol_forward(void)
 		delete_symbol();
 }
 
-static void	delete_symbol_in_str(char *str, int symbol_index)
+void	delete_symbol_in_str(char *str, size_t symbol_index)
 {
-	int	str_len = ft_strlen(str) - 1;
+	size_t str_len;
 
+	str_len = ft_strlen(str) - 1;
 	while (symbol_index < str_len)
 	{
 		str[symbol_index] = str[symbol_index + 1];
@@ -36,7 +37,7 @@ static void	delete_symbol_in_str(char *str, int symbol_index)
 	str[symbol_index] = '\0';
 }
 
-void		delete_symbol(void)
+void	delete_symbol(void)
 {
 	if (rp(NULL)->index <= 0)
 		return ;
