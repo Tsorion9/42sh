@@ -84,6 +84,7 @@ typedef struct			s_history_search
 	char				str[BUFFSIZE];
 	size_t				len;
 	size_t				index;
+	int					history_search_mode;
 }						t_history_search;
 
 /*
@@ -111,7 +112,7 @@ typedef struct			s_rp
 	size_t				prompt_len;
 	int					in_readline;
 	int					in_read;
-	int					history_search_mode;
+	t_history_search	history_search;
 }						t_rp;
 
 /*

@@ -52,37 +52,55 @@ static void	history_search_print(const char *history_str, const char *user_in, c
  */
 static void	history_search(int *cur_pos, size_t *index, const char *history_str)
 {
-	if (*index == 0 && !ft_strstr(rp(NULL)->user_in, history_str))
-	{
-		if (rp(NULL)->history->next != NULL)
-			rp(NULL)->history = rp(NULL)->history->next;
+	int found;
 
+	found = 0;
+	while (rp(NULL)->history->next && !found)
+	{
+		while (!ft_strstr(rp(NULL)->user_in + *index, history_str) && *index)
+			*index = *index - 1;
+		if (*index == 0 && !ft_strstr(rp(NULL)->user_in, history_str))
+		{
+			if (rp(NULL)->history->next != NULL)
+				rp(NULL)->history = rp(NULL)->history->next;
+			set_new_user_in(rp(NULL)->history->str);
+			*index = rp(NULL)->len;
+		}
+		else
+			found = 1;
 	}
+	inverse_search_index(cur_pos, *index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
+		ft_strlen(history_str) + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
 }
 
 void		history_search_start(long c)
 {
-	static t_history_search history_search = {{0}, 0, 0};
+	t_history_search	*t_history_search = &(rp(NULL)->history_search);
+	int					cur_pos[2] = {1, 1};
 
 	if (is_print(c))
 	{
-		add_symbol_in_str(history_search.str, c, history_search.len);
-		history_search.len++;
+		add_symbol_in_str(t_history_search->str, c, t_history_search->len);
+		t_history_search->len++;
+		history_search(cur_pos, &(t_history_search->index), t_history_search->str);
 	}
-	else if (c == BACKSPACE && history_search.len)
+	else if (c == BACKSPACE && t_history_search->len)
 	{
-		delete_symbol_in_str(history_search.str, history_search.len - 1);
-		history_search.len--;
+		delete_symbol_in_str(t_history_search->str, t_history_search->len - 1);
+		t_history_search->len--;
+		history_search(cur_pos, &(t_history_search->index), t_history_search->str);
 	}
-	int cur_pos[2];
-	inverse_search_index(cur_pos, rp(NULL)->index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
-		history_search.len + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
-	history_search_print(history_search.str, rp(NULL)->user_in, cur_pos, history_search.len);
+	else
+	{
+		inverse_search_index(cur_pos, rp(NULL)->index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
+			t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
+	}
+	history_search_print(t_history_search->str, rp(NULL)->user_in, cur_pos, t_history_search->len);
 	if (c == LEFT_ARROW || c == RIGHT_ARROW)
 	{
-		rp(NULL)->history_search_mode = 0;
-		history_search.len = 0;
-		ft_memset(history_search.str, BUFFSIZE, 0);
+		t_history_search->history_search_mode = 0;
+		t_history_search->len = 0;
+		ft_memset(t_history_search->str, 0, BUFFSIZE);
 		clear_all_line(1);
 	}
 }

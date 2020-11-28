@@ -16,4 +16,6 @@ void	set_new_user_in(const char *str)
 	if (!(rp(NULL)->user_in = (char*)xmalloc(sizeof(char) * rp(NULL)->max_len)))
 		reset_exit(1);
 	ft_strcpy(rp(NULL)->user_in, str);
+	rp(NULL)->len = ft_strlen(rp(NULL)->user_in);
+	rp(NULL)->index = rp(NULL)->len;
 }

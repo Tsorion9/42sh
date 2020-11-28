@@ -43,9 +43,9 @@ static long	handle_click(void)
 	read(STDIN_FILENO, &c, sizeof(long));
 	rp(NULL)->in_read = 0;
 
-	if (c == CTRL_R && !rp(NULL)->history_search_mode)
-		rp(NULL)->history_search_mode = 1;
-	if (rp(NULL)->history_search_mode)
+	if (c == CTRL_R && !rp(NULL)->history_search.history_search_mode)
+		rp(NULL)->history_search.history_search_mode = 1;
+	if (rp(NULL)->history_search.history_search_mode)
 		history_search_start(c);
 	else if (c == LEFT_ARROW || c == RIGHT_ARROW)
 		move_cursor(c);

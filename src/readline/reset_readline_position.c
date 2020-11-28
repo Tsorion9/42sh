@@ -74,5 +74,8 @@ void		reset_rp_to_start(void)
 	rp(NULL)->prompt_len = get_cursor_position();
 	rp(NULL)->in_readline = 1;
 	reset_cur_pos_rp();
-	rp(NULL)->history_search_mode = 0;
+	ft_memset(rp(NULL)->history_search.str, 0, BUFFSIZE);
+	rp(NULL)->history_search.len = 0;
+	rp(NULL)->history_search.index = 0;
+	rp(NULL)->history_search.history_search_mode = 0;
 }
