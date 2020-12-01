@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 13:17:49 by mphobos           #+#    #+#             */
-/*   Updated: 2020/11/23 13:17:50 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/01 22:07:50 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	delete_symbol(void)
 		return ;
 	move_cursor(LEFT_ARROW);
 	delete_symbol_in_str(rp(NULL)->user_in, rp(NULL)->index);
+	rp(NULL)->len--;
 	tc_save_cursor_pos();
 	tc_clear_till_end();
 	ft_putstr_fd(rp(NULL)->user_in + rp(NULL)->index, STDERR_FILENO);
 	tc_restore_saved_cursor_pos();
-	rp(NULL)->len--;
 }

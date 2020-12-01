@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:38 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:14:38 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/11/29 12:32:59 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,12 @@ static void	up_down_arrow_sup(void)
 	}
 }
 
-void		up_down_arrow(long c)
+/*! \fn save_user_in_history
+ *  \b Компонента  \b : readline \n
+ *  \b Назначение  \b : Устанавливает строку с историей равной 
+ *  глобальной строке user_in \n
+ */
+void		save_user_in_history(void)
 {
 	if (ft_strcmp(rp(NULL)->user_in, rp(NULL)->history->str))
 	{
@@ -36,6 +41,11 @@ void		up_down_arrow(long c)
 			reset_exit(1);
 		rp(NULL)->history->len = ft_strlen(rp(NULL)->history->str);
 	}
+}
+
+void		up_down_arrow(long c)
+{
+	save_user_in_history();
 	if (c == UP_ARROW && rp(NULL)->history->next != NULL)
 	{
 		rp(NULL)->history = rp(NULL)->history->next;

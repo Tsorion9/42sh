@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inc21sh.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 16:25:13 by anton            ###   ########.fr       */
+/*   Updated: 2020/12/01 22:32:13 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # define CLOSE_STREAM "-"
 
 # define HISTORY_SEARCH_STR_BEFORE "(reverse-i-search)`"
+# define HISTORY_SEARCH_STR_NOT_FOUND_BEFORE "(failed reverse-i-search)`"
 # define HISTORY_SEARCH_STR_AFTER "': "
 
 # include "command.h"
@@ -101,6 +102,7 @@ typedef struct			s_history_search
 
 typedef struct			s_rp
 {
+	char				*prompt;
 	char				*user_in;
 	size_t				len;
 	size_t				max_len;
@@ -200,6 +202,7 @@ typedef struct			s_token
 
 # define CTRL_D 4
 # define CTRL_C 3
+# define CTRL_E 5
 # define CTRL_R 18
 # define CTRL_S 19
 # define CTRL_Z 26
@@ -220,7 +223,7 @@ int						str_naa(char *user_in);
 void					expand_user_in(void);
 t_rp					*rp(t_rp *change_rp);
 void					inverse_search_index(int cur_pos[2], int index, size_t prompt_len);
-void					reset_rp_to_start(void);
+void					reset_rp_to_start(char *prompt);
 int						ft_putint(int c);
 char					*readline(char *prompt);
 int						ft_isspace(char c);
@@ -236,7 +239,7 @@ void					clear_all_line(size_t prompt_len);
 void					cur_pos_after_putstr(int *cur_pos, size_t prompt_len);
 int						search_last_cur_pos_in_line(int line);
 int						search_index(int *cur_pos, size_t prompt_len);
-void					move_cursor_to_new_position(int *prev_cur_pos, int *original_cur_pos);
+void					move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos);
 int						ret_winsize(int a);
 int						check_slash(char *user_in, int start_check);
 char					*expansion(char *user_in, char **env);
@@ -276,6 +279,9 @@ void					history_search_start(long c);
 void					add_symbol_in_str(char *str, char symbol, size_t symbol_index);
 void					delete_symbol_in_str(char *str, size_t symbol_index);
 void					set_new_user_in(const char *str);
+void					save_user_in_history(void);
+void					set_history_search_mode();
+int						now_search_history();
 
 /*
 ** Interface for lexer

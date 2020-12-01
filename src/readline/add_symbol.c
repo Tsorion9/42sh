@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 13:18:00 by mphobos           #+#    #+#             */
-/*   Updated: 2020/11/23 13:18:01 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/01 22:06:44 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	add_symbol(char c)
 	if (rp(NULL)->max_len <= rp(NULL)->len + 1)
 		expand_user_in();
 	add_symbol_in_str(rp(NULL)->user_in, c, rp(NULL)->index);
+	rp(NULL)->len++;
 	tc_clear_till_end();
 	tc_save_cursor_pos();
 	ft_putstr_fd(rp(NULL)->user_in + rp(NULL)->index, STDERR_FILENO);
 	tc_restore_saved_cursor_pos();
 	move_cursor(RIGHT_ARROW);
-	rp(NULL)->len++;
 }

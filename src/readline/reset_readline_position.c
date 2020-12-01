@@ -63,8 +63,10 @@ static int	get_cursor_position(void)
 	return (ft_atoi(ptr_buf + i + 1));
 }
 
-void		reset_rp_to_start(void)
+void		reset_rp_to_start(char *prompt)
 {
+	if (!(rp(NULL)->prompt = ft_strdup(prompt)))
+		reset_exit(1);
 	if (!(rp(NULL)->user_in = (char*)ft_memalloc(MIN_CMD_LENGTH)))
 		reset_exit(1);
 	rp(NULL)->max_len = MIN_CMD_LENGTH;

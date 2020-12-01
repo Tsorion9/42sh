@@ -48,7 +48,7 @@ static void	processing_sigint(int signal_code)
 			write(STDERR_FILENO, "\n", 1);
 		ft_memdel((void **)&(rp(NULL)->user_in));
 		gayprompt(get_prompt(PS1));
-		reset_rp_to_start();
+		reset_rp_to_start(get_prompt(PS1));
 		fuck_checklist_signal_state(1, 1);
 		fuck_norme_lexer_state(1, NULL, NULL, NULL);
 		global_newline_erased(1, 0);

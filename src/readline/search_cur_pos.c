@@ -28,7 +28,6 @@ static int	search_last_cur_pos_in_line_sup(int cur_pos_col, int i, int line)
 	return (cur_pos_col);
 }
 
-/* TODO Изменить описание функции*/
 /*
 ** Ищет последнюю позицию курсора по ширине для
 ** актуальной позиции курсора по высоте (rp(NULL)->cur_pos[1]).

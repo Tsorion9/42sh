@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:12:08 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/24 19:42:15 by anton            ###   ########.fr       */
+/*   Updated: 2020/12/01 22:06:25 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	move_cursor_right(void)
 	else if (rp(NULL)->user_in[rp(NULL)->index] != 0)
 		rp(NULL)->cur_pos[0]++;
 	move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
-	if (rp(NULL)->index <= rp(NULL)->len)
+	if (rp(NULL)->index < rp(NULL)->len)
 		rp(NULL)->index++;
 }
 

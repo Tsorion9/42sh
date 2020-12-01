@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline_position.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:18:34 by anton             #+#    #+#             */
-/*   Updated: 2020/06/24 20:18:34 by anton            ###   ########.fr       */
+/*   Updated: 2020/12/01 20:51:34 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_rp		*init_rp(void)
 
 	if (!(rp = (t_rp*)xmalloc(sizeof(t_rp))))
 		reset_exit(1);
+	rp->prompt = NULL;
+	rp->user_in = NULL;
 	rp->len = 0;
 	rp->max_len = MIN_CMD_LENGTH;
 	rp->index = 0;
@@ -42,7 +44,11 @@ t_rp		*init_rp(void)
 
 void		free_rp(void)
 {
-	free(rp(NULL)->user_in);
+	if (rp(NULL)->prompt)
+		free(rp(NULL)->prompt);
+	if (rp(NULL)->user_in)
+		free(rp(NULL)->user_in);
 	free_history_list(rp(NULL)->history);
-	free(rp(NULL));
+	if (rp(NULL))
+		free(rp(NULL));
 }

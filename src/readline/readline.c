@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/11/26 19:33:56 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/01 22:32:35 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,19 @@ int			is_print(long c)
 
 static void	handle_click_sup(long c)
 {
-	if (c == CTRL_LEFT || c == CTRL_RIGHT)
-		wordmove_cursor(c);
-	else if (c == CTRL_UP || c == CTRL_DOWN)
-		strmove_cursor(c);
-	else if (c == CTRL_W)
-		delete_last_word();
-	else if (c == TAB_ARROW)
-		completion();
-	else if (c == SHIFT_TAB)
-		add_symbol(' ');
+	if (!now_search_history())
+	{
+		if (c == CTRL_LEFT || c == CTRL_RIGHT)
+			wordmove_cursor(c);
+		else if (c == CTRL_UP || c == CTRL_DOWN)
+			strmove_cursor(c);
+		else if (c == CTRL_W)
+			delete_last_word();
+		else if (c == TAB_ARROW)
+			completion();
+		else if (c == SHIFT_TAB)
+			add_symbol(' ');
+	}
 }
 
 static long	handle_click(void)
@@ -44,25 +47,28 @@ static long	handle_click(void)
 	rp(NULL)->in_read = 0;
 
 	if (c == CTRL_R && !rp(NULL)->history_search.history_search_mode)
-		rp(NULL)->history_search.history_search_mode = 1;
-	if (rp(NULL)->history_search.history_search_mode)
+		set_history_search_mode();
+	if (now_search_history())
 		history_search_start(c);
-	else if (c == LEFT_ARROW || c == RIGHT_ARROW)
-		move_cursor(c);
-	else if (c == UP_ARROW || c == DOWN_ARROW)
-		up_down_arrow(c);
-	else if (c == BACKSPACE)
-		delete_symbol();
-	else if (c == DEL)
-		delete_symbol_forward();
-	else if (is_print(c))
-		add_symbol(c);
-	else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
-		alt_left_right(c);
-	else if (c == HOME || c == END)
-		home_end(c);
-	else if (c == CTRL_D && rp(NULL)->len == 0)
-		return (-1);
+	if (!now_search_history())
+	{
+		if (c == LEFT_ARROW || c == RIGHT_ARROW)
+			move_cursor(c);
+		else if (c == UP_ARROW || c == DOWN_ARROW)
+			up_down_arrow(c);
+		else if (c == BACKSPACE)
+			delete_symbol();
+		else if (c == DEL)
+			delete_symbol_forward();
+		else if (is_print(c))
+			add_symbol(c);
+		else if (c == ALT_LEFT_ARROW || c == ALT_RIGHT_ARROW)
+			alt_left_right(c);
+		else if (c == HOME || c == END)
+			home_end(c);
+		else if (c == CTRL_D && rp(NULL)->len == 0)
+			return (-1);
+	}
 	else
 		handle_click_sup(c);
 	return (c);
@@ -92,14 +98,15 @@ char		*readline(char *prompt)
 	int		user_in_lines;
 
 	gayprompt(prompt);
-	reset_rp_to_start();
+	reset_rp_to_start(prompt);
 	read_till_newline(&user_in_len);
 	user_in_lines = str_n() - rp(NULL)->cur_pos[1];
 	while (user_in_lines-- > 0)
 		write(STDERR_FILENO, "\n", 1);
 	write(STDERR_FILENO, "\n", 1);
 	if (!(ret_user_in = ft_strdup(rp(NULL)->user_in)))
-		exit(1);
+		reset_exit(1);
+	ft_memdel((void **)&(rp(NULL)->prompt));
 	ft_memdel((void **)&(rp(NULL)->user_in));
 	rp(NULL)->in_readline = 0;
 	return (ret_user_in);
