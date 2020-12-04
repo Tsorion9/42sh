@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:15 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:14:16 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/01 22:56:19 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	move_cursor_down(void)
 
 	prev_cur_pos[0] = rp(NULL)->cur_pos[0];
 	prev_cur_pos[1] = rp(NULL)->cur_pos[1];
-	n = str_n() + 1;
+	n = str_n(rp(NULL)->prompt_len) + 1;
 	if (n == rp(NULL)->cur_pos[1])
 		return ;
 	rp(NULL)->cur_pos[1]++;

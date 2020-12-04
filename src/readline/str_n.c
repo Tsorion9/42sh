@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:13 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:14:14 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/04 00:21:09 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	str_n_sup(char *user_in, int n)
 ** командой (rp(NULL)->user_in).
 */
 
-int			str_n(void)
+int			str_n(size_t prompt_len)
 {
 	char			*user_in;
 	int				n;
@@ -43,7 +43,7 @@ int			str_n(void)
 
 	user_in = rp(NULL)->user_in;
 	n = 0;
-	cur_pos_col = rp(NULL)->prompt_len;
+	cur_pos_col = prompt_len;
 	while (*user_in && *user_in != '\n' && cur_pos_col <= rp(NULL)->ws_col)
 	{
 		cur_pos_col++;

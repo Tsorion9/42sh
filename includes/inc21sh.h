@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/01 22:32:13 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/01 23:07:51 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ void					alt_left_right(long c);
 void					delete_last_word(void);
 void					wordmove_cursor(long c);
 void					delete_symbol_forward(void);
-int						str_n(void);
+int						str_n(size_t prompt_len);
 void					clear_all_line(size_t prompt_len);
 void					cur_pos_after_putstr(int *cur_pos, size_t prompt_len);
 int						search_last_cur_pos_in_line(int line);
@@ -280,8 +280,9 @@ void					add_symbol_in_str(char *str, char symbol, size_t symbol_index);
 void					delete_symbol_in_str(char *str, size_t symbol_index);
 void					set_new_user_in(const char *str);
 void					save_user_in_history(void);
-void					set_history_search_mode();
-int						now_search_history();
+void					set_history_search_mode(void);
+int						now_search_history(void);
+int						get_cursor_position(void);
 
 /*
 ** Interface for lexer

@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/01 22:32:35 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/01 22:56:03 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char		*readline(char *prompt)
 	gayprompt(prompt);
 	reset_rp_to_start(prompt);
 	read_till_newline(&user_in_len);
-	user_in_lines = str_n() - rp(NULL)->cur_pos[1];
+	user_in_lines = str_n(rp(NULL)->prompt_len) - rp(NULL)->cur_pos[1];
 	while (user_in_lines-- > 0)
 		write(STDERR_FILENO, "\n", 1);
 	write(STDERR_FILENO, "\n", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:15:38 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 19:11:39 by anton            ###   ########.fr       */
+/*   Updated: 2020/12/01 22:55:39 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	processing_sigint(int signal_code)
 		write(2, "\n", 1);
 	if (rp(NULL)->in_read)
 	{
-		user_in_lines = str_n() - rp(NULL)->cur_pos[1] + 2;
+		user_in_lines = str_n(rp(NULL)->prompt_len) - rp(NULL)->cur_pos[1] + 2;
 		while (user_in_lines-- > 0)
 			write(STDERR_FILENO, "\n", 1);
 		ft_memdel((void **)&(rp(NULL)->user_in));

@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 19:45:28 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/01 22:32:00 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/04 00:04:49 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static void	history_search_print(const t_history_search *history_search, const c
 	prompt_len = ft_strlen(history_search_before) + history_search->len +
 		ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1;
 	cur_pos_after_putstr(rp(NULL)->cur_pos, prompt_len);
+	t_rp *read_pos = rp(NULL);
+	if (read_pos)
 	move_cursor_to_new_position(rp(NULL)->cur_pos, new_cur_pos);
 }
 
@@ -86,10 +88,10 @@ static int	history_search(int *cur_pos, size_t *index, const char *history_str)
 	}
 	if (found)
 		inverse_search_index(cur_pos, *index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
-			ft_strlen(history_str) + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
+			ft_strlen(history_str) + ft_strlen(HISTORY_SEARCH_STR_AFTER));
 	else
 		inverse_search_index(cur_pos, *index, ft_strlen(HISTORY_SEARCH_STR_NOT_FOUND_BEFORE) +
-			ft_strlen(history_str) + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
+			ft_strlen(history_str) + ft_strlen(HISTORY_SEARCH_STR_AFTER));
 	return (found);
 }
 
@@ -129,8 +131,8 @@ static void exit_history_search(t_history_search *history_search)
 
 /*! \fn set_history_search_mode
  *  \b Компонента  \b : readline \n
- *  \b Назначение  \b : Устанавливает перед началом поиска
- *  по истории \n
+ *  \b Назначение  \b : Устанавливает параметры перед началом
+ *  поиска по истории \n
  *  \param[in/out] history_search структура поиска истории
  */
 void		set_history_search_mode()
@@ -148,10 +150,16 @@ void		history_search_start(long c)
 {
 	t_history_search	*t_history_search = &(rp(NULL)->history_search);
 	int					cur_pos[2] = {1, 1};
-	int					found;
+	static int			found = 1;
 
 	found = 1;
-	if (is_print(c))
+	if (c == LEFT_ARROW || c == RIGHT_ARROW || c == UP_ARROW || c == DOWN_ARROW || 
+	c == '\n' || c == CTRL_E || c == UP_ARROW || c == DOWN_ARROW)
+	{
+		exit_history_search(t_history_search);
+		return ;
+	}
+	else if (is_print(c))
 	{
 		add_symbol_in_str(t_history_search->str, c, t_history_search->len);
 		t_history_search->len++;
@@ -174,16 +182,14 @@ void		history_search_start(long c)
 		}
 		found = history_search(cur_pos, &(t_history_search->index), t_history_search->str);
 	}*/
-	else if (c == LEFT_ARROW || c == RIGHT_ARROW || c == UP_ARROW || c == DOWN_ARROW || 
-	c == '\n' || c == CTRL_E || c == UP_ARROW || c == DOWN_ARROW)
-	{
-		exit_history_search(t_history_search);
-		return ;
-	}
 	else
 	{
-		inverse_search_index(cur_pos, rp(NULL)->index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
-			t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
+		if (found)
+			inverse_search_index(cur_pos, rp(NULL)->index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
+				t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
+		else
+			inverse_search_index(cur_pos, rp(NULL)->index, ft_strlen(HISTORY_SEARCH_STR_NOT_FOUND_BEFORE) +
+				t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
 	}
 	history_search_print(t_history_search, rp(NULL)->user_in, cur_pos, found);
 }

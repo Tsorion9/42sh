@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:45 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/24 20:08:16 by anton            ###   ########.fr       */
+/*   Updated: 2020/12/01 23:07:30 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	parse_cur_pos(char *buf)
 	}
 }
 
-static int	get_cursor_position(void)
+int			get_cursor_position(void)
 {
 	int		i;
 	char	buf[32];
