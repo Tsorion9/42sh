@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:09 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/04 00:15:26 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/04 19:16:51 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ int		search_index(int *cur_pos, size_t prompt_len)
 void	inverse_search_index(int cur_pos[2], int index, size_t prompt_len)
 {
 	int	i;
+	int	ws_col;
+	int	a;
 
-	int ws_col = rp(NULL)->ws_col;
-	int a = prompt_len / ws_col;
-	int b = ws_col * a;
-	if (ws_col || a || b)
+	ws_col = rp(NULL)->ws_col;
+	a = prompt_len / ws_col;
 	cur_pos[0] = (prompt_len - ws_col * a) + 1;
 	cur_pos[1] = a + 1;
 	i = 0;
