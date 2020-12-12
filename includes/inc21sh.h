@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/10/17 15:43:22 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/12 12:59:40 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@
 # define PS2 1
 
 # define CLOSE_STREAM "-"
+
+# define HISTORY_SEARCH_STR_BEFORE "(reverse-i-search)`"
+# define HISTORY_SEARCH_STR_NOT_FOUND_BEFORE "(failed reverse-i-search)`"
+# define HISTORY_SEARCH_STR_AFTER "': "
+
 # include "command.h"
 # include "deque.h"
 
@@ -75,6 +80,14 @@ typedef struct			s_history
 	struct s_history	*next;
 }						t_history;
 
+typedef struct			s_history_search
+{
+	char				str[BUFFSIZE];
+	size_t				len;
+	size_t				index;
+	int					history_search_mode;
+}						t_history_search;
+
 /*
 ** @user_in	buffer (heap)
 ** @len	length of user input
@@ -89,9 +102,11 @@ typedef struct			s_history
 
 typedef struct			s_rp
 {
+	char				*prompt;
 	char				*user_in;
 	size_t				len;
 	size_t				max_len;
+	size_t				index;
 	int					cur_pos[2];
 	t_history			*history;
 	unsigned short		ws_col;
@@ -99,6 +114,7 @@ typedef struct			s_rp
 	size_t				prompt_len;
 	int					in_readline;
 	int					in_read;
+	t_history_search	history_search;
 }						t_rp;
 
 /*
@@ -186,6 +202,8 @@ typedef struct			s_token
 
 # define CTRL_D 4
 # define CTRL_C 3
+# define CTRL_E 5
+# define CTRL_R 18
 # define CTRL_S 19
 # define CTRL_Z 26
 # define CTRL_V 22
@@ -204,8 +222,8 @@ void					home_end(long c);
 int						str_naa(char *user_in);
 void					expand_user_in(void);
 t_rp					*rp(t_rp *change_rp);
-void					inverse_search_index(int cur_pos[2], int index);
-void					reset_rp_to_start(void);
+void					inverse_search_index(int cur_pos[2], int index, size_t prompt_len);
+void					reset_rp_to_start(char *prompt);
 int						ft_putint(int c);
 char					*readline(char *prompt);
 int						ft_isspace(char c);
@@ -216,12 +234,12 @@ void					alt_left_right(long c);
 void					delete_last_word(void);
 void					wordmove_cursor(long c);
 void					delete_symbol_forward(void);
-int						str_n(void);
-void					clear_all_line(void);
-void					cur_pos_after_putstr(int *cur_pos);
-int						search_last_cur_pos_in_line(void);
-int						search_index(void);
-void					ret_cur_to_original_pos(int *prev_cur_pos);
+int						str_n(size_t prompt_len);
+void					clear_all_line(size_t prompt_len);
+void					cur_pos_after_putstr(int *cur_pos, size_t prompt_len);
+int						search_last_cur_pos_in_line(int line);
+int						search_index(int *cur_pos, size_t prompt_len);
+void					move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos);
 int						ret_winsize(int a);
 int						check_slash(char *user_in, int start_check);
 char					*expansion(char *user_in, char **env);
@@ -255,6 +273,16 @@ void					free_history_list(t_history *history);
 t_str					*init_str(void);
 void					expand_str(t_str *str);
 void					free_str(t_str *str);
+void					tc_save_cursor_pos(void);
+void					tc_restore_saved_cursor_pos(void);
+void					history_search_start(long c);
+void					add_symbol_in_str(char *str, char symbol, size_t symbol_index);
+void					delete_symbol_in_str(char *str, size_t symbol_index);
+void					set_new_user_in(const char *str);
+void					save_user_in_history(void);
+void					set_history_search_mode(void);
+int						now_search_history(void);
+int						get_cursor_position(void);
 
 /*
 ** Complection
@@ -277,8 +305,9 @@ void					tc_cursor_up(void);
 void					tc_cursor_down(void);
 void					tc_cursor_left(void);
 void					tc_cursor_right(void);
-void					tc_clear_till_end(void);
+void					tc_clear_till_end_line(void);
 void					tc_cursor_n_right(int n);
+void					tc_clear_till_end(void);
 
 # define PARSER_FAILURE 0
 # define PARSER_SUCCESS 1

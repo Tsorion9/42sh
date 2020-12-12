@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_all_line.c                                   :+:      :+:    :+:   */
+/*   save_cursor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 18:13:02 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/04 19:15:48 by mphobos          ###   ########.fr       */
+/*   Created: 2020/11/23 13:18:43 by mphobos           #+#    #+#             */
+/*   Updated: 2020/11/23 13:18:44 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
 
-/*
-** Чистит все строки, введенные пользователем.
-*/
-void		clear_all_line(size_t prompt_len)
+void	tc_save_cursor_pos(void)
 {
-	if (!prompt_len)
-		return ;
-	while (rp(NULL)->cur_pos[1] > 1)
-		tc_cursor_up();
-	while ((size_t)rp(NULL)->cur_pos[0] < prompt_len)
-		tc_cursor_right();
-	while ((size_t)rp(NULL)->cur_pos[0] > prompt_len)
-		tc_cursor_left();
-	tc_clear_till_end();
+	tputs(tgetstr("sc", NULL), STDERR_FILENO, ft_putint);
+}
+
+void	tc_restore_saved_cursor_pos(void)
+{
+	tputs(tgetstr("rc", NULL), STDERR_FILENO, ft_putint);
 }

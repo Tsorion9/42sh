@@ -6,50 +6,49 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:39 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:13:40 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/06 11:41:13 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
 
-void		ret_cur_to_original_pos(int *prev_cur_pos)
+void		move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos)
 {
-	while (prev_cur_pos[0] > rp(NULL)->cur_pos[0])
+	while (actual_cur_pos[0] > new_cur_pos[0])
 	{
 		tputs(tgetstr("le", NULL), STDERR_FILENO, ft_putint);
-		prev_cur_pos[0]--;
+		actual_cur_pos[0]--;
 	}
-	while (prev_cur_pos[1] > rp(NULL)->cur_pos[1])
+	while (actual_cur_pos[1] > new_cur_pos[1])
 	{
 		tputs(tgetstr("up", NULL), STDERR_FILENO, ft_putint);
-		prev_cur_pos[1]--;
+		actual_cur_pos[1]--;
 	}
-	while (prev_cur_pos[1] < rp(NULL)->cur_pos[1])
+	while (actual_cur_pos[1] < new_cur_pos[1])
 	{
 		tputs(tgetstr("do", NULL), STDERR_FILENO, ft_putint);
-		prev_cur_pos[1]++;
+		actual_cur_pos[1]++;
+		actual_cur_pos[0] = 1;
 	}
-	while (prev_cur_pos[0] < rp(NULL)->cur_pos[0])
+	while (actual_cur_pos[0] < new_cur_pos[0])
 	{
 		tputs(tgetstr("nd", NULL), STDERR_FILENO, ft_putint);
-		prev_cur_pos[0]++;
+		actual_cur_pos[0]++;
 	}
 }
 
 void		delete_last_word(void)
 {
-	int i;
-
-	while ((i = search_index() - 1) >= 0)
+	while (rp(NULL)->index)
 	{
-		if (ft_isspace(rp(NULL)->user_in[i]))
+		if (ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
 			delete_symbol();
 		else
 			break ;
 	}
-	while ((i = search_index() - 1) >= 0)
+	while (rp(NULL)->index)
 	{
-		if (!ft_isspace(rp(NULL)->user_in[i]))
+		if (!ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
 			delete_symbol();
 		else
 			break ;

@@ -23,7 +23,7 @@ SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memchr.c ft_memcmp.c \
 	  ft_putnbr.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 	  ft_putnbr_fd.c ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c \
 	  ft_lstiter.c ft_lstmap.c ft_memmove.c ft_strlcat.c get_next_line.c \
-	  ft_freestrsplit.c \
+	  ft_freestrsplit.c ft_strfirststr.c \
 	ftoa/decimal_arithmetic2.c\
 	ftoa/decimal_arithmetic3.c\
 	ftoa/decimal_arithmetic4.c\

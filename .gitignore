@@ -8,3 +8,4 @@ cscope.files
 cscope.out
 tags
 **/*.d
+.vscode

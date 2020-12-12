@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:38 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:14:38 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/04 20:06:55 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,38 @@
 
 static void	up_down_arrow_sup(void)
 {
-	size_t	lenh;
-
-	clear_all_line();
-	lenh = rp(NULL)->history->len / MIN_CMD_LENGTH;
-	rp(NULL)->max_len = MIN_CMD_LENGTH * (lenh + 1);
-	free(rp(NULL)->user_in);
-	if (!(rp(NULL)->user_in = (char*)xmalloc(sizeof(char) * rp(NULL)->max_len)))
-		reset_exit(1);
-	ft_strcpy(rp(NULL)->user_in, rp(NULL)->history->str);
+	set_new_user_in(rp(NULL)->history->str);
+	clear_all_line(rp(NULL)->prompt_len);
 	ft_putstr_fd(rp(NULL)->user_in, STDERR_FILENO);
-	rp(NULL)->len = ft_strlen(rp(NULL)->user_in);
-	cur_pos_after_putstr(rp(NULL)->cur_pos);
+	cur_pos_after_putstr(rp(NULL)->cur_pos, rp(NULL)->prompt_len);
+	if (rp(NULL)->cur_pos[0] - 1 == rp(NULL)->ws_col)
+	{
+		rp(NULL)->cur_pos[0] = 1;
+		rp(NULL)->cur_pos[1]++;
+		write(STDERR_FILENO, " \r", 2);
+	}
 }
 
-void		up_down_arrow(long c)
+/*! \fn save_user_in_history
+ *  \b Компонента  \b : readline \n
+ *  \b Назначение  \b : Устанавливает строку с историей равной 
+ *  глобальной строке user_in \n
+ */
+void		save_user_in_history(void)
 {
 	if (ft_strcmp(rp(NULL)->user_in, rp(NULL)->history->str))
 	{
 		free(rp(NULL)->history->str);
 		rp(NULL)->history->str = ft_strdup(rp(NULL)->user_in);
+		if (!rp(NULL)->history->str)
+			reset_exit(1);
 		rp(NULL)->history->len = ft_strlen(rp(NULL)->history->str);
 	}
+}
+
+void		up_down_arrow(long c)
+{
+	save_user_in_history();
 	if (c == UP_ARROW && rp(NULL)->history->next != NULL)
 	{
 		rp(NULL)->history = rp(NULL)->history->next;

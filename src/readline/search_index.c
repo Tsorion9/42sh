@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:09 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:14:10 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/06 12:25:55 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Index of symbol under cursor
 */
 
-int		search_index(void)
+int		search_index(int *cur_pos, size_t prompt_len)
 {
 	int	n;
 	int	i;
@@ -24,10 +24,10 @@ int		search_index(void)
 
 	n = 1;
 	i = 0;
-	if (rp(NULL)->cur_pos[1] == 1)
-		return (rp(NULL)->cur_pos[0] - rp(NULL)->prompt_len);
-	cur_pos_col = rp(NULL)->prompt_len;
-	while (n < rp(NULL)->cur_pos[1])
+	if (cur_pos[1] == 1)
+		return (cur_pos[0] - prompt_len);
+	cur_pos_col = prompt_len;
+	while (n < cur_pos[1])
 	{
 		if (rp(NULL)->user_in[i] == '\n' || cur_pos_col >= rp(NULL)->ws_col)
 		{
@@ -37,16 +37,20 @@ int		search_index(void)
 		cur_pos_col++;
 		i++;
 	}
-	i += rp(NULL)->cur_pos[0] - 1;
+	i += cur_pos[0] - 1;
 	return (i);
 }
 
-void	inverse_search_index(int cur_pos[2], int index)
+void	inverse_search_index(int cur_pos[2], int index, size_t prompt_len)
 {
 	int	i;
+	int	ws_col;
+	int	a;
 
-	cur_pos[0] = rp(NULL)->prompt_len;
-	cur_pos[1] = 1;
+	ws_col = rp(NULL)->ws_col;
+	a = prompt_len / ws_col;
+	cur_pos[0] = (prompt_len - ws_col * a) + 1;
+	cur_pos[1] = a + 1;
 	i = 0;
 	while (i < index && rp(NULL)->user_in[i])
 	{

@@ -14,20 +14,19 @@
 
 static void	wordmove_right(void)
 {
-	size_t	i;
 	size_t	len;
 
 	len = ft_strlen(rp(NULL)->user_in);
-	while ((i = search_index()) < len)
+	while (rp(NULL)->index < len)
 	{
-		if (ft_isspace(rp(NULL)->user_in[i]))
+		if (ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
 			move_cursor(RIGHT_ARROW);
 		else
 			break ;
 	}
-	while ((i = search_index()) < len)
+	while (rp(NULL)->index < len)
 	{
-		if (!ft_isspace(rp(NULL)->user_in[i]))
+		if (!ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
 			move_cursor(RIGHT_ARROW);
 		else
 			break ;
@@ -36,18 +35,16 @@ static void	wordmove_right(void)
 
 static void	wordmove_left(void)
 {
-	int i;
-
-	while ((i = search_index() - 1) >= 0)
+	while (rp(NULL)->index > 0)
 	{
-		if (ft_isspace(rp(NULL)->user_in[i]))
+		if (ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
 			move_cursor(LEFT_ARROW);
 		else
 			break ;
 	}
-	while ((i = search_index() - 1) >= 0)
+	while (rp(NULL)->index > 0)
 	{
-		if (!ft_isspace(rp(NULL)->user_in[i]))
+		if (!ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
 			move_cursor(LEFT_ARROW);
 		else
 			break ;

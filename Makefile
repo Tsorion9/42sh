@@ -2,11 +2,12 @@ NAME = 21sh
 
 CREADLINE = readline.c strmove_cursor.c t_str.c \
 			termcap_api.c history_list.c search_index.c\
-			history_file.c add_or_delete_symbol.c up_down_arrow.c\
+			history_file.c add_symbol.c delete_symbol.c up_down_arrow.c\
 			check_quoting.c clear_all_line.c free_readline.c \
 			other.c reset_readline_position.c search_cur_pos.c get_prompt.c \
-			str_n.c home_end.c tc_cursor_n_right.c expand_user_in.c readline_position.c\
-			input_mode.c reset_exit.c gayprompt.c
+			str_n.c home_end.c tc_cursor_n_right.c expand_user_in.c readline_position.c \
+			input_mode.c reset_exit.c gayprompt.c save_cursor.c history_search.c \
+			set_new_user_in.c
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
