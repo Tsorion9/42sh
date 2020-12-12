@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/12 12:58:47 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/12 23:09:39 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static void	handle_click_sup(long c)
 			strmove_cursor(c);
 		else if (c == CTRL_W)
 			delete_last_word();
-		else if (c == TAB_ARROW)
-			completion();
 		else if (c == SHIFT_TAB)
 			add_symbol(' ');
 	}
@@ -68,6 +66,8 @@ static long	handle_click(void)
 			home_end(c);
 		else if (c == CTRL_D && rp(NULL)->len == 0)
 			return (-1);
+		else if (c == TAB_ARROW)
+			completion();
 	}
 	else
 		handle_click_sup(c);

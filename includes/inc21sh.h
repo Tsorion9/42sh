@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/12 12:59:40 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/12 17:03:42 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@
 # define HISTORY_SEARCH_STR_BEFORE "(reverse-i-search)`"
 # define HISTORY_SEARCH_STR_NOT_FOUND_BEFORE "(failed reverse-i-search)`"
 # define HISTORY_SEARCH_STR_AFTER "': "
+
+# define COM_CMD 1
+# define COM_VAR 2
+# define COM_FILE 3
+
+# define true 1
+# define false 0
 
 # include "command.h"
 # include "deque.h"
@@ -270,6 +277,9 @@ char					*cut_word(char cut_symbol, int i);
 t_completion			*ret_matches(t_completion *com_lst, char **str_search);
 void					free_rp(void);
 void					free_history_list(t_history *history);
+int						find_complection_pos(char *line, int i);
+int						is_valid_name(char *str);
+int						is_valid_name_char(char c);
 t_str					*init_str(void);
 void					expand_str(t_str *str);
 void					free_str(t_str *str);

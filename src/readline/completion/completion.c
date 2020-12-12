@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/12 12:59:13 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/12 17:06:40 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,46 +81,46 @@ int			tab_check_special_symbols(char *user_in, int j)
 	return (0);
 }
 
-static int	is_first_word(char *user_in, int i)
-{
-	int		j;
+// static int	is_first_word(char *user_in, int i)
+// {
+// 	int		j;
 
-	j = i;
-	if (check_first_word(user_in, i))
-	{
-		return (1);
-	}
-	// while (j >= 0 && user_in[j] != '|' && user_in[j] != '&')
-	while (j > 0 && !tab_check_special_symbols(user_in, j))
-	{
-		if (user_in[j] == '&' && user_in[j - 1] == '>')
-			return (0);
-		// write(1, "t", 1);
-		j--;
-	}
-	if (j >= 0 && (user_in[j] == '|' || user_in[j] == '&'))
-	{
-		while (check_space_or_tab(user_in, i) || \
-			user_in[j] == '|' || user_in[j] == '&')
-			j++;
-		// while (1);
-			// j++;
-		while (j < i)
-		{
-			if ((check_space_or_tab(user_in, i) || user_in[j] == '|' \
-				|| user_in[j] == '\0' || user_in[j] == '&') && j == i)
-				return (2);
-			else if (check_space_or_tab(user_in, i) \
-				|| user_in[j] == '\0')
-				return (0);
-			// ft_printf("\n%d %d", j, i);
-			// while (1);
-			j++;
-		}
-		return (2);
-	}
-	return (0);
-}
+// 	j = i;
+// 	if (check_first_word(user_in, i))
+// 	{
+// 		return (1);
+// 	}
+// 	// while (j >= 0 && user_in[j] != '|' && user_in[j] != '&')
+// 	while (j > 0 && !tab_check_special_symbols(user_in, j))
+// 	{
+// 		if (user_in[j] == '&' && user_in[j - 1] == '>')
+// 			return (0);
+// 		// write(1, "t", 1);
+// 		j--;
+// 	}
+// 	if (j >= 0 && (user_in[j] == '|' || user_in[j] == '&'))
+// 	{
+// 		while (check_space_or_tab(user_in, i) || \
+// 			user_in[j] == '|' || user_in[j] == '&')
+// 			j++;
+// 		// while (1);
+// 			// j++;
+// 		while (j < i)
+// 		{
+// 			if ((check_space_or_tab(user_in, i) || user_in[j] == '|' \
+// 				|| user_in[j] == '\0' || user_in[j] == '&') && j == i)
+// 				return (2);
+// 			else if (check_space_or_tab(user_in, i) \
+// 				|| user_in[j] == '\0')
+// 				return (0);
+// 			// ft_printf("\n%d %d", j, i);
+// 			// while (1);
+// 			j++;
+// 		}
+// 		return (2);
+// 	}
+// 	return (0);
+// }
 
 void		completion(void)
 {
@@ -129,17 +129,21 @@ void		completion(void)
 	t_completion	*matches; //связный список из вариантов подстановок по одной части слова
 	char			*path;
 	int				i;
+	int				com_case;
 
 	// return ; //lol
-	i = search_index(); //получение индекса нахождения курсора из массива
+	i = search_index(rp(NULL)->cur_pos, rp(NULL)->prompt_len); //получение индекса нахождения курсора из массива
+	com_case = find_complection_pos(rp(NULL)->user_in, i);
 	path = NULL;
+	// ft_printf("%d", i);
+	// ft_printf("!%s, %d %d!!", rp(NULL)->user_in, i, com_case);
 	if (!(remainder_word = tab_cut_word(rp(NULL)->user_in, i)))
-		return ;
+		return ; //Добавить подстановку всех вариантов при отсутствии слова
 	// is_first_word(i) 1 = first word
 	// ft_printf("\n%d", is_first_word(i));
 	// ft_printf("\n!%s!", remainder_word);
 	// while(1);
-	if (is_first_word(rp(NULL)->user_in, i) && !ft_strchr(remainder_word, '/'))
+	if (com_case == COM_CMD && !ft_strchr(remainder_word, '/'))
 	{
 		// while (1);
 		com_lst = add_files_path_env();
@@ -149,7 +153,7 @@ void		completion(void)
 	else
 	{
 		path = return_path(remainder_word);
-		com_lst = ret_possible_matches(path, is_first_word(rp(NULL)->user_in, i));
+		com_lst = ret_possible_matches(path, com_case);
 		free(remainder_word);
 		remainder_word = tab_cut_word(rp(NULL)->user_in, i);
 	}
