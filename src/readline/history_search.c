@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 19:45:28 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/04 20:21:17 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/06 13:02:35 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static void	history_search_print(const t_history_search *history_search, const c
 	if (!(history_search && user_in && history_search->str))
 		return ;
 	ft_memcpy(new_cur_pos, cur_pos, sizeof(new_cur_pos));
-	move_cursor_to_new_position(rp(NULL)->cur_pos, new_cur_pos);
-	tc_save_cursor_pos();
 	clear_all_line(1);
 	if (found)
 		history_search_before = HISTORY_SEARCH_STR_BEFORE;
@@ -42,7 +40,13 @@ static void	history_search_print(const t_history_search *history_search, const c
 	ft_putstr_fd(history_search->str, STDERR_FILENO);
 	ft_putstr_fd(HISTORY_SEARCH_STR_AFTER, STDERR_FILENO);
 	ft_putstr_fd(user_in, STDERR_FILENO);
-	tc_restore_saved_cursor_pos();
+	inverse_search_index(rp(NULL)->cur_pos, rp(NULL)->len, ft_strlen(history_search_before) +
+			ft_strlen(history_search->str) + ft_strlen(HISTORY_SEARCH_STR_AFTER));
+	if (rp(NULL)->cur_pos[0] == 1)
+	{
+		ft_putstr(" \r");
+	}
+	move_cursor_to_new_position(rp(NULL)->cur_pos, new_cur_pos);
 	ft_memcpy(rp(NULL)->cur_pos, new_cur_pos, sizeof(new_cur_pos));
 }
 
@@ -113,16 +117,20 @@ static void	reset_history_search(t_history_search *history_search)
  */
 static void exit_history_search(t_history_search *history_search)
 {
-	int	cur_pos[2];
-
-	rp(NULL)->index = history_search->index;
-	reset_history_search(history_search);
+	int	new_cur_pos[2];
+	int	prev_cur_pos[2];
+	
+	ft_memcpy(prev_cur_pos, rp(NULL)->cur_pos, sizeof(prev_cur_pos));
+	tc_save_cursor_pos();
 	clear_all_line(1);
-	inverse_search_index(cur_pos, history_search->index, rp(NULL)->prompt_len);
+	rp(NULL)->index = history_search->index;
+	inverse_search_index(new_cur_pos, rp(NULL)->index, ft_strlen(rp(NULL)->prompt));
 	gayprompt(rp(NULL)->prompt);
 	ft_putstr(rp(NULL)->user_in);
-	cur_pos_after_putstr(rp(NULL)->cur_pos, rp(NULL)->prompt_len);
-	move_cursor_to_new_position(rp(NULL)->cur_pos, cur_pos);
+	tc_restore_saved_cursor_pos();
+	move_cursor_to_new_position(prev_cur_pos, new_cur_pos);
+	ft_memcpy(rp(NULL)->cur_pos, prev_cur_pos, sizeof(rp(NULL)->cur_pos));
+	reset_history_search(history_search);
 }
 
 /*! \fn set_history_search_mode
@@ -137,6 +145,12 @@ void		set_history_search_mode()
 	rp(NULL)->history_search.index = rp(NULL)->index + 1;
 }
 
+/*! \fn now_search_history
+ *  \b Компонента  \b : readline \n
+ *  \b Назначение  \b : Проверяет, установлен ли сейчас режим
+ *  поиска по истории \n
+ *  \return 0 - не установлен, 1 - установлен
+ */
 int			now_search_history()
 {
 	return (rp(NULL)->history_search.history_search_mode);
@@ -148,7 +162,6 @@ void		history_search_start(long c)
 	int					cur_pos[2] = {1, 1};
 	static int			found = 1;
 	size_t				prev_index;
-	int					prev_cur_pos[2];
 
 	found = 1;
 	if (c == LEFT_ARROW || c == RIGHT_ARROW || c == UP_ARROW || c == DOWN_ARROW || 
@@ -172,14 +185,11 @@ void		history_search_start(long c)
 	else if (c == CTRL_R && now_search_history())
 	{
 		prev_index = t_history_search->index;
-		ft_memcpy(prev_cur_pos, cur_pos, sizeof(cur_pos));
 		if (t_history_search->index > 0)
 			t_history_search->index--;
 		else if (rp(NULL)->history->next)
 		{
 			rp(NULL)->history = rp(NULL)->history->next;
-			char *str = rp(NULL)->history->str;
-			if (str)
 			t_history_search->index = rp(NULL)->history->len;
 		}
 		found = history_search(cur_pos, &(t_history_search->index), t_history_search->str);
