@@ -202,10 +202,10 @@ void		history_search_start(long c)
 	else
 	{
 		if (found)
-			inverse_search_index(cur_pos, rp(NULL)->index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
+			inverse_search_index(cur_pos, t_history_search->index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
 				t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER));
 		else
-			inverse_search_index(cur_pos, rp(NULL)->index, ft_strlen(HISTORY_SEARCH_STR_NOT_FOUND_BEFORE) +
+			inverse_search_index(cur_pos, t_history_search->index, ft_strlen(HISTORY_SEARCH_STR_NOT_FOUND_BEFORE) +
 				t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER));
 	}
 	history_search_print(t_history_search, rp(NULL)->user_in, cur_pos, found);
