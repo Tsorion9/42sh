@@ -1,4 +1,4 @@
-NAME = 21sh
+NAME = 42sh
 
 CREADLINE = readline.c strmove_cursor.c t_str.c \
 			termcap_api.c history_list.c search_index.c\
@@ -12,8 +12,10 @@ CREADLINE = readline.c strmove_cursor.c t_str.c \
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
 				create_and_free_com.c cut_word.c ret_matches.c \
-				ret_possible_matches.c return_path.c \
-				tab_cut_word.c find_complection_pos.c is_valid_name.c
+				ret_possible_matches.c return_path.c init_s_column.c \
+				tab_cut_word.c find_complection_pos.c is_valid_name.c \
+				com_api_print_suggestions.c com_api_move_cursor.c \
+				com_api_get_cursor_position.c \
 
 CLEX =	lex.c get_token_end_line.c \
 		get_token_greater.c get_token_less.c get_token_number.c \

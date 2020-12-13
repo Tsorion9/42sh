@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/12 17:06:40 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/13 23:43:27 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,110 +18,6 @@
 // str_n(void) - возвращает количество строк занимаемых командой
 // rp() - получение статической структуры позиции курсора
 
-int			check_arrow_amper(char *user_in, int i)
-{
-	if (user_in[i] == '\0')
-		i--;
-	while (i && user_in[i] != ' ' && user_in[i] != '\t' && \
-		user_in[i] != '&')
-		i--;
-	if (i && user_in[i] == '&' && user_in[i - 1] == '>')
-		return (0);
-	return (1);
-}
-
-int			check_space_or_tab(char *user_in, int i)
-{
-	if (user_in[i] == ' ' || user_in[i] == '\t')
-		return (1);
-	return (0);
-}
-
-int			check_first_word(char *user_in, int i)
-{
-	int		j;
-
-	j = 0;
-	if (!ft_strlen(user_in))
-		return (1);
-	else if (!check_arrow_amper(user_in, i))
-		return (0);
-	while (check_space_or_tab(user_in, j))
-		j++;
-	// while(1);
-	while (j < i)
-	{
-		if (check_space_or_tab(user_in, j)
-			&& j == i)
-		{
-			while (!check_space_or_tab(user_in, i) && \
-				user_in[i] != '&')
-			{
-				i--;
-			}
-			if (i > 0 && user_in[i] == '&' && user_in[i - 1] == '>')
-				return (0);
-			return (1);
-		}
-		else if (check_space_or_tab(user_in, j))
-			return (0);
-		j++;
-	}
-		// while (1);
-	return (1);
-}
-
-int			tab_check_special_symbols(char *user_in, int j)
-{
-	if (j > 0 && (user_in[j]  == '|' || (user_in[j] == '&' && \
-		user_in[j - 1] != '>')))
-	{
-		return (1);
-	}
-	return (0);
-}
-
-// static int	is_first_word(char *user_in, int i)
-// {
-// 	int		j;
-
-// 	j = i;
-// 	if (check_first_word(user_in, i))
-// 	{
-// 		return (1);
-// 	}
-// 	// while (j >= 0 && user_in[j] != '|' && user_in[j] != '&')
-// 	while (j > 0 && !tab_check_special_symbols(user_in, j))
-// 	{
-// 		if (user_in[j] == '&' && user_in[j - 1] == '>')
-// 			return (0);
-// 		// write(1, "t", 1);
-// 		j--;
-// 	}
-// 	if (j >= 0 && (user_in[j] == '|' || user_in[j] == '&'))
-// 	{
-// 		while (check_space_or_tab(user_in, i) || \
-// 			user_in[j] == '|' || user_in[j] == '&')
-// 			j++;
-// 		// while (1);
-// 			// j++;
-// 		while (j < i)
-// 		{
-// 			if ((check_space_or_tab(user_in, i) || user_in[j] == '|' \
-// 				|| user_in[j] == '\0' || user_in[j] == '&') && j == i)
-// 				return (2);
-// 			else if (check_space_or_tab(user_in, i) \
-// 				|| user_in[j] == '\0')
-// 				return (0);
-// 			// ft_printf("\n%d %d", j, i);
-// 			// while (1);
-// 			j++;
-// 		}
-// 		return (2);
-// 	}
-// 	return (0);
-// }
-
 void		completion(void)
 {
 	char			*remainder_word;
@@ -131,14 +27,18 @@ void		completion(void)
 	int				i;
 	int				com_case;
 
-	// return ; //lol
+	com_api_clear_till_end();
 	i = search_index(rp(NULL)->cur_pos, rp(NULL)->prompt_len); //получение индекса нахождения курсора из массива
 	com_case = find_complection_pos(rp(NULL)->user_in, i);
 	path = NULL;
 	// ft_printf("%d", i);
+	
+	remainder_word = tab_cut_word(rp(NULL)->user_in, i);
+	
+	// if (!(remainder_word = tab_cut_word(rp(NULL)->user_in, i)))
+	// 	return ; //Добавить подстановку всех вариантов при отсутствии слова
+		
 	// ft_printf("!%s, %d %d!!", rp(NULL)->user_in, i, com_case);
-	if (!(remainder_word = tab_cut_word(rp(NULL)->user_in, i)))
-		return ; //Добавить подстановку всех вариантов при отсутствии слова
 	// is_first_word(i) 1 = first word
 	// ft_printf("\n%d", is_first_word(i));
 	// ft_printf("\n!%s!", remainder_word);
@@ -148,8 +48,10 @@ void		completion(void)
 		// while (1);
 		com_lst = add_files_path_env();
 	}
-	else if (!ft_strchr(remainder_word, '/'))
+	else if (com_case == COM_FILE && !ft_strchr(remainder_word, '/'))
 		com_lst = ret_possible_matches(NULL, 0);
+	// else if (com_case == COM_VAR)
+	// 	com_lst = ret_possible_vars(NULL, 0);
 	else
 	{
 		path = return_path(remainder_word);
@@ -158,18 +60,30 @@ void		completion(void)
 		remainder_word = tab_cut_word(rp(NULL)->user_in, i);
 	}
 	matches = ret_matches(com_lst, &remainder_word);
-	if (matches)
-	{
-		// while (1);
-		complete_word(matches, remainder_word, path);
-	}
+	
+	// if (matches)
+	// {
+	// 	ft_printf("123 %s", matches->str);
+	// 	while (1);
+	// }
+	// com_api_print_output(matches, remainder_word, path);
+	com_api_print_suggestion(matches, remainder_word, path);
+
+	// ft_printf("!%d!", comlections_list_len(matches));
+
+	// if (com_lst)
+	// {
+	// 	ft_printf("%s", com_lst->str);
+	// 	// while (1);
+	// }
+	// com_print_suggestion();
 	
 	// while (com_lst)
 	// {
 	// 	ft_printf("\n%s", com_lst->str);
 	// 	com_lst = com_lst->next;
 	// }
-	
+	// while (1);
 	// while (matches)
 	// {
 	// 	ft_printf("\n%s", matches->str);

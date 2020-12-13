@@ -18,3 +18,12 @@ Make = second word
 > lsapp |lsapp>&Make |>&Make >&&lsapp >&&&Make
 > as &lsapp &&lsapp &&&lsapp
 >
+
+
+
+
+
+TODO
+не показывает все варианты в дире
+>ls src/(tab)
+но если начать вводить слово, варианты выводятся

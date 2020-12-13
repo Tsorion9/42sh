@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/12 12:58:20 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/13 20:37:49 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ void	tc_cursor_left(void)
 	rp(NULL)->cur_pos[0]--;
 }
 
-void	tc_clear_till_end_line(void)
-{
-	tputs(tgetstr("ce", NULL), STDERR_FILENO, ft_putint);
-}
+//АЛЯРМ!!! 6 ФУНКЦИЙ
+// void	tc_clear_till_end_line(void)
+// {
+// 	tputs(tgetstr("ce", NULL), STDERR_FILENO, ft_putint);
+// }
 
 void	tc_cursor_right(void)
 {

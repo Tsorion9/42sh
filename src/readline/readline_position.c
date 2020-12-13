@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline_position.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:18:34 by anton             #+#    #+#             */
-/*   Updated: 2020/12/01 20:51:34 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/13 21:23:45 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_rp		*init_rp(void)
 	rp->ws_row = ret_winsize(1);
 	rp->in_readline = 0;
 	rp->history_search.history_search_mode = 0;
+	rp->prev_pos_curs = 0;
+	rp->column_end_of_line = 0;
 	return (rp);
 }
 

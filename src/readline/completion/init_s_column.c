@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   init_s_column.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/13 19:38:14 by alexbuyanov      ###   ########.fr       */
+/*   Created: 2019/11/20 11:08:31 by nriker            #+#    #+#             */
+/*   Updated: 2020/12/13 21:32:42 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "inc21sh.h"
 
-char	*ft_strchr(const char *s, int c)
+void	create_t_column(t_column **cl)
 {
-	int		i;
+	struct winsize	w;
 
-	i = 0;
-	while (s && s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
-		i++;
-	}
-	if (s && c == '\0')
-		return ((char*)s + i);
-	return (NULL);
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	if (!(*cl = (t_column*)malloc(sizeof(t_column))))
+		return ;
+	(*cl)->col = w.ws_col;
+	(*cl)->row = w.ws_row;
+	(*cl)->buf_size = 0;
+	(*cl)->row_got = 0;
+	(*cl)->col_got = 0;
+	(*cl)->max_width = 0;
+	(*cl)->width_column = 0;
 }

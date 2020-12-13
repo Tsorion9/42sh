@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/12 17:03:42 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/13 23:46:57 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@
 # define true 1
 # define false 0
 
+# define GETCURSORPOS "\e[6n"
+
 # include "command.h"
 # include "deque.h"
 
@@ -95,6 +97,17 @@ typedef struct			s_history_search
 	int					history_search_mode;
 }						t_history_search;
 
+typedef struct			s_column
+{
+	int			col;
+	int			row;
+	int			buf_size;
+	int			max_width;
+	int			width_column;
+	int			col_got;
+	int			row_got;
+}						t_column;
+
 /*
 ** @user_in	buffer (heap)
 ** @len	length of user input
@@ -122,6 +135,8 @@ typedef struct			s_rp
 	int					in_readline;
 	int					in_read;
 	t_history_search	history_search;
+	int					prev_pos_curs;
+	int					column_end_of_line;
 }						t_rp;
 
 /*
@@ -262,19 +277,8 @@ void					up_down_arrow(long c);
 void					set_signal(void);
 void					reset_input_mode(void);
 void					strmove_cursor(long c);
-void					completion(void);
 int						is_print(long c);
 int						executable_file(char *file_name, char *path);
-void					add_new_completion(t_completion **com_lst, char *str);
-void					free_completion(t_completion *com_lst, \
-						t_completion *matches, char *remaider_word, char *path);
-t_completion			*add_files_path_env(void);
-char					*return_path(char *remaider_word);
-void					complete_word(t_completion *matches,\
-						char *remaider_word, char *path);
-t_completion			*ret_possible_matches(char *path, int first_word);
-char					*cut_word(char cut_symbol, int i);
-t_completion			*ret_matches(t_completion *com_lst, char **str_search);
 void					free_rp(void);
 void					free_history_list(t_history *history);
 int						find_complection_pos(char *line, int i);
@@ -298,8 +302,31 @@ int						get_cursor_position(void);
 ** Complection
 */
 
+void					completion(void);
 char					*tab_cut_word(char *user_in, int i);
 int						tab_check_space(char *user_in, int i);
+void					add_new_completion(t_completion **com_lst, char *str);
+void					free_completion(t_completion *com_lst, \
+						t_completion *matches, char *remaider_word, char *path);
+t_completion			*add_files_path_env(void);
+char					*return_path(char *remaider_word);
+void					complete_word(t_completion *matches,\
+						char *remaider_word, char *path);
+t_completion			*ret_possible_matches(char *path, int first_word);
+char					*cut_word(char cut_symbol, int i);
+t_completion			*ret_matches(t_completion *com_lst, char **str_search);
+void					com_api_move_curs_to_end_line(void);
+void					com_api_move_curs_to_prev_pos(void);
+void					com_api_return_curs_to_line(int lines_up);
+void					com_api_return_curs_to_position(int columns_right);
+void					com_api_return_curs_to_line(int lines_up);
+void					com_api_print_lst(t_completion *matches);
+void					com_api_print_suggestion(t_completion *matches, char *remainder_word,
+								char *path);
+void					com_api_clear_till_end(void);
+void					create_t_column(t_column **cl);
+int						com_api_get_curs_col(void);
+int						com_api_get_curs_row(void);
 
 /*
 ** Interface for lexer
