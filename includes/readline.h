@@ -135,18 +135,12 @@ typedef struct			s_rp
 	t_history_search	history_search;
 }						t_rp;
 
-t_rp					*rp(t_rp *change_rp);
-t_rp					*init_rp(void);
 void					free_rp(void);
 void					back_to_start_history_rp(void);
 void					home_end(long c);
 int						str_naa(char *user_in);
 void					expand_user_in(void);
-t_rp					*rp(t_rp *change_rp);
-void					inverse_search_index(int cur_pos[2], int index, size_t prompt_len);
-void					reset_rp_to_start(char *prompt);
 int						ft_putint(int c);
-char					*readline(char *prompt);
 int						ft_isspace(char c);
 void					move_cursor(long c);
 void					delete_symbol(void);
@@ -155,12 +149,8 @@ void					alt_left_right(long c);
 void					delete_last_word(void);
 void					wordmove_cursor(long c);
 void					delete_symbol_forward(void);
-int						str_n(size_t prompt_len);
-void					clear_all_line(size_t prompt_len);
-void					cur_pos_after_putstr(int *cur_pos, size_t prompt_len);
 int						search_last_cur_pos_in_line(int line);
 int						search_index(int *cur_pos, size_t prompt_len);
-void					move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos);
 int						ret_winsize(int a);
 int						check_slash(char *user_in, int start_check);
 char					*expansion(char *user_in, char **env);
@@ -168,8 +158,6 @@ t_history				*add_new_history(t_history *history, char *str);
 void					add_to_start_history(t_history *history, char *str, \
 						size_t len);
 t_history				*create_history(char *str, size_t len);
-void					load_on_file_history(t_history *history);
-void					save_in_file_history(t_history *history);
 void					free_readline_position(void);
 void					check_flag(char *user_in, char *flag);
 void					up_down_arrow(long c);
@@ -183,8 +171,6 @@ void					free_history_list(t_history *history);
 t_str					*init_str(void);
 void					expand_str(t_str *str);
 void					free_str(t_str *str);
-void					tc_save_cursor_pos(void);
-void					tc_restore_saved_cursor_pos(void);
 void					history_search_start(long c);
 void					add_symbol_in_str(char *str, char symbol, size_t symbol_index);
 void					delete_symbol_in_str(char *str, size_t symbol_index);
@@ -213,5 +199,23 @@ void					tc_cursor_right(void);
 void					tc_clear_till_end_line(void);
 void					tc_cursor_n_right(int n);
 void					tc_clear_till_end(void);
+void					tc_save_cursor_pos(void);
+void					tc_restore_saved_cursor_pos(void);
+
+/*
+** Interface functions
+*/
+
+char					*readline(char *prompt);
+t_rp					*rp(t_rp *change_rp);
+t_rp					*init_rp(void);
+void					reset_rp_to_start(char *prompt);
+void					load_on_file_history(t_history *history);
+void					save_in_file_history(t_history *history);
+void					clear_all_line(size_t prompt_len);
+void					inverse_search_index(int cur_pos[2], int index, size_t prompt_len);
+void					cur_pos_after_putstr(int *cur_pos, size_t prompt_len);
+void					move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos);
+int						str_n(size_t prompt_len);
 
 #endif

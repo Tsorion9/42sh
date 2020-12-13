@@ -13,6 +13,8 @@
 #include "readline.h"
 #include "gayprompt.h"
 
+void		reset_exit(int status);
+
 int			is_print(long c)
 {
 	if (c >= ' ' && c <= '~')
@@ -104,7 +106,8 @@ char		*readline(char *prompt)
 	while (user_in_lines-- > 0)
 		write(STDERR_FILENO, "\n", 1);
 	write(STDERR_FILENO, "\n", 1);
-	ret_user_in = ft_strdup(rp(NULL)->user_in);
+	if (!(ret_user_in = ft_strdup(rp(NULL)->user_in)))
+		reset_exit(1);
 	ft_memdel((void **)&(rp(NULL)->prompt));
 	ft_memdel((void **)&(rp(NULL)->user_in));
 	rp(NULL)->in_readline = 0;
