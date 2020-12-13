@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 #include "stdio.h"
 
 static int	search_last_cur_pos_in_line_sup(int cur_pos_col, int i, int line)

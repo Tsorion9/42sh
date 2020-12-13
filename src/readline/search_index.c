@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 
 /*
 ** Index of symbol under cursor

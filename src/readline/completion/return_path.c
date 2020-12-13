@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 
 char	*return_path(char *remaider_word)
 {

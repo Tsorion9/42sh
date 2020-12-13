@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 
 void		expand_user_in(void)
 {

@@ -101,7 +101,7 @@ SRC = src/main.c src/signal.c src/init_prompt.c $(READLINE) $(CURSORMANIPULATION
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
-INCLUDE = includes 
+INCLUDE = includes
 PARSER_TMP_INC = src/parser
 LIB_INC = libft/includes
 INC_FLAGS = -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec  -I src/expansions

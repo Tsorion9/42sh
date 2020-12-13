@@ -12,6 +12,7 @@
 
 #include "inc21sh.h"
 #include "static_env.h"
+#include "readline.h"
 
 void	repl(int tty_input)
 {

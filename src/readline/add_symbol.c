@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 
 void	add_symbol_in_str(char *str, char symbol, size_t symbol_index)
 {

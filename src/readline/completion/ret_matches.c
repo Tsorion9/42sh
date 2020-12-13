@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 
 t_completion	*ret_matches(t_completion *com_lst, char *str_search)
 {

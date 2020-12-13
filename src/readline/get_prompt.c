@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "static_env.h"
-#include "inc21sh.h"
+#include "readline.h"
 
 char	*get_prompt(int which)
 {
