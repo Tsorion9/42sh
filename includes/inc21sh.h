@@ -20,7 +20,6 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <termios.h>
-# include <term.h>
 # include <fcntl.h>
 # include "libft.h"
 # include "get_next_line.h"
@@ -34,8 +33,6 @@
 
 # include "expand.h"
 
-# define PS1 0
-# define PS2 1
 
 # define CLOSE_STREAM "-"
 
@@ -50,19 +47,6 @@ int						fuck_checklist_signal_state(int need_update,\
 		int new_value);
 char					*get_prompt(int which);
 
-typedef struct			s_str
-{
-	char				*buf;
-	size_t				len;
-	size_t				max_len;
-	size_t				index;
-}						t_str;
-
-typedef struct			s_completion
-{
-	char				*str;
-	struct s_completion	*next;
-}						t_completion;
 
 /*
 ** TOKEN
@@ -100,60 +84,6 @@ typedef struct			s_token
 # define LESS_AND 7
 # define AND_GREATOR 8
 
-/*
-** Character key constants
-*/
-
-# define LEFT_ARROW 4479771
-# define RIGHT_ARROW 4414235
-
-# define UP_ARROW  4283163
-# define DOWN_ARROW 4348699
-
-# define TAB_ARROW 9
-
-# if defined(__APPLE__) || defined(__NetBSD__)
-
-#  define ALT_LEFT_ARROW 25115
-#  define ALT_RIGHT_ARROW 26139
-
-#  define __S_IREAD S_IRUSR
-#  define __S_IWRITE S_IWUSR
-
-# else
-
-#  define ALT_LEFT_ARROW 74986827111195
-#  define ALT_RIGHT_ARROW 73887315483419
-
-# endif
-
-# ifdef ANTON_UNUSUAL_LAPTOP
-#  define BACKSPACE 8
-# else
-#  define BACKSPACE 127
-# endif
-
-# define DEL 2117294875
-
-# define SHIFT_TAB 5921563
-# define CTRL_W 23
-# define CTRL_Q 17
-# define CTRL_R 18
-# define CTRL_LEFT 74995417045787
-# define CTRL_RIGHT 73895905418011
-# define CTRL_UP 71696882162459
-# define CTRL_DOWN 72796393790235
-
-# define HOME 4738843
-# define END  4607771
-
-# define CTRL_D 4
-# define CTRL_C 3
-# define CTRL_E 5
-# define CTRL_R 18
-# define CTRL_S 19
-# define CTRL_Z 26
-# define CTRL_V 22
 
 # define PROMPT_LEN 2
 
@@ -161,27 +91,12 @@ void					init_terminal(void);
 struct termios			*set_input_mode(int a);
 void					set_signal(void);
 void					reset_input_mode(void);
-int						executable_file(char *file_name, char *path);
-t_completion			*add_files_path_env(void);
-char					*return_path(char *remaider_word);
 
 /*
 ** Interface for lexer
 */
 
 t_token					*lex(void);
-
-/*
-** Funcions that make termcaps interactions more readable
-*/
-
-void					tc_cursor_up(void);
-void					tc_cursor_down(void);
-void					tc_cursor_left(void);
-void					tc_cursor_right(void);
-void					tc_clear_till_end_line(void);
-void					tc_cursor_n_right(int n);
-void					tc_clear_till_end(void);
 
 # define PARSER_FAILURE 0
 # define PARSER_SUCCESS 1

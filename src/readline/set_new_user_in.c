@@ -1,5 +1,6 @@
 #include "readline.h"
 
+void	reset_exit(int status);
 
 /*! \fn set_new_user_in
  *  \b Компонента  \b : readline \n

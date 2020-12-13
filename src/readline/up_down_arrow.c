@@ -12,6 +12,8 @@
 
 #include "readline.h"
 
+void		reset_exit(int status);
+
 static void	up_down_arrow_sup(void)
 {
 	set_new_user_in(rp(NULL)->history->str);

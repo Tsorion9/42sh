@@ -2,6 +2,17 @@
 #ifndef READLINE_H
 # define READLINE_H
 
+# include "libft.h"
+# include <sys/types.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <term.h>
+# include <dirent.h>
+# include <sys/stat.h>
+
+# define PS1 0
+# define PS2 1
+
 # define MIN_CMD_LENGTH 4096
 # define BUFFSIZE 4096
 # define HISTSIZE 1000
@@ -9,6 +20,61 @@
 # define HISTORY_SEARCH_STR_BEFORE "(reverse-i-search)`"
 # define HISTORY_SEARCH_STR_NOT_FOUND_BEFORE "(failed reverse-i-search)`"
 # define HISTORY_SEARCH_STR_AFTER "': "
+
+/*
+** Character key constants
+*/
+
+# define LEFT_ARROW 4479771
+# define RIGHT_ARROW 4414235
+
+# define UP_ARROW  4283163
+# define DOWN_ARROW 4348699
+
+# define TAB_ARROW 9
+
+# if defined(__APPLE__) || defined(__NetBSD__)
+
+#  define ALT_LEFT_ARROW 25115
+#  define ALT_RIGHT_ARROW 26139
+
+#  define __S_IREAD S_IRUSR
+#  define __S_IWRITE S_IWUSR
+
+# else
+
+#  define ALT_LEFT_ARROW 74986827111195
+#  define ALT_RIGHT_ARROW 73887315483419
+
+# endif
+
+# ifdef ANTON_UNUSUAL_LAPTOP
+#  define BACKSPACE 8
+# else
+#  define BACKSPACE 127
+# endif
+
+# define DEL 2117294875
+
+# define SHIFT_TAB 5921563
+# define CTRL_W 23
+# define CTRL_Q 17
+# define CTRL_R 18
+# define CTRL_LEFT 74995417045787
+# define CTRL_RIGHT 73895905418011
+# define CTRL_UP 71696882162459
+# define CTRL_DOWN 72796393790235
+
+# define HOME 4738843
+# define END  4607771
+
+# define CTRL_D 4
+# define CTRL_C 3
+# define CTRL_E 5
+# define CTRL_R 18
+# define CTRL_S 19
+# define CTRL_Z 26
+# define CTRL_V 22
 
 typedef struct			s_history
 {
@@ -25,6 +91,20 @@ typedef struct			s_history_search
 	size_t				index;
 	int					history_search_mode;
 }						t_history_search;
+
+typedef struct			s_str
+{
+	char				*buf;
+	size_t				len;
+	size_t				max_len;
+	size_t				index;
+}						t_str;
+
+typedef struct			s_completion
+{
+	char				*str;
+	struct s_completion	*next;
+}						t_completion;
 
 /*
 ** @user_in	buffer (heap)
@@ -97,7 +177,8 @@ void					strmove_cursor(long c);
 int						is_print(long c);
 void					completion(void);
 void					add_new_completion(t_completion **com_lst, char *str);
-void					complete_word(t_completion *matches,\
+void					complete_word(t_completion *matches, \
+						char *remaider_word, char *path);
 void					free_history_list(t_history *history);
 t_str					*init_str(void);
 void					expand_str(t_str *str);
@@ -112,11 +193,25 @@ void					save_user_in_history(void);
 void					set_history_search_mode(void);
 int						now_search_history(void);
 int						get_cursor_position(void);
-						char *remaider_word, char *path);
 t_completion			*ret_possible_matches(char *path, int first_word);
 char					*cut_word(char cut_symbol, int i);
 t_completion			*ret_matches(t_completion *com_lst, char *str_search);
 void					free_completion(t_completion *com_lst, \
 						t_completion *matches, char *remaider_word, char *path);
+int						executable_file(char *file_name, char *path);
+t_completion			*add_files_path_env(void);
+char					*return_path(char *remaider_word);
+
+/*
+** Funcions that make termcaps interactions more readable
+*/
+
+void					tc_cursor_up(void);
+void					tc_cursor_down(void);
+void					tc_cursor_left(void);
+void					tc_cursor_right(void);
+void					tc_clear_till_end_line(void);
+void					tc_cursor_n_right(int n);
+void					tc_clear_till_end(void);
 
 #endif

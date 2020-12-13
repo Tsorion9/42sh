@@ -6,7 +6,7 @@ CREADLINE = readline.c strmove_cursor.c t_str.c \
 			check_quoting.c clear_all_line.c free_readline.c \
 			other.c reset_readline_position.c search_cur_pos.c get_prompt.c \
 			str_n.c home_end.c tc_cursor_n_right.c expand_user_in.c readline_position.c \
-			input_mode.c reset_exit.c gayprompt.c save_cursor.c history_search.c \
+			input_mode.c gayprompt.c save_cursor.c history_search.c \
 			set_new_user_in.c
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
@@ -97,7 +97,7 @@ PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 EXPAND = $(patsubst %,src/expansions/%,$(CEXPANSIONS))
 
-SRC = src/main.c src/signal.c src/init_prompt.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEX) $(PARSER) $(EXEC) $(EXPAND)
+SRC = src/main.c src/signal.c src/init_prompt.c src/reset_exit.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEX) $(PARSER) $(EXEC) $(EXPAND)
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

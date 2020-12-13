@@ -14,6 +14,7 @@
 # define LEX_H
 
 # include "inc21sh.h"
+# include "readline.h"
 
 int		global_close_quote_newline_erased(int need_update, int value);
 int		global_newline_erased(int need_update, int new_value);
@@ -42,5 +43,6 @@ int		is_digit(char c);
 int		is_letter(char c);
 t_token	*copy_init_token(t_token t);
 t_token	*new_eof(void);
+
 
 #endif

@@ -12,6 +12,8 @@
 
 #include "readline.h"
 
+void		reset_exit(int status);
+
 t_str		*init_str(void)
 {
 	t_str	*new_str;
