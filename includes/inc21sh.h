@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/13 23:46:57 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/19 09:08:05 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,6 +327,11 @@ void					com_api_clear_till_end(void);
 void					create_t_column(t_column **cl);
 int						com_api_get_curs_col(void);
 int						com_api_get_curs_row(void);
+int						complections_list_len(t_completion *matches);
+void					com_api_print_many_suggestions(t_completion *matches);
+void					com_api_print_normal_suggestions(t_completion *matches);
+
+void					get_size_of_columns(char **buf, t_column *cl);
 
 /*
 ** Interface for lexer

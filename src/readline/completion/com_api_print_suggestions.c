@@ -6,14 +6,16 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:25:58 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/13 23:37:59 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/19 09:11:48 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
+#include "gayprompt.h"
 
 void		com_api_print_lst(t_completion *matches)
 {
+	//TODO!!!!!!!!!! Get parameters of columns
 	while (matches)
 	{
 		ft_putstr(matches->str);
@@ -50,27 +52,24 @@ void		com_api_clear_till_end(void)
 void		com_api_print_suggestion(t_completion *matches, char *remainder_word,
 								char *path)
 {
+	static t_deque	*tokbuf_g;
+	t_deque			*tokbuf_l;
+
+	tokbuf_g = NULL;
+	tokbuf_l = NULL;
 	if (!matches)
 		return ;
 	if (complections_list_len(matches) == 1)
 		complete_word(matches, remainder_word, path);
 	else
 	{
-		if (complections_list_len(matches) >= 20)
+		if (complections_list_len(matches) > 20)
 		{
-			ft_putchar('\n');
-			com_api_print_lst(matches);
-			// ft_putstr("Many suggestions!");
+			com_api_print_many_suggestions(matches);
 		}
 		else if (complections_list_len(matches) > 1)
 		{
-			com_api_move_curs_to_end_line();
-			ft_putchar('\n');
-			com_api_print_lst(matches);
-			com_api_return_curs_to_line(complections_list_len(matches) + 1);
-			com_api_return_curs_to_position(rp(NULL)->column_end_of_line);
-			com_api_move_curs_to_prev_pos();
-			// ft_putstr("<20 suggestions!");
+			com_api_print_normal_suggestions(matches);
 		}
 	}
 }

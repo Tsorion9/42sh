@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/13 23:43:27 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/14 21:37:46 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,13 @@ void		completion(void)
 	// 	com_lst = ret_possible_vars(NULL, 0);
 	else
 	{
+		// while (1);
 		path = return_path(remainder_word);
 		com_lst = ret_possible_matches(path, com_case);
 		free(remainder_word);
 		remainder_word = tab_cut_word(rp(NULL)->user_in, i);
 	}
+	// ft_printf("\n\n%s\n%s", remainder_word, path);
 	matches = ret_matches(com_lst, &remainder_word);
 	
 	// if (matches)
