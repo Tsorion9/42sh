@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 13:47:25 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/19 09:11:15 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/19 13:00:03 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,17 @@ void		com_api_return_curs_to_position(int columns_right)
 	}
 }
 
-void		com_api_return_curs_to_line(int lines_up)
+void		com_api_return_curs_to_line(void)
 {
-	while (lines_up--)
-	{
-		tputs(tgetstr("up", NULL), STDERR_FILENO, ft_putint);
-	}
+	int raws;
+
+	raws = rp(NULL)->competitions_raws;
+	if (raws)
+		while (raws--)
+		{
+			tputs(tgetstr("up", NULL), STDERR_FILENO, ft_putint);
+		}
+	rp(NULL)->competitions_raws = 0;
 }
 
 void		com_api_move_curs_to_prev_pos(void)

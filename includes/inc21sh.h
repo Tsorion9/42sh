@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/19 09:08:05 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/19 13:00:22 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ typedef struct			s_rp
 	t_history_search	history_search;
 	int					prev_pos_curs;
 	int					column_end_of_line;
+	int					competitions_raws;
 }						t_rp;
 
 /*
@@ -299,6 +300,12 @@ int						now_search_history(void);
 int						get_cursor_position(void);
 
 /*
+** For work with char **buf;
+*/
+
+void					free_buf(char **buf);
+
+/*
 ** Complection
 */
 
@@ -317,9 +324,8 @@ char					*cut_word(char cut_symbol, int i);
 t_completion			*ret_matches(t_completion *com_lst, char **str_search);
 void					com_api_move_curs_to_end_line(void);
 void					com_api_move_curs_to_prev_pos(void);
-void					com_api_return_curs_to_line(int lines_up);
+void					com_api_return_curs_to_line(void);
 void					com_api_return_curs_to_position(int columns_right);
-void					com_api_return_curs_to_line(int lines_up);
 void					com_api_print_lst(t_completion *matches);
 void					com_api_print_suggestion(t_completion *matches, char *remainder_word,
 								char *path);
@@ -332,6 +338,7 @@ void					com_api_print_many_suggestions(t_completion *matches);
 void					com_api_print_normal_suggestions(t_completion *matches);
 
 void					get_size_of_columns(char **buf, t_column *cl);
+void					print_column(char **buf, t_column *cl);
 
 /*
 ** Interface for lexer
