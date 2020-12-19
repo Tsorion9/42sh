@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inc21sh.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/19 16:11:34 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/19 17:42:03 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,6 +322,17 @@ void					complete_word(t_completion *matches,\
 t_completion			*ret_possible_matches(char *path, int first_word);
 char					*cut_word(char cut_symbol, int i);
 t_completion			*ret_matches(t_completion *com_lst, char **str_search);
+
+/*
+** Complection API for vars
+*/
+
+t_completion			*ret_possible_vars(void);
+
+/*
+** Complection API for print possibilities
+*/
+
 void					com_api_move_curs_to_end_line(void);
 void					com_api_move_curs_to_prev_pos(void);
 void					com_api_return_curs_to_line(void);
@@ -339,6 +350,7 @@ void					com_api_print_normal_suggestions(t_completion *matches);
 int						check_big_list(int quantity_possibilities);
 void					get_size_of_columns(char **buf, t_column *cl);
 void					print_column(char **buf, t_column *cl);
+
 
 /*
 ** Interface for lexer

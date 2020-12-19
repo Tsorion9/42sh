@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   completion.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/14 21:37:46 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/19 17:44:38 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void		completion(void)
 	}
 	else if (com_case == COM_FILE && !ft_strchr(remainder_word, '/'))
 		com_lst = ret_possible_matches(NULL, 0);
-	// else if (com_case == COM_VAR)
-	// 	com_lst = ret_possible_vars(NULL, 0);
+	else if (com_case == COM_VAR)
+		com_lst = ret_possible_vars();
 	else
 	{
 		// while (1);
