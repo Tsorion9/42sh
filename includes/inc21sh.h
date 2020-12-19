@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/19 13:00:22 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/19 16:11:34 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,7 +336,7 @@ int						com_api_get_curs_row(void);
 int						complections_list_len(t_completion *matches);
 void					com_api_print_many_suggestions(t_completion *matches);
 void					com_api_print_normal_suggestions(t_completion *matches);
-
+int						check_big_list(int quantity_possibilities);
 void					get_size_of_columns(char **buf, t_column *cl);
 void					print_column(char **buf, t_column *cl);
 
