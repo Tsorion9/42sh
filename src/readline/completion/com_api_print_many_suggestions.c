@@ -6,7 +6,7 @@
 /*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 08:15:05 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/19 08:25:39 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/19 13:14:51 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void		com_api_print_normal_suggestions(t_completion *matches)
 	com_api_move_curs_to_end_line();
     ft_putchar('\n');
     com_api_print_lst(matches);
-    com_api_return_curs_to_line(complections_list_len(matches) + 1);
+    com_api_return_curs_to_line();
     com_api_return_curs_to_position(rp(NULL)->column_end_of_line);
     com_api_move_curs_to_prev_pos();
 }
