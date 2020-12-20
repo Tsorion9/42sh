@@ -49,7 +49,7 @@ void	inverse_search_index(int cur_pos[2], int index, size_t prompt_len)
 
 	ws_col = rp(NULL)->ws_col;
 	a = prompt_len / ws_col;
-	cur_pos[0] = (prompt_len - ws_col * a) + 1;
+	cur_pos[0] = prompt_len - ws_col * a;
 	cur_pos[1] = a + 1;
 	i = 0;
 	while (i < index && rp(NULL)->user_in[i])

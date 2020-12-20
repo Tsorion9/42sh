@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:12:08 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/01 22:06:25 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/20 10:55:14 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,12 @@ static void	move_cursor_left(void)
 
 	prev_cur_pos[0] = rp(NULL)->cur_pos[0];
 	prev_cur_pos[1] = rp(NULL)->cur_pos[1];
-	if (rp(NULL)->cur_pos[0] == 1)
-	{
-		rp(NULL)->cur_pos[1]--;
-		rp(NULL)->cur_pos[0] = search_last_cur_pos_in_line(rp(NULL)->cur_pos[1]) + 1;
-	}
-	else if ((size_t)rp(NULL)->cur_pos[0] == (size_t)rp(NULL)->prompt_len && \
-		rp(NULL)->cur_pos[1] == 1)
-		return ;
-	else
-		rp(NULL)->cur_pos[0]--;
-	move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
 	if (rp(NULL)->index > 0)
+	{
 		rp(NULL)->index--;
+		inverse_search_index(rp(NULL)->cur_pos, rp(NULL)->index, rp(NULL)->prompt_len);
+		move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
+	}
 }
 
 /*
