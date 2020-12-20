@@ -17,7 +17,7 @@ CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
 				com_api_print_suggestions.c com_api_move_cursor.c \
 				com_api_get_cursor_position.c com_api_print_tools.c \
 				print_column.c get_size_of_columns.c free_buf.c \
-				ret_possible_vars.c \
+				ret_possible_vars.c com_api_print_var_suggestions.c \
 
 CLEX =	lex.c get_token_end_line.c \
 		get_token_greater.c get_token_less.c get_token_number.c \

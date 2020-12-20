@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/19 17:42:03 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/20 00:41:33 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,6 +328,11 @@ t_completion			*ret_matches(t_completion *com_lst, char **str_search);
 */
 
 t_completion			*ret_possible_vars(void);
+char					*cut_uncut_remainder_word(char **remainder_word);
+void					com_api_print_var_suggestion(t_completion *matches, char *remainder_word,
+								char *path);
+void					com_api_print_normal_var_suggestions(t_completion *matches);
+void					com_api_print_many_var_suggestions(t_completion *matches);
 
 /*
 ** Complection API for print possibilities

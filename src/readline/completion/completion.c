@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/19 17:44:38 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/20 00:41:43 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void		completion(void)
 	path = NULL;
 	// ft_printf("%d", i);
 	
-	remainder_word = tab_cut_word(rp(NULL)->user_in, i);
+	if ((remainder_word = tab_cut_word(rp(NULL)->user_in, i))
+		&& com_case == COM_VAR)
+		remainder_word = cut_uncut_remainder_word(&remainder_word);
 	
 	// if (!(remainder_word = tab_cut_word(rp(NULL)->user_in, i)))
 	// 	return ; //Добавить подстановку всех вариантов при отсутствии слова
@@ -69,8 +71,10 @@ void		completion(void)
 	// 	while (1);
 	// }
 	// com_api_print_output(matches, remainder_word, path);
-	com_api_print_suggestion(matches, remainder_word, path);
-
+	if (com_case != COM_VAR)
+		com_api_print_suggestion(matches, remainder_word, path);
+	else
+		com_api_print_var_suggestion(matches, remainder_word, path);
 	// ft_printf("!%d!", comlections_list_len(matches));
 
 	// if (com_lst)
