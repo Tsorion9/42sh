@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inc21sh.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/20 00:41:33 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/20 23:09:12 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,7 @@ void					save_user_in_history(void);
 void					set_history_search_mode(void);
 int						now_search_history(void);
 int						get_cursor_position(void);
+void					readline_putstr(const char *s, int *cur_pos, size_t prompt_len);
 
 /*
 ** For work with char **buf;

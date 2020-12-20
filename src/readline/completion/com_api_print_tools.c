@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_api_print_tools.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 08:15:05 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/19 17:07:40 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/20 23:04:11 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

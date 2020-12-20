@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_api_move_cursor.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 13:47:25 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/19 13:00:03 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/20 23:12:08 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
