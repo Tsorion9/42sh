@@ -15,9 +15,9 @@
 int		delete_prev_word(char *user_in, char *remainder_word, int i)
 {
 	size_t		len;
-	t_rp		*trp;
+	//t_rp		*trp;
 
-	trp = rp(NULL);
+	//trp = rp(NULL);
 	len = ft_strlen(remainder_word);
 	if (i && user_in[i - 1] != ' ' && user_in[i - 1] != '\t' && \
 		(user_in[i] == ' ' || user_in[i] == '\t' || user_in[i] == '\0'))
