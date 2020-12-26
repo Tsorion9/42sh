@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:25:58 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/22 22:06:31 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/26 17:56:42 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void		com_api_print_many_suggestions(t_completion *matches)
 	    com_api_return_curs_to_line();
         com_api_return_curs_to_position(rp(NULL)->column_end_of_line);
         com_api_move_curs_to_prev_pos();
+		com_api_clear_till_end();
         return ;
     }
     ft_putchar('\n');

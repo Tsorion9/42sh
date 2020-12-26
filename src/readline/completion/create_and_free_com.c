@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:26 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/25 21:36:55 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/26 20:39:28 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static t_completion	*create_completion(char *str)
 	if (!(new_completion->str = ft_strdup(str)))
 		return (NULL);
 	new_completion->next = NULL;
+	new_completion->com_type = 0;
 	return (new_completion);
 }
 

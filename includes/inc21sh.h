@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/26 14:49:32 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/26 20:36:10 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct			s_completion
 {
 	char				*str;
 	struct s_completion	*next;
+	int					com_type;
 }						t_completion;
 
 typedef struct			s_history
@@ -302,12 +303,6 @@ int						get_cursor_position(void);
 void					readline_putstr(const char *s, int *cur_pos, size_t prompt_len);
 
 /*
-** For work with char **buf;
-*/
-
-void					free_buf(char **buf);
-
-/*
 ** Complection
 */
 
@@ -324,6 +319,7 @@ void					complete_word(t_completion *matches,\
 t_completion			*ret_possible_matches(char *path, int first_word);
 char					*cut_word(char cut_symbol, int i);
 t_completion			*ret_matches(t_completion *com_lst, char **str_search);
+char					*ft_strcut(const char *s, int c);
 
 /*
 ** Complection API for vars
@@ -358,7 +354,6 @@ void					com_api_print_normal_suggestions(t_completion *matches);
 int						check_big_list(int quantity_possibilities);
 void					get_size_of_columns(char **buf, t_column *cl);
 void					print_column(char **buf, t_column *cl);
-
 
 /*
 ** Interface for lexer

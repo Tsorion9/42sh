@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/26 15:46:34 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/26 22:11:36 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void		completion(void)
 		&& com_case == COM_VAR)
 		remainder_word = cut_uncut_remainder_word(remainder_word);
 		
+	// ft_printf("111111 %d %d", i, com_case);
 	// ft_printf("\n!%s! \n%d", remainder_word, com_case);
 	// while(1);
 
@@ -53,7 +54,6 @@ void		completion(void)
 		com_lst = ret_possible_vars();
 	else
 	{
-		// while (1);
 		path = return_path(remainder_word);
 		com_lst = ret_possible_matches(path, com_case);
 		free(remainder_word);
@@ -68,10 +68,16 @@ void		completion(void)
 	// 	while (1);
 	// }
 	// com_api_print_output(matches, remainder_word, path);
+	if (matches)
+		matches->com_type = com_case;
+	// while (1);
 	if (com_case == COM_CMD || com_case == COM_FILE)
 		com_api_print_suggestion(matches, remainder_word, path);
 	else if (com_case == COM_VAR)
 		com_api_print_var_suggestion(matches, remainder_word, path);
+
+
+		
 	// ft_printf("!%d!", comlections_list_len(matches));
 
 	// if (com_lst)

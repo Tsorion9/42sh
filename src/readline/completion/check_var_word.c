@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 14:47:16 by nriker            #+#    #+#             */
-/*   Updated: 2020/12/26 15:42:34 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/26 21:38:58 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int			check_brace_in_var_word(char *line, int i)
 			pos_dollar_brace = i;
 		i--;
 	}
-	i = pos_dollar_brace + 1;
-	while (i <= y && line[i] != '\0')
+	i = pos_dollar_brace;
+	while (++i <= y && line[i] != '\0')
 	{
 		if (line[i] == '}')
 			sum_brace--;
@@ -44,6 +44,8 @@ int			check_brace_in_var_word(char *line, int i)
 
 int			check_space_in_var_word(char *line, int i, int y)
 {
+	if (y && line[y] == ' ' && ft_isalpha(line[y - 1]))
+		y--;
 	while (y > i)
 	{
 		if (line[y] == ' ' || line[i] == '\n' || line[i] == '\t')

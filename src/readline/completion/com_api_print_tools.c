@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_api_print_tools.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 08:15:05 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/20 23:04:11 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/26 18:18:00 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		com_api_print_lst(t_completion *matches)
 	print_column(buf, cl);
 	rp(NULL)->competitions_raws = cl->row_got + 1;
 	free(cl);
-	free_buf(buf);
+	del_array(buf);
 }
 
 int			complections_list_len(t_completion *matches)
