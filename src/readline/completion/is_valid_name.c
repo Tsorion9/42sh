@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_valid_name.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 16:31:00 by jbrinksm          #+#    #+#             */
-/*   Updated: 2020/12/12 15:28:39 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/26 13:54:00 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		is_valid_name_char(char c)
 {
-	return (ft_isalnum(c) == true || ft_strchr("*-_~!@#$%^.,[]+?", c) != NULL);
+	return (ft_isalnum(c) == TRUE || ft_strchr("*-_~!@#$%^.,[]+?", c) != NULL);
 }
 
 int		is_valid_name(char *str)
@@ -22,13 +22,13 @@ int		is_valid_name(char *str)
 	int i;
 
 	if (str == NULL || *str == '\0' || *str == '=')
-		return (false);
+		return (FALSE);
 	i = 0;
 	while (str[i] != '\0' && str[i] != '=')
 	{
-		if (is_valid_name_char(str[i]) == false)
-			return (false);
+		if (is_valid_name_char(str[i]) == FALSE)
+			return (FALSE);
 		i++;
 	}
-	return (true);
+	return (TRUE);
 }

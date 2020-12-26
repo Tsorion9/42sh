@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/25 22:06:12 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/26 14:49:32 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@
 # define COM_FILE 3
 # define COM_VAR_WORD 4
 
-# define true 1
-# define false 0
+# define TRUE 1
+# define FALSE 0
 
 # define GETCURSORPOS "\e[6n"
 
@@ -335,6 +335,7 @@ void					com_api_print_var_suggestion(t_completion *matches, char *remainder_wor
 								char *path);
 void					com_api_print_normal_var_suggestions(t_completion *matches);
 void					com_api_print_many_var_suggestions(t_completion *matches);
+int						check_var_word(char *line, int i);
 
 /*
 ** Complection API for print possibilities

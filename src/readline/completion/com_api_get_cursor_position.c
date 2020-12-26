@@ -31,7 +31,7 @@ int			com_api_get_curs_row(void)
 	get[l] = '\0';
 	while (get[i - 1] != '[' && get[i] != '\0')
 		i++;
-	if (ft_isdigit(get[i]) == false)
+	if (ft_isdigit(get[i]) == FALSE)
 		return (-1);
 	row = ft_atoi(&get[i]);
 	return (row);
