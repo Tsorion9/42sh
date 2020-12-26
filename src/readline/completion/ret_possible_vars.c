@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 17:14:51 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/20 00:43:05 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/25 22:03:10 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,20 @@
 #include "environment.h"
 #include "inc21sh.h"
 
-char			*cut_uncut_remainder_word(char **remainder_word)
+char			*cut_uncut_remainder_word(char *remainder_word)
 {
 	int		i;
 	char	*new_word;
 
-	i = ft_strlen(*(remainder_word)) - 1;
-	// ft_printf("\n%d %c \n\n%s", i, (*(remainder_word))[i], *(remainder_word));
-	// while (1);
-	if ((*(remainder_word))[i] == '{')
+	i = ft_strlen(remainder_word) - 1;
+	if (remainder_word[i] == '{')
 		return (NULL);
-	while (i >= 0 && (*(remainder_word))[i] != '{')
-	{
-		// ft_putchar((*(remainder_word))[i]);
+	while (i >= 0 && remainder_word[i] != '{')
 		i--;
-	}
-	new_word = (char*)malloc(sizeof(char) * (ft_strlen(*(remainder_word)) - i));
-	new_word[ft_strlen(*(remainder_word)) - i] = '\0';
-	new_word = ft_strncat((*(remainder_word)) + i + 1, new_word, ft_strlen(*(remainder_word)) - i);
-
-	// ft_putchar('\n');
-	// ft_putstr(new_word);
-	// while (1);
-	// free(*(remainder_word));
+	new_word = (char*)malloc(sizeof(char) * (ft_strlen(remainder_word) - i));
+	new_word[ft_strlen(remainder_word) - i - 1] = '\0';
+	new_word = ft_strncat(new_word, (remainder_word) + i + 1, ft_strlen(remainder_word) - i);
+	free(remainder_word);
 	return (new_word);
 }
 

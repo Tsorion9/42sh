@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inc21sh.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/20 23:09:12 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/25 22:06:12 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 # define COM_CMD 1
 # define COM_VAR 2
 # define COM_FILE 3
+# define COM_VAR_WORD 4
 
 # define true 1
 # define false 0
@@ -329,7 +330,7 @@ t_completion			*ret_matches(t_completion *com_lst, char **str_search);
 */
 
 t_completion			*ret_possible_vars(void);
-char					*cut_uncut_remainder_word(char **remainder_word);
+char					*cut_uncut_remainder_word(char *remainder_word);
 void					com_api_print_var_suggestion(t_completion *matches, char *remainder_word,
 								char *path);
 void					com_api_print_normal_var_suggestions(t_completion *matches);

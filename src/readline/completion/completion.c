@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/20 00:41:43 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/26 12:08:55 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 // user_in - ввод
 // str_n(void) - возвращает количество строк занимаемых командой
 // rp() - получение статической структуры позиции курсора
+
+
 
 void		completion(void)
 {
@@ -29,13 +31,18 @@ void		completion(void)
 
 	com_api_clear_till_end();
 	i = search_index(rp(NULL)->cur_pos, rp(NULL)->prompt_len); //получение индекса нахождения курсора из массива
+	// if ((com_case = find_complection_pos(rp(NULL)->user_in, i)) == COM_VAR_WORD)
+	// 	return ;
+
 	com_case = find_complection_pos(rp(NULL)->user_in, i);
-	path = NULL;
-	// ft_printf("%d", i);
 	
+	path = NULL;
 	if ((remainder_word = tab_cut_word(rp(NULL)->user_in, i))
 		&& com_case == COM_VAR)
-		remainder_word = cut_uncut_remainder_word(&remainder_word);
+	{
+		remainder_word = cut_uncut_remainder_word(remainder_word);
+	}
+		
 	
 	// if (!(remainder_word = tab_cut_word(rp(NULL)->user_in, i)))
 	// 	return ; //Добавить подстановку всех вариантов при отсутствии слова
@@ -43,8 +50,9 @@ void		completion(void)
 	// ft_printf("!%s, %d %d!!", rp(NULL)->user_in, i, com_case);
 	// is_first_word(i) 1 = first word
 	// ft_printf("\n%d", is_first_word(i));
-	// ft_printf("\n!%s!", remainder_word);
-	// while(1);
+	
+	ft_printf("\n!%s! \n%d", remainder_word, com_case);
+	while(1);
 	if (com_case == COM_CMD && !ft_strchr(remainder_word, '/'))
 	{
 		// while (1);
@@ -71,9 +79,9 @@ void		completion(void)
 	// 	while (1);
 	// }
 	// com_api_print_output(matches, remainder_word, path);
-	if (com_case != COM_VAR)
+	if (com_case == COM_CMD || com_case == COM_FILE)
 		com_api_print_suggestion(matches, remainder_word, path);
-	else
+	else if (com_case == COM_VAR)
 		com_api_print_var_suggestion(matches, remainder_word, path);
 	// ft_printf("!%d!", comlections_list_len(matches));
 
@@ -95,5 +103,7 @@ void		completion(void)
 	// 	ft_printf("\n%s", matches->str);
 	// 	matches = matches->next;
 	// }
+
+	// remainder_word = ft_strdup("123");
 	free_completion(com_lst, matches, remainder_word, path);
 }

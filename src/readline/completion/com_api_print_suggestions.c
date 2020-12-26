@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_api_print_suggestions.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:25:58 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/20 23:12:53 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/22 22:06:31 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void		com_api_print_many_suggestions(t_completion *matches)
     ft_putchar('\n');
     com_api_print_lst(matches);
     gayprompt(rp(NULL)->prompt);
-    com_api_move_curs_to_prev_pos();
 	readline_putstr(rp(NULL)->user_in, rp(NULL)->cur_pos, rp(NULL)->prompt_len);
+    com_api_move_curs_to_prev_pos();
 }
 
 void		com_api_print_normal_suggestions(t_completion *matches)
