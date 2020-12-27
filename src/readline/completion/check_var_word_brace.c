@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_var_word.c                                   :+:      :+:    :+:   */
+/*   check_var_word_brace.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 14:47:16 by nriker            #+#    #+#             */
-/*   Updated: 2020/12/27 13:51:27 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/27 15:45:03 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
-
 
 int			check_brace_in_var_word(char *line, int i)
 {
@@ -66,7 +65,7 @@ int			check_symb_in_var_word(char *line, int i)
 	return (FALSE);
 }
 
-int			check_var_word(char *line, int i)
+int			check_var_word_brace(char *line, int i)
 {
 	int y;
 
