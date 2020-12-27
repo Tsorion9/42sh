@@ -10,3 +10,4 @@ cscope.out
 tags
 **/*.d
 .vscode
+test_complection

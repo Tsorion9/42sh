@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 17:12:17 by mavan-he          #+#    #+#             */
-/*   Updated: 2020/12/26 14:47:51 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/27 15:12:23 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int			find_complection_pos(char *line, int i)
 	if (i == 0)
 		return (COM_CMD);
 	if (check_var_word(line, i))
-		return (COM_VAR_WORD);
+		return (COM_VAR_WORD_BRACE);
 	i--;
 	while (i >= 0)
 	{

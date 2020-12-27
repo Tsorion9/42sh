@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/26 20:36:10 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/27 15:13:27 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@
 # define COM_CMD 1
 # define COM_VAR 2
 # define COM_FILE 3
-# define COM_VAR_WORD 4
+# define COM_VAR_WORD_BRACE 4
+# define COM_VAR_WORD_DOLLAR 5
 
 # define TRUE 1
 # define FALSE 0
