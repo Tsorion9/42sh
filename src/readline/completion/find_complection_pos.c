@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 17:12:17 by mavan-he          #+#    #+#             */
-/*   Updated: 2020/12/27 16:05:40 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/28 22:58:59 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static int	find_pos_before_space(char *line, int i)
 
 int			find_complection_pos(char *line, int i)
 {
-	if (i == 0)
+	if (i == 0 && line[i] != '$')
 		return (COM_CMD);
-	if (check_var_word_brace(line, i))
-		return (COM_VAR_WORD_BRACE);
-	else if (check_var_word_dollar(line, i))
+	else if (line[i] == '$')
 		return (COM_VAR_WORD_DOLLAR);
+	if (check_var_word_brace(line, i) && !check_var_word_dollar(line, i))
+		return (COM_VAR_WORD_BRACE);
 	i--;
 	while (i >= 0)
 	{
@@ -49,7 +49,9 @@ int			find_complection_pos(char *line, int i)
 		return (COM_CMD);
 	if (line[i] == ' ' || line[i] == '\t')
 		return (find_pos_before_space(line, i));
-	if (line[i] == '$' || (i > 0 && line[i] == '{' && line[i - 1] == '$'))
+	if (i > 0 && line[i] == '{' && line[i - 1] == '$')
 		return (COM_VAR);
+	else if (check_var_word_dollar(line, i))
+		return (COM_VAR_WORD_DOLLAR);
 	return (COM_FILE);
 }

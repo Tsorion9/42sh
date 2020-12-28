@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:10:59 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/27 09:58:38 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/28 23:23:10 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,23 @@ int		delete_prev_word(char *user_in, char *remainder_word, int i)
 	return (1);
 }
 
-static void	change_full_word2(char *full_word)
-{
+void		change_full_word2(char *full_word, struct stat	file_info)
+{	
 	size_t		full_word_len;
-	
+
 	full_word_len = ft_strlen(full_word);
-	full_word[full_word_len] = '}';
-	full_word[full_word_len + 1] = ' ';
-	full_word[full_word_len + 2] = '\0';
-	return ;
+	if (S_ISDIR(file_info.st_mode))
+		full_word[full_word_len] = '/';
+	else
+		full_word[full_word_len] = ' ';
+	full_word[full_word_len + 1] = '\0';
 }
 
-static void	change_full_word(char *full_word, char *path, int type)
+void		change_full_word(char *full_word, char *path, int type)
 {
 	char		*file_path;
 	struct stat	file_info;
 	char		lstat_result;
-	size_t		full_word_len;
 
 	if (!path || ft_strlen(full_word) == 0)
 		lstat_result = lstat(full_word, &file_info);
@@ -64,15 +64,12 @@ static void	change_full_word(char *full_word, char *path, int type)
 	if (lstat_result == -1)
 	{
 		if (type == COM_VAR)
-			change_full_word2(full_word);
+			change_full_word_var_word_brace(full_word);
+		else if (type == COM_VAR_WORD_DOLLAR)
+			change_full_word_var_word_dollar(full_word);
 		return ;
 	}
-	full_word_len = ft_strlen(full_word);
-	if (S_ISDIR(file_info.st_mode))
-		full_word[full_word_len] = '/';
-	else
-		full_word[full_word_len] = '\0';
-	full_word[full_word_len + 1] = '\0';
+	change_full_word2(full_word, file_info);
 }
 
 void		complete_word2(size_t i, char *remainder_word, char *full_word)

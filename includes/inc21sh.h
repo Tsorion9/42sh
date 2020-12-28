@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/27 16:01:39 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/28 23:24:41 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,6 +336,8 @@ void					com_api_print_many_var_suggestions(t_completion *matches);
 int						check_var_word_brace(char *line, int i);
 int						check_brace_in_var_word(char *line, int i);
 int						check_var_word_dollar(char *line, int i);
+void					change_full_word_var_word_dollar(char *full_word);
+void					change_full_word_var_word_brace(char *full_word);
 
 /*
 ** Complection API for print possibilities

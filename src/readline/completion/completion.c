@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/27 16:10:26 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/28 23:26:30 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,20 @@ void		completion(void)
 	i = search_index(rp(NULL)->cur_pos, rp(NULL)->prompt_len);
 	if ((com_case = find_complection_pos(rp(NULL)->user_in, i)) == COM_VAR_WORD_BRACE)
 		return ;
-
-	// ft_printf("\n\n\n%d", com_case);
+	// ft_printf("\n%d", com_case);
 	// while (1);
 	if ((remainder_word = tab_cut_word(rp(NULL)->user_in, i))
 		&& com_case == COM_VAR)
 		remainder_word = cut_uncut_remainder_word(remainder_word);
 	else if (remainder_word && com_case == COM_VAR_WORD_DOLLAR)
 		remainder_word = cut_uncut_remainder_word_dol(remainder_word);
+	// ft_printf("\n%s", remainder_word);
+	// while (1);
 	if (com_case == COM_CMD && !ft_strchr(remainder_word, '/'))
 		com_lst = add_files_path_env();
 	else if (com_case == COM_FILE && !ft_strchr(remainder_word, '/'))
 		com_lst = ret_possible_matches(NULL, 0);
-	else if (com_case == COM_VAR)
+	else if (com_case == COM_VAR || com_case == COM_VAR_WORD_DOLLAR)
 		com_lst = ret_possible_vars();
 	else
 	{

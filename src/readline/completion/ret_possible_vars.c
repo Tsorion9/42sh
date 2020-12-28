@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 17:14:51 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/27 15:54:31 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/28 22:27:40 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,37 @@
 #include "environment.h"
 #include "inc21sh.h"
 
-char			*cut_uncut_remainder_word_dol(char *remainder_word)
+char			*cut_uncut_remainder_word_dol(char *rem)
 {
 	int		i;
 	char	*new_word;
 
-	i = ft_strlen(remainder_word) - 1;
-	if (remainder_word[i] == '{')
+	i = ft_strlen(rem) - 1;
+	if (i >= 0 && rem[i] == '$')
 		return (NULL);
-	while (i >= 0 && remainder_word[i] != '{')
+	while (i > 0 && rem[i] != '$')
 		i--;
-	new_word = (char*)malloc(sizeof(char) * (ft_strlen(remainder_word) - i));
-	new_word[ft_strlen(remainder_word) - i - 1] = '\0';
-	new_word = ft_strncat(new_word, (remainder_word) + i + 1, ft_strlen(remainder_word) - i);
-	free(remainder_word);
+	new_word = (char*)malloc(sizeof(char) * (ft_strlen(rem) - i));
+	new_word[ft_strlen(rem) - i - 1] = '\0';
+	new_word = ft_strncat(new_word, (rem) + i + 1, ft_strlen(rem) - i);
+	free(rem);
 	return (new_word);
 }
 
-char			*cut_uncut_remainder_word(char *remainder_word)
+char			*cut_uncut_remainder_word(char *rem)
 {
 	int		i;
 	char	*new_word;
 
-	i = ft_strlen(remainder_word) - 1;
-	if (remainder_word[i] == '{')
+	i = ft_strlen(rem) - 1;
+	if (rem[i] == '{')
 		return (NULL);
-	while (i >= 0 && remainder_word[i] != '{')
+	while (i >= 0 && rem[i] != '{')
 		i--;
-	new_word = (char*)malloc(sizeof(char) * (ft_strlen(remainder_word) - i));
-	new_word[ft_strlen(remainder_word) - i - 1] = '\0';
-	new_word = ft_strncat(new_word, (remainder_word) + i + 1, ft_strlen(remainder_word) - i);
-	free(remainder_word);
+	new_word = (char*)malloc(sizeof(char) * (ft_strlen(rem) - i));
+	new_word[ft_strlen(rem) - i - 1] = '\0';
+	new_word = ft_strncat(new_word, (rem) + i + 1, ft_strlen(rem) - i);
+	free(rem);
 	return (new_word);
 }
 
