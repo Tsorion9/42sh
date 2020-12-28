@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 17:14:51 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/28 22:27:40 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/28 23:55:55 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char			*cut_uncut_remainder_word_dol(char *rem)
 		return (NULL);
 	while (i > 0 && rem[i] != '$')
 		i--;
-	new_word = (char*)malloc(sizeof(char) * (ft_strlen(rem) - i));
-	new_word[ft_strlen(rem) - i - 1] = '\0';
+	if (!(new_word = ft_strnew(ft_strlen(rem) - i)))
+		return NULL;
 	new_word = ft_strncat(new_word, (rem) + i + 1, ft_strlen(rem) - i);
 	free(rem);
 	return (new_word);
@@ -41,8 +41,8 @@ char			*cut_uncut_remainder_word(char *rem)
 		return (NULL);
 	while (i >= 0 && rem[i] != '{')
 		i--;
-	new_word = (char*)malloc(sizeof(char) * (ft_strlen(rem) - i));
-	new_word[ft_strlen(rem) - i - 1] = '\0';
+	if (!(new_word = ft_strnew(ft_strlen(rem) - i)))
+		return NULL;
 	new_word = ft_strncat(new_word, (rem) + i + 1, ft_strlen(rem) - i);
 	free(rem);
 	return (new_word);
