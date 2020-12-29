@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history_search.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 19:45:28 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/06 13:02:35 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/12 13:16:12 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	history_search_print(const t_history_search *history_search, const c
 	int		new_cur_pos[2];
 	char	*history_search_before;
 
-	if (!(history_search && user_in && history_search->str))
+	if (!(history_search && user_in && history_search->str[0]))
 		return ;
 	ft_memcpy(new_cur_pos, cur_pos, sizeof(new_cur_pos));
 	clear_all_line(1);

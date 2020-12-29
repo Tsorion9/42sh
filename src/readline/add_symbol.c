@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 13:18:00 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/01 22:06:44 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/20 23:07:36 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,28 @@ void	add_symbol_in_str(char *str, char symbol, size_t symbol_index)
 	str[str_len + 1] = '\0';
 }
 
+void	readline_putstr(const char *s, int *cur_pos, size_t prompt_len)
+{
+	ft_putstr_fd(s, STDERR_FILENO);
+	cur_pos_after_putstr(cur_pos, prompt_len);
+	if (cur_pos[0] > rp(NULL)->ws_col)
+	{
+		cur_pos[0] = 1;
+		cur_pos[1]++;
+		ft_putstr_fd(" \r", STDERR_FILENO);
+	}
+}
+
 void	add_symbol(char c)
 {
+	int cur_pos[2];
+
 	if (rp(NULL)->max_len <= rp(NULL)->len + 1)
 		expand_user_in();
 	add_symbol_in_str(rp(NULL)->user_in, c, rp(NULL)->index);
 	rp(NULL)->len++;
 	tc_clear_till_end();
-	tc_save_cursor_pos();
-	ft_putstr_fd(rp(NULL)->user_in + rp(NULL)->index, STDERR_FILENO);
-	tc_restore_saved_cursor_pos();
+	readline_putstr(rp(NULL)->user_in + rp(NULL)->index, cur_pos, rp(NULL)->prompt_len);
+	move_cursor_to_new_position(cur_pos, rp(NULL)->cur_pos);
 	move_cursor(RIGHT_ARROW);
 }

@@ -76,6 +76,12 @@
 # define CTRL_Z 26
 # define CTRL_V 22
 
+# define COM_CMD 1
+# define COM_VAR 2
+# define COM_FILE 3
+# define COM_VAR_WORD_BRACE 4
+# define COM_VAR_WORD_DOLLAR 5
+
 typedef struct			s_history
 {
 	char				*str;
@@ -104,7 +110,19 @@ typedef struct			s_completion
 {
 	char				*str;
 	struct s_completion	*next;
+	int					com_type;
 }						t_completion;
+
+typedef struct			s_column
+{
+	int			col;
+	int			row;
+	int			buf_size;
+	int			max_width;
+	int			width_column;
+	int			col_got;
+	int			row_got;
+}						t_column;
 
 /*
 ** @user_in	buffer (heap)
@@ -133,6 +151,9 @@ typedef struct			s_rp
 	int					in_readline;
 	int					in_read;
 	t_history_search	history_search;
+	int					prev_pos_curs;
+	int					column_end_of_line;
+	int					competitions_raws;
 }						t_rp;
 
 void					free_rp(void);
@@ -181,7 +202,6 @@ int						now_search_history(void);
 int						get_cursor_position(void);
 t_completion			*ret_possible_matches(char *path, int first_word);
 char					*cut_word(char cut_symbol, int i);
-t_completion			*ret_matches(t_completion *com_lst, char *str_search);
 void					free_completion(t_completion *com_lst, \
 						t_completion *matches, char *remaider_word, char *path);
 int						executable_file(char *file_name, char *path);
@@ -217,5 +237,64 @@ void					inverse_search_index(int cur_pos[2], int index, size_t prompt_len);
 void					cur_pos_after_putstr(int *cur_pos, size_t prompt_len);
 void					move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos);
 int						str_n(size_t prompt_len);
+
+
+/*
+** Complection
+*/
+
+void					completion(void);
+char					*tab_cut_word(char *user_in, int i);
+int						tab_check_space(char *user_in, int i);
+void					add_new_completion(t_completion **com_lst, char *str);
+void					free_completion(t_completion *com_lst, \
+						t_completion *matches, char *remaider_word, char *path);
+t_completion			*add_files_path_env(void);
+char					*return_path(char *remaider_word);
+void					complete_word(t_completion *matches,\
+						char *remaider_word, char *path);
+t_completion			*ret_possible_matches(char *path, int first_word);
+char					*cut_word(char cut_symbol, int i);
+t_completion			*ret_matches(t_completion *com_lst, char **str_search);
+char					*ft_strcut(const char *s, int c);
+
+/*
+** Complection API for vars
+*/
+
+t_completion			*ret_possible_vars(void);
+char					*cut_uncut_remainder_word(char *remainder_word);
+char					*cut_uncut_remainder_word_dol(char *remainder_word);
+void					com_api_print_var_suggestion(t_completion *matches, char *remainder_word,
+								char *path);
+void					com_api_print_normal_var_suggestions(t_completion *matches);
+void					com_api_print_many_var_suggestions(t_completion *matches);
+int						check_var_word_brace(char *line, int i);
+int						check_brace_in_var_word(char *line, int i);
+int						check_var_word_dollar(char *line, int i);
+void					change_full_word_var_word_dollar(char *full_word);
+void					change_full_word_var_word_brace(char *full_word);
+
+/*
+** Complection API for print possibilities
+*/
+
+void					com_api_move_curs_to_end_line(void);
+void					com_api_move_curs_to_prev_pos(void);
+void					com_api_return_curs_to_line(void);
+void					com_api_return_curs_to_position(int columns_right);
+void					com_api_print_lst(t_completion *matches);
+void					com_api_print_suggestion(t_completion *matches, char *remainder_word,
+								char *path);
+void					com_api_clear_till_end(void);
+void					create_t_column(t_column **cl);
+int						com_api_get_curs_col(void);
+int						com_api_get_curs_row(void);
+int						complections_list_len(t_completion *matches);
+void					com_api_print_many_suggestions(t_completion *matches);
+void					com_api_print_normal_suggestions(t_completion *matches);
+int						check_big_list(int quantity_possibilities);
+void					get_size_of_columns(char **buf, t_column *cl);
+void					print_column(char **buf, t_column *cl);
 
 #endif

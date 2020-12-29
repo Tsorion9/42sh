@@ -1,4 +1,5 @@
 21sh
+42sh
 *.dSYM
 *.o
 .D*
@@ -9,3 +10,4 @@ cscope.out
 tags
 **/*.d
 .vscode
+test_complection

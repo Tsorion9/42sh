@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strcut.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/13 19:38:14 by alexbuyanov      ###   ########.fr       */
+/*   Created: 2020/12/26 20:11:48 by nriker            #+#    #+#             */
+/*   Updated: 2020/12/26 20:13:19 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "inc21sh.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strcut(const char *s, int c)
 {
-	int		i;
+	char	*str;
+	size_t	i;
 
 	i = 0;
-	while (s && s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
+	if (!s || !ft_strchr(s, c))
+		return (NULL);
+	while (s[i] != (char)c)
 		i++;
-	}
-	if (s && c == '\0')
-		return ((char*)s + i);
+	if ((str = ft_strnew(i + 1)))
+		return (ft_strncpy(str, s, i));
 	return (NULL);
 }

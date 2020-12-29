@@ -1,4 +1,4 @@
-NAME = 21sh
+NAME = 42sh
 
 CREADLINE = readline.c strmove_cursor.c t_str.c \
 			termcap_api.c history_list.c search_index.c\
@@ -12,7 +12,14 @@ CREADLINE = readline.c strmove_cursor.c t_str.c \
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
 				create_and_free_com.c cut_word.c ret_matches.c \
-				ret_possible_matches.c return_path.c
+				ret_possible_matches.c return_path.c init_column.c \
+				tab_cut_word.c find_complection_pos.c is_valid_name.c \
+				com_api_print_suggestions.c com_api_move_cursor.c \
+				com_api_get_cursor_position.c com_api_print_tools.c \
+				print_column.c get_size_of_columns.c env_api_get_mas_vars.c \
+				ret_possible_vars.c com_api_print_var_suggestions.c \
+				check_var_word_brace.c ft_strcut.c check_var_word_dollar.c\
+				change_full_word_var.c \
 
 CLEX =	lex.c get_token_end_line.c \
 		get_token_greater.c get_token_less.c get_token_number.c \
@@ -115,25 +122,25 @@ DEPENDENCIES = $(OBJ:.o=.d)
 all: $(NAME)
 
 $(NAME): $(OBJ) | lib
-	$(CC) $(OBJ) $(LFLAGS) $(DFLAGS) -o $(NAME)
+	@$(CC) $(OBJ) $(LFLAGS) $(DFLAGS) -o $(NAME)
 
 lib:
 	make -C libft 
 
 
 %.o : %.c 
-	gcc $(CFLAGS) -c $< -o $@ -MD
+	@gcc $(CFLAGS) -c $< -o $@ -MD
 
 -include $(DEPENDENCIES)
 
 clean:
-	make -C libft clean
-	rm -f $(OBJ)
-	rm -f $(DEPENDENCIES)
+	@make -C libft clean
+	@rm -f $(OBJ)
+	@rm -f $(DEPENDENCIES)
 
 fclean: clean
-	make -C libft fclean
-	rm -f $(NAME)
+	@make -C libft fclean
+	@rm -f $(NAME)
 
 re: fclean all
 

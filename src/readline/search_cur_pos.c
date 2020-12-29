@@ -6,7 +6,7 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:14:04 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/04 00:19:45 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/20 10:55:47 by mphobos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ int			search_last_cur_pos_in_line(int line)
 	cur_pos_col = rp(NULL)->prompt_len;
 	while (n != line)
 	{
-		if (rp(NULL)->user_in[i] == '\n' || cur_pos_col > rp(NULL)->ws_col)
+		if (cur_pos_col > rp(NULL)->ws_col)
+		{
+			cur_pos_col = 1;
+			n++;
+		}
+		else if (rp(NULL)->user_in[i] == '\n')
 		{
 			cur_pos_col = 0;
 			n++;
@@ -55,35 +60,30 @@ int			search_last_cur_pos_in_line(int line)
 	return (search_last_cur_pos_in_line_sup(1, i, line));
 }
 
-/*
-** Записывает в указатель cur_pos позицию
-** курсора после вывода строки (rp(NULL)->user_in).
-*/
-
 void		cur_pos_after_putstr(int *cur_pos, size_t prompt_len)
 {
 	int	i;
-	int	n;
-	int	cur_pos_col;
+	int	ws_col;
+	int	a;
 
-	cur_pos[1] = str_n(prompt_len) + 1;
-	if (cur_pos[1] == 1)
-		cur_pos[0] = ft_strlen(rp(NULL)->user_in) + prompt_len;
-	else
+	ws_col = rp(NULL)->ws_col;
+	a = prompt_len / ws_col;
+	cur_pos[0] = prompt_len - ws_col * a;
+	cur_pos[1] = a + 1;
+	i = 0;
+	while (rp(NULL)->user_in[i])
 	{
-		i = 0;
-		n = cur_pos[1] - 1;
-		cur_pos_col = prompt_len;
-		while (n)
+		if (cur_pos[0] > rp(NULL)->ws_col)
 		{
-			if (rp(NULL)->user_in[i] == '\n' || cur_pos_col >= rp(NULL)->ws_col)
-			{
-				cur_pos_col = 0;
-				n--;
-			}
-			cur_pos_col++;
-			i++;
+			cur_pos[0] = 1;
+			cur_pos[1]++;
 		}
-		cur_pos[0] = ft_strlen(rp(NULL)->user_in) - i + 1;
+		else if (rp(NULL)->user_in[i] == '\n')
+		{
+			cur_pos[0] = 0;
+			cur_pos[1]++;
+		}
+		cur_pos[0]++;
+		i++;
 	}
 }

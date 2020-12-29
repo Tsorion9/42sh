@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inc21sh.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/01 23:07:51 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/29 22:12:24 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,20 @@
 # include "heredoc.h"
 # include "exec.h"
 # include <dirent.h>
+# include "readline.h"
 
 # include "expand.h"
 
-
 # define CLOSE_STREAM "-"
+
+# define HISTORY_SEARCH_STR_BEFORE "(reverse-i-search)`"
+# define HISTORY_SEARCH_STR_NOT_FOUND_BEFORE "(failed reverse-i-search)`"
+# define HISTORY_SEARCH_STR_AFTER "': "
+
+# define TRUE 1
+# define FALSE 0
+
+# define GETCURSORPOS "\e[6n"
 
 # include "command.h"
 # include "deque.h"
@@ -47,6 +56,17 @@ int						fuck_checklist_signal_state(int need_update,\
 		int new_value);
 char					*get_prompt(int which);
 
+/*
+** @user_in	buffer (heap)
+** @len	length of user input
+** @max_len	current size of buffer
+** @cur_pos	offset sursor from start of prompt (0 = cols, 1 =
+** rows) count from 1
+** @history	position in history
+** @ws_col	window size columns
+** @ws_row	window size rows
+** @prompt_len	length of the prompt + 1 == start position of cursor
+*/
 
 /*
 ** TOKEN
@@ -91,6 +111,28 @@ void					init_terminal(void);
 struct termios			*set_input_mode(int a);
 void					set_signal(void);
 void					reset_input_mode(void);
+void					strmove_cursor(long c);
+int						is_print(long c);
+int						executable_file(char *file_name, char *path);
+void					free_rp(void);
+void					free_history_list(t_history *history);
+int						find_complection_pos(char *line, int i);
+int						is_valid_name(char *str);
+int						is_valid_name_char(char c);
+t_str					*init_str(void);
+void					expand_str(t_str *str);
+void					free_str(t_str *str);
+void					tc_save_cursor_pos(void);
+void					tc_restore_saved_cursor_pos(void);
+void					history_search_start(long c);
+void					add_symbol_in_str(char *str, char symbol, size_t symbol_index);
+void					delete_symbol_in_str(char *str, size_t symbol_index);
+void					set_new_user_in(const char *str);
+void					save_user_in_history(void);
+void					set_history_search_mode(void);
+int						now_search_history(void);
+int						get_cursor_position(void);
+void					readline_putstr(const char *s, int *cur_pos, size_t prompt_len);
 
 /*
 ** Interface for lexer

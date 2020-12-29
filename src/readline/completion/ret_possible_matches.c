@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ret_possible_matches.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:39 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:11:40 by mphobos          ###   ########.fr       */
+/*   Updated: 2020/12/12 17:06:16 by alexbuyanov      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_completion	*ret_possible_matches(char *path, int first_word)
 	if (!dp)
 		return (NULL);
 	com_lst = NULL;
-	if (first_word)
+	if (first_word == 1)
 	{
 		while ((file_name = readdir(dp)))
 			if (executable_file(file_name->d_name, path) || \
