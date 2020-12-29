@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tab_cut_word.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 18:05:50 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/10/17 18:24:28 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/29 21:09:08 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
 
-int		tab_check_space(char *user_in, int i)
+int			tab_check_space(char *user_in, int i)
 {
 	if (i && user_in[i - 1] == ' ' && user_in[i] == ' ')
 		return (1);
@@ -38,7 +38,7 @@ int			check_point_slesh(char *line, int x)
 	return (x);
 }
 
-char	*tab_cut_word(char *user_in, int i)
+char		*tab_cut_word(char *user_in, int i)
 {
 	char	*line;
 	int		x;

@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 23:09:12 by nriker            #+#    #+#             */
-/*   Updated: 2020/12/28 23:23:50 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/29 20:56:29 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void		change_full_word_var_word_dollar(char *full_word)
 {
 	size_t		full_word_len;
-	
+
 	full_word_len = ft_strlen(full_word);
 	full_word[full_word_len] = ' ';
 	full_word[full_word_len + 1] = '\0';
@@ -25,7 +25,7 @@ void		change_full_word_var_word_dollar(char *full_word)
 void		change_full_word_var_word_brace(char *full_word)
 {
 	size_t		full_word_len;
-	
+
 	full_word_len = ft_strlen(full_word);
 	full_word[full_word_len] = '}';
 	full_word[full_word_len + 1] = ' ';

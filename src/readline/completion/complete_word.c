@@ -6,13 +6,13 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:10:59 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/28 23:23:10 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/29 21:01:56 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
 
-int		delete_prev_word(char *user_in, char *remainder_word, int i)
+int			delete_prev_word(char *user_in, char *remainder_word, int i)
 {
 	size_t		len;
 
@@ -36,7 +36,7 @@ int		delete_prev_word(char *user_in, char *remainder_word, int i)
 }
 
 void		change_full_word2(char *full_word, struct stat	file_info)
-{	
+{
 	size_t		full_word_len;
 
 	full_word_len = ft_strlen(full_word);

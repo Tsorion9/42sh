@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 14:47:16 by nriker            #+#    #+#             */
-/*   Updated: 2020/12/28 20:46:38 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/29 20:58:46 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			check_var_word_brace(char *line, int i)
 	if (line[i] != '{' || line[i - 1] != '$')
 		return (FALSE);
 	if ((y - i == 1 && !check_symb_in_var_word(line, i + 1))
-        || !check_space_in_var_word(line, i, y))
+		|| !check_space_in_var_word(line, i, y))
 	{
 		while (line[y] != '\0' && line[y] != '}')
 			y++;

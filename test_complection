@@ -3,7 +3,7 @@ https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
 clear; make && valgrind --track-origins=yes -s ./42sh
 lsapp = first word
 Make = second word
-
+j
 > |lsapp
 > ls ls|>&Make +
 > ls ls|lsapp

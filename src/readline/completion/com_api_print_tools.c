@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 08:15:05 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/26 18:18:00 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/29 21:06:05 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int			check_big_list(int quantity_possibilities)
 {
 	char	buf[7];
 
-	ft_printf("\nDisplay all %d possibilities? (y or n)", quantity_possibilities);
+	ft_printf("\nDisplay all %d possibilities? (y or n)",
+		quantity_possibilities);
 	if (read(0, buf, 7) == -1)
 		return (1);
-	if (buf[0] == 'y' || buf[0] == 9
-		/*|| ((buf[0] == 13 || buf[0] == 10 || buf[0] == 121) && !buf[1])*/)
+	if (buf[0] == 'y' || buf[0] == 9)
 		return (0);
 	return (1);
 }
@@ -36,14 +36,14 @@ char		**create_buf_for_column_print(t_completion *matches)
 	buf = NULL;
 	if (!(size = complections_list_len(matches))
 		|| !(buf = (char**)malloc(sizeof(char*) * size + 1)))
-		return NULL;
+		return (NULL);
 	buf[size] = NULL;
 	while (matches)
 	{
 		buf[i++] = ft_strdup(matches->str);
 		matches = matches->next;
 	}
-	return buf;
+	return (buf);
 }
 
 void		com_api_print_lst(t_completion *matches)
