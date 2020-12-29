@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/28 23:24:41 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/29 21:57:39 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <termios.h>
-# include <term.h>
 # include <fcntl.h>
 # include "libft.h"
 # include "get_next_line.h"
@@ -34,12 +33,6 @@
 
 # include "expand.h"
 
-# define MIN_CMD_LENGTH 4096
-# define BUFFSIZE 4096
-# define HISTSIZE 1000
-
-# define PS1 0
-# define PS2 1
 
 # define CLOSE_STREAM "-"
 
@@ -179,105 +172,11 @@ typedef struct			s_token
 # define LESS_AND 7
 # define AND_GREATOR 8
 
-/*
-** Character key constants
-*/
-
-# define LEFT_ARROW 4479771
-# define RIGHT_ARROW 4414235
-
-# define UP_ARROW  4283163
-# define DOWN_ARROW 4348699
-
-# define TAB_ARROW 9
-
-# if defined(__APPLE__) || defined(__NetBSD__)
-
-#  define ALT_LEFT_ARROW 25115
-#  define ALT_RIGHT_ARROW 26139
-
-#  define __S_IREAD S_IRUSR
-#  define __S_IWRITE S_IWUSR
-
-# else
-
-#  define ALT_LEFT_ARROW 74986827111195
-#  define ALT_RIGHT_ARROW 73887315483419
-
-# endif
-
-# ifdef ANTON_UNUSUAL_LAPTOP
-#  define BACKSPACE 8
-# else
-#  define BACKSPACE 127
-# endif
-
-# define DEL 2117294875
-
-# define SHIFT_TAB 5921563
-# define CTRL_W 23
-# define CTRL_Q 17
-# define CTRL_R 18
-# define CTRL_LEFT 74995417045787
-# define CTRL_RIGHT 73895905418011
-# define CTRL_UP 71696882162459
-# define CTRL_DOWN 72796393790235
-
-# define HOME 4738843
-# define END  4607771
-
-# define CTRL_D 4
-# define CTRL_C 3
-# define CTRL_E 5
-# define CTRL_R 18
-# define CTRL_S 19
-# define CTRL_Z 26
-# define CTRL_V 22
 
 # define PROMPT_LEN 2
 
-t_rp					*rp(t_rp *change_rp);
-t_rp					*init_rp(void);
-void					free_rp(void);
-void					back_to_start_history_rp(void);
-void					init_terminal();
-void					reset_input_mode();
+void					init_terminal(void);
 struct termios			*set_input_mode(int a);
-int						ft_putint(int c);
-void					home_end(long c);
-int						str_naa(char *user_in);
-void					expand_user_in(void);
-t_rp					*rp(t_rp *change_rp);
-void					inverse_search_index(int cur_pos[2], int index, size_t prompt_len);
-void					reset_rp_to_start(char *prompt);
-int						ft_putint(int c);
-char					*readline(char *prompt);
-int						ft_isspace(char c);
-void					move_cursor(long c);
-void					delete_symbol(void);
-void					add_symbol(char c);
-void					alt_left_right(long c);
-void					delete_last_word(void);
-void					wordmove_cursor(long c);
-void					delete_symbol_forward(void);
-int						str_n(size_t prompt_len);
-void					clear_all_line(size_t prompt_len);
-void					cur_pos_after_putstr(int *cur_pos, size_t prompt_len);
-int						search_last_cur_pos_in_line(int line);
-int						search_index(int *cur_pos, size_t prompt_len);
-void					move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos);
-int						ret_winsize(int a);
-int						check_slash(char *user_in, int start_check);
-char					*expansion(char *user_in, char **env);
-t_history				*add_new_history(t_history *history, char *str);
-void					add_to_start_history(t_history *history, char *str, \
-						size_t len);
-t_history				*create_history(char *str, size_t len);
-void					load_on_file_history(t_history *history);
-void					save_in_file_history(t_history *history);
-void					free_readline_position(void);
-void					check_flag(char *user_in, char *flag);
-void					up_down_arrow(long c);
 void					set_signal(void);
 void					reset_input_mode(void);
 void					strmove_cursor(long c);
@@ -366,18 +265,6 @@ void					print_column(char **buf, t_column *cl);
 */
 
 t_token					*lex(void);
-
-/*
-** Funcions that make termcaps interactions more readable
-*/
-
-void					tc_cursor_up(void);
-void					tc_cursor_down(void);
-void					tc_cursor_left(void);
-void					tc_cursor_right(void);
-void					tc_clear_till_end_line(void);
-void					tc_cursor_n_right(int n);
-void					tc_clear_till_end(void);
 
 # define PARSER_FAILURE 0
 # define PARSER_SUCCESS 1

@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
+
+void	reset_exit(int status);
 
 char	*cut_word(char cut_symbol, int i)
 {

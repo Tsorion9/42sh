@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
+
+void		reset_exit(int status);
 
 static void	up_down_arrow_sup(void)
 {

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 
-#include "inc21sh.h"
+#include "readline.h"
 
 void	delete_symbol_forward(void)
 {

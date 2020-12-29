@@ -18,6 +18,7 @@
 #include "heredoc_utils.h"
 #include "memdel3.h"
 #include "fuck_norme_lexer_state.h"
+#include "readline.h"
 
 static char		*non_interactive_readline(void)
 {

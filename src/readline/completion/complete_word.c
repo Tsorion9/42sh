@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 
 int			delete_prev_word(char *user_in, char *remainder_word, int i)
 {

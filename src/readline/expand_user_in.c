@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
+
+void		reset_exit(int status);
 
 void		expand_user_in(void)
 {

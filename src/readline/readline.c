@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 #include "gayprompt.h"
+
+void		reset_exit(int status);
 
 int			is_print(long c)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 
 void		move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos)
 {

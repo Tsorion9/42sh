@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
+#include "readline.h"
 #include "static_env.h"
 
 int				executable_file(char *file_name, char *path)

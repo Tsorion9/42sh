@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "readline.h"
 #include "inc21sh.h"
 
 void		reset_exit(int status)
