@@ -6,11 +6,12 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/29 21:43:07 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/29 22:13:59 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
+#include "inc21sh.h"
 
 int					complection_get_remainder_word(char **remainder_word)
 {

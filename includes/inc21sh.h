@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/29 21:57:39 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/29 22:12:24 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,15 @@
 # include "heredoc.h"
 # include "exec.h"
 # include <dirent.h>
+# include "readline.h"
 
 # include "expand.h"
-
 
 # define CLOSE_STREAM "-"
 
 # define HISTORY_SEARCH_STR_BEFORE "(reverse-i-search)`"
 # define HISTORY_SEARCH_STR_NOT_FOUND_BEFORE "(failed reverse-i-search)`"
 # define HISTORY_SEARCH_STR_AFTER "': "
-
-# define COM_CMD 1
-# define COM_VAR 2
-# define COM_FILE 3
-# define COM_VAR_WORD_BRACE 4
-# define COM_VAR_WORD_DOLLAR 5
 
 # define TRUE 1
 # define FALSE 0
@@ -62,48 +56,6 @@ int						fuck_checklist_signal_state(int need_update,\
 		int new_value);
 char					*get_prompt(int which);
 
-typedef struct			s_str
-{
-	char				*buf;
-	size_t				len;
-	size_t				max_len;
-	size_t				index;
-}						t_str;
-
-typedef struct			s_completion
-{
-	char				*str;
-	struct s_completion	*next;
-	int					com_type;
-}						t_completion;
-
-typedef struct			s_history
-{
-	char				*str;
-	size_t				len;
-	struct s_history	*prev;
-	struct s_history	*next;
-}						t_history;
-
-typedef struct			s_history_search
-{
-	char				str[BUFFSIZE];
-	size_t				len;
-	size_t				index;
-	int					history_search_mode;
-}						t_history_search;
-
-typedef struct			s_column
-{
-	int			col;
-	int			row;
-	int			buf_size;
-	int			max_width;
-	int			width_column;
-	int			col_got;
-	int			row_got;
-}						t_column;
-
 /*
 ** @user_in	buffer (heap)
 ** @len	length of user input
@@ -115,26 +67,6 @@ typedef struct			s_column
 ** @ws_row	window size rows
 ** @prompt_len	length of the prompt + 1 == start position of cursor
 */
-
-typedef struct			s_rp
-{
-	char				*prompt;
-	char				*user_in;
-	size_t				len;
-	size_t				max_len;
-	size_t				index;
-	int					cur_pos[2];
-	t_history			*history;
-	unsigned short		ws_col;
-	unsigned short		ws_row;
-	size_t				prompt_len;
-	int					in_readline;
-	int					in_read;
-	t_history_search	history_search;
-	int					prev_pos_curs;
-	int					column_end_of_line;
-	int					competitions_raws;
-}						t_rp;
 
 /*
 ** TOKEN
@@ -201,64 +133,6 @@ void					set_history_search_mode(void);
 int						now_search_history(void);
 int						get_cursor_position(void);
 void					readline_putstr(const char *s, int *cur_pos, size_t prompt_len);
-
-/*
-** Complection
-*/
-
-void					completion(void);
-char					*tab_cut_word(char *user_in, int i);
-int						tab_check_space(char *user_in, int i);
-void					add_new_completion(t_completion **com_lst, char *str);
-void					free_completion(t_completion *com_lst, \
-						t_completion *matches, char *remaider_word, char *path);
-t_completion			*add_files_path_env(void);
-char					*return_path(char *remaider_word);
-void					complete_word(t_completion *matches,\
-						char *remaider_word, char *path);
-t_completion			*ret_possible_matches(char *path, int first_word);
-char					*cut_word(char cut_symbol, int i);
-t_completion			*ret_matches(t_completion *com_lst, char **str_search);
-char					*ft_strcut(const char *s, int c);
-
-/*
-** Complection API for vars
-*/
-
-t_completion			*ret_possible_vars(void);
-char					*cut_uncut_remainder_word(char *remainder_word);
-char					*cut_uncut_remainder_word_dol(char *remainder_word);
-void					com_api_print_var_suggestion(t_completion *matches, char *remainder_word,
-								char *path);
-void					com_api_print_normal_var_suggestions(t_completion *matches);
-void					com_api_print_many_var_suggestions(t_completion *matches);
-int						check_var_word_brace(char *line, int i);
-int						check_brace_in_var_word(char *line, int i);
-int						check_var_word_dollar(char *line, int i);
-void					change_full_word_var_word_dollar(char *full_word);
-void					change_full_word_var_word_brace(char *full_word);
-
-/*
-** Complection API for print possibilities
-*/
-
-void					com_api_move_curs_to_end_line(void);
-void					com_api_move_curs_to_prev_pos(void);
-void					com_api_return_curs_to_line(void);
-void					com_api_return_curs_to_position(int columns_right);
-void					com_api_print_lst(t_completion *matches);
-void					com_api_print_suggestion(t_completion *matches, char *remainder_word,
-								char *path);
-void					com_api_clear_till_end(void);
-void					create_t_column(t_column **cl);
-int						com_api_get_curs_col(void);
-int						com_api_get_curs_row(void);
-int						complections_list_len(t_completion *matches);
-void					com_api_print_many_suggestions(t_completion *matches);
-void					com_api_print_normal_suggestions(t_completion *matches);
-int						check_big_list(int quantity_possibilities);
-void					get_size_of_columns(char **buf, t_column *cl);
-void					print_column(char **buf, t_column *cl);
 
 /*
 ** Interface for lexer
