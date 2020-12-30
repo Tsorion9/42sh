@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/29 22:13:59 by nriker           ###   ########.fr       */
+/*   Updated: 2020/12/30 11:30:01 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int					complection_get_remainder_word(char **remainder_word)
 }
 
 t_completion		*complection_get_matches(int com_case,
-					char **remainder_word, t_completion **com_lst, char *path)
+					char **remainder_word, t_completion **com_lst, char **path)
 {
 	int		i;
 
@@ -44,8 +44,8 @@ t_completion		*complection_get_matches(int com_case,
 		*(com_lst) = ret_possible_vars();
 	else
 	{
-		path = return_path(*(remainder_word));
-		*(com_lst) = ret_possible_matches(path, com_case);
+		*(path) = return_path(*(remainder_word));
+		*(com_lst) = ret_possible_matches(*(path), com_case);
 		free(*(remainder_word));
 		*(remainder_word) = tab_cut_word(rp(NULL)->user_in, i);
 	}
@@ -66,7 +66,7 @@ void				completion(void)
 	if (!(com_case = complection_get_remainder_word(&remainder_word)))
 		return ;
 	if ((matches = complection_get_matches(com_case,
-			&remainder_word, &com_lst, path)))
+			&remainder_word, &com_lst, &path)))
 		matches->com_type = com_case;
 	if (com_case == COM_CMD || com_case == COM_FILE)
 		com_api_print_suggestion(matches, remainder_word, path);

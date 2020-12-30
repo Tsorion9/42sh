@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cut_word.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:31 by mphobos           #+#    #+#             */
-/*   Updated: 2020/10/16 18:06:51 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2020/12/30 11:36:16 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
-
-void	reset_exit(int status);
 
 char	*cut_word(char cut_symbol, int i)
 {
@@ -30,7 +28,7 @@ char	*cut_word(char cut_symbol, int i)
 	save_symbol = rp(NULL)->user_in[j];
 	rp(NULL)->user_in[j] = '\0';
 	if (!(remainder_word = ft_strdup(rp(NULL)->user_in + i)))
-		reset_exit(1);
+		return (NULL);
 	rp(NULL)->user_in[j] = save_symbol;
 	return (remainder_word);
 }
