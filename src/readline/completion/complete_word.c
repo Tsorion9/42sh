@@ -87,11 +87,10 @@ void		complete_word(t_completion *matches, char *remainder_word,\
 		char *path)
 {
 	size_t		i;
-	char		*str;
 	char		full_word[BUFFSIZE];
 
 	i = 0;
-	str = ft_strcpy(full_word, matches->str);
+	ft_strcpy(full_word, matches->str);
 	change_full_word(full_word, path, matches->com_type);
 	complete_word2(i, remainder_word, full_word);
 }
