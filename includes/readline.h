@@ -201,7 +201,6 @@ void					set_history_search_mode(void);
 int						now_search_history(void);
 int						get_cursor_position(void);
 t_completion			*ret_possible_matches(char *path, int first_word);
-char					*cut_word(char cut_symbol, int i);
 void					free_completion(t_completion *com_lst, \
 						t_completion *matches, char *remaider_word, char *path);
 int						executable_file(char *file_name, char *path);

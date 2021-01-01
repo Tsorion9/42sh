@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:10:59 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/29 21:01:56 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/01 17:18:31 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,6 @@ void		change_full_word(char *full_word, char *path, int type)
 	change_full_word2(full_word, file_info);
 }
 
-void		complete_word2(size_t i, char *remainder_word, char *full_word)
-{
-	i = ft_strlen(remainder_word);
-	if (full_word[i] && \
-		delete_prev_word(rp(NULL)->user_in, remainder_word, \
-		search_index(rp(NULL)->cur_pos, rp(NULL)->prompt_len)))
-		i = 0;
-	while (full_word[i])
-		add_symbol(full_word[i++]);
-}
-
 void		complete_word(t_completion *matches, char *remainder_word,\
 		char *path)
 {
@@ -92,5 +81,11 @@ void		complete_word(t_completion *matches, char *remainder_word,\
 	i = 0;
 	ft_strcpy(full_word, matches->str);
 	change_full_word(full_word, path, matches->com_type);
-	complete_word2(i, remainder_word, full_word);
+	i = ft_strlen(remainder_word);
+	if (full_word[i] && \
+		delete_prev_word(rp(NULL)->user_in, remainder_word, \
+		search_index(rp(NULL)->cur_pos, rp(NULL)->prompt_len)))
+		i = 0;
+	while (full_word[i])
+		add_symbol(full_word[i++]);
 }
