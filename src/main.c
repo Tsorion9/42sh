@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:16:51 by anton             #+#    #+#             */
-/*   Updated: 2020/12/29 21:51:44 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/01 22:35:21 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		main(int ac, char **av, char **environ)
 		init_terminal();
 		init_prompt();
 	}
-	set_signal();
+	// set_signal();
 	repl(tty_input);
 	return (0);
 }

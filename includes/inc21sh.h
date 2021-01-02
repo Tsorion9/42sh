@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2020/12/29 22:12:24 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/02 21:20:56 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "exec.h"
 # include <dirent.h>
 # include "readline.h"
+# include "hashtable.h"
 
 # include "expand.h"
 

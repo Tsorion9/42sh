@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_builtin.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 02:02:56 by anton             #+#    #+#             */
-/*   Updated: 2020/06/26 22:11:20 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/02 18:48:55 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int			builtin_unsetenv(char **args, t_env env, int subshell);
 int			builtin_env(char **args, t_env env, int subshell);
 int			builtin_exit(char **args, t_env env, int subshell);
 int			builtin_21shopt(char **args, t_env env, int subshell);
+int			builtin_alias(char **args, t_env env, int subshell);
+int			builtin_unalias(char **args, t_env env, int subshell);
 
 t_builtin	get_builtin(char *name);
 
