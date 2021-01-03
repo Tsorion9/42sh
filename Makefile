@@ -29,6 +29,8 @@ CLEX =	lex.c get_token_end_line.c \
 		special_signal_token.c close_backslash.c init_new_user_in.c\
 		ret_token.c glob_cc_erased.c
 
+CHASH = hash_api_hash_function.c hash_api_init_hash_data.c hash_api_insert_hash_data.c \
+
 CPARSER = deque.c \
 		  deque_apply.c\
 		  deque_n_th.c\
@@ -101,11 +103,12 @@ READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMANIPULATION))
 COMPLETION = $(patsubst %,src/readline/completion/%,$(CCOMPLETION))
 LEX = $(patsubst %,src/lex/%,$(CLEX))
+HASH = $(patsubst %,src/hashtable/%,$(CHASH))
 PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 EXPAND = $(patsubst %,src/expansions/%,$(CEXPANSIONS))
 
-SRC = src/main.c src/signal.c src/init_prompt.c src/reset_exit.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEX) $(PARSER) $(EXEC) $(EXPAND)
+SRC = src/main.c src/signal.c src/init_prompt.c src/reset_exit.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEX) $(PARSER) $(EXEC) $(EXPAND) $(HASH)
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

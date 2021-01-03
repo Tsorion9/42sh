@@ -6,12 +6,35 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 18:48:59 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/02 22:34:09 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/03 16:12:21 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HASHTABLE_H
 # define HASHTABLE_H
+
+# include "inc21sh.h"
+
+/*
+** HASH_SIZE - base size for hash_table. Using in hash_function
+*/
+
+# define HASH_SIZE 100
+
+typedef struct			s_hashtable
+{
+	char				*key;
+	char				*value;
+	struct s_hashtable	*next;
+}						t_hashtable;
+
+typedef struct			s_hashdata
+{
+	t_hashtable 		*hashtable[HASH_SIZE];
+	int					if_has_content;
+}						t_hashdata;
+
+
 
 /*
 ** API for Hash-table
@@ -22,8 +45,10 @@
 */
 
 int						hash_api_hash_function(char *key);
-char					**hash_api_insert_hash_value(char *key, char *value);
-char					*hash_api_get_hash_value(char *key, char **table);
+t_hashdata				*hash_api_init_hash_data(void);
+int						hash_api_insert_hash_value(char *key, char *value,
+							t_hashdata *hd);
+char					*hash_api_get_hash_data(char *key, t_hashdata *hd);
 void					hash_api_delete_hash_table(char **table);
 
 #endif
