@@ -6,10 +6,11 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 19:43:27 by jsance            #+#    #+#             */
-/*   Updated: 2021/01/04 17:34:49 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/04 21:40:15 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "inc21sh.h"
 #include "parser.h"
 
 t_complete_cmd *parser()
@@ -22,7 +23,7 @@ t_complete_cmd *parser()
 		erase_tokbuf(&tokbuf_l);
 	ungett(&tokbuf_g, &tokbuf_l);
 	if (gett(&tokbuf_g, &tokbuf_l)->tk_type == TOKEN_END)
-		exit(0);
+		reset_exit(0);
 	ungett(&tokbuf_g, &tokbuf_l);
     if (match_complete_command(&complete_cmd, &tokbuf_g) != PARSER_SUCCES)
     {

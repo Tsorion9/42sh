@@ -6,7 +6,7 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/02 12:03:43 by jsance            #+#    #+#             */
-/*   Updated: 2020/11/15 12:32:07 by jsance           ###   ########.fr       */
+/*   Updated: 2021/01/04 22:16:41 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,16 @@ t_token			*lexer_scanner(t_lexer_state *token)
 	if (token->value == NULL)
 	{
 		if (isatty(STDIN_FILENO))
+		{
 			token->value = readline("$> ");
+			if (token->value && !*(token->value))
+			{
+				fresh = malloc(sizeof(t_token));
+				fresh->value = NULL;
+				fresh->tk_type = TOKEN_END;
+				return (fresh);
+			}
+		}
 		else
 		{
 			gnl = get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
