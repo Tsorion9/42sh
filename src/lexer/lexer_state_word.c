@@ -6,7 +6,7 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 14:58:27 by jsance            #+#    #+#             */
-/*   Updated: 2020/10/13 21:35:03 by jsance           ###   ########.fr       */
+/*   Updated: 2021/01/04 22:44:36 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void			lexer_state_word_esc(t_lexer_state *token)
 		replace_word = ft_strncpy(replace_word, token->value, token->tk_len);
 
 		if (isatty(STDIN_FILENO))
-			input = readline("$> ");
+			input = readline(get_prompt(PS2));
 		else
 		{
 			gnl = get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
@@ -147,7 +147,7 @@ void			lexer_state_word(t_lexer_state *token)
 			This place is responsible for unclosed sentences ', ", ${, $(, $((
 		*/
 		inside_readline = 1;
-		input = readline("$> ");
+		input = readline(get_prompt(PS2));
 //		ft_putstr("> ");
 //		getline(&input, &linecap, stdin);
 		inside_readline = 0;
