@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:16:51 by anton             #+#    #+#             */
-/*   Updated: 2021/01/01 22:35:21 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/04 22:57:48 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	repl(int tty_input)
 	{
 		fuck_checklist_signal_state(1, 0);
 		command = parser();
+		tc_clear_till_end();
 		if (command)
 			last_cmd_status(1, exec_cmd(command));
 	}
