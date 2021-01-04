@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "Interface.h"
+# include "command_structs.h"
 # include "token.h"
 # include "deque.h"
 

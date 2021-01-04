@@ -23,7 +23,7 @@
 # include <sys/types.h>
 # include <uuid/uuid.h>
 # include "libft.h"
-# include "Interface.h"
+# include "command_structs.h"
 # include "token.h"
 
 # define FUNC_ERROR			-1
