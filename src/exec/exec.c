@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 #include "libft.h"
-#include "NewLexer.h"
+#include "lexer.h"
 #include "parser.h"
 #include "exec.h"
 #include "job.h"

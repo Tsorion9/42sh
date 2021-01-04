@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "NewLexer.h"
+#include "lexer.h"
 #include "readline.h"
 #include <stdio.h>
 

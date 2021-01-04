@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NEWLEXER_H
-# define NEWLEXER_H
+#ifndef LEXER_H
+# define LEXER_H
 
 # include <pwd.h>
 # include <fcntl.h>
@@ -22,7 +22,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <uuid/uuid.h>
-# include "../libft/includes/libft.h"
+# include "libft.h"
 # include "Interface.h"
 # include "token.h"
 
@@ -46,23 +46,6 @@
 
 extern	t_lexer_state g_token;
 
-/*
-**----------------------------------execution----------------------------------
-*/
-
-typedef struct	s_proc
-{
-	pid_t				pid;
-	char				**env;
-	char				**argv;
-	char				*binary;
-	int					is_builtin;
-	int					exit_status;
-//	t_ast				*redir;
-//	t_ast				*node;
-	struct s_proc		*next;
-}				t_proc;
-
 void			lexer_state_word(t_lexer_state *token);
 void			lexer_change_state(t_lexer_state *token,
 						void(*lexer_state)(t_lexer_state *token));
@@ -76,17 +59,23 @@ void			lexer_state_word(t_lexer_state *token);
 void			lexer_state_word_esc(t_lexer_state *token);
 void			lexer_state_start(t_lexer_state *token);
 void			lexer_set_flags(t_lexer_state *token);
+t_token			*lexer();
+
+/*
+** Misk functions for lexer routine
+*/
 int				ft_isblank(char c);
 int				is_spec(char c);
 char			*get_token_str(t_tokens type);
 int				dquote_spec(char c);
 int				is_contain_quote(char *str);
-void			push(t_lexer_state *token, char brace);// for queue
-void			pop(t_lexer_state *token, char brace);//for queue
-void 			printqueue(t_lexer_state *token);
 void			print_token(t_token token);
-t_token			*lexer();
 
-t_complete_cmd  *parser();
+/*
+** For queue routine
+*/
+void			push(t_lexer_state *token, char brace);
+void			pop(t_lexer_state *token, char brace);
+void 			printqueue(t_lexer_state *token);
 
 #endif

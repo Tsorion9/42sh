@@ -1,4 +1,4 @@
-#include "NewLexer.h"
+#include "lexer.h"
 
 int perform_word_expansions1(t_complete_cmd *cmd)
 {

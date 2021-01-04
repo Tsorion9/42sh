@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "NewLexer.h"
+#include "lexer.h"
 #include <stdio.h>
 
 void			lexer_set_flags(t_lexer_state *token)
