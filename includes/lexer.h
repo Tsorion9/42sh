@@ -76,6 +76,6 @@ void			print_token(t_token token);
 */
 void			push(t_lexer_state *token, char brace);
 void			pop(t_lexer_state *token, char brace);
-void 			printqueue(t_lexer_state *token);
+void			printqueue(t_lexer_state *token);
 
 #endif
