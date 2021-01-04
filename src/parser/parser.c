@@ -6,7 +6,7 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 19:43:27 by jsance            #+#    #+#             */
-/*   Updated: 2021/01/04 21:40:15 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/04 23:03:38 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_complete_cmd *parser()
     if (match_complete_command(&complete_cmd, &tokbuf_g) != PARSER_SUCCES)
     {
         ft_putstr("PARSER ERROR\n");
+		erase_tokbuf(&tokbuf_g);
+		return (NULL);
     }
     return (complete_cmd);
 }
