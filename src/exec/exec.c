@@ -1,124 +1,152 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 01:48:22 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 23:43:22 by anton            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "inc21sh.h"
-#include "deque.h"
-#include "unistd.h"
-
 #include <sys/types.h>
-#include <sys/wait.h>
+#include <unistd.h>
 
-#include "heredoc.h"
-#include "t_builtin.h"
-#include "task_context.h"
-#include "static_env.h"
+#include "libft.h"
+#include "NewLexer.h"
+#include "parser.h"
+#include "exec.h"
+#include "job.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include "expand.h"
+/* 
+** top-level shell is the only one who does job control
+** if top_level_shell==0, we are in job shell
+** all our children must stay in same group
+*/
+int top_level_shell = 1;
 
-#include "exec_utils.h"
-#include "task.h"
-#include "fd_crutch.h"
-
-int			have_children_global_request(int set_value, int value)
+void sigchld_handler(int n)
 {
-	static int	have_children;
+	pid_t child;
+	int status;
 
-	if (set_value == 1)
-		have_children = value;
-	return (have_children);
+	child = wait(&status);
+	if (WIFSTOPPED(status))
+	{
+		ft_printf("%d Stopped\n", child);
+	}
+	if (WIFCONTINUED(status))
+	{
+		ft_printf("%d Continued\n", child);
+	}
+	if (WIFEXITED(status))
+	{
+		ft_printf("%d Terminated\n", child);
+	}
+
+	//remove_job(child);
 }
 
 /*
-** Status of parent process is ignored if there is a child
-** in_pipe is a read end
+** TRUE = 0
+** FALSE = 1
+** unlike C language, weird shell stuff
 */
-
-static int	exec_simple(t_simple_cmd *cmd, int in_pipe, int out_pipe)
+static void update_status(int pipline_status, int *status, t_type_andor last_op)
 {
-	int				status;
-	pid_t			child;
-	t_task_context	task_context;
-	int				number_of_heredocs;
-
-	status = 0;
-	number_of_heredocs = n_heredocs(cmd);
-	task_context = init_task_context(cmd, in_pipe, out_pipe);
-	if (!task_context.need_child)
-		return (task(cmd, &task_context));
-	if (!(child = fork()))
-		task(cmd, &task_context);
-	have_children_global_request(1, 1);
-	if (task_context.in_pipe != IGNORE_STREAM)
-		close(in_pipe);
-	if (task_context.out_pipe != IGNORE_STREAM)
-		close(out_pipe);
-	sync_parent_heredoc_state(number_of_heredocs);
-	rm_simple_cmd(cmd);
-	if (task_context.out_pipe == IGNORE_STREAM)
-		while (wait(&status) > 0)
-			;
-	have_children_global_request(1, 0);
-	return (status);
+	if (last_op == ANDOR_NONE)
+	{
+		*status = pipline_status; /* First step */
+	}
+	else if (last_op == ANDOR_AND)
+	{
+		*status = *status || pipline_status;
+	}
+	else if (last_op == ANDOR_OR)
+	{
+		*status = *status && pipline_status;
+	}
 }
 
 /*
-** By default we should return the status of the last cmd in pipeline
+** Return 1 in case of continue
 */
-
-static int	exec_pipeline(t_deque *p)
+static int need_exec_pipeline(int status, t_type_andor last_op)
 {
-	t_simple_cmd	*cmd;
-	t_simple_cmd	*next;
-	int				fd[2];
-	int				status;
-	int				read_fd;
-
-	fd[1] = IGNORE_STREAM;
-	cmd = pop_front(p);
-	if ((next = pop_front(p)))
-		pipe_wrapper(fd);
-	status = exec_simple(cmd, IGNORE_STREAM, next ? fd[1] : IGNORE_STREAM);
-	while (next)
+	if (last_op == ANDOR_NONE || 
+		(last_op == ANDOR_OR && status == 0) || 
+		(last_op == ANDOR_AND && status != 0))
 	{
-		read_fd = fd[0];
-		if (deque_len(p))
-			pipe_wrapper(fd);
-		status = exec_simple(next, read_fd,\
-				deque_len(p) ? fd[1] : IGNORE_STREAM);
-		close(read_fd);
-		close(fd[1]);
-		next = pop_front(p);
+		return (1);
 	}
-	free(p);
-	return (status);
+	return (0);
 }
 
-int			exec_cmd(t_deque *cmd)
+void set_jobshell_signal(void)
 {
-	t_pipeline	*pipeline;
-	int			last_status;
+	signal(SIGINT, SIG_IGN); /* In case of come child handles */
+	signal(SIGTERM, SIG_IGN); /* In case of come child handles */
+	signal(SIGCHLD, SIG_IGN); /* We wait, parent does job control */
+	signal(SIGTSTP, SIG_DFL);
+}
 
-	last_status = 1;
-	set_canon_input_mode(1);
-	while ((pipeline = pop_front(cmd)))
+void perform_word_expansions(t_pipeline *p)
+{
+	return ;
+}
+
+/*
+** Return 1
+*/
+void exec_andor_list(t_andor_list *list, int *status)
+{
+	int				pipline_status;
+	t_type_andor	last_op;
+
+	last_op = ANDOR_NONE;
+	while (list)
 	{
-		expand_pipeline(pipeline);
-		last_status = exec_pipeline(pipeline->commands);
-		free(pipeline);
+		if (need_exec_pipeline(*status, last_op))
+		{
+			perform_word_expansions(list->pipeline); /* Only executed commands should be expanded 
+			TODO: Make sure expansions are executed single time
+			*/
+			pipline_status = exec_pipline(list->pipeline);
+			update_status(pipline_status, status, last_op);
+		}
+		last_op = list->type_andor;
+		list = list->next;
 	}
-	free(cmd);
-	set_canon_input_mode(0);
-	return (last_status);
+}
+
+/*
+** Return exit status
+*/
+int exec_complete_cmd(t_complete_cmd *cmd)
+{
+	int				status;
+	t_complete_cmd	*save_start;
+	pid_t			job;
+
+	signal(SIGCHLD, &sigchld_handler);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
+
+	save_start = cmd;
+	while (cmd)
+	{
+		if (cmd->separator_op == OP_BG) 
+		{
+			job = fork();
+			if (job) /* top-level shell */
+			{
+				setpgid(job, job);
+				add_job(job, 1);
+				cmd = cmd->next;
+				continue ;
+			}
+			else	 /* job shell */
+			{
+				setpgid(getpid(), getpid());
+				set_jobshell_signal();
+				top_level_shell = 0;
+				exec_andor_list(cmd->and_or, &status);
+				exit(status);
+			}
+		}
+		exec_andor_list(cmd->and_or, &status);
+		cmd = cmd->next;
+	}
+
+	clean_complete_command(&save_start);
+	return (status);
 }

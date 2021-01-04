@@ -1,48 +1,22 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   match_cmd_prefix.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 18:31:25 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 11:40:50 by anton            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "parser.h"
 
-static	void	init_locals(t_deque **tokbuf_l, int *success, int *any_success)
+/*
+** {io_redirect}
+*/
+int match_cmd_prefix(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 {
-	*tokbuf_l = NULL;
-	*any_success = -1;
-	*success = 1;
-}
+    t_deque *tokbuf_l;
+    t_token *token;
 
-int				match_cmd_prefix(t_simple_cmd **cmd, t_deque **tokbubf_g)
-{
-	t_deque	*tokbuf_l;
-	int		success;
-	int		any_success;
-
-	init_locals(&tokbuf_l, &success, &any_success);
-	while (success)
-	{
-		any_success += success;
-		if (gett(tokbubf_g, &tokbuf_l)->token_type != ass_word)
-		{
-			ungett(tokbubf_g, &tokbuf_l);
-			success = 0;
-		}
-		else
-		{
-			add_ar(cmd, pop_front(tokbuf_l), assignment);
-			any_success = 1;
-		}
-		if (match_io_redirect(*cmd, tokbubf_g) == PARSER_FAILURE && !success)
-			break ;
-		success = 1;
-	}
-	flush_tokbuf(tokbubf_g, &tokbuf_l);
-	return (any_success > 0 ? check_parser_signals() : PARSER_FAILURE);
+    tokbuf_l = NULL;
+    token = gett(tokbuf_g, &tokbuf_l);
+    ungett(tokbuf_g, &tokbuf_l);
+    if (token->tk_type == IO_NUMBER || is_redirect(token->tk_type))
+    {
+        if (match_io_redirect(&(*simple_cmd)->redirects, tokbuf_g) != PARSER_SUCCES)
+            return (PARSER_ERROR);
+        if (match_cmd_prefix(simple_cmd, tokbuf_g) != PARSER_SUCCES)
+            return (PARSER_ERROR);
+    }
+    return (PARSER_SUCCES);
 }

@@ -21,6 +21,11 @@
 # define HISTORY_SEARCH_STR_NOT_FOUND_BEFORE "(failed reverse-i-search)`"
 # define HISTORY_SEARCH_STR_AFTER "': "
 
+# define TRUE 1                                                                                                                                               
+# define FALSE 0                                                                
+                                                                                
+# define GETCURSORPOS "\e[6n"
+
 /*
 ** Character key constants
 */
@@ -296,4 +301,9 @@ int						check_big_list(int quantity_possibilities);
 void					get_size_of_columns(char **buf, t_column *cl);
 void					print_column(char **buf, t_column *cl);
 
+// TODO: change names
+void	processing_sigint(int signal_code);
+void	processing_sigwinch(int signal_code);
+
+void			init_terminal(void);
 #endif

@@ -6,11 +6,11 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:12:40 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:12:48 by mphobos          ###   ########.fr       */
+/*   Updated: 2021/01/04 20:10:41 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "static_env.h"
+#include "environment.h"
 #include "readline.h"
 
 char	*get_prompt(int which)
@@ -18,9 +18,9 @@ char	*get_prompt(int which)
 	char	*res;
 
 	if (which == PS1)
-		res = ft_getenv(static_env_action(get, NULL), "PS1");
+		res = ft_getenv(env, "PS1");
 	else
-		res = ft_getenv(static_env_action(get, NULL), "PS2");
+		res = ft_getenv(env, "PS2");
 	if (!res)
 		return ("");
 	return (res);

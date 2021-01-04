@@ -6,12 +6,12 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:10:53 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/25 02:55:08 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/04 20:09:25 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
-#include "static_env.h"
+#include "environment.h"
 
 int				executable_file(char *file_name, char *path)
 {
@@ -42,7 +42,7 @@ static char		**get_paths(void)
 	char	*p;
 	char	**path;
 
-	p = ft_getenv(static_env_action(get, NULL), "PATH");
+	p = ft_getenv(env, "PATH");
 	if (!p)
 		return (NULL);
 	path = ft_strsplit(p, ':');

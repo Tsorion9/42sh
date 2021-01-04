@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:33 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 11:34:53 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/03 01:23:47 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,14 @@ t_builtin	get_builtin(char *name)
 		return (&builtin_exit);
 	if (!ft_strcmp(name, "21shopt"))
 		return (&builtin_21shopt);
+
+	if (!ft_strcmp(name, "jobs"))
+		return (&builtin_jobs);
+	if (!ft_strcmp(name, "bg"))
+		return (&builtin_bg);
+	if (!ft_strcmp(name, "fg"))
+		return (&builtin_fg);
+	if (!ft_strcmp(name, "export"))
+		return (&builtin_export);
 	return (NULL);
 }

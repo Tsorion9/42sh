@@ -6,13 +6,12 @@
 /*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:28 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/23 18:13:31 by mphobos          ###   ########.fr       */
+/*   Updated: 2021/01/04 20:11:08 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 #include "environment.h"
-#include "static_env.h"
 
 static int	open_21sh_history(int mode)
 {
@@ -20,7 +19,7 @@ static int	open_21sh_history(int mode)
 	char	*home_dir;
 	char	*file_path;
 
-	if (!(home_dir = ft_getenv(static_env_action(get, NULL), "HOME")))
+	if (!(home_dir = ft_getenv(env, "HOME")))
 		return (-1);
 	if (!(file_path = ft_strjoin(home_dir, "/.21sh_history")))
 		return (-1);

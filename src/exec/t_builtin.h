@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 02:02:56 by anton             #+#    #+#             */
-/*   Updated: 2020/06/26 22:11:20 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/03 01:40:20 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ int			builtin_unsetenv(char **args, t_env env, int subshell);
 int			builtin_env(char **args, t_env env, int subshell);
 int			builtin_exit(char **args, t_env env, int subshell);
 int			builtin_21shopt(char **args, t_env env, int subshell);
+int			builtin_jobs(char **args, t_env env, int subshell);
+int			builtin_bg(char **args, t_env env, int subshell);
+int			builtin_fg(char **args, t_env env, int subshell);
+int			builtin_export(char **args, t_env env, int subshell);
 
 t_builtin	get_builtin(char *name);
 
