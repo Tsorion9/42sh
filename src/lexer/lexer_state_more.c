@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "NewLexer.h"
+#include "lexer.h"
 
 void			lexer_state_and_if(t_lexer_state *token)
 {

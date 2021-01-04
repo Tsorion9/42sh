@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "NewLexer.h"
+#include "lexer.h"
 #include <stdio.h>
 
 void		print_token(t_token token)

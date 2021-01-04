@@ -3,7 +3,7 @@
 
 #define IGNORE_STREAM -2
 
-#include "NewLexer.h"
+#include "lexer.h"
 
 extern int top_level_shell;
 

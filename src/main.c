@@ -1,5 +1,5 @@
 #include <signal.h>
-#include "NewLexer.h"
+#include "lexer.h"
 #include "parser.h"
 #include "readline.h"
 #include "inc21sh.h"

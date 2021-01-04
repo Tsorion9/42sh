@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "deque.h"
-#include "NewLexer.h"
+#include "lexer.h"
 
 /*
 ** Put the token from gloabl queue to local queue
