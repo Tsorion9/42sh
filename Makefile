@@ -93,15 +93,15 @@ CEXEC = builtin_21shopt.c \
 		builtin_export.c \
 		builtin_fg.c \
 		builtin_jobs.c \
+		builtin_echo.c \
+		builtin_exit.c \
 		canonicize.c \
 		canonicize_utils.c \
 		del_array.c \
-		echo.c \
 		env_actions.c \
 		env_related_builtins.c \
 		exec.c \
 		exec_pipeline.c \
-		exit.c \
 		expansions.c \
 		find_exec.c \
 		find_path.c \
