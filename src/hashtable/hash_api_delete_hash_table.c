@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_api_init_hash_data.c                          :+:      :+:    :+:   */
+/*   hash_api_delete_hash_table.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 14:08:56 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/03 20:36:40 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 18:02:53 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/04 18:07:21 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "inc21sh.h"
 #include "hashtable.h"
 
-t_hashdata				*hash_api_init_hash_data(void)
+int					hash_api_delete_hash_table(char *key, t_hashtable **table)
 {
-	t_hashdata	*hashdata;
+	t_hashtable		*table_prev;
 
-	hashdata = ft_memalloc(sizeof(t_hashdata));
-	if (hashdata == NULL)
-		return (NULL);
-	ft_memset(hashdata, 0, HASH_SIZE);
-	return (hashdata);
+	table_prev = NULL;
+	(void)table;
+	(void)key;
+	// while (table)
+	// {
+		
+	// }
+	if (!table)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

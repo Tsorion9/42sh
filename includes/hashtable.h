@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 18:48:59 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/03 16:12:21 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/04 18:06:39 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ typedef struct			s_hashdata
 	int					if_has_content;
 }						t_hashdata;
 
-
-
 /*
 ** API for Hash-table
 ** hash_function - get index in hash-table by key
@@ -49,6 +47,8 @@ t_hashdata				*hash_api_init_hash_data(void);
 int						hash_api_insert_hash_value(char *key, char *value,
 							t_hashdata *hd);
 char					*hash_api_get_hash_data(char *key, t_hashdata *hd);
-void					hash_api_delete_hash_table(char **table);
+void					hash_api_delete_hash_date(t_hashdata *hd);
+int						hash_api_delete_hash_table(char *key, t_hashtable **table);
+void					hash_api_print_hash_table(t_hashdata *hd);
 
 #endif
