@@ -65,7 +65,7 @@ CPARSER = deque.c \
 CEXEC = builtin_env.c\
 		builtin_cd.c\
 		builtin_21shopt.c\
-		builtin_alias.c\
+		builtin_alias.c alias_api_init_hash_alias.c  alias_api_print_all_aliases.c \
 		to_array.c\
 		parse_cd_args.c\
 		is_a_directory.c\

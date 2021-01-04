@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 11:34:50 by anton             #+#    #+#             */
-/*   Updated: 2021/01/02 21:44:58 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/05 00:43:23 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,34 @@
 #include "gayprompt.h"
 #include "t_hashalias.h"
 
-// static int	print_usage(void)
-// {
-// 	ft_putstr_fd("Usage: 21shopt option_name new_value\n", 2);
-// 	return (0);
-// }
-
 int			builtin_alias(char **args, t_env env, int subshell)
 {
+	t_hashalias		*alias;
+
+	if ((alias = alias_api_init_hash_alias()) == NULL)
+		return (EXIT_FAILURE);
 	(void)env;
 	(void)subshell;
 	(void)args;
-	ft_putstr("alias\n");
-	// if (!*args)
-	// 	return (print_usage());
-	// if (!ft_strcmp(*args, "gaymode"))
-	// {
-	// 	args++;
-	// 	if (!*args)
-	// 	{
-	// 		ft_fprintf(2, "%s", "Please, select mode (on/off)\n");
-	// 		return (0);
-	// 	}
-	// 	if (!ft_strcmp(*args, "on"))
-	// 		return (update_gaymode(1, 1));
-	// 	if (!ft_strcmp(*args, "off"))
-	// 		return (update_gaymode(1, 0));
-	// 	ft_fprintf(2, "Unknown mode: %s (valid options: on, off)\n", *args);
-	// }
-	// ft_fprintf(2, "Unknown option: %s\n", *args);
-	// ft_fprintf(2, "Valid option: %s\n", "gaymode");
+	if (*args == NULL)
+		alias_api_print_all_aliases(alias);
+	
+	// alias->hd = hash_api_init_hash_data();
+
+	// t_hashdata *hd = hash_api_init_hash_data();
+
+  	// hash_api_insert_hash_value("cat", "!!!", alias->hd);
+ 	// hash_api_insert_hash_value("abc", "123", alias->hd);
+ 	// hash_api_insert_hash_value("cba", "321", alias->hd);
+ 	// // hash_api_insert_hash_value("cat", "'      '", hd);
+
+  	// // hash_api_print_hash_table(hd);
+	
+	// // t_hashdata *data = hash_api_init_hash_data();
+	// hash_api_insert_hash_value("key", "123", alias->hd);
+
+	// alias_api_print_all_aliases(alias);
+	
+	// hash_api_print_hash_table(alias->hd);
 	return (0);
 }

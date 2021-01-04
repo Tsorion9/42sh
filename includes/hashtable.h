@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 18:48:59 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 23:27:15 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/05 00:38:28 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char					*hash_api_get_hash_data(char *key, t_hashdata *hd);
 void					hash_api_delete_hash_date(t_hashdata **hd);
 int						hash_api_delete_hash_table(char *key, t_hashdata **hd);
 void					delete_hash_table_element(t_hashtable **table);
+void					print_table(t_hashdata *hd);
 void					hash_api_print_hash_table(t_hashdata *hd);
 
 #endif

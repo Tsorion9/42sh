@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 15:45:14 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 22:06:54 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/05 00:38:09 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,13 @@ void				print_table(t_hashdata *hd)
 
 void				hash_api_print_hash_table(t_hashdata *hd)
 {
+	if (hd == NULL)
+		return ;
 	com_api_move_curs_to_end_line();
 	ft_putchar('\n');
 	print_table(hd);
 	gayprompt(rp(NULL)->prompt);
-	readline_putstr(rp(NULL)->user_in, rp(NULL)->cur_pos, rp(NULL)->prompt_len);
+	if (rp(NULL)->user_in)
+		readline_putstr(rp(NULL)->user_in, rp(NULL)->cur_pos, rp(NULL)->prompt_len);
 	com_api_move_curs_to_prev_pos();
 }
