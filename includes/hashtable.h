@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 18:48:59 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 22:00:19 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/04 23:27:15 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,17 @@ typedef struct			s_hashtable
 
 typedef struct			s_hashdata
 {
-	t_hashtable 		*hashtable[HASH_SIZE];
+	t_hashtable			*hashtable[HASH_SIZE];
 	int					if_has_content;
 }						t_hashdata;
 
 /*
 ** API for Hash-table
 ** hash_function - get index in hash-table by key
-** insert_hash_value - insert value into hash table. Return hash-table with new value
-** get_hash_value - get value from hash-table by key. Return value from hash-table
+** insert_hash_value - insert value into hash table.
+** Return hash-table with new value
+** get_hash_value - get value from hash-table by key.
+** Return value from hash-table
 ** delete_hash_date - delete all hash-table
 ** delete_hash_table - delete element from hash-table
 ** print_hash_table - print all elements from hash-table

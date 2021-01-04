@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2021/01/02 21:20:56 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/04 23:26:22 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ typedef struct			s_token
 # define LESS_AND 7
 # define AND_GREATOR 8
 
-
 # define PROMPT_LEN 2
 
 void					init_terminal(void);
@@ -126,14 +125,16 @@ void					free_str(t_str *str);
 void					tc_save_cursor_pos(void);
 void					tc_restore_saved_cursor_pos(void);
 void					history_search_start(long c);
-void					add_symbol_in_str(char *str, char symbol, size_t symbol_index);
+void					add_symbol_in_str(char *str, char symbol,
+							size_t symbol_index);
 void					delete_symbol_in_str(char *str, size_t symbol_index);
 void					set_new_user_in(const char *str);
 void					save_user_in_history(void);
 void					set_history_search_mode(void);
 int						now_search_history(void);
 int						get_cursor_position(void);
-void					readline_putstr(const char *s, int *cur_pos, size_t prompt_len);
+void					readline_putstr(const char *s, int *cur_pos,
+							size_t prompt_len);
 
 /*
 ** Interface for lexer

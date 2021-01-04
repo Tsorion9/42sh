@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:17:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/06/28 11:32:05 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/04 23:27:37 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,5 @@ int		is_digit(char c);
 int		is_letter(char c);
 t_token	*copy_init_token(t_token t);
 t_token	*new_eof(void);
-
 
 #endif

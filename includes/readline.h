@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   readline.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/04 23:25:22 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/04 23:25:24 by nriker           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef READLINE_H
 # define READLINE_H
@@ -193,7 +204,8 @@ t_str					*init_str(void);
 void					expand_str(t_str *str);
 void					free_str(t_str *str);
 void					history_search_start(long c);
-void					add_symbol_in_str(char *str, char symbol, size_t symbol_index);
+void					add_symbol_in_str(char *str, char symbol,
+							size_t symbol_index);
 void					delete_symbol_in_str(char *str, size_t symbol_index);
 void					set_new_user_in(const char *str);
 void					save_user_in_history(void);
@@ -232,11 +244,12 @@ void					reset_rp_to_start(char *prompt);
 void					load_on_file_history(t_history *history);
 void					save_in_file_history(t_history *history);
 void					clear_all_line(size_t prompt_len);
-void					inverse_search_index(int cur_pos[2], int index, size_t prompt_len);
+void					inverse_search_index(int cur_pos[2],
+							int index, size_t prompt_len);
 void					cur_pos_after_putstr(int *cur_pos, size_t prompt_len);
-void					move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos);
+void					move_cursor_to_new_position(int *actual_cur_pos,
+							int *new_cur_pos);
 int						str_n(size_t prompt_len);
-
 
 /*
 ** Complection
@@ -264,10 +277,10 @@ char					*ft_strcut(const char *s, int c);
 t_completion			*ret_possible_vars(void);
 char					*cut_uncut_remainder_word(char *remainder_word);
 char					*cut_uncut_remainder_word_dol(char *remainder_word);
-void					com_api_print_var_suggestion(t_completion *matches, char *remainder_word,
-								char *path);
-void					com_api_print_normal_var_suggestions(t_completion *matches);
-void					com_api_print_many_var_suggestions(t_completion *matches);
+void					com_api_print_var_suggestion(t_completion *matches,
+							char *remainder_word, char *path);
+void					com_api_print_normal_var_suggestions(t_completion *m);
+void					com_api_print_many_var_suggestions(t_completion *m);
 int						check_var_word_brace(char *line, int i);
 int						check_brace_in_var_word(char *line, int i);
 int						check_var_word_dollar(char *line, int i);
@@ -283,8 +296,8 @@ void					com_api_move_curs_to_prev_pos(void);
 void					com_api_return_curs_to_line(void);
 void					com_api_return_curs_to_position(int columns_right);
 void					com_api_print_lst(t_completion *matches);
-void					com_api_print_suggestion(t_completion *matches, char *remainder_word,
-								char *path);
+void					com_api_print_suggestion(t_completion *matches,
+							char *remainder_word, char *path);
 void					com_api_clear_till_end(void);
 void					create_t_column(t_column **cl);
 int						com_api_get_curs_col(void);
