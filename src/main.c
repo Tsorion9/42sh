@@ -30,7 +30,6 @@ int main(int argc, char **argv, char **envr)
 	{
 		complete_cmd = parser();
 		exec_complete_cmd(complete_cmd);
-		clean_complete_command(&complete_cmd);
 	}
     reset_exit(0);
 }
