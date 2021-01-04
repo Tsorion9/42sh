@@ -6,7 +6,7 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/02 12:03:43 by jsance            #+#    #+#             */
-/*   Updated: 2021/01/04 22:16:41 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/04 22:40:00 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_token			*lexer_scanner(t_lexer_state *token)
 	{
 		if (isatty(STDIN_FILENO))
 		{
-			token->value = readline("$> ");
+			token->value = readline(get_prompt(PS1));
 			if (token->value && !*(token->value))
 			{
 				fresh = malloc(sizeof(t_token));

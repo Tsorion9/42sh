@@ -306,4 +306,11 @@ void	processing_sigint(int signal_code);
 void	processing_sigwinch(int signal_code);
 
 void			init_terminal(void);
+
+/*
+** Return string value of environmental variable PS1 or PS2
+** Can be used as prompt
+*/
+char					*get_prompt(int which);
+
 #endif
