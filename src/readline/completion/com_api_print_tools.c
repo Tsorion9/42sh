@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 08:15:05 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/29 21:06:05 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/04 22:51:00 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char		**create_buf_for_column_print(t_completion *matches)
 	char	**buf;
 
 	i = 0;
+	size = 0;
 	buf = NULL;
 	if (!(size = complections_list_len(matches))
 		|| !(buf = (char**)malloc(sizeof(char*) * size + 1)))
@@ -59,7 +60,8 @@ void		com_api_print_lst(t_completion *matches)
 	print_column(buf, cl);
 	rp(NULL)->competitions_raws = cl->row_got + 1;
 	free(cl);
-	del_array(buf);
+	if (buf)
+		del_array(buf);
 }
 
 int			complections_list_len(t_completion *matches)

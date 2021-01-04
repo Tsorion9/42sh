@@ -6,14 +6,12 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:18 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/04 18:06:33 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/04 22:39:40 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 #include "inc21sh.h"
-// delete
-#include "hashtable.h"
 
 int					complection_get_remainder_word(char **remainder_word)
 {
@@ -62,30 +60,6 @@ void				completion(void)
 	char			*path;
 	int				com_case;
 
-	t_hashdata *hd = hash_api_init_hash_data();
-
-	hash_api_insert_hash_value("cat", "!!!", hd);
-	hash_api_insert_hash_value("abc", "123", hd);
-	hash_api_insert_hash_value("cba", "321", hd);
-	hash_api_insert_hash_value("cat", "'      '", hd);
-	
-	hash_api_print_hash_table(hd);
-
-	// char *x = ft_strdup("AA");
-	// while (x[0] < 120)
-	// {
-	// 	x[1] = 65;
-	// 	while (x[1] < 120)
-	// 	{
-	// 		hash_api_insert_hash_value(x, "!!!", hd);
-	// 		x[1]++;
-	// 	}
-	// 	x[0]++;
-	// }
-	
-	// ft_printf("%c%c%c %c%c", 70, 70, 70, 120, 90);
-	// ft_printf("%d %d", hash_api_hash_function("fJ"), hash_api_hash_function("gk"));
-	return ;
 	path = NULL;
 	com_lst = NULL;
 	com_api_clear_till_end();

@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 15:45:14 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 17:53:31 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/04 22:06:54 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void				print_table(t_hashdata *hd)
 	i = 0;
 	while (i < HASH_SIZE)
 	{
-		// ft_printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%d\n", i);
 		table = hd->hashtable[i];
 		if (table)
 		{
@@ -31,18 +30,16 @@ void				print_table(t_hashdata *hd)
 				table = table->next;
 			}
 		}
-		// else
-		// 	ft_printf("NULL\n");
 		i++;
 	}
 }
 
 void				hash_api_print_hash_table(t_hashdata *hd)
 {
-    com_api_move_curs_to_end_line();
-    ft_putchar('\n');
+	com_api_move_curs_to_end_line();
+	ft_putchar('\n');
 	print_table(hd);
-    gayprompt(rp(NULL)->prompt);
-    readline_putstr(rp(NULL)->user_in, rp(NULL)->cur_pos, rp(NULL)->prompt_len);
+	gayprompt(rp(NULL)->prompt);
+	readline_putstr(rp(NULL)->user_in, rp(NULL)->cur_pos, rp(NULL)->prompt_len);
 	com_api_move_curs_to_prev_pos();
 }

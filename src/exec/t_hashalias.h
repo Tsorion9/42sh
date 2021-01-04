@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/03 19:35:49 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/04 22:11:58 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ typedef struct			s_hashalias
 */
 
 t_hashalias				*static_hashalias_action(int action);
-void					*alias_api_insert_alias(char *key, char *value);
-void					alias_api_delete_hashalias(t_hashalias *hash_alias);
+void					*alias_api_insert_alias(t_hashalias *hash_alias,
+							char *key, char *value);
+void					alias_api_delete_hashalias(t_hashalias **hash_alias);
+void					alias_api_print_all_aliases(t_hashalias *hash_alias);
 
 /*
 ** API FOR JSANCE
-** get_alias - get value of alias or NULL if alias is't exist
+** get_alias - get value (don't forget to free string) of alias or NULL if alias is't exist
 */
 
 char					*alias_api_get_alias(char *key);

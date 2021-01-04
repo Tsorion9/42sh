@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_api_hash_function.c                           :+:      :+:    :+:   */
+/*   hash_api_delete_hash_date.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 22:48:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 22:07:18 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 21:30:01 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/04 21:48:55 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
 #include "inc21sh.h"
 
-/*
-** Фукнция хэширования
-*/
-
-int						hash_api_hash_function(char *key)
+void					hash_api_delete_hash_date(t_hashdata **hd)
 {
-	unsigned long hash;
+	t_hashtable		*table;
+	t_hashtable		*table_prev;
+	int				i;
 
-	hash = 5381;
-	while (*key)
+	if (hd == NULL || *hd == NULL)
+		return ;
+	i = 0;
+	table_prev = NULL;
+	while (i < HASH_SIZE)
 	{
-		hash = (hash * 33) ^ *key;
-		key++;
+		if ((table = (*hd)->hashtable[i]) != NULL)
+		{
+			while (table)
+			{
+				table_prev = table;
+				table = table->next;
+				delete_hash_table_element(&table_prev);
+			}
+		}
+		i++;
 	}
-	hash = hash % HASH_SIZE;
-	return ((unsigned int)hash);
+	free(*hd);
 }

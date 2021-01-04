@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_api_hash_function.c                           :+:      :+:    :+:   */
+/*   hash_api_get_hash_data.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 22:48:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 22:07:18 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 21:51:42 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/04 21:55:55 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
-#include "inc21sh.h"
 
-/*
-** Фукнция хэширования
-*/
-
-int						hash_api_hash_function(char *key)
+char					*hash_api_get_hash_data(char *key, t_hashdata *hd)
 {
-	unsigned long hash;
+	int				i;
+	t_hashtable		*table;
 
-	hash = 5381;
-	while (*key)
-	{
-		hash = (hash * 33) ^ *key;
-		key++;
-	}
-	hash = hash % HASH_SIZE;
-	return ((unsigned int)hash);
+	i = hash_api_hash_function(key);
+	if ((table = hd->hashtable[i]) != NULL)
+		while (table && ft_strcmp(table->key, key))
+		{
+			if (table && !ft_strcmp(table->key, key))
+				break ;
+			table = table->next;
+		}
+	if (table == NULL)
+		return (NULL);
+	return (ft_strdup(table->value));
 }

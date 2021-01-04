@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:33:31 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 14:46:56 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/04 21:01:31 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ t_hashtable				*find_table_and_table_prev(t_hashdata *hd, char *key,
 	if (((*table) = hd->hashtable[i]) != NULL)
 		while ((*table) && ft_strcmp((*table)->key, key))
 		{
-			table_prev = (*table);
-			(*table) = (*table)->next;
 			if ((*table) && !ft_strcmp((*table)->key, key))
 				break ;
+			table_prev = (*table);
+			(*table) = (*table)->next;
 		}
 	return (table_prev);
 }

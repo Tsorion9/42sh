@@ -30,7 +30,8 @@ CLEX =	lex.c get_token_end_line.c \
 		ret_token.c glob_cc_erased.c
 
 CHASH = hash_api_hash_function.c hash_api_init_hash_data.c hash_api_insert_hash_data.c \
-		hash_api_print_hash_table.c hash_api_delete_hash_table.c \
+		hash_api_print_hash_table.c hash_api_delete_hash_table.c hash_api_delete_hash_date.c \
+		hash_api_get_hash_data.c \
 
 CPARSER = deque.c \
 		  deque_apply.c\
