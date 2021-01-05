@@ -151,7 +151,7 @@ int exec_pipline_job(t_pipeline *pipeline)
 	pid_t last_child;
 
 	fd[0] = IGNORE_STREAM;
-	while (pipeline->command)
+	while (pipeline && pipeline->command)
 	{
 		read_fd = fd[0];
 		if (pipeline->next)
