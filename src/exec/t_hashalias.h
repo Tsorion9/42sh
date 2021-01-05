@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 12:27:07 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/05 13:47:09 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ typedef struct			s_hashalias
 
 
 /*
-** API for t_hashalias
-** static_hashalias_action - to init/get/free t_hashalias
+** API for BUILTIN ALIAS
+** static_hashalias_action - to init/get/del t_hashalias
 ** insert_alias - insert value with key into hash-table
 ** delete_hashalias - delete hash-table
 */
@@ -50,5 +50,11 @@ void					alias_api_print_alias(char *key);
 */
 
 char					*alias_api_get_alias(char *key);
+
+/*
+** API for BUILTIN UNALIAS
+*/
+
+int						unalias_api_delete_alias(t_hashalias **hash_alias, char *key);
 
 #endif

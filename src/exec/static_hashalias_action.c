@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 11:10:17 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 11:44:27 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/05 13:45:05 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_hashalias				*static_hashalias_action(int action)
 	}
 	else if (action == get)
 		return alias;
-	// else if (action == del)
-	// 	alias_api_delete_hashalias(alias);
+	else if (action == del)
+		alias_api_delete_hashalias(&alias);
 	return (NULL);
 }

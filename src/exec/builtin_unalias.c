@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alias_api_print_all_aliases.c                      :+:      :+:    :+:   */
+/*   builtin_unalias.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/04 23:53:42 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 13:40:54 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/05 12:42:37 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/05 13:33:32 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environment.h"
 #include "t_hashalias.h"
 
-void		alias_api_print_alias(char *key)
+int			builtin_unalias(char **args, t_env env, int subshell)
 {
-	char	*alias;
+	t_hashalias		*alias;
 
-	alias = alias_api_get_alias(key);
-	if (alias)
+	if ((alias = static_hashalias_action(get)) == NULL)
+		return (EXIT_FAILURE);
+	(void)env;
+	(void)subshell;
+	if (*args == NULL)
+		ft_putstr("unalias: not enough arguments\n");
+	while (*args)
 	{
-		ft_printf("%s=%s\n", key, alias);
-		free(alias);
+		if ((unalias_api_delete_alias(&alias, *args)) == EXIT_FAILURE)
+			ft_printf("unalias: no such hash table element: %s\n", *args);
+		args++;
 	}
-}
-
-void		alias_api_print_all_aliases(t_hashalias *hash_alias)
-{
-	print_table(hash_alias->hd);
+	return (EXIT_SUCCESS);
 }
