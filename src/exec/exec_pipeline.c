@@ -260,10 +260,10 @@ int exec_pipline(t_pipeline *pipeline)
 		tcsetpgrp(STDIN_FILENO, job);
 		return (wait_for_job(job)); /* Job is in foreground */
 	}
-	else
+	else /* Job shell */
 	{
 		setpgid(getpid(), getpid());
-		tcsetpgrp(STDIN_FILENO, job);
+		tcsetpgrp(STDIN_FILENO, getpid()); /* We are foreground */
 		set_jobshell_signal();
 		top_level_shell = 0;
 		exit(exec_pipline_job(pipeline));
