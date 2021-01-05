@@ -149,6 +149,9 @@ int exec_pipline_job(t_pipeline *pipeline)
 	int fd[2];
 	int read_fd;
 	pid_t last_child;
+	int status;
+	pid_t finished;
+	int last_child_status;
 
 	fd[0] = IGNORE_STREAM;
 	while (pipeline && pipeline->command)
@@ -163,6 +166,15 @@ int exec_pipline_job(t_pipeline *pipeline)
 		pipeline = pipeline->next;
 	}
 	/* collect exit status of latest child, do not return until every child dies*/
+	while ((finished = wait(&status)) != -1)
+	{
+		if (finished == last_child)
+		{
+			last_child_status = status;
+		}
+	}
+	//TODO: actually child can be stopped
+	return (WEXITSTATUS(last_child_status));
 }
 
 int is_single_builtin(t_pipeline *pipeline)
