@@ -211,6 +211,10 @@ int wait_for_job(pid_t job)
 
 	j = find_job(job);
 	j->state = status_to_jobstate(status);
+	if (j->state == DONE)
+	{
+		remove_job(job);
+	}
 
 	/* Put top-level shell to foreground*/
 	if(top_level_shell) /* Actially always true */

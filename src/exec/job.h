@@ -26,5 +26,6 @@ char *job_state_tostr(t_job_state s);
 void update_job_state(pid_t job, t_job_state new_state);
 t_job *find_job(pid_t pgid);
 void add_job(int pgid, int background);
+void remove_job(int pgid);
 
 #endif

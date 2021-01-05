@@ -8,13 +8,52 @@ t_list *jobs;
 */
 void add_job(int pgid, int background)
 {
-	int added;
 	t_job *new;
 
 	new = malloc(sizeof(t_job));
 	new->pgid = pgid;
 	new->state = background ? BACKGROUND : FG;
 	ft_lstadd_data(&jobs, new, 0);
+}
+
+void destroy_job(void *j, size_t content_size)
+{
+	(void)content_size;
+	free(((t_job *)j)->cmdline);
+	free((t_job *)j);
+}
+
+void remove_job(int pgid)
+{
+	t_job *delete_me;
+	t_list *prev;
+	t_list *tmp;
+	
+	delete_me = find_job(pgid);
+	prev = jobs;
+
+	while (prev)
+	{
+		if (prev->next && (prev->next->content != delete_me))
+		{
+			break ;
+		}
+		prev = prev->next;
+	}
+
+	if (delete_me && prev)
+	{
+		tmp = prev->next;
+		prev->next = prev->next->next;
+		ft_lstdelone(&tmp, destroy_job);
+		return ;
+	}
+	if (delete_me && !prev && jobs) /* Del first */
+	{
+		prev = jobs;
+		jobs = jobs->next;
+		ft_lstdelone(&prev, destroy_job);
+	}
 }
 
 /*
