@@ -200,7 +200,7 @@ t_job_state status_to_jobstate(int status)
 }
 
 /*
-** Wait for foreground job, actually
+** Wait for foreground job, from top_level_shell
 */
 int wait_for_job(pid_t job)
 {
@@ -211,6 +211,11 @@ int wait_for_job(pid_t job)
 	//TODO: Handle status, handle job table
 
 	j = find_job(job);
+	if (!j && top_level_shell) /* Actially always top_level*/
+	{
+		tcsetpgrp(STDIN_FILENO, getpid());
+		return (WEXITSTATUS(status));
+	}
 	j->state = status_to_jobstate(status);
 	if (j->state == DONE)
 	{
