@@ -1,0 +1,63 @@
+/*----------------------------------*/
+/*              TOKENS              */
+/*----------------------------------*/
+
+%token    WORD
+%token    IO_NUMBER
+%token    ASSIGNMENT_WORD
+%token    NEWLINE
+
+%token    SEMICOL   BG
+/*        ';'        &	                                          */
+%token    AND_IF    OR_IF
+/*        '&&'      '||'                                          */
+%token    PIPE
+/*        '|'                                                     */
+%token    LESS    GREAT    DLESS    DGREAT    LESSAND    GREATAND
+/*        '<'      '>'       '<<'     '>>'      '<&'       '>&'   */
+%token    LBRACE   RBRACE   LBRACKET    RBRACKET
+/*        '{'       '}'       '('         ')'
+
+
+/*----------------------------------*/
+/*              GRAMMAR             */
+/*----------------------------------*/
+
+%start      complete_command
+%%
+complete_commands = complete_command {{linebreak} complete_command}
+
+complete_command = and_or {separator_op and_or} separator_op
+				 | and_or {separator_op and_or}
+
+and_or			 = {pipeline [(AND_IF | OR_IF) linebreak pipeline]}
+
+pipeline		 = command { '|' linebreak command }
+
+command			 = simple_command | compound_command {io_redirect}
+
+compound_command = brace_group | subshell
+
+subshell		 = '(' compound_list ')'
+
+compound_list	 = linebreak and_or {separator and_or} [separator]?
+
+brace_group 	 = Lbrace compound_list Rbrace
+
+simple_command	 = cmd_prefix [WORD [cmd_suffix]?]?
+                 | WORD [cmd_suffix]?
+
+cmd_prefix		 = {io_redirect}
+
+cmd_suffix		 = {io_redirect | WORD}
+
+io_redirect		 = [IO_NUMBER]? (io_file | DLESS WORD)
+
+io_file			 = (LESS | GREAT | DGREAT | LESSAND | GREATAND) WORD
+
+separator_op	 = ';' | '&'
+
+separator   	 = separator_op linebreak
+                 | linebreak
+
+linebreak        = {NEWLINE} | /* empty */
