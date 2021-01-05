@@ -48,6 +48,8 @@ int     		is_redirect(t_tokens type);
 void            add_word_to_list(t_word_list **word_list, t_token *token);
 void            set_instruction(t_redirect **redirect, t_tokens type);
 
+t_complete_cmd	*parser();
+
 /** Для работы с очередью */
 void					ungett(t_deque **tokbuf_g, t_deque **tokbuf_l);
 t_token					*gett(t_deque **tokbuf_g, t_deque **tokbuf_l);
