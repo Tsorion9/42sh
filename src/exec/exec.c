@@ -75,7 +75,9 @@ void set_jobshell_signal(void)
 {
 	signal(SIGINT, SIG_IGN); /* In case of come child handles */
 	signal(SIGTERM, SIG_IGN); /* In case of come child handles */
-	signal(SIGCHLD, SIG_IGN); /* We wait, parent does job control */
+
+	/* If SIG_IGN process will be silently destroyed and not turned to zombie*/
+	signal(SIGCHLD, SIG_DFL); /* We wait, parent does job control */
 	signal(SIGTSTP, SIG_DFL);
 }
 
