@@ -1,3 +1,4 @@
+#include "libft.h"
 #include "job.h"
 
 t_list *jobs;
@@ -10,7 +11,7 @@ void add_job(int pgid, int background)
 {
 	t_job *new;
 
-	new = malloc(sizeof(t_job));
+	new = ft_memalloc(sizeof(t_job));
 	new->pgid = pgid;
 	new->state = background ? BACKGROUND : FG;
 	ft_lstadd_data(&jobs, new, 0);
@@ -28,13 +29,13 @@ void remove_job(int pgid)
 	t_job *delete_me;
 	t_list *prev;
 	t_list *tmp;
-	
+
 	delete_me = find_job(pgid);
 	prev = jobs;
 
 	while (prev)
 	{
-		if (prev->next && (prev->next->content != delete_me))
+		if (prev->next && (prev->next->content == delete_me))
 		{
 			break ;
 		}
