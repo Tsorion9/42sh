@@ -154,6 +154,7 @@ int exec_pipline_job(t_pipeline *pipeline)
 	while (pipeline && pipeline->command)
 	{
 		read_fd = fd[0];
+		fd[1] = IGNORE_STREAM;
 		if (pipeline->next)
 		{
 			pipe(fd);
