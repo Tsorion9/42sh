@@ -65,6 +65,7 @@ t_job *find_job(pid_t pgid)
 	t_list	*l;
 	t_job	*j;
 
+	j = NULL;
 	l = jobs;
 	while (l)
 	{
