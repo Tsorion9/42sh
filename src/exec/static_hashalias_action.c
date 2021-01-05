@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_api_hash_function.c                           :+:      :+:    :+:   */
+/*   static_hashalias_action.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 22:48:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 12:10:26 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/05 11:10:17 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/05 11:44:27 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hashtable.h"
-#include "inc21sh.h"
+#include "t_hashalias.h"
 
-/*
-** Фукнция хэширования
-*/
-
-int						hash_api_hash_function(char *key)
+t_hashalias				*static_hashalias_action(int action)
 {
-	unsigned long hash;
+	static t_hashalias	*alias;
 
-	if (key == NULL)
-		return (-1);
-	hash = 5381;
-	while (*key)
+	if (action == init)
 	{
-		hash = (hash * 33) ^ *key;
-		key++;
+		if ((alias = alias_api_init_hash_alias()) == NULL)
+			return NULL;
+		return alias;
 	}
-	hash = hash % HASH_SIZE;
-	return ((unsigned int)hash);
+	else if (action == get)
+		return alias;
+	// else if (action == del)
+	// 	alias_api_delete_hashalias(alias);
+	return (NULL);
 }

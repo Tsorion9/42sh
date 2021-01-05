@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 11:34:50 by anton             #+#    #+#             */
-/*   Updated: 2021/01/05 00:43:23 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/05 12:12:02 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,27 @@ int			builtin_alias(char **args, t_env env, int subshell)
 {
 	t_hashalias		*alias;
 
-	if ((alias = alias_api_init_hash_alias()) == NULL)
+	if ((alias = static_hashalias_action(get)) == NULL)
 		return (EXIT_FAILURE);
 	(void)env;
 	(void)subshell;
-	(void)args;
+	// (void)args;
+	
+  	hash_api_insert_hash_value("cat", "!!!", alias->hd);
+ 	hash_api_insert_hash_value("abc", "123", alias->hd);
+ 	hash_api_insert_hash_value("cba", "321", alias->hd);
+
+	 
 	if (*args == NULL)
 		alias_api_print_all_aliases(alias);
-	
+	else if (*args && args[1] == NULL)
+		alias_api_print_alias(*args);
 	// alias->hd = hash_api_init_hash_data();
 
 	// t_hashdata *hd = hash_api_init_hash_data();
 
-  	// hash_api_insert_hash_value("cat", "!!!", alias->hd);
- 	// hash_api_insert_hash_value("abc", "123", alias->hd);
- 	// hash_api_insert_hash_value("cba", "321", alias->hd);
- 	// // hash_api_insert_hash_value("cat", "'      '", hd);
-
-  	// // hash_api_print_hash_table(hd);
-	
-	// // t_hashdata *data = hash_api_init_hash_data();
+ 	// hash_api_insert_hash_value("cat", "'      '", alias->hd);
 	// hash_api_insert_hash_value("key", "123", alias->hd);
-
 	// alias_api_print_all_aliases(alias);
-	
-	// hash_api_print_hash_table(alias->hd);
 	return (0);
 }

@@ -6,13 +6,14 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:16:51 by anton             #+#    #+#             */
-/*   Updated: 2021/01/04 23:30:37 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/05 11:49:30 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc21sh.h"
 #include "static_env.h"
 #include "readline.h"
+#include "t_hashalias.h"
 
 void	repl(int tty_input)
 {
@@ -55,6 +56,7 @@ int		main(int ac, char **av, char **environ)
 		close(fd);
 	}
 	static_env_action(init, (void *)environ);
+	static_hashalias_action(init);
 	if ((tty_input = isatty(STDIN_FILENO)))
 	{
 		init_terminal();

@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 23:56:30 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/05 12:03:29 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define T_HASHALIAS_H
 
 # include "environment.h"
+# include "static_env.h"
 # include "hashtable.h"
 
 /*
@@ -41,6 +42,7 @@ void					*alias_api_insert_alias(t_hashalias *hash_alias,
 							char *key, char *value);
 void					alias_api_delete_hashalias(t_hashalias **hash_alias);
 void					alias_api_print_all_aliases(t_hashalias *hash_alias);
+void					alias_api_print_alias(char *key);
 
 /*
 ** API FOR JSANCE

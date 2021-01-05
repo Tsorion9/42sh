@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 21:51:42 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 21:55:55 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/05 12:12:23 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ char					*hash_api_get_hash_data(char *key, t_hashdata *hd)
 	int				i;
 	t_hashtable		*table;
 
-	i = hash_api_hash_function(key);
+	if (hd == NULL)
+		return (NULL);
+	if ((i = hash_api_hash_function(key)) < 0)
+		return (NULL);
 	if ((table = hd->hashtable[i]) != NULL)
 		while (table && ft_strcmp(table->key, key))
 		{
