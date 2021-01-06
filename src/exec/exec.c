@@ -21,6 +21,7 @@ void sigchld_handler(int n)
 {
 	pid_t child;
 	int status;
+	t_job *j;
 
 	child = waitpid(-1, &status,  WNOHANG | WUNTRACED | WCONTINUED);
 	if (child == -1) /* Probably, handler was called inside wait() */
@@ -40,7 +41,11 @@ void sigchld_handler(int n)
 	}
 	else if (WIFEXITED(status))
 	{
-		ft_printf("%d Terminated\n", child);
+		j = find_job(child);
+		if (j->state != FG)
+		{
+			ft_printf("%d Terminated\n", child);
+		}
 		remove_job(child);
 	}
 	else if (WCOREDUMP(status))
