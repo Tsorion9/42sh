@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 08:15:05 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2021/01/04 22:51:00 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/06 23:52:07 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char		**create_buf_for_column_print(t_completion *matches)
 	size = 0;
 	buf = NULL;
 	if (!(size = complections_list_len(matches))
-		|| !(buf = (char**)malloc(sizeof(char*) * size + 1)))
+		|| !(buf = (char**)malloc(sizeof(char*) * (size + 1))))
 		return (NULL);
 	buf[size] = NULL;
 	while (matches)
