@@ -133,7 +133,7 @@ pid_t	make_child(t_command *cmd, int read_fd, int write_fd)
 	pid_t	child;
 
 	child = fork();
-	if (!child) /* Child */
+	if (!child) /* Child, exits*/
 	{
 		child_actions(cmd, read_fd, write_fd);
 	}
@@ -165,6 +165,7 @@ int exec_pipline_job(t_pipeline *pipeline)
 		last_child = make_child(pipeline->command, read_fd, fd[1]);
 		pipeline = pipeline->next;
 	}
+	printf("JOBSHELL: Last child: %d\n", last_child);
 	/* collect exit status of latest child, do not return until every child dies*/
 	while ((finished = wait(&status)) != -1)
 	{
@@ -220,8 +221,8 @@ int wait_for_job(pid_t job)
 	t_job *j;
 
 	waitpid(job, &status, WUNTRACED | WCONTINUED);
-	//TODO: Handle status, handle job table
 
+	ft_printf("%s %d (%d)\n", "DEBUG from top-level shell: wait_for_job(): Jobshell  exits with status: ", status, WEXITSTATUS(status));
 	j = find_job(job);
 	if (!j && top_level_shell) /* Actially always top_level*/
 	{
