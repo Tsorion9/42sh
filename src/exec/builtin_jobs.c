@@ -22,7 +22,7 @@ int			builtin_jobs(char **args, t_env env, int subshell)
 			update_job_state(j->pgid, job_status_to_state(status));
 		}
 
-		ft_printf("[%d] %d %s\n", i++, j->pgid, job_state_tostr(j->state));
+		ft_printf("[%d] %d %s\n", j->jobid, j->pgid, job_state_tostr(j->state));
 		if (j->state == DONE)
 		{
 			l = l->next;

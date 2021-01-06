@@ -10,10 +10,12 @@ t_list *jobs;
 void add_job(int pgid, int background)
 {
 	t_job *new;
+	static int id;
 
 	new = ft_memalloc(sizeof(t_job));
 	new->pgid = pgid;
 	new->state = background ? BACKGROUND : FG;
+	new->jobid = id++;
 	ft_lstadd_data(&jobs, new, 0);
 }
 
