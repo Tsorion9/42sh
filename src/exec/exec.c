@@ -44,11 +44,13 @@ void sigchld_handler(int n)
 	if (WIFSTOPPED(status)) // TODO: use job_status_to_state and job_state_tostr
 	{
 		update_job_state(child, STOPPED);
+		update_job_priority(child);
 		ft_printf("%d Stopped\n", child);
 	}
 	else if (WIFCONTINUED(status))
 	{
 		update_job_state(child, BG);
+		update_job_priority(child);
 		ft_printf("%d Continued\n", child);
 	}
 	else if (WIFEXITED(status))

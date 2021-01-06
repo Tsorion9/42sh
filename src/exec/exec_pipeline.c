@@ -230,6 +230,10 @@ int wait_for_job(pid_t job)
 		return (WEXITSTATUS(status));
 	}
 	j->state = status_to_jobstate(status);
+	if (j->state != DONE)
+	{
+		j->priority = next_priority();
+	}
 	if (j->state == DONE)
 	{
 		remove_job(job);
