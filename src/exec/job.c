@@ -31,8 +31,15 @@ void remove_job(int pgid)
 	t_list *tmp;
 
 	delete_me = find_job(pgid);
-	prev = jobs;
 
+	if (delete_me == jobs->content) /* Del first */
+	{
+		prev = jobs;
+		jobs = jobs->next;
+		ft_lstdelone(&prev, destroy_job);
+	}
+
+	prev = jobs;
 	while (prev)
 	{
 		if (prev->next && (prev->next->content == delete_me))
@@ -49,12 +56,6 @@ void remove_job(int pgid)
 		ft_lstdelone(&tmp, destroy_job);
 		return ;
 	}
-	if (delete_me && !prev && jobs) /* Del first */
-	{
-		prev = jobs;
-		jobs = jobs->next;
-		ft_lstdelone(&prev, destroy_job);
-	}
 }
 
 /*
@@ -63,20 +64,17 @@ void remove_job(int pgid)
 t_job *find_job(pid_t pgid)
 {
 	t_list	*l;
-	t_job	*j;
 
-	j = NULL;
 	l = jobs;
 	while (l)
 	{
-		j = (t_job *)l->content;
-		if (j->pgid == pgid)
+		if (((t_job *)l->content)->pgid == pgid)
 		{
-			break;
+			return (((t_job *)l->content));
 		}
 		l = l->next;
 	}
-	return (j);
+	return (NULL);
 }
 
 void update_job_state(pid_t job, t_job_state new_state)
