@@ -28,21 +28,21 @@ void sigchld_handler(int n)
 	{
 		return ;
 	}
+	j = find_job(child);
 	ft_printf("SIGCHLD from: %d\n", child);
 	if (WIFSTOPPED(status))
 	{
 		update_job_state(child, STOPPED);
-		tcsetpgrp(STDIN_FILENO, getpid());
 		ft_printf("%d Stopped\n", child);
 	}
 	else if (WIFCONTINUED(status))
 	{
+		update_job_state(child, BG);
 		ft_printf("%d Continued\n", child);
 	}
 	else if (WIFEXITED(status))
 	{
-		j = find_job(child);
-		if (j->state != FG)
+		if (j && j->state != FG) /* TODO: figure out why j can be NULL. Somebody removed it??? */
 		{
 			ft_printf("%d Terminated\n", child);
 		}
@@ -52,6 +52,10 @@ void sigchld_handler(int n)
 	{
 		ft_printf("%d Core dumped\n", child);
 		remove_job(child);
+	}
+	if (j && j->state == FG)
+	{
+		tcsetpgrp(STDIN_FILENO, getpid());
 	}
 }
 
