@@ -119,10 +119,6 @@ int exec_complete_cmd(t_complete_cmd *cmd)
 	t_complete_cmd	*save_start;
 	pid_t			job;
 
-	signal(SIGCHLD, &sigchld_handler);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
-
 	save_start = cmd;
 	while (cmd)
 	{
