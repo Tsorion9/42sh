@@ -14,26 +14,40 @@
 */
 int top_level_shell = 1;
 
+/*
+** Only top-level shell does the stuff
+*/
 void sigchld_handler(int n)
 {
 	pid_t child;
 	int status;
 
-	child = wait(&status);
+	child = waitpid(-1, &status,  WNOHANG | WUNTRACED | WCONTINUED);
+	if (child == -1) /* Probably, handler was called inside wait() */
+	{
+		return ;
+	}
+	ft_printf("SIGCHLD from: %d\n", child);
 	if (WIFSTOPPED(status))
 	{
+		update_job_state(child, STOPPED);
+		tcsetpgrp(STDIN_FILENO, getpid());
 		ft_printf("%d Stopped\n", child);
 	}
-	if (WIFCONTINUED(status))
+	else if (WIFCONTINUED(status))
 	{
 		ft_printf("%d Continued\n", child);
 	}
-	if (WIFEXITED(status))
+	else if (WIFEXITED(status))
 	{
 		ft_printf("%d Terminated\n", child);
+		remove_job(child);
 	}
-
-	//remove_job(child);
+	else if (WCOREDUMP(status))
+	{
+		ft_printf("%d Core dumped\n", child);
+		remove_job(child);
+	}
 }
 
 /*
