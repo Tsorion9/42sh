@@ -77,6 +77,17 @@ t_job *find_job(pid_t pgid)
 	return (NULL);
 }
 
+t_job_state	job_status_to_state(int status)
+{
+	if (WIFSTOPPED(status))
+		return (STOPPED);
+	if (WIFCONTINUED(status))
+		return (BACKGROUND);
+	if (WIFEXITED(status))
+		return (DONE);
+	return (DONE);
+}
+
 void update_job_state(pid_t job, t_job_state new_state)
 {
 	t_job *j;

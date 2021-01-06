@@ -6,6 +6,7 @@
 #include "lexer.h"
 
 extern int top_level_shell;
+extern int async_notify_bg;
 
 void set_jobshell_signal(void);
 void sigchld_handler(int n);

@@ -20,10 +20,12 @@ int main(int argc, char **argv, char **envr)
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGINT, processing_sigint);
 	signal(SIGWINCH, processing_sigwinch);
-	signal(SIGCHLD, &sigchld_handler);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
-
+	if (async_notify_bg)
+	{
+		signal(SIGCHLD, &sigchld_handler);
+	}
 
 	env = init_env(envr);
 	init_terminal();

@@ -15,6 +15,17 @@
 int top_level_shell = 1;
 
 /*
+** Not used now. Probably, will be helpful for scripts
+*/
+int job_control_enabled;
+
+/*
+** If nonzero, do the asynchronious notification when BG job changes state
+** See set -o notify
+*/
+int async_notify_bg;
+
+/*
 ** Only top-level shell does the stuff
 */
 void sigchld_handler(int n)
@@ -30,7 +41,7 @@ void sigchld_handler(int n)
 	}
 	j = find_job(child);
 	ft_printf("SIGCHLD from: %d\n", child);
-	if (WIFSTOPPED(status))
+	if (WIFSTOPPED(status)) // TODO: use job_status_to_state and job_state_tostr
 	{
 		update_job_state(child, STOPPED);
 		ft_printf("%d Stopped\n", child);
