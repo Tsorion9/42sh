@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ret_possible_matches.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:11:39 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/12 17:06:16 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2021/01/05 14:01:39 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ t_completion	*ret_possible_matches(char *path, int first_word)
 	}
 	else
 		while ((file_name = readdir(dp)))
-			add_new_completion(&com_lst, file_name->d_name);
+			if (ft_strcmp(file_name->d_name, ".")
+				&& ft_strcmp(file_name->d_name, ".."))
+				add_new_completion(&com_lst, file_name->d_name);
 	closedir(dp);
 	return (com_lst);
 }

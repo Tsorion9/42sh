@@ -45,6 +45,14 @@ CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
 				check_var_word_brace.c ft_strcut.c check_var_word_dollar.c\
 				change_full_word_var.c
 
+CHASH = hash_function.c \
+		init_t_hashdata.c \
+		insert_hash_data.c \
+		print_hash_table.c \
+		delete_t_hashtable.c \
+		delete_t_hashdata.c \
+		search_hash_data.c \
+
 CLEXER =    lexer.c \
 			lexer_misk.c \
 			lexerqueue.c \
@@ -113,7 +121,16 @@ CEXEC = builtin_21shopt.c \
 		is_a_directory.c \
 		job.c \
 		parse_cd_args.c \
-		to_array.c
+		to_array.c \
+		builtin_alias.c \
+		init_t_hashalias.c  \
+		print_all_aliases.c \
+		static_hashalias_action.c \
+		search_alias.c \
+		insert_alias.c \
+		builtin_unalias.c \
+		delete_alias.c \
+		delete_t_hashalias.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
@@ -121,9 +138,10 @@ CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMA
 COMPLETION = $(patsubst %,src/readline/completion/%,$(CCOMPLETION))
 LEXER = $(patsubst %,src/lexer/%,$(CLEXER))
 PARSER = $(patsubst %,src/parser/%,$(CPARSER))
+HASH = $(patsubst %,src/hashtable/%,$(CHASH))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 
-SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEXER) $(PARSER) $(EXEC)
+SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEXER) $(PARSER) $(EXEC) $(HASH)
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

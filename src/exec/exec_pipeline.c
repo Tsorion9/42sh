@@ -165,7 +165,7 @@ int exec_pipline_job(t_pipeline *pipeline)
 		last_child = make_child(pipeline->command, read_fd, fd[1]);
 		pipeline = pipeline->next;
 	}
-	printf("JOBSHELL: Last child: %d\n", last_child);
+	ft_printf("JOBSHELL: Last child: %d\n", last_child);
 	/* collect exit status of latest child, do not return until every child dies*/
 	while ((finished = wait(&status)) != -1)
 	{

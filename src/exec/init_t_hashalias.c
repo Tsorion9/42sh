@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   init_t_hashalias.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/07 13:20:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 23:56:39 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 10:58:07 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "t_hashalias.h"
 
-char	*ft_strchr(const char *s, int c)
+t_hashalias				*init_t_hashalias(void)
 {
-	int		i;
+	t_hashalias		*hashalias;
 
-	i = 0;
-	if (s == NULL)
+	hashalias = ft_memalloc(sizeof(t_hashalias));
+	if (hashalias == NULL)
 		return (NULL);
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
-		i++;
-	}
-	if (c == '\0')
-		return ((char*)s + i);
-	return (NULL);
+	hashalias->hd = init_t_hashdata();
+	if (hashalias->hd == NULL)
+		return NULL;
+	return (hashalias);
 }

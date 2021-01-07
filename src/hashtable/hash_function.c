@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   hash_function.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/07 13:20:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/02 22:48:12 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:22:17 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "hashtable.h"
+#include "inc21sh.h"
 
-char	*ft_strchr(const char *s, int c)
+/*
+** Фукнция хэширования
+*/
+
+unsigned int			hash_function(char *key)
 {
-	int		i;
+	unsigned long	hash;
 
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	while (s[i] != '\0')
+	if (key == NULL)
+		return (-1);
+	hash = 5381;
+	while (*key)
 	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
-		i++;
+		hash = (hash * 33) ^ *key;
+		key++;
 	}
-	if (c == '\0')
-		return ((char*)s + i);
-	return (NULL);
+	hash = hash % HASH_SIZE;
+	return ((unsigned int)hash);
 }
