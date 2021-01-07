@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:33 by anton             #+#    #+#             */
-/*   Updated: 2021/01/03 01:23:47 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/07 11:43:51 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ t_builtin	get_builtin(char *name)
 		return (&builtin_exit);
 	if (!ft_strcmp(name, "21shopt"))
 		return (&builtin_21shopt);
-
+	if (!ft_strcmp(name, "alias"))
+		return (&builtin_alias);
+	if (!ft_strcmp(name, "unalias"))
+		return (&builtin_unalias);
 	if (!ft_strcmp(name, "jobs"))
 		return (&builtin_jobs);
 	if (!ft_strcmp(name, "bg"))

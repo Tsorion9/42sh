@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   delete_alias.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/07 13:20:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/05 13:26:45 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:09:32 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "t_hashalias.h"
 
-char	*ft_strchr(const char *s, int c)
+int						delete_alias(char *key)
 {
-	int		i;
+	t_hashalias		*hash_alias;
 
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
-		i++;
-	}
-	if (c == '\0')
-		return ((char*)s + i);
-	return (NULL);
+	if ((hash_alias = static_hashalias_action(get)) == NULL)
+		return (EXIT_FAILURE);
+	if ((delete_t_hashtable(key, &(hash_alias->hd))) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

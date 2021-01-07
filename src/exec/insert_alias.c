@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   insert_alias.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/07 13:20:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/05 12:24:48 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:02:11 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "t_hashalias.h"
 
-char	*ft_strchr(const char *s, int c)
+void					insert_alias(char *key, char *value)
 {
-	int		i;
+	t_hashalias		*hash_alias;
 
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	while (s[i] != '\0')
+	if ((hash_alias = static_hashalias_action(get)) == NULL)
+		return ;
+	if (value == NULL)
 	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
-		i++;
+		value = ft_strdup("''");
+		insert_hash_value(key, value, hash_alias->hd);
+		free(value);
 	}
-	if (c == '\0')
-		return ((char*)s + i);
-	return (NULL);
+	else
+		insert_hash_value(key, value, hash_alias->hd);
 }

@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   static_hashalias_action.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/07 13:20:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/05 11:10:17 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 10:32:03 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "t_hashalias.h"
 
-char	*ft_strchr(const char *s, int c)
+t_hashalias				*static_hashalias_action(int action)
 {
-	int		i;
+	static t_hashalias	*alias;
 
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	while (s[i] != '\0')
+	if (action == init)
 	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
-		i++;
+		if ((alias = init_t_hashalias()) == NULL)
+			return NULL;
+		return alias;
 	}
-	if (c == '\0')
-		return ((char*)s + i);
+	else if (action == get)
+		return alias;
+	else if (action == del)
+		delete_t_hashalias();
 	return (NULL);
 }

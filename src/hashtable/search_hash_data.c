@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   hash_api_get_hash_data.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/07 13:20:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 21:51:42 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:03:17 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "hashtable.h"
 
-char	*ft_strchr(const char *s, int c)
+char					*search_hash_data(char *key, t_hashdata *hd)
 {
-	int		i;
+	int				i;
+	t_hashtable		*table;
 
-	i = 0;
-	if (s == NULL)
+	if (hd == NULL)
 		return (NULL);
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
-		i++;
-	}
-	if (c == '\0')
-		return ((char*)s + i);
-	return (NULL);
+	if ((i = hash_function(key)) < 0)
+		return (NULL);
+	if ((table = hd->hashtable[i]) != NULL)
+		while (table && ft_strcmp(table->key, key))
+		{
+			if (table && !ft_strcmp(table->key, key))
+				break ;
+			table = table->next;
+		}
+	if (table == NULL)
+		return (NULL);
+	return (ft_strdup(table->value));
 }

@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   hash_api_delete_hash_data.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/07 13:20:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 21:30:01 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:07:09 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "hashtable.h"
+#include "inc21sh.h"
 
-char	*ft_strchr(const char *s, int c)
+void					delete_t_hashdata(t_hashdata **hd)
 {
-	int		i;
+	t_hashtable		*table;
+	t_hashtable		*table_prev;
+	int				i;
 
+	if (hd == NULL || *hd == NULL)
+		return ;
 	i = 0;
-	if (s == NULL)
-		return (NULL);
-	while (s[i] != '\0')
+	table_prev = NULL;
+	while (i < HASH_SIZE)
 	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
+		if ((table = (*hd)->hashtable[i]) != NULL)
+		{
+			while (table)
+			{
+				table_prev = table;
+				table = table->next;
+				delete_hash_table_element(&table_prev);
+			}
+		}
 		i++;
 	}
-	if (c == '\0')
-		return ((char*)s + i);
-	return (NULL);
+	free(*hd);
 }

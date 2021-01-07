@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_api_move_cursor.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 13:47:25 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2020/12/20 23:12:08 by mphobos          ###   ########.fr       */
+/*   Updated: 2021/01/05 00:34:45 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,11 @@ void		com_api_move_curs_to_end_line(void)
 
 	trp = rp(NULL);
 	i = search_index(trp->cur_pos, trp->prompt_len);
+	
+	
 	trp->prev_pos_curs = i;
+	if (trp->user_in == NULL)
+		return ;
 	if (trp->user_in[i])
 	{
 		while (trp->user_in[i++])
