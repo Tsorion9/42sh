@@ -39,7 +39,7 @@ int     match_subshell(t_subshell **subshell, t_deque **tokbuf_g)
         return (PARSER_ERROR);
     tk_type = gett(tokbuf_g, &tokbuf_l)->tk_type;
     ungett(tokbuf_g, &tokbuf_l);
-    if (tk_type != NEWLINE)
+    if (is_redirect(tk_type) || tk_type == IO_NUMBER)
     {
         if (match_io_redirect(&(*subshell)->redirects, tokbuf_g) != PARSER_SUCCES)
             return (PARSER_ERROR);
