@@ -34,6 +34,7 @@ void sigchld_handler(int n)
 	int status;
 	t_job *j;
 
+	(void)n;
 	child = waitpid(-1, &status,  WNOHANG | WUNTRACED | WCONTINUED);
 	if (child == -1) /* Probably, handler was called inside wait() */
 	{
@@ -119,6 +120,7 @@ void set_jobshell_signal(void)
 
 void perform_word_expansions(t_pipeline *p)
 {
+	(void)p;
 	return ;
 }
 
@@ -164,7 +166,7 @@ int exec_complete_cmd(t_complete_cmd *cmd)
 			if (job) /* top-level shell */
 			{
 				setpgid(job, job);
-				add_job(job, 1);
+				add_job(job, 1, andor_to_str(cmd->and_or));
 				cmd = cmd->next;
 				continue ;
 			}

@@ -6,6 +6,9 @@
 
 # include "libft.h"
 
+# define NO_JOB 0
+# define AMBIGOUS_JOB 1
+
 typedef enum e_job_state
 {
 	FG,
@@ -38,11 +41,13 @@ extern t_list *jobs;
 char *job_state_tostr(t_job_state s);
 void update_job_state(pid_t job, t_job_state new_state);
 t_job *find_job(pid_t pgid);
-void add_job(int pgid, int background);
+void add_job(int pgid, int background, char *cmdline);
 void remove_job(int pgid);
 t_job_state	job_status_to_state(int status);
 int next_priority(void);
 void update_job_priority(pid_t j);
 void biggest_priorities(int *max, int *second_max);
+
+t_job *find_job_by_pattern(char *pattern, int *error);
 
 #endif

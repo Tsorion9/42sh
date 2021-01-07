@@ -29,7 +29,6 @@ char	*join_redirects_parts(int fd, char *file, char *instruct)
 {
 	char		*str_fd;
 	char		*res;
-	char		*tmp;
 	size_t		len;
 
 	str_fd = ft_itoa(fd);
@@ -100,4 +99,34 @@ char	*get_cmd_str(t_pipeline *pipeline)
 	if (cmd->cmd_type == SIMPLE_CMD)
 		cmd_str = simple_cmd_str(cmd->simple_cmd);
 	return (cmd_str);
+}
+
+char	*andor_to_str(t_andor_list *andor)
+{
+	char *res;
+	char *tmp;
+
+	res = get_cmd_str(andor->pipeline);
+	while (andor->next)
+	{
+		if (andor->type_andor == ANDOR_AND)
+		{
+			tmp = res;
+			res = ft_strjoin(res, " && ");
+			free(tmp);
+		}
+		if (andor->type_andor == ANDOR_OR)
+		{
+			tmp = res;
+			res = ft_strjoin(res, " || ");
+			free(tmp);
+		}
+		andor = andor->next;
+		if (!andor)
+			break;
+		tmp = get_cmd_str(andor->pipeline);
+		res = ft_strjoin(res, tmp);
+		free(tmp);
+	}
+	return (res);
 }

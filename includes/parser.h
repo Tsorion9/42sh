@@ -58,6 +58,7 @@ void	add_word_to_list(t_word_list **word_list, t_token *token);
 void	set_instruction(t_redirect **redirect, t_tokens type);
 char	*get_cmd_str(t_pipeline *pipeline);
 char	*get_instruction(t_instruction instruction);
+char	*andor_to_str(t_andor_list *andor);
 
 t_complete_cmd	*parser();
 

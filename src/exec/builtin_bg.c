@@ -3,8 +3,6 @@
 
 int			builtin_bg(char **args, t_env env, int subshell)
 {
-	t_job	j;
-	int		i;
 
 	(void)env;
 	(void)subshell;

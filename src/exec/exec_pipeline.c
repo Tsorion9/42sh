@@ -260,7 +260,7 @@ int exec_pipline(t_pipeline *pipeline)
 	job = fork();
 	if (job) /* Top-level shell */
 	{
-		add_job(job, 0);
+		add_job(job, 0, get_cmd_str(pipeline));
 		setpgid(job, job);
 		tcsetpgrp(STDIN_FILENO, job);
 		return (wait_for_job(job)); /* Job is in foreground */
