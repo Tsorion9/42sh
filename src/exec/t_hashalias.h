@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/07 10:34:57 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/07 12:11:22 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,14 @@
 # define T_HASHALIAS_H
 
 # include "environment.h"
-# include "static_env.h"
 # include "hashtable.h"
+
+typedef enum	e_env_action
+{
+	init,
+	get,
+	del
+}				t_env_action;
 
 /*
 ** Hashtable for builtins Alias/Unalias

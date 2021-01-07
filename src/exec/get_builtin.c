@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:33 by anton             #+#    #+#             */
-/*   Updated: 2021/01/05 12:48:17 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/07 11:43:51 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,13 @@ t_builtin	get_builtin(char *name)
 		return (&builtin_alias);
 	if (!ft_strcmp(name, "unalias"))
 		return (&builtin_unalias);
+	if (!ft_strcmp(name, "jobs"))
+		return (&builtin_jobs);
+	if (!ft_strcmp(name, "bg"))
+		return (&builtin_bg);
+	if (!ft_strcmp(name, "fg"))
+		return (&builtin_fg);
+	if (!ft_strcmp(name, "export"))
+		return (&builtin_export);
 	return (NULL);
 }

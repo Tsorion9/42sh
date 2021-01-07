@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 23:25:22 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 23:25:24 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/07 12:08:33 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 # define HISTORY_SEARCH_STR_BEFORE "(reverse-i-search)`"
 # define HISTORY_SEARCH_STR_NOT_FOUND_BEFORE "(failed reverse-i-search)`"
 # define HISTORY_SEARCH_STR_AFTER "': "
+
+# define TRUE 1                                                                                                                                               
+# define FALSE 0                                                                
+                                                                                
+# define GETCURSORPOS "\e[6n"
 
 /*
 ** Character key constants
@@ -177,6 +182,8 @@ int						ft_isspace(char c);
 void					move_cursor(long c);
 void					delete_symbol(void);
 void					add_symbol(char c);
+void					readline_putstr(const char *s, int *cur_pos,
+							size_t prompt_len);
 void					alt_left_right(long c);
 void					delete_last_word(void);
 void					wordmove_cursor(long c);
@@ -269,6 +276,9 @@ t_completion			*ret_possible_matches(char *path, int first_word);
 char					*cut_word(char cut_symbol, int i);
 t_completion			*ret_matches(t_completion *com_lst, char **str_search);
 char					*ft_strcut(const char *s, int c);
+int						find_complection_pos(char *line, int i);
+int						is_valid_name_char(char c);
+char					**env_api_get_mas_vars(char **arr);
 
 /*
 ** Complection API for vars
@@ -308,5 +318,17 @@ void					com_api_print_normal_suggestions(t_completion *matches);
 int						check_big_list(int quantity_possibilities);
 void					get_size_of_columns(char **buf, t_column *cl);
 void					print_column(char **buf, t_column *cl);
+
+// TODO: change names
+void	processing_sigint(int signal_code);
+void	processing_sigwinch(int signal_code);
+
+void			init_terminal(void);
+
+/*
+** Return string value of environmental variable PS1 or PS2
+** Can be used as prompt
+*/
+char					*get_prompt(int which);
 
 #endif

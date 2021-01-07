@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+         #
+#    By: tsorion <tsorion@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 15:04:53 by mphobos           #+#    #+#              #
-#    Updated: 2020/10/13 20:40:46 by alexbuyanov      ###   ########.fr        #
+#    Updated: 2020/01/27 16:42:44 by tsorion          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,8 @@ SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memchr.c ft_memcmp.c \
 	ft_lstlen.c\
 	ft_lstnew_inplace.c\
 	get_next_line_wrapper.c\
-	xmalloc.c
+	xmalloc.c \
+	ft_strjoinfreefree.c
 
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
@@ -70,7 +71,7 @@ CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE) -I ft_printf -I ftoa
 DFLAGS = $(CFLAGS) -g
 
 %.o: %.c
-	@$(CC) $(DFLAGS) -c -o $@ $<
+	$(CC) $(DFLAGS) -c -o $@ $<
 
 $(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)

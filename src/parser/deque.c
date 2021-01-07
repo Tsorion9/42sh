@@ -11,17 +11,16 @@
 /* ************************************************************************** */
 
 #include "deque.h"
-#include "t2list.h"
 
 /*
 ** In-place insertion
 */
 
-void			*push_front(t_deque **d, void *new)
+void			*push_front(t_deque **d, t_token *new)
 {
 	if (!*d)
 	{
-		*d = xmalloc(sizeof(t_deque));
+		*d = ft_memalloc(sizeof(t_deque));
 		if (!*d)
 			return (NULL);
 		(*d)->first = NULL;
@@ -34,13 +33,13 @@ void			*push_front(t_deque **d, void *new)
 	return (*d);
 }
 
-void			*push_back(t_deque **d, void *new)
+void			*push_back(t_deque **d, t_token *new)
 {
 	t_2list	*lst;
 
 	if (!*d)
 	{
-		*d = xmalloc(sizeof(t_deque));
+		*d = ft_memalloc(sizeof(t_deque));
 		if (!*d)
 			return (NULL);
 		(*d)->first = NULL;
@@ -61,7 +60,7 @@ void			*push_back(t_deque **d, void *new)
 }
 
 /*
-** List element is erased, but not data!
+** List element is erased, but not token!
 */
 
 void			*pop_back(t_deque *d)
@@ -74,7 +73,7 @@ void			*pop_back(t_deque *d)
 	l = d->last;
 	if (d->last)
 	{
-		data = l->data;
+		data = l->token;
 		d->last = d->last->prev;
 		free(l);
 		if (d->last)
@@ -95,7 +94,7 @@ void			*pop_front(t_deque *d)
 	if (!d || !d->first)
 		return (NULL);
 	l = d->first;
-	data = l->data;
+	data = l->token;
 	d->first = d->first->next;
 	free(l);
 	if (d->first)
@@ -105,7 +104,7 @@ void			*pop_front(t_deque *d)
 	return (data);
 }
 
-void			deque_del(t_deque **d, void (*del)(void *))
+void			deque_del(t_deque **d, void (*del)(t_token *))
 {
 	if (!d || !*d)
 		return ;

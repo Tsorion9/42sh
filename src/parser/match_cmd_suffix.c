@@ -1,48 +1,41 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   match_cmd_suffix.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 18:31:25 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 11:40:50 by anton            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "parser.h"
 
-static void	save_string(t_simple_cmd **cmd, t_deque *tokbuf_l)
+int     match_cmd_arg(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 {
-	t_token	*tok;
+    t_deque *tokbuf_l;
+    t_token *token;
 
-	tok = pop_front(tokbuf_l);
-	push_back(&((*cmd)->wl), tok->attribute);
-	free(tok);
+    tokbuf_l = NULL;
+    token = gett(tokbuf_g, &tokbuf_l);
+    add_word_to_list(&(*simple_cmd)->words, token);
+    if (match_cmd_suffix(simple_cmd, tokbuf_g) != PARSER_SUCCES)
+        return (PARSER_ERROR);
+    erase_tokbuf(&tokbuf_l);
+    return (PARSER_SUCCES);
 }
 
-int			match_cmd_suffix(t_simple_cmd **cmd, t_deque **tokbubf_g)
+int     match_cmd_suffix(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 {
-	t_deque	*tokbuf_l;
-	int		success;
-	int		any_success;
+    t_deque *tokbuf_l;
+    t_token *token;
 
-	tokbuf_l = NULL;
-	any_success = -1;
-	success = 1;
-	while (success)
-	{
-		any_success += success;
-		if (gett(tokbubf_g, &tokbuf_l)->token_type != word)
-		{
-			ungett(tokbubf_g, &tokbuf_l);
-			success = 0;
-		}
-		else
-			save_string(cmd, tokbuf_l);
-		if (match_io_redirect(*cmd, tokbubf_g) == PARSER_FAILURE && !success)
-			break ;
-		success = 1;
-	}
-	return (any_success > 0 ? check_parser_signals() : PARSER_FAILURE);
+    tokbuf_l = NULL;
+    token = gett(tokbuf_g, &tokbuf_l);
+    ungett(tokbuf_g, &tokbuf_l);
+    if (token->tk_type == IO_NUMBER || is_redirect(token->tk_type))
+    {
+        if (match_io_redirect(&(*simple_cmd)->redirects, tokbuf_g) !=
+        														PARSER_SUCCES)
+            return (PARSER_FAIL);
+		if (match_cmd_suffix(simple_cmd, tokbuf_g) != PARSER_SUCCES)
+			return (PARSER_ERROR);
+    }
+    token = gett(tokbuf_g, &tokbuf_l);
+    ungett(tokbuf_g, &tokbuf_l);
+    if (token->tk_type == WORD)
+    {
+        if (match_cmd_arg(simple_cmd, tokbuf_g) != PARSER_SUCCES)
+            return (PARSER_ERROR);
+    }
+    return (PARSER_SUCCES);
 }

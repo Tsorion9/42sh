@@ -86,6 +86,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstdel(t_list **alst, void (*del)(void*, size_t));
 void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
 void				ft_freestrsplit(char **str);
+char            	*ft_strjoinfreefree(char *s1, char *s2);
 
 void				ft_strrev(char *s);
 char				*ft_itoa_base(long long value, char *base, int sgn);

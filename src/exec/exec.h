@@ -1,30 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 02:02:55 by anton             #+#    #+#             */
-/*   Updated: 2020/06/23 02:02:55 by anton            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef EXEC_H
 # define EXEC_H
 
-/*
-** Exec.
-*/
+#define IGNORE_STREAM -2
 
-# include "find_path.h"
-# include "colors.h"
-# include "t_builtin.h"
-# include "environment.h"
-# include "cd_utils.h"
-# include "find_exec.h"
-# include "expand.h"
+#include "lexer.h"
 
-int	exec_cmd(t_deque *cmd);
+extern int top_level_shell;
+extern int async_notify_bg;
+
+void set_jobshell_signal(void);
+void sigchld_handler(int n);
+
+int exec_pipline(t_pipeline *pipeline);
+int exec_complete_cmd(t_complete_cmd *cmd);
 
 #endif
