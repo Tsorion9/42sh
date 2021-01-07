@@ -12,3 +12,4 @@ tags
 **/*.d
 .vscode
 test_complection
+.DS_Store
