@@ -25,7 +25,7 @@ char	*words_str(t_word_list *words)
 	return (str_words);
 }
 
-char	*join_redirects_parts(int fd, char *file, char *instruct)
+char	*join_redirects_parts(int fd, char *file, const char *instruct)
 {
 	char		*str_fd;
 	char		*res;
@@ -49,6 +49,8 @@ char	*redirects_str(t_redirect *redirects)
 	int			fd;
 	t_redirect	*tmp;
 
+	if (redirects == NULL)
+		return (NULL);
 	tmp = redirects;
 	str_redir = ft_strnew(0);
 	while (tmp)
@@ -74,7 +76,7 @@ char	*simple_cmd_str(t_simple_cmd *cmd)
 
 	words = words_str(cmd->words);
 	redirects = redirects_str(cmd->redirects);
-	if (redirects)
+	if (redirects != NULL)
 	{
 		words = ft_strjoinfreefree(words, ft_strdup(" "));
 		res = ft_strjoinfreefree(words, redirects);
@@ -83,13 +85,85 @@ char	*simple_cmd_str(t_simple_cmd *cmd)
 	return (words);
 }
 
+char 	*separator_str(t_separator sep, t_compound_list *next)
+{
+	if (sep == SEP_BG)
+	{
+		if (next == NULL)
+			return (ft_strdup(" &;"));
+		else
+			return (ft_strdup(" &"));
+	}
+	return (ft_strdup(";"));
+}
+
+char 	*compound_list_str(t_compound_list *compound)
+{
+	char			*pipeline;
+	char			*separator;
+	char			*res;
+	t_compound_list *tmp;
+
+	tmp = compound;
+	res = ft_strnew(0);
+	while (tmp)
+	{
+		pipeline = get_pipeline_str(compound->and_or->pipeline);
+		separator = separator_str(compound->separator, tmp->next);
+		pipeline = ft_strjoinfreefree(pipeline, separator);
+		if (tmp->next)
+			pipeline = ft_strjoinfreefree(pipeline, ft_strdup(" "));
+		res = ft_strjoinfreefree(res, pipeline);
+		tmp = tmp->next;
+	}
+	return (res);
+}
+
+char 	*subshell_cmd_str(t_subshell *subshell)
+{
+	char	*compound_list;
+	char	*redirects;
+	char	*res;
+
+	res = ft_strdup("( ");
+	compound_list = compound_list_str(subshell->compound_list);
+	res = ft_strjoinfreefree(res, compound_list);
+	res = ft_strjoinfreefree(res, ft_strdup(" )"));
+	redirects = redirects_str(subshell->redirects);
+	if (redirects != NULL)
+	{
+		res = ft_strjoinfreefree(res, ft_strdup(" "));
+		res = ft_strjoinfreefree(res, redirects);
+	}
+	return (res);
+}
+
+char 	*brace_group_cmd_str(t_brace_group *brace_group)
+{
+	char	*compound_list;
+	char	*redirects;
+	char	*res;
+
+	res = ft_strdup("{ ");
+	compound_list = compound_list_str(brace_group->compound_list);
+	res = ft_strjoinfreefree(res, compound_list);
+	res = ft_strjoinfreefree(res, ft_strdup(" }"));
+	redirects = redirects_str(brace_group->redirects);
+	if (redirects != NULL)
+	{
+		res = ft_strjoinfreefree(res, ft_strdup(" "));
+		res = ft_strjoinfreefree(res, redirects);
+	}
+	return (res);
+}
+
 /*
 ** Return malloc string representation of pipeline
 ** Input: ls >file 123>along arg1 arg2
 ** Output: ls arg1 arg2 0> file 123> along
 */
 
-char	*get_cmd_str(t_pipeline *pipeline)
+char	*get_pipeline_str(t_pipeline *pipeline)
 {
 	char		*cmd_str;
 	t_command	*cmd;
@@ -98,6 +172,10 @@ char	*get_cmd_str(t_pipeline *pipeline)
 	cmd = pipeline->command;
 	if (cmd->cmd_type == SIMPLE_CMD)
 		cmd_str = simple_cmd_str(cmd->simple_cmd);
+	else if (cmd->cmd_type == SUBSHELL)
+		cmd_str = subshell_cmd_str(cmd->subshell);
+	else if (cmd->cmd_type == BRACE_GROUP)
+		cmd_str = brace_group_cmd_str(cmd->brace_group);
 	return (cmd_str);
 }
 

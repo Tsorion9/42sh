@@ -1,3 +1,6 @@
+input_for_debug.txt
+cmake-build-debug
+CMakeLists.txt
 .idea
 21sh
 42sh
