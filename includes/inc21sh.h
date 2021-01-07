@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2021/01/04 22:41:42 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/07 14:32:32 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 void					set_canon_input_mode(int reset);
 void					set_signal(void);
 
+void					reset_input_mode(void);
 
 void					*del_array(char **env);
 

@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   init_t_hashdata.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/07 13:20:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/03 14:08:56 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 10:58:50 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "hashtable.h"
 
-char	*ft_strchr(const char *s, int c)
+t_hashdata				*init_t_hashdata(void)
 {
-	int		i;
+	t_hashdata	*hashdata;
 
-	i = 0;
-	if (s == NULL)
+	hashdata = ft_memalloc(sizeof(t_hashdata));
+	if (hashdata == NULL)
 		return (NULL);
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
-		i++;
-	}
-	if (c == '\0')
-		return ((char*)s + i);
-	return (NULL);
+	return (hashdata);
 }

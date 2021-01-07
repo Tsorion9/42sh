@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   print_all_aliases.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/08 15:35:32 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/07 13:20:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 23:53:42 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 10:04:59 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "environment.h"
+#include "t_hashalias.h"
 
-char	*ft_strchr(const char *s, int c)
+void		print_alias(char *key)
 {
-	int		i;
+	char	*alias;
 
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	while (s[i] != '\0')
+	alias = search_alias(key);
+	if (alias)
 	{
-		if (s[i] == (char)c)
-			return ((char*)s + i);
-		i++;
+		ft_printf("%s=%s\n", key, alias);
+		free(alias);
 	}
-	if (c == '\0')
-		return ((char*)s + i);
-	return (NULL);
+}
+
+void		print_all_aliases(void)
+{
+	t_hashalias		*hash_alias;
+
+	if ((hash_alias = static_hashalias_action(get)) == NULL)
+		return ;
+	print_table(hash_alias->hd);
 }
