@@ -29,9 +29,9 @@ CLEX =	lex.c get_token_end_line.c \
 		special_signal_token.c close_backslash.c init_new_user_in.c\
 		ret_token.c glob_cc_erased.c
 
-CHASH = hash_api_hash_function.c hash_api_init_hash_data.c hash_api_insert_hash_data.c \
-		hash_api_print_hash_table.c hash_api_delete_hash_table.c hash_api_delete_hash_date.c \
-		hash_api_get_hash_data.c \
+CHASH = hash_function.c init_t_hashdata.c insert_hash_data.c \
+		print_hash_table.c delete_t_hashtable.c delete_t_hashdata.c \
+		search_hash_data.c \
 
 CPARSER = deque.c \
 		  deque_apply.c\
@@ -65,9 +65,9 @@ CPARSER = deque.c \
 CEXEC = builtin_env.c\
 		builtin_cd.c\
 		builtin_21shopt.c\
-		builtin_alias.c alias_api_init_hash_alias.c  alias_api_print_all_aliases.c \
-		static_hashalias_action.c alias_api_get_alias.c alias_api_insert_alias.c \
-		builtin_unalias.c unalias_api_delete_alias.c alias_api_delete_hashalias.c \
+		builtin_alias.c init_t_hashalias.c  print_all_aliases.c \
+		static_hashalias_action.c search_alias.c insert_alias.c \
+		builtin_unalias.c delete_alias.c delete_t_hashalias.c \
 		to_array.c\
 		parse_cd_args.c\
 		is_a_directory.c\

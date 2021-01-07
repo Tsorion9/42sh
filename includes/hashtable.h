@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 18:48:59 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 00:38:28 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/07 11:20:34 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,20 @@ typedef struct			s_hashdata
 ** Return hash-table with new value
 ** get_hash_value - get value from hash-table by key.
 ** Return value from hash-table
-** delete_hash_date - delete all hash-table
-** delete_hash_table - delete element from hash-table
+** delete_t_hashdate - delete all hash-table
+** delete_t_hashtable - delete element from hash-table
 ** print_hash_table - print all elements from hash-table
 */
 
-int						hash_api_hash_function(char *key);
-t_hashdata				*hash_api_init_hash_data(void);
-int						hash_api_insert_hash_value(char *key, char *value,
+unsigned int			hash_function(char *key);
+t_hashdata				*init_t_hashdata(void);
+int						insert_hash_value(char *key, char *value,
 							t_hashdata *hd);
-char					*hash_api_get_hash_data(char *key, t_hashdata *hd);
-void					hash_api_delete_hash_date(t_hashdata **hd);
-int						hash_api_delete_hash_table(char *key, t_hashdata **hd);
+char					*search_hash_data(char *key, t_hashdata *hd);
+void					delete_t_hashdata(t_hashdata **hd);
+int						delete_t_hashtable(char *key, t_hashdata **hd);
 void					delete_hash_table_element(t_hashtable **table);
 void					print_table(t_hashdata *hd);
-void					hash_api_print_hash_table(t_hashdata *hd);
+void					print_hash_table(t_hashdata *hd);
 
 #endif

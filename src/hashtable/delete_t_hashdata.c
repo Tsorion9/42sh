@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_api_get_hash_data.c                           :+:      :+:    :+:   */
+/*   hash_api_delete_hash_data.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/04 21:51:42 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 12:12:23 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 21:30:01 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:07:09 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
+#include "inc21sh.h"
 
-char					*hash_api_get_hash_data(char *key, t_hashdata *hd)
+void					delete_t_hashdata(t_hashdata **hd)
 {
-	int				i;
 	t_hashtable		*table;
+	t_hashtable		*table_prev;
+	int				i;
 
-	if (hd == NULL)
-		return (NULL);
-	if ((i = hash_api_hash_function(key)) < 0)
-		return (NULL);
-	if ((table = hd->hashtable[i]) != NULL)
-		while (table && ft_strcmp(table->key, key))
+	if (hd == NULL || *hd == NULL)
+		return ;
+	i = 0;
+	table_prev = NULL;
+	while (i < HASH_SIZE)
+	{
+		if ((table = (*hd)->hashtable[i]) != NULL)
 		{
-			if (table && !ft_strcmp(table->key, key))
-				break ;
-			table = table->next;
+			while (table)
+			{
+				table_prev = table;
+				table = table->next;
+				delete_hash_table_element(&table_prev);
+			}
 		}
-	if (table == NULL)
-		return (NULL);
-	return (ft_strdup(table->value));
+		i++;
+	}
+	free(*hd);
 }

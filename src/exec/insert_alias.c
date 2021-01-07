@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unalias.c                                  :+:      :+:    :+:   */
+/*   insert_alias.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 12:42:37 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/07 10:35:06 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/05 12:24:48 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:02:11 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_hashalias.h"
 
-int			builtin_unalias(char **args, t_env env, int subshell)
+void					insert_alias(char *key, char *value)
 {
-	t_hashalias		*alias;
+	t_hashalias		*hash_alias;
 
-	if ((alias = static_hashalias_action(get)) == NULL)
-		return (EXIT_FAILURE);
-	(void)env;
-	(void)subshell;
-	if (*args == NULL)
-		ft_putstr("unalias: not enough arguments\n");
-	while (*args)
+	if ((hash_alias = static_hashalias_action(get)) == NULL)
+		return ;
+	if (value == NULL)
 	{
-		if ((delete_alias(*args)) == EXIT_FAILURE)
-			ft_printf("unalias: no such hash table element: %s\n", *args);
-		args++;
+		value = ft_strdup("''");
+		insert_hash_value(key, value, hash_alias->hd);
+		free(value);
 	}
-	return (EXIT_SUCCESS);
+	else
+		insert_hash_value(key, value, hash_alias->hd);
 }

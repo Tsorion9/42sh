@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alias_api_init_hash_alias.c                        :+:      :+:    :+:   */
+/*   hash_function.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/04 23:56:39 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 00:43:59 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/02 22:48:12 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:22:17 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_hashalias.h"
+#include "hashtable.h"
+#include "inc21sh.h"
 
-t_hashalias				*alias_api_init_hash_alias(void)
+/*
+** Фукнция хэширования
+*/
+
+unsigned int			hash_function(char *key)
 {
-	t_hashalias		*hashalias;
+	unsigned long	hash;
 
-	hashalias = ft_memalloc(sizeof(t_hashalias));
-	if (hashalias == NULL)
-		return (NULL);
-	hashalias->hd = hash_api_init_hash_data();
-	if (hashalias->hd == NULL)
-		return NULL;
-	return (hashalias);
+	if (key == NULL)
+		return (-1);
+	hash = 5381;
+	while (*key)
+	{
+		hash = (hash * 33) ^ *key;
+		key++;
+	}
+	hash = hash % HASH_SIZE;
+	return ((unsigned int)hash);
 }

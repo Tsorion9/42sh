@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_api_hash_function.c                           :+:      :+:    :+:   */
+/*   print_all_aliases.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 22:48:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 12:10:26 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 23:53:42 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 10:04:59 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hashtable.h"
-#include "inc21sh.h"
+#include "environment.h"
+#include "t_hashalias.h"
 
-/*
-** Фукнция хэширования
-*/
-
-int						hash_api_hash_function(char *key)
+void		print_alias(char *key)
 {
-	unsigned long hash;
+	char	*alias;
 
-	if (key == NULL)
-		return (-1);
-	hash = 5381;
-	while (*key)
+	alias = search_alias(key);
+	if (alias)
 	{
-		hash = (hash * 33) ^ *key;
-		key++;
+		ft_printf("%s=%s\n", key, alias);
+		free(alias);
 	}
-	hash = hash % HASH_SIZE;
-	return ((unsigned int)hash);
+}
+
+void		print_all_aliases(void)
+{
+	t_hashalias		*hash_alias;
+
+	if ((hash_alias = static_hashalias_action(get)) == NULL)
+		return ;
+	print_table(hash_alias->hd);
 }

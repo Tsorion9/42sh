@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_api_init_hash_data.c                          :+:      :+:    :+:   */
+/*   hash_api_get_hash_data.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 14:08:56 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/03 20:36:40 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 21:51:42 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:03:17 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashtable.h"
 
-t_hashdata				*hash_api_init_hash_data(void)
+char					*search_hash_data(char *key, t_hashdata *hd)
 {
-	t_hashdata	*hashdata;
+	int				i;
+	t_hashtable		*table;
 
-	hashdata = ft_memalloc(sizeof(t_hashdata));
-	if (hashdata == NULL)
+	if (hd == NULL)
 		return (NULL);
-	ft_memset(hashdata, 0, HASH_SIZE);
-	return (hashdata);
+	if ((i = hash_function(key)) < 0)
+		return (NULL);
+	if ((table = hd->hashtable[i]) != NULL)
+		while (table && ft_strcmp(table->key, key))
+		{
+			if (table && !ft_strcmp(table->key, key))
+				break ;
+			table = table->next;
+		}
+	if (table == NULL)
+		return (NULL);
+	return (ft_strdup(table->value));
 }

@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 18:02:53 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 22:07:05 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/07 11:09:56 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ t_hashtable				*find_table_prev(t_hashdata *hd, char *key,
 	return (table_prev);
 }
 
-int						hash_api_delete_hash_table(char *key, t_hashdata **hd)
+int						delete_t_hashtable(char *key, t_hashdata **hd)
 {
 	int				i;
 	t_hashtable		*table;
 	t_hashtable		*table_prev;
 
-	i = hash_api_hash_function(key);
+	i = hash_function(key);
 	if (hd == NULL || *hd == NULL || (*hd)->hashtable[i] == NULL)
 		return (EXIT_FAILURE);
 	table = NULL;

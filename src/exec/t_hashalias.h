@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 13:47:09 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/07 10:34:57 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 typedef struct			s_hashalias
 {
 	t_hashdata			*hd;
-	// int					table_size;
 }						t_hashalias;
 
 
@@ -37,24 +36,23 @@ typedef struct			s_hashalias
 */
 
 t_hashalias				*static_hashalias_action(int action);
-t_hashalias				*alias_api_init_hash_alias(void);
-void					alias_api_insert_alias(t_hashalias *hash_alias,
-							char *key, char *value);
-void					alias_api_delete_hashalias(t_hashalias **hash_alias);
-void					alias_api_print_all_aliases(t_hashalias *hash_alias);
-void					alias_api_print_alias(char *key);
+t_hashalias				*init_t_hashalias(void);
+void					delete_t_hashalias(void);
+void					insert_alias(char *key, char *value);
+void					print_alias(char *key);
+void					print_all_aliases(void);
 
 /*
 ** API FOR JSANCE
 ** get_alias - get value (don't forget to free string) of alias or NULL if alias is't exist
 */
 
-char					*alias_api_get_alias(char *key);
+char					*search_alias(char *key);
 
 /*
 ** API for BUILTIN UNALIAS
 */
 
-int						unalias_api_delete_alias(t_hashalias **hash_alias, char *key);
+int						delete_alias(char *key);
 
 #endif

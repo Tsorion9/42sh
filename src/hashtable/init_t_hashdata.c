@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alias_api_get_alias.c                              :+:      :+:    :+:   */
+/*   init_t_hashdata.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 10:59:47 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 12:05:37 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/03 14:08:56 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 10:58:50 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_hashalias.h"
+#include "hashtable.h"
 
-char					*alias_api_get_alias(char *key)
+t_hashdata				*init_t_hashdata(void)
 {
-	t_hashalias		*hash_alias;
+	t_hashdata	*hashdata;
 
-	if ((hash_alias = static_hashalias_action(get)) == NULL)
+	hashdata = ft_memalloc(sizeof(t_hashdata));
+	if (hashdata == NULL)
 		return (NULL);
-	return (hash_api_get_hash_data(key, hash_alias->hd));
+	return (hashdata);
 }

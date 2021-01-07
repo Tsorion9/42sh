@@ -1,31 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alias_api_print_all_aliases.c                      :+:      :+:    :+:   */
+/*   print_hash_table.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/04 23:53:42 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/05 13:40:54 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/04 15:45:14 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/07 11:15:01 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environment.h"
-#include "t_hashalias.h"
+#include "hashtable.h"
 
-void		alias_api_print_alias(char *key)
+void				print_table(t_hashdata *hd)
 {
-	char	*alias;
+	t_hashtable		*table;
+	int				i;
 
-	alias = alias_api_get_alias(key);
-	if (alias)
+	i = 0;
+	while (i < HASH_SIZE)
 	{
-		ft_printf("%s=%s\n", key, alias);
-		free(alias);
+		table = hd->hashtable[i];
+		if (table)
+		{
+			while (table)
+			{
+				ft_printf("%s=%s\n", table->key, table->value);
+				table = table->next;
+			}
+		}
+		i++;
 	}
 }
 
-void		alias_api_print_all_aliases(t_hashalias *hash_alias)
+void				print_hash_table(t_hashdata *hd)
 {
-	print_table(hash_alias->hd);
+	if (hd == NULL)
+		return ;
+	com_api_move_curs_to_end_line();
+	ft_putchar('\n');
+	print_table(hd);
 }

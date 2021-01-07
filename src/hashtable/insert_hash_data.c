@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_api_insert_hash_data.c                        :+:      :+:    :+:   */
+/*   insert_hash_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:33:31 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/04 21:01:31 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/07 11:19:19 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ t_hashtable				*new_hash_table_element(char *key, char *value)
 	if ((new->key = ft_strdup(key)) == NULL
 		|| (new->value = ft_strdup(value)) == NULL)
 	{
+		if (new->key)
+			free(new->key);
+		if (new->value)
+			free(new->value);
 		free(new);
 		return (NULL);
 	}
@@ -75,7 +79,7 @@ int						find_hash_elements(t_hashtable **table,
 	return (EXIT_SUCCESS);
 }
 
-int						hash_api_insert_hash_value(char *key, char *value,
+int						insert_hash_value(char *key, char *value,
 							t_hashdata *hd)
 {
 	int				i;
@@ -84,7 +88,7 @@ int						hash_api_insert_hash_value(char *key, char *value,
 
 	if (hd == NULL)
 		return (EXIT_FAILURE);
-	i = hash_api_hash_function(key);
+	i = hash_function(key);
 	table = NULL;
 	table_prev = find_table_and_table_prev(hd, key, &table, i);
 	if (find_hash_elements(&table, &table_prev, key, value) == EXIT_FAILURE)
