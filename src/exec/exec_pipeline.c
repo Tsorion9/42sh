@@ -118,7 +118,7 @@ void child_actions(t_command *cmd, int read_fd, int write_fd)
 	exit(code); /* In case of builtin */
 }
 
-void parent_actions(pid_t child, int read_fd, int write_fd)
+void parent_actions(int read_fd, int write_fd)
 {
 	if (read_fd != IGNORE_STREAM)
 	{
@@ -141,7 +141,7 @@ pid_t	make_child(t_command *cmd, int read_fd, int write_fd)
 	}
 	else
 	{
-		parent_actions(child, read_fd, write_fd);
+		parent_actions(read_fd, write_fd);
 	}
 	return (child);
 }
