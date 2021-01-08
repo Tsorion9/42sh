@@ -146,7 +146,8 @@ CEXEC = builtin_21shopt.c \
 		insert_alias.c \
 		builtin_unalias.c \
 		delete_alias.c \
-		delete_t_hashalias.c
+		delete_t_hashalias.c \
+		check_flags.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))

@@ -20,7 +20,7 @@ void		print_alias(char *key)
 	alias = search_alias(key);
 	if (alias)
 	{
-		ft_printf("%s=%s\n", key, alias);
+		ft_printf("alias %s='%s'\n", key, alias);
 		free(alias);
 	}
 }
@@ -28,8 +28,24 @@ void		print_alias(char *key)
 void		print_all_aliases(void)
 {
 	t_hashalias		*hash_alias;
+	t_hashtable		*table;
+	int				i;
 
-	if ((hash_alias = static_hashalias_action(get)) == NULL)
+	if ((hash_alias = static_hashalias_action(get)) == NULL
+		|| hash_alias->hd == NULL)
 		return ;
-	print_table(hash_alias->hd);
+	i = 0;
+	while (i < HASH_SIZE)
+	{
+		table = hash_alias->hd->hashtable[i];
+		if (table)
+		{
+			while (table)
+			{
+				ft_printf("alias %s='%s'\n", table->key, table->value);
+				table = table->next;
+			}
+		}
+		i++;
+	}
 }

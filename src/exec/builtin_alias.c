@@ -6,11 +6,26 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 11:34:50 by anton             #+#    #+#             */
-/*   Updated: 2021/01/08 14:43:21 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/09 01:36:54 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_hashalias.h"
+
+void		check_alias(char *arg)
+{
+	char	*alias;
+
+	alias = NULL;
+	if ((alias = search_alias(arg)) == NULL)
+		ft_printf("42sh: alias: %s: not found\n", arg);
+	else
+	{
+		free(alias);
+		alias = NULL;
+		print_alias(arg);
+	}
+}
 
 void		builtin_alias_cycle_args(char **mas_args)
 {
@@ -21,7 +36,7 @@ void		builtin_alias_cycle_args(char **mas_args)
 	{
 		if (mas_args[i] && (mas_args[i + 1] == NULL
 			|| ft_strcmp(mas_args[i + 1], "=")))
-			print_alias(mas_args[i++]);
+			check_alias(mas_args[i++]);
 		else if (mas_args[i] && !ft_strcmp(mas_args[i + 1], "="))
 		{
 			insert_alias(mas_args[i], mas_args[i + 2]);
@@ -41,10 +56,12 @@ int			builtin_alias(char **args, t_env env, int subshell)
 		print_all_aliases();
 	else
 	{
-		if ((mas_args = get_alias_args(args)) != NULL)
-			builtin_alias_cycle_args(mas_args);
-		if (mas_args != NULL)
-			del_array(mas_args);
+		if (check_flags(&args) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		if ((mas_args = get_alias_args(args)) == NULL)
+			return (EXIT_FAILURE);
+		builtin_alias_cycle_args(mas_args);
+		del_array(mas_args);
 	}
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
