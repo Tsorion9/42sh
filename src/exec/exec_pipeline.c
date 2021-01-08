@@ -96,6 +96,7 @@ void child_actions(t_command *cmd, int read_fd, int write_fd)
 {
 	int code;
 	
+	signal(SIGTERM, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGTSTP, SIG_DFL);
 	signal(SIGTTIN, SIG_DFL);
