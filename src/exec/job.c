@@ -175,6 +175,8 @@ char *job_status_tostr(int status)
 	char *tmp;
 	char *res;
 
+	if (WIFCONTINUED(status))
+		return (ft_strdup("Running"));
 	if (WCOREDUMP(status))
 		return (ft_strdup("Core dumped"));
 	if (WIFEXITED(status))
@@ -200,8 +202,6 @@ char *job_status_tostr(int status)
 		free(tmp);
 		return (res);
 	}
-	if (WIFCONTINUED(status))
-		return (ft_strdup("Running"));
 	return (ft_strdup("Unknown status"));
 }
 
