@@ -68,6 +68,8 @@ CHASH = hash_function.c \
 		delete_t_hashdata.c \
 		search_hash_data.c
 
+CHEREDOC = heredoc_routine.c \
+
 CLEXER =    lexer.c \
 			lexer_misk.c \
 			lexerqueue.c \
@@ -157,8 +159,9 @@ LEXER = $(patsubst %,src/lexer/%,$(CLEXER))
 PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 HASH = $(patsubst %,src/hashtable/%,$(CHASH))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
+HEREDOC = $(patsubst %,src/heredoc/%,$(CHEREDOC))
 
-SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEXER) $(PARSER) $(EXEC) $(HASH)
+SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEXER) $(PARSER) $(EXEC) $(HASH) $(HEREDOC)
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

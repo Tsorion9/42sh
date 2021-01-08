@@ -55,14 +55,14 @@ typedef struct	s_redirector
 /*
 ** redirector	-> Данные о перенаправлении
 ** instruction	-> Тип перенаправления ('>', '<&') и т.д.
-** heredoc_del	-> Разделитель в here-документа
+** heredoc_value	-> Разделитель в here-документа
 */
 typedef struct	s_redirect
 {
 	int					need_expand_heredoc;
 	t_redirector		*redirector;
 	t_instruction		instruction;
-	char				*heredoc_del;
+	char				*heredoc_value;
 	struct s_redirect	*next;
 }				t_redirect;
 
