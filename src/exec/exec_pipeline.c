@@ -239,11 +239,11 @@ int wait_fg_job(pid_t job)
 		remove_job(job);
 	}
 
-	/* Put top-level shell to foreground*/
 	if ((j = find_job(job)))
 	{
 		tcgetattr(STDIN_FILENO, &(j->tmodes));
 	}
+	/* Put top-level shell to foreground*/
 	tcsetpgrp(STDIN_FILENO, getpid());
 	set_shell_input_mode();
 	return (0);
