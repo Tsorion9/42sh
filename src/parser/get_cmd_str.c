@@ -184,7 +184,7 @@ char	*andor_to_str(t_andor_list *andor)
 	char *res;
 	char *tmp;
 
-	res = get_cmd_str(andor->pipeline);
+	res = get_pipeline_str(andor->pipeline);
 	while (andor->next)
 	{
 		if (andor->type_andor == ANDOR_AND)
@@ -202,7 +202,7 @@ char	*andor_to_str(t_andor_list *andor)
 		andor = andor->next;
 		if (!andor)
 			break;
-		tmp = get_cmd_str(andor->pipeline);
+		tmp = get_pipeline_str(andor->pipeline);
 		res = ft_strjoin(res, tmp);
 		free(tmp);
 	}

@@ -51,30 +51,39 @@ static int count_args(char **args)
 static void print_single_job(t_job *j, int flag_p, int flag_l)
 {
 	int		status;
+	char	*str_status;
 
-	if (waitpid(j->pgid, &status,  WNOHANG | WUNTRACED | WCONTINUED) == -1) /* Job state changed */
+	if (waitpid(j->pgid, &status,  WNOHANG | WUNTRACED | WCONTINUED) > 0) /* Job state changed */
 	{
-		update_job_state(j->pgid, job_status_to_state(status));
+		update_job_state(j->pgid, job_status_to_state(status), status);
+		str_status = job_status_tostr(j->status);
+	}
+	else
+	{
+		str_status = job_state_tostr(j->state);
 	}
 
 	if (flag_p)
-		ft_printf("%d\n", j->pgid);
-	else if (flag_l)
 	{
-		ft_printf("[%d]%s %d %s    %s\n",
+		ft_printf("%d\n", j->pgid);
+		return ;
+	}
+	if (flag_l)
+	{
+		ft_printf("[%d]%s %d %-20s %s\n",
 					j->jobid,
 					figure_out_priority(j),
 					j->pgid,
-					job_state_tostr(j->state),
+					str_status,
 					j->cmdline);
 	}
 	else
-		ft_printf("[%d]%s %s    %s\n",
+		ft_printf("[%d]%s %-20s %s\n",
 					j->jobid,
 					figure_out_priority(j),
-					job_state_tostr(j->state),
+					str_status,
 					j->cmdline);
-
+	free(str_status);
 }
 
 static void	print_job_table(int flag_l, int flag_p)
@@ -116,7 +125,6 @@ int			builtin_jobs(char **args, t_env env, int subshell)
 {
 	int		flag_l;
 	int		flag_p;
-	int		errors;
 
 	(void)env;
 	(void)subshell;
@@ -125,11 +133,6 @@ int			builtin_jobs(char **args, t_env env, int subshell)
 		return (1);
 	}
 
-	if (errors)
-	{
-		ft_fprintf(STDERR_FILENO, "%s\n", "Usage: jobs [-l|-p] [job_id...]");
-		return (1);
-	}
 	flag_l = 0;
 	flag_p = 0;
 	if (*args && !ft_strcmp(args[0], "-l"))

@@ -165,7 +165,7 @@ int exec_pipline_job(t_pipeline *pipeline)
 		last_child = make_child(pipeline->command, read_fd, fd[1]);
 		pipeline = pipeline->next;
 	}
-	ft_printf("JOBSHELL: Last child: %d\n", last_child);
+
 	/* collect exit status of latest child, do not return until every child dies*/
 	while ((finished = wait(&status)) != -1)
 	{
@@ -174,7 +174,12 @@ int exec_pipline_job(t_pipeline *pipeline)
 			last_child_status = status;
 		}
 	}
-	//TODO: actually child can be stopped
+	if (WIFSIGNALED(last_child_status))
+		return (WTERMSIG(last_child_status));
+	if (WCOREDUMP(last_child_status))
+		return (COREDUMP_EXIT_STATUS);
+	if (WIFSTOPPED(last_child_status))
+		return (WSTOPSIG(last_child_status));
 	return (WEXITSTATUS(last_child_status));
 }
 
@@ -202,34 +207,19 @@ int exec_single_builtin(t_pipeline *pipeline)
 	exec_cmd(pipeline->command);
 }
 
-t_job_state status_to_jobstate(int status)
-{
-	if (WIFSTOPPED(status))
-		return (STOPPED);
-	if (WIFCONTINUED(status))
-		return (BG);
-	else
-		return (DONE);
-}
-
 /*
 ** Wait for foreground job, from top_level_shell
 */
-int wait_for_job(pid_t job)
+int wait_fg_job(pid_t job)
 {
 	int status;
 	t_job *j;
 
 	waitpid(job, &status, WUNTRACED | WCONTINUED);
 
-	ft_printf("%s %d (%d)\n", "DEBUG from top-level shell: wait_for_job(): Jobshell  exits with status: ", status, WEXITSTATUS(status));
 	j = find_job(job);
-	if (!j && top_level_shell) /* Actially always top_level*/
-	{
-		tcsetpgrp(STDIN_FILENO, getpid());
-		return (WEXITSTATUS(status));
-	}
-	j->state = status_to_jobstate(status);
+	j->state = job_status_to_state(status);
+	j->status = status;
 	if (j->state != DONE)
 	{
 		j->priority = next_priority();
@@ -260,10 +250,10 @@ int exec_pipline(t_pipeline *pipeline)
 	job = fork();
 	if (job) /* Top-level shell */
 	{
-		add_job(job, 0, get_cmd_str(pipeline));
+		add_job(job, 0, get_pipeline_str(pipeline));
 		setpgid(job, job);
 		tcsetpgrp(STDIN_FILENO, job);
-		return (wait_for_job(job)); /* Job is in foreground */
+		return (wait_fg_job(job)); /* Job is in foreground */
 	}
 	else /* Job shell */
 	{

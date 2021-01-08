@@ -115,6 +115,17 @@ void remove_job(int pgid)
 	}
 }
 
+char *job_state_tostr(t_job_state s)
+{
+	if (s == FG || s == BACKGROUND) 
+	{
+		return (ft_strdup("Running"));
+	}
+	if (s == STOPPED)
+		return (ft_strdup("Stopped"));
+	return (ft_strdup("Done"));
+}
+
 /*
 ** Find by pgid
 */
@@ -142,10 +153,12 @@ t_job_state	job_status_to_state(int status)
 		return (BACKGROUND);
 	if (WIFEXITED(status))
 		return (DONE);
-	return (DONE);
+	if (!WIFSIGNALED(status))
+		return (DONE);
+	return (FG);
 }
 
-void update_job_state(pid_t job, t_job_state new_state)
+void update_job_state(pid_t job, t_job_state new_state, int status)
 {
 	t_job *j;
 
@@ -153,20 +166,43 @@ void update_job_state(pid_t job, t_job_state new_state)
 	if (j)
 	{
 		j->state = new_state;
+		j->status = status;
 	}
 }
 
-char *job_state_tostr(t_job_state s)
+char *job_status_tostr(int status)
 {
-	if (s == STOPPED)
+	char *tmp;
+	char *res;
+
+	if (WIFEXITED(status))
 	{
-		return ("Stopped");
+		if (WEXITSTATUS(status) == 0)
+			return (ft_strdup("Done"));
+		tmp = ft_itoa(WEXITSTATUS(status));
+		res = ft_strjoin("Done:", tmp);
+		free(tmp);
+		return (res);
 	}
-	if (s == DONE)
+	if (WIFSIGNALED(status))
 	{
-		return ("Done");
+		tmp = ft_itoa(WTERMSIG(status));
+		res = ft_strjoin("Terminated by signal:", tmp);
+		free(tmp);
+		return (res);
 	}
-	return ("Running");
+	if (WCOREDUMP(status))
+		return (ft_strdup("Core dumped"));
+	if (WIFSTOPPED(status))
+	{
+		tmp = ft_itoa(WSTOPSIG(status));
+		res = ft_strjoin("Stopped by signal:", tmp);
+		free(tmp);
+		return (res);
+	}
+	if (WIFCONTINUED(status))
+		return (ft_strdup("Running"));
+	return (ft_strdup("Unknown status"));
 }
 
 static int only_digits(char *s)

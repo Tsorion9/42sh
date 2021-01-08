@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:42:26 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/07 15:19:53 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/08 02:13:50 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ int main(int argc, char **argv, char **envr)
 	signal(SIGWINCH, processing_sigwinch);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
-	if (async_notify_bg)
-	{
-		signal(SIGCHLD, &sigchld_handler);
-	}
+
 	env = init_env(envr);
 	static_hashalias_action(init);
 	init_terminal();

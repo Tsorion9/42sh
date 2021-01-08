@@ -26,54 +26,6 @@ int job_control_enabled;
 int async_notify_bg;
 
 /*
-** Only top-level shell does the stuff
-*/
-void sigchld_handler(int n)
-{
-	pid_t child;
-	int status;
-	t_job *j;
-
-	(void)n;
-	child = waitpid(-1, &status,  WNOHANG | WUNTRACED | WCONTINUED);
-	if (child == -1) /* Probably, handler was called inside wait() */
-	{
-		return ;
-	}
-	j = find_job(child);
-	ft_printf("SIGCHLD from: %d\n", child);
-	if (WIFSTOPPED(status)) // TODO: use job_status_to_state and job_state_tostr
-	{
-		update_job_state(child, STOPPED);
-		update_job_priority(child);
-		ft_printf("%d Stopped\n", child);
-	}
-	else if (WIFCONTINUED(status))
-	{
-		update_job_state(child, BG);
-		update_job_priority(child);
-		ft_printf("%d Continued\n", child);
-	}
-	else if (WIFEXITED(status))
-	{
-		if (j && j->state != FG) /* TODO: figure out why j can be NULL. Somebody removed it??? */
-		{
-			ft_printf("%d Terminated\n", child);
-		}
-		remove_job(child);
-	}
-	else if (WCOREDUMP(status))
-	{
-		ft_printf("%d Core dumped\n", child);
-		remove_job(child);
-	}
-	if (j && j->state == FG)
-	{
-		tcsetpgrp(STDIN_FILENO, getpid());
-	}
-}
-
-/*
 ** TRUE = 0
 ** FALSE = 1
 ** unlike C language, weird shell stuff
