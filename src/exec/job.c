@@ -175,6 +175,8 @@ char *job_status_tostr(int status)
 	char *tmp;
 	char *res;
 
+	if (WCOREDUMP(status))
+		return (ft_strdup("Core dumped"));
 	if (WIFEXITED(status))
 	{
 		if (WEXITSTATUS(status) == 0)
@@ -191,8 +193,6 @@ char *job_status_tostr(int status)
 		free(tmp);
 		return (res);
 	}
-	if (WCOREDUMP(status))
-		return (ft_strdup("Core dumped"));
 	if (WIFSTOPPED(status))
 	{
 		tmp = ft_itoa(WSTOPSIG(status));
