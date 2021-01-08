@@ -1,5 +1,6 @@
 #include  "t_builtin.h"
 #include "job.h"
+#include <signal.h>
 
 int			builtin_bg(char **args, t_env env, int subshell)
 {
