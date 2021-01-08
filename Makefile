@@ -34,15 +34,30 @@ CREADLINE = add_symbol.c \
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
 
-CCOMPLETION = add_files_path_env.c complete_word.c completion.c \
-				create_and_free_com.c cut_word.c ret_matches.c \
-				ret_possible_matches.c return_path.c init_column.c \
-				tab_cut_word.c find_complection_pos.c is_valid_name.c \
-				com_api_print_suggestions.c com_api_move_cursor.c \
-				com_api_get_cursor_position.c com_api_print_tools.c \
-				print_column.c get_size_of_columns.c env_api_get_mas_vars.c \
-				ret_possible_vars.c com_api_print_var_suggestions.c \
-				check_var_word_brace.c ft_strcut.c check_var_word_dollar.c\
+CCOMPLETION = 	add_files_path_env.c \
+				complete_word.c \
+				completion.c \
+				create_and_free_com.c \
+				cut_word.c \
+				ret_matches.c \
+				ret_possible_matches.c \
+				return_path.c \
+				init_column.c \
+				tab_cut_word.c \
+				find_complection_pos.c \
+				is_valid_name.c \
+				com_api_print_suggestions.c \
+				com_api_move_cursor.c \
+				com_api_get_cursor_position.c \
+				com_api_print_tools.c \
+				print_column.c \
+				get_size_of_columns.c \
+				env_api_get_mas_vars.c \
+				ret_possible_vars.c \
+				com_api_print_var_suggestions.c \
+				check_var_word_brace.c \
+				ft_strcut.c \
+				check_var_word_dollar.c \
 				change_full_word_var.c
 
 CHASH = hash_function.c \
@@ -51,7 +66,7 @@ CHASH = hash_function.c \
 		print_hash_table.c \
 		delete_t_hashtable.c \
 		delete_t_hashdata.c \
-		search_hash_data.c \
+		search_hash_data.c
 
 CLEXER =    lexer.c \
 			lexer_misk.c \
@@ -123,6 +138,7 @@ CEXEC = builtin_21shopt.c \
 		parse_cd_args.c \
 		to_array.c \
 		builtin_alias.c \
+		get_alias_args.c \
 		init_t_hashalias.c  \
 		print_all_aliases.c \
 		static_hashalias_action.c \
