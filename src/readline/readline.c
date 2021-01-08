@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexbuyanov <alexbuyanov@student.42.fr>    +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:42 by mphobos           #+#    #+#             */
-/*   Updated: 2020/12/12 23:09:39 by alexbuyanov      ###   ########.fr       */
+/*   Updated: 2021/01/08 14:00:32 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ char		*readline(char *prompt)
 	ft_memdel((void **)&(rp(NULL)->prompt));
 	ft_memdel((void **)&(rp(NULL)->user_in));
 	rp(NULL)->in_readline = 0;
+	tc_clear_till_end();
 	return (ret_user_in);
 }

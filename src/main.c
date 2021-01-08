@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:42:26 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/08 05:09:13 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/08 14:00:22 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int main(int argc, char **argv, char **envr)
 	while (1)
 	{
 		complete_cmd = parser();
-		tc_clear_till_end(); //Wtf is it??
 		set_canon_input_mode(1);
 		exec_complete_cmd(complete_cmd);
 		set_canon_input_mode(0);
