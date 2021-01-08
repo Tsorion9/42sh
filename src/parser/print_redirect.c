@@ -35,8 +35,8 @@ void	print_redirect(t_redirect *redirects)
 		ft_printf("\e[0;35m%24s = %s\n", "instruction",
 			get_instruction(tmp->instruction));
 		print_redirector(tmp->redirector);
-		ft_printf("\e[0;35m%24s = %s\n", "heredoc del",
-			tmp->heredoc_del);
+		ft_printf("\e[0;35m%24s = %s\n", "heredoc value",
+			tmp->heredoc_value);
 		tmp = tmp->next;
 	}
 }
