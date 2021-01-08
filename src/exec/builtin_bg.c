@@ -17,6 +17,7 @@ int			builtin_bg(char **args, t_env env, int subshell)
 		{
 			kill(j->pgid, SIGCONT);
 			j->state = BACKGROUND;
+			update_job_priority(j->pgid);
 			ft_printf("%s\n", j->cmdline);
 		}
 	}
@@ -35,6 +36,7 @@ int			builtin_bg(char **args, t_env env, int subshell)
 		{
 			kill(j->pgid, SIGCONT);
 			j->state = BACKGROUND;
+			update_job_priority(j->pgid);
 			ft_printf("%s\n", j->cmdline);
 		}
 		args++;
