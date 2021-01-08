@@ -70,7 +70,7 @@ static void print_single_job(t_job *j, int flag_p, int flag_l)
 	}
 	if (flag_l)
 	{
-		ft_printf("[%d]%s %d %-26s %s\n",
+		ft_printf("[%d]%s %6d %-26s %s\n",
 					j->jobid,
 					figure_out_priority(j),
 					j->pgid,
