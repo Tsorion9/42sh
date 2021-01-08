@@ -36,18 +36,6 @@ static void remove_done_jobs(void)
 	}
 }
 
-static int count_args(char **args)
-{
-	int i;
-
-	i = 0;
-	while (args && args[i])
-	{
-		i++;
-	}
-	return (i);
-}
-
 static void print_single_job(t_job *j, int flag_p, int flag_l)
 {
 	int		status;
