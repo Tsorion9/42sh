@@ -71,7 +71,7 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 	}
 	else
 	{
-		find_exec(args, env);
+		status = find_exec(args, env);
 	}
 
 	dup2(save_fd[0], STDIN_FILENO);
@@ -80,6 +80,7 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 	close(save_fd[0]);
 	close(save_fd[1]);
 	close(save_fd[2]);
+	return (status);
 }
 
 
