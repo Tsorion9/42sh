@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:45:02 by anton             #+#    #+#             */
-/*   Updated: 2021/01/07 14:32:32 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/08 05:03:32 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "libft.h"
 # include "get_next_line.h"
 
+int						set_shell_input_mode(void);
 void					set_canon_input_mode(int reset);
 void					set_signal(void);
 

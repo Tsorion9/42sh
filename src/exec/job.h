@@ -5,6 +5,7 @@
 #include <sys/wait.h>
 
 # include "libft.h"
+# include "readline.h"
 
 # define NO_JOB 0
 # define AMBIGOUS_JOB 1
@@ -32,7 +33,7 @@ typedef struct	s_job
 {
 	pid_t			pgid;
 	t_job_state		state;
-	//struct termios	tmodes; // TODO
+	struct termios	tmodes;
 	char			*cmdline;
 	int				jobid;
 	int				priority;

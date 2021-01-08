@@ -6,11 +6,25 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:18:27 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 23:41:02 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/08 05:03:07 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
+
+int				set_shell_input_mode(void)
+{
+	struct termios			new_settings;
+	struct termios			g_saved_attribute;
+
+	tcgetattr(STDIN_FILENO, &g_saved_attribute);
+	new_settings = g_saved_attribute;
+	new_settings.c_lflag &= ~ICANON;
+	new_settings.c_lflag &= ~ECHO;
+	new_settings.c_cc[VTIME] = 0;
+	new_settings.c_cc[VMIN] = 1;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &new_settings);
+}
 
 int				ft_putint(int c)
 {

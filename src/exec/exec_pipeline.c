@@ -238,8 +238,12 @@ int wait_fg_job(pid_t job)
 	}
 
 	/* Put top-level shell to foreground*/
-	if(top_level_shell) /* Actially always true */
-		tcsetpgrp(STDIN_FILENO, getpid());
+	if ((j = find_job(job)))
+	{
+		tcgetattr(STDIN_FILENO, &(j->tmodes));
+	}
+	tcsetpgrp(STDIN_FILENO, getpid());
+	set_shell_input_mode();
 	return (0);
 }
 
