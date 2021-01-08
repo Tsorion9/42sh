@@ -6,7 +6,7 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 14:58:27 by jsance            #+#    #+#             */
-/*   Updated: 2021/01/04 22:44:36 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/08 13:40:24 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void			lexer_state_word_esc(t_lexer_state *token)
 {
 	char	*replace_word;
 	char	*input = NULL;
-	int 	gnl;
 	
 	if (CURRENT_CHAR == '\n')
 	{
@@ -59,7 +58,7 @@ void			lexer_state_word_esc(t_lexer_state *token)
 			input = readline(get_prompt(PS2));
 		else
 		{
-			gnl = get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
+			get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
 			input = ft_strdup(rp(NULL)->user_in);
 		}
 		ft_strdel(&(token->value));
@@ -129,7 +128,6 @@ void	handler(int signal)
 void			lexer_state_word(t_lexer_state *token)
 {
 	char *input = NULL;
-	size_t linecap = 0;
 	
 	lexer_set_flags(token);
 	if (CURRENT_CHAR == '\\' && (token->flags & QUOTE_STATE) == 0)

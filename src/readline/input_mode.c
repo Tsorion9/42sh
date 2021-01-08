@@ -6,7 +6,7 @@
 /*   By: anton <a@b>                                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 20:18:27 by anton             #+#    #+#             */
-/*   Updated: 2021/01/08 05:03:07 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/08 13:36:55 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int				set_shell_input_mode(void)
 	new_settings.c_cc[VTIME] = 0;
 	new_settings.c_cc[VMIN] = 1;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &new_settings);
+	return (1);
 }
 
 int				ft_putint(int c)

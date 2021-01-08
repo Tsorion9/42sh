@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <sys/wait.h>
 
+#include "inc21sh.h"
 #include "libft.h"
 #include "exec.h"
 #include "t_builtin.h"
@@ -214,7 +215,7 @@ int is_single_builtin(t_pipeline *pipeline)
 
 int exec_single_builtin(t_pipeline *pipeline)
 {
-	exec_cmd(pipeline->command);
+	return (exec_cmd(pipeline->command));
 }
 
 /*

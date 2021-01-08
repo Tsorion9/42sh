@@ -6,7 +6,7 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/02 12:03:43 by jsance            #+#    #+#             */
-/*   Updated: 2021/01/04 22:40:00 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/08 13:39:30 by anton            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,6 @@ t_token			*get_token_to_parser(t_lexer_state *token)
 t_token			*lexer_scanner(t_lexer_state *token)
 {
 	t_token		*fresh;
-	size_t		linecap = 0;
-	ssize_t		len;
-	int			gnl;
 
 	token->tk_type = ERROR;
 	if (token->value == NULL)
@@ -108,7 +105,7 @@ t_token			*lexer_scanner(t_lexer_state *token)
 		}
 		else
 		{
-			gnl = get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
+			get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
 			token->value = ft_strdup(rp(NULL)->user_in);
 		}
 //		ft_putchar('\n');
