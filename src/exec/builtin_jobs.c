@@ -70,7 +70,7 @@ static void print_single_job(t_job *j, int flag_p, int flag_l)
 	}
 	if (flag_l)
 	{
-		ft_printf("[%d]%s %d %-20s %s\n",
+		ft_printf("[%d]%s %d %-26s %s\n",
 					j->jobid,
 					figure_out_priority(j),
 					j->pgid,
@@ -78,7 +78,7 @@ static void print_single_job(t_job *j, int flag_p, int flag_l)
 					j->cmdline);
 	}
 	else
-		ft_printf("[%d]%s %-20s %s\n",
+		ft_printf("[%d]%s %-26s %s\n",
 					j->jobid,
 					figure_out_priority(j),
 					str_status,
