@@ -226,7 +226,7 @@ int wait_fg_job(pid_t job)
 	int status;
 	t_job *j;
 
-	waitpid(job, &status, WUNTRACED | WCONTINUED);
+	waitpid(job, &status, WUNTRACED);
 
 	j = find_job(job);
 	j->state = job_status_to_state(status);
