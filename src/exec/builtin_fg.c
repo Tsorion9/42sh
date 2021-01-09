@@ -26,8 +26,7 @@ int			builtin_fg(char **args, t_env env, int subshell)
 		ft_printf("%s\n", j->cmdline);
 		tcsetattr(STDIN_FILENO, TCSANOW, &(j->tmodes));
 		tcsetpgrp(STDIN_FILENO, j->pgid);
-		if (j->state == STOPPED)
-			kill(j->pgid, SIGCONT);
+		kill(-(j->pgid), SIGCONT);
 		j->state = FG;
 		wait_fg_job(j->pgid);
 	}
