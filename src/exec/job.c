@@ -67,6 +67,7 @@ void add_job(int pgid, int background, char *cmd_line)
 	new->jobid = id++;
 	new->priority = 0;
 	new->cmdline = cmd_line;
+	tcgetattr(STDIN_FILENO, &(new->tmodes));
 	if (new->state == BACKGROUND)
 	{
 		new->priority = next_priority();
@@ -155,7 +156,7 @@ t_job_state	job_status_to_state(int status)
 		return (DONE);
 	if (WCOREDUMP(status))
 		return (DONE);
-	if (!WIFSIGNALED(status))
+	if (WIFSIGNALED(status))
 		return (DONE);
 	return (FG);
 }
