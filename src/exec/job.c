@@ -153,6 +153,8 @@ t_job_state	job_status_to_state(int status)
 		return (BACKGROUND);
 	if (WIFEXITED(status))
 		return (DONE);
+	if (WCOREDUMP(status))
+		return (DONE);
 	if (!WIFSIGNALED(status))
 		return (DONE);
 	return (FG);
