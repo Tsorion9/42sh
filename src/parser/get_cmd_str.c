@@ -15,7 +15,6 @@ char	*words_str(t_word_list *words)
 	{
 		len += ft_strlen(tmp->word);
 		word = ft_strdup(tmp->word);
-		tmp_str = ft_strnew(len);
 		tmp_str = ft_strjoinfreefree(str_words, word);
 		if (tmp->next)
 			tmp_str = ft_strjoinfreefree(tmp_str, ft_strdup(" "));
