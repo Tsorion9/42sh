@@ -74,6 +74,7 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 	{
 		status = find_exec(args, env);
 	}
+	del_array(args);
 
 	dup2(save_fd[0], STDIN_FILENO);
 	dup2(save_fd[1], STDOUT_FILENO);
