@@ -172,7 +172,7 @@ int exec_pipline_job(t_pipeline *pipeline)
 	}
 
 	/* collect exit status of latest child, do not return until every child dies*/
-	while ((finished = wait(&status)) != -1)
+	while ((finished = waitpid(-1, &status, WUNTRACED | WCONTINUED)) != -1)
 	{
 		if (finished == last_child)
 		{
