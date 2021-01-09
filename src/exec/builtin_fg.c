@@ -10,10 +10,8 @@ int			builtin_fg(char **args, t_env env, int subshell)
 	(void)env;
 	(void)subshell;
 	error = -1;
-	if (!*args)
-	{
-		j = find_job_by_pattern(*args ? *args : "%%", &error);
-	}
+
+	j = find_job_by_pattern(*args ? *args : "%%", &error);
 	if (!j)
 	{
 		if (error == NO_JOB)
