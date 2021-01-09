@@ -6,18 +6,18 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/09 01:36:41 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/09 01:42:33 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/09 20:24:13 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_hashalias.h"
 
-int			check_valid_symbol(char c, char *key, char *copy, int i)
+int			check_valid_symbol(char *key, char *copy, int i)
 {
-	if (c == '\'' || c == '"' ||
-		(c == '\\' && c == '\0'))
+	if (key[i] == '\'' || key[i] == '"' ||
+		(key[i] == '\\' && key[i + 1] == '\0'))
 		delete_symbol_in_str(key, i);
-	else if (c == '\\' && c != '\0')
+	else if (key[i] == '\\' && key[i + 1] != '\0')
 	{
 		ft_printf("alias: '%s': invalid alias name\n", copy);
 		return (EXIT_FAILURE);

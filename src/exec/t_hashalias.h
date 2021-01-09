@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/09 01:42:53 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/09 20:23:33 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ void					insert_alias(char *key, char *value);
 void					print_alias(char *key);
 void					print_all_aliases(void);
 int						check_flags(char ***args);
-int						check_valid_symbol(char c, char *key,
-							char *copy, int i);
+int						check_valid_symbol(char *key, char *copy, int i);
 
 /*
 ** API FOR JSANCE
