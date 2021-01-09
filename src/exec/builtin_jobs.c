@@ -82,7 +82,7 @@ static void	print_job_table(int flag_l, int flag_p)
 	l = jobs;
 	while (l)
 	{
-		j = (t_job *)l->content;
+		j = (t_job *)(l->content);
 		print_single_job(j, flag_p, flag_l);
 		l = l->next;
 	}
