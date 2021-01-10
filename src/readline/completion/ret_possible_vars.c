@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 17:14:51 by alexbuyanov       #+#    #+#             */
-/*   Updated: 2021/01/07 13:26:27 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/10 16:57:35 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,17 @@ t_completion	*ret_possible_vars(void)
 	t_completion	*com_lst;
 
 	com_lst = NULL;
+	memory = 1;
 	if (!(new_env = to_array(env, &memory))
 		|| ((mas_vars = env_api_get_mas_vars(new_env)) == NULL))
 		return (NULL);
-	memory = 0;
-	while (mas_vars[memory])
-		add_new_completion(&com_lst, mas_vars[memory++]);
-	del_array(new_env);
-	del_array(mas_vars);
+	if (memory == 1)
+	{
+		memory = 0;
+		while (mas_vars[memory])
+			add_new_completion(&com_lst, mas_vars[memory++]);
+		del_array(new_env);
+		del_array(mas_vars);
+	}
 	return (com_lst);
 }

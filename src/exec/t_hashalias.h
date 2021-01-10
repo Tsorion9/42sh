@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/09 20:23:33 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/10 18:19:54 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 # include "environment.h"
 # include "hashtable.h"
 
-typedef enum	e_env_action
+typedef enum	e_alias_action
 {
 	init,
 	get,
 	del
-}				t_env_action;
+}				t_alias_action;
 
 /*
 ** Hashtable for builtins Alias/Unalias
@@ -42,13 +42,18 @@ typedef struct			s_hashalias
 
 t_hashalias				*static_hashalias_action(int action);
 t_hashalias				*init_t_hashalias(void);
-char					**get_alias_args(char **args);
+char					**get_alias_args(char **args,
+							void (*invalid_print)(char *arg));
 void					delete_t_hashalias(void);
 void					insert_alias(char *key, char *value);
 void					print_alias(char *key);
 void					print_all_aliases(void);
-int						check_flags(char ***args);
-int						check_valid_symbol(char *key, char *copy, int i);
+void					invalid_alias_name(char *copy);
+void					invalid_alias_option(char *arg);
+int						check_flags(char ***args, void (*print)(void),
+							void (*invalid_print)(char *arg));
+int						check_valid_symbol(char *key, char *copy, int i,
+							void (*print)(char *copy));
 
 /*
 ** API FOR JSANCE

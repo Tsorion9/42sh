@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:33:31 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/07 11:19:19 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/10 17:07:53 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int						insert_hash_value(char *key, char *value,
 
 	if (hd == NULL)
 		return (EXIT_FAILURE);
-	i = hash_function(key);
+	if ((i = hash_function(key)) == -1)
+		return (EXIT_FAILURE);
 	table = NULL;
 	table_prev = find_table_and_table_prev(hd, key, &table, i);
 	if (find_hash_elements(&table, &table_prev, key, value) == EXIT_FAILURE)

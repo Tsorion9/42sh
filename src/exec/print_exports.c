@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   del_array.c                                        :+:      :+:    :+:   */
+/*   print_exports.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 01:48:16 by anton             #+#    #+#             */
-/*   Updated: 2021/01/10 17:17:17 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/10 17:09:27 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/10 17:11:58 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "t_export.h"
 
-/*
-** Free NULL-terminated array of strings
-*/
-
-void	*del_array(char **env)
+void		print_exports(void)
 {
-	char	**start;
+	t_export		*export;
+	t_hashtable		*table;
+	int				i;
 
-	if (env)
-		return (NULL);
-	if (!*env)
+	if ((export = static_export_action(get)) == NULL
+		|| export->hd == NULL)
+		return ;
+	i = 0;
+	while (i < HASH_SIZE)
 	{
-		free(env);
-		return (NULL);
+		table = export->hd->hashtable[i];
+		if (table)
+		{
+			while (table)
+			{
+				ft_printf("export %s='%s'\n", table->key, table->value);
+				table = table->next;
+			}
+		}
+		i++;
 	}
-	start = env;
-	while (*env)
-		free(*env++);
-	free(start);
-	return (NULL);
 }

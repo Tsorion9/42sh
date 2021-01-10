@@ -143,13 +143,20 @@ CEXEC = builtin_21shopt.c \
 		get_alias_args.c \
 		init_t_hashalias.c  \
 		print_all_aliases.c \
+		print_invalid_alias.c \
 		static_hashalias_action.c \
 		search_alias.c \
 		insert_alias.c \
 		builtin_unalias.c \
 		delete_alias.c \
 		delete_t_hashalias.c \
-		check_flags.c
+		check_flags.c \
+		static_export_action.c \
+		delete_t_export.c \
+		copy_env_to_exports.c \
+		insert_export.c \
+		print_exports.c \
+		print_invalid_export.c \
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))

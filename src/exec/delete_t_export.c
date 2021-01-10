@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   del_array.c                                        :+:      :+:    :+:   */
+/*   delete_t_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 01:48:16 by anton             #+#    #+#             */
-/*   Updated: 2021/01/10 17:17:17 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/10 15:14:29 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/10 15:21:40 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "t_export.h"
 
-/*
-** Free NULL-terminated array of strings
-*/
-
-void	*del_array(char **env)
+void					delete_t_export(void)
 {
-	char	**start;
+    t_export		*export;
 
-	if (env)
-		return (NULL);
-	if (!*env)
-	{
-		free(env);
-		return (NULL);
-	}
-	start = env;
-	while (*env)
-		free(*env++);
-	free(start);
-	return (NULL);
+	if ((export = static_export_action(get)) == NULL)
+		return ;
+    if (export->hd != NULL)
+        delete_t_hashdata((&(export->hd)));
+    free(export);
 }

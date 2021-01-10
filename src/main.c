@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:42:26 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/08 14:00:22 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/10 17:07:20 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include "inc21sh.h"
 #include "environment.h"
 #include "exec.h"
-# include "t_hashalias.h"
+#include "t_hashalias.h"
+#include "t_export.h"
 
 t_env env;
 
@@ -37,6 +38,7 @@ int main(int argc, char **argv, char **envr)
 	signal(SIGTSTP, SIG_IGN);
 
 	env = init_env(envr);
+	static_export_action(init);
 	static_hashalias_action(init);
 	init_terminal();
 	init_prompt();

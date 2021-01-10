@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   del_array.c                                        :+:      :+:    :+:   */
+/*   print_invalid_export.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/23 01:48:16 by anton             #+#    #+#             */
-/*   Updated: 2021/01/10 17:17:17 by nriker           ###   ########.fr       */
+/*   Created: 2021/01/10 18:08:50 by nriker            #+#    #+#             */
+/*   Updated: 2021/01/10 18:09:58 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "t_export.h"
 
-/*
-** Free NULL-terminated array of strings
-*/
-
-void	*del_array(char **env)
+void	invalid_export_option(char *arg)
 {
-	char	**start;
+	ft_fprintf(2, "42sh: export: %s: invalid option\n", arg);
+	ft_fprintf(2, "export: usage: export [-pn] [name[=value] ... ]\n");
+}
 
-	if (env)
-		return (NULL);
-	if (!*env)
-	{
-		free(env);
-		return (NULL);
-	}
-	start = env;
-	while (*env)
-		free(*env++);
-	free(start);
-	return (NULL);
+void	invalid_export_name(char *copy)
+{
+	ft_fprintf(2, "export: '%s': invalid export name\n", copy);
 }

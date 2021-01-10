@@ -6,13 +6,13 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:41:48 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/09 20:21:24 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/10 18:29:40 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_hashalias.h"
 
-int			create_key(char *key)
+int			create_key(char *key, void (*invalid_print)(char *arg))
 {
 	int		i;
 	char	*copy;
@@ -20,14 +20,14 @@ int			create_key(char *key)
 	i = 0;
 	if (ft_strchr(key, '/') != NULL)
 	{
-		ft_printf("alias: '%s': invalid alias name\n", key);
+		invalid_print(key);
 		return (EXIT_FAILURE);
 	}
 	if ((copy = ft_strdup(key)) == NULL)
 		return (EXIT_FAILURE);
 	while (key[i])
 	{
-		if (check_valid_symbol(key, copy, i) == EXIT_FAILURE)
+		if (check_valid_symbol(key, copy, i, invalid_alias_option) == EXIT_FAILURE)
 		{
 			free(copy);
 			return (EXIT_FAILURE);
@@ -54,7 +54,8 @@ void		create_value(char *key)
 	}
 }
 
-int			get_key_and_value(char ***mas_args, char *args, int *i)
+int			get_key_and_value(char ***mas_args, char *args, int *i,
+				void (*invalid_print)(char *arg))
 {
 	(*mas_args)[(*i)] = ft_strcut(args, '=');
 	(*mas_args)[(*i) + 1] = ft_strdup("=");
@@ -62,7 +63,7 @@ int			get_key_and_value(char ***mas_args, char *args, int *i)
 		(*mas_args)[(*i) + 2] = ft_strcut(ft_strchr(args, '=') + 1, '\0');
 	else
 		(*mas_args)[(*i) + 2] = ft_strdup("''");
-	if (create_key((*mas_args)[(*i)]) == EXIT_FAILURE)
+	if (create_key((*mas_args)[(*i)], invalid_print) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	create_value((*mas_args)[(*i) + 2]);
 	(*i) += 3;
@@ -85,7 +86,7 @@ int			get_size_of_mas_args(char **args)
 	return (size);
 }
 
-char		**get_alias_args(char **args)
+char		**get_alias_args(char **args, void (*invalid_print)(char *arg))
 {
 	char	**mas_args;
 	int		i;
@@ -103,7 +104,7 @@ char		**get_alias_args(char **args)
 			i++;
 		}
 		else if (ft_strlen(ft_strchr(*args, '=')) != ft_strlen(*args)
-			&& (get_key_and_value(&mas_args, *args, &i) == EXIT_FAILURE))
+			&& (get_key_and_value(&mas_args, *args, &i, invalid_print) == EXIT_FAILURE))
 		{
 			if (mas_args)
 				del_array(mas_args);
