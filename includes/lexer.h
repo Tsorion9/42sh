@@ -39,6 +39,7 @@
 # define IS_HEREDOC			(1 << 4)
 # define ISOPEN_STATE		(1 << 5)
 # define ISCLOSED_STATE		(1 << 5)
+# define DOLLAR_STATE		(1 << 6)
 
 /*
 **----------------------------------lexer--------------------------------------
