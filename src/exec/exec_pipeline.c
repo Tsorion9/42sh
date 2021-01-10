@@ -2,7 +2,9 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <sys/wait.h>
-
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include "inc21sh.h"
 #include "libft.h"
 #include "exec.h"
@@ -43,11 +45,97 @@ char **collect_argwords(t_word_list *words)
 	return (res);
 }
 
-void make_assignments_redirections(t_simple_cmd *cmd)
+void make_heredoc_redirection(t_redirect *redirect)
 {
-	(void)cmd;
-	//TODO
-	return ;
+	int pipefd[2];
+	pid_t child;
+
+	pipe(pipefd);
+	dup2(pipefd[0], redirect->redirector->fd);
+	close(pipefd[0]);
+	child = fork();
+	if (child)
+	{
+		close(pipefd[1]);
+		return ;
+	}
+	else
+	{
+		close(redirect->redirector->fd);
+		ft_fprintf(pipefd[1], "%s", redirect->heredoc_value);
+		exit(0);
+	}
+}
+
+int make_redirection(t_redirect *redirect)
+{
+	int fd;
+
+	if (redirect->instruction == INPUT_DIRECTION)
+	{
+		fd = open(redirect->redirector->filename, O_RDONLY);
+		if (fd == -1)
+		{
+			ft_fprintf(STDERR_FILENO, "%s %s\n", "Could not open file:", redirect->redirector->filename);
+			return (1);
+		}
+		if (dup2(fd, redirect->redirector->fd) == -1)
+			perror("dup2");
+		close(fd);
+	}
+	if (redirect->instruction == OUTPUT_DIRECTION)
+	{
+		fd = open(redirect->redirector->filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		if (fd == -1)
+		{
+			ft_fprintf(STDERR_FILENO, "%s %s\n", "Could not open file:", redirect->redirector->filename);
+			return (1);
+		}
+		dup2(fd, redirect->redirector->fd);
+		close(fd);
+	}
+	if (redirect->instruction == DOUBLE_OUTPUT_DIRECTION)
+	{
+		fd = open(redirect->redirector->filename, O_WRONLY | O_CREAT | O_APPEND, 0666);
+		if (fd == -1)
+		{
+			ft_fprintf(STDERR_FILENO, "%s %s\n", "Could not open file:", redirect->redirector->filename);
+			return (1);
+		}
+		dup2(fd, redirect->redirector->fd);
+		close(fd);
+	}
+	if (redirect->instruction == DOUBLE_INPUT_DERECTION) /* M.b heredoc?*/
+	{
+		make_heredoc_redirection(redirect);
+	}
+	if (redirect->instruction == DUPLICAT_OUTPUT || redirect->instruction ==  DUPLICAT_INPUT)
+	{
+		if (!ft_strcmp(redirect->redirector->filename, "-"))
+		{
+			close(redirect->redirector->fd);
+			return (1);
+		}
+		//ft_printf("%d -> %d\n", redirect->redirector->fd, ft_atoi(redirect->redirector->filename));
+		dup2(ft_atoi(redirect->redirector->filename), redirect->redirector->fd); // TODO: read/write 0 bytes to check if fd is valid
+		//close(redirect->redirector->fd);
+	}
+	return (0);
+}
+
+int make_assignments_redirections(t_simple_cmd *cmd)
+{
+	t_redirect *redirect;
+
+	//TODO: also make assignments here
+	redirect = cmd->redirects;
+	while (redirect)
+	{
+		if (make_redirection(redirect) != 0)
+			return (1);
+		redirect = redirect->next;
+	}
+	return (0);
 }
 
 int exec_simple_cmd(t_simple_cmd *cmd)
@@ -62,7 +150,16 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 	save_fd[1] = dup(STDOUT_FILENO);
 	save_fd[2] = dup(STDERR_FILENO);
 
-	make_assignments_redirections(cmd);
+	if (make_assignments_redirections(cmd) != 0)
+	{
+		dup2(save_fd[0], STDIN_FILENO);
+		dup2(save_fd[1], STDOUT_FILENO);
+		dup2(save_fd[2], STDERR_FILENO);
+		close(save_fd[0]);
+		close(save_fd[1]);
+		close(save_fd[2]);
+		return (1);
+	}
 	words = cmd->words;
 	args = collect_argwords(words);
 	builtin = get_builtin(words->word);
