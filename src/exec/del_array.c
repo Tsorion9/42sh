@@ -20,8 +20,6 @@ void	*del_array(char **env)
 {
 	char	**start;
 
-	if (env)
-		return (NULL);
 	if (!*env)
 	{
 		free(env);

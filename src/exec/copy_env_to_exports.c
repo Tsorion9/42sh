@@ -35,7 +35,6 @@ void		copy_env_to_exports(void)
 	value = NULL;
 	memory_ok = 0;
 	i = 0;
-	mas_env = to_array(env, &memory_ok);
 	if ((mas_env = to_array(env, &memory_ok)) == NULL || !memory_ok)
 		return ;
 	while (mas_env[i])
