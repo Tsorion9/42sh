@@ -157,6 +157,8 @@ CEXEC = builtin_21shopt.c \
 		insert_export.c \
 		print_exports.c \
 		print_invalid_export.c \
+		delete_export.c \
+		search_export.c \
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))

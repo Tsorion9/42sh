@@ -6,11 +6,23 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 17:09:27 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 17:11:58 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/10 23:19:43 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_export.h"
+
+void		print_export(char *key)
+{
+	char	*export;
+
+	export = search_export(key);
+	if (export)
+	{
+		ft_printf("export %s=\"%s\"\n", key, export);
+		free(export);
+	}
+}
 
 void		print_exports(void)
 {
@@ -29,7 +41,7 @@ void		print_exports(void)
 		{
 			while (table)
 			{
-				ft_printf("export %s='%s'\n", table->key, table->value);
+				ft_printf("export %s=\"%s\"\n", table->key, table->value);
 				table = table->next;
 			}
 		}

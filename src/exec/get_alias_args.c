@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:41:48 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 18:29:40 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/10 23:45:50 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			create_key(char *key, void (*invalid_print)(char *arg))
 		return (EXIT_FAILURE);
 	while (key[i])
 	{
-		if (check_valid_symbol(key, copy, i, invalid_alias_option) == EXIT_FAILURE)
+		if (check_valid_symbol(key, copy, i, invalid_print) == EXIT_FAILURE)
 		{
 			free(copy);
 			return (EXIT_FAILURE);

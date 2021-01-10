@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 11:34:50 by anton             #+#    #+#             */
-/*   Updated: 2021/01/10 18:24:51 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/10 22:31:46 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int			builtin_alias(char **args, t_env env, int subshell)
 		print_all_aliases();
 	else
 	{
-		if (check_flags(&args, print_all_aliases, invalid_alias_option) == EXIT_FAILURE)
+		if (check_flag_p(&args, print_all_aliases, invalid_alias_option) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		if ((mas_args = get_alias_args(args,invalid_alias_name)) == NULL)
 			return (EXIT_FAILURE);

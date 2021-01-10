@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 14:58:58 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 18:11:30 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/11 00:04:57 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,19 @@
 typedef struct			s_export
 {
 	t_hashdata			*hd;
+	int					flag_n;
 }						t_export;
 
 t_export				*static_export_action(int action);
 void					copy_env_to_exports(void);
+int						delete_export(char *key);
 void					delete_t_export(void);
 void					insert_export(char *key, char *value);
 char					*search_export(char *key);
-void					print_export(void);
+void					print_export(char *key);
 void					print_exports(void);
-char					**exports_to_array(void);
+int						check_flag_pn(char ***args, void	(*print)(void),
+							void (*invalid_print)(char *arg));
 void					invalid_export_option(char *arg);
 void					invalid_export_name(char *copy);
 

@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 18:19:54 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/10 22:53:51 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void					print_alias(char *key);
 void					print_all_aliases(void);
 void					invalid_alias_name(char *copy);
 void					invalid_alias_option(char *arg);
-int						check_flags(char ***args, void (*print)(void),
+int						check_flag_p(char ***args, void (*print)(void),
 							void (*invalid_print)(char *arg));
 int						check_valid_symbol(char *key, char *copy, int i,
 							void (*print)(char *copy));
