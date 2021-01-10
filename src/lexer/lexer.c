@@ -108,10 +108,6 @@ t_token			*lexer_scanner(t_lexer_state *token)
 			get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
 			token->value = ft_strdup(rp(NULL)->user_in);
 		}
-//		ft_putchar('\n');
-//		ft_putstr("Readline: ");
-//		len = getline(&token->value, &linecap, stdin);
-//		token->value[len] = '\0';
 	}
 	while (ft_isblank(CURRENT_CHAR))
 		(token->str_index)++;
