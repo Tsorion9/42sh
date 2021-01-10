@@ -72,10 +72,14 @@ void			lexer_state_word_esc(t_lexer_state *token)
 /*
 ** Token delimiters
 */
-int				is_shellspec(char c)
+int				is_shellspec(char c, t_lexer_state *token)
 {
-	if (c == '\n' || (ft_strchr("|><;&()", c) != NULL))
+	if (c == '\n' || (ft_strchr("|><;&", c) != NULL))
 		return (FUNC_SUCCESS);
+	if (!(token->flags & DOLLAR_STATE) && ft_strchr("()", c) != NULL)
+		return (FUNC_SUCCESS);
+	if (token->head == NULL && (token->flags & DOLLAR_STATE))
+		token->flags &= (token->flags ^ DOLLAR_STATE);
 	return (FUNC_FAIL);
 }
 
@@ -102,9 +106,12 @@ void			identify_candidates(t_lexer_state *token)
 	}
 	else if (CURRENT_CHAR == '(')
 	{
-		// TODO implement checking arifmetic expansion
+		token->flags |= DOLLAR_STATE;
 		push(token, ')');
-		lexer_change_state(token, &lexer_state_word);
+		if (token->value[token->str_index + 1] == '(')
+			lexer_change_state(token, &identify_candidates);
+		else
+			lexer_change_state(token, &lexer_state_word);
 	}
 	else
 		lexer_state_word(token);
@@ -132,8 +139,8 @@ void			lexer_state_word(t_lexer_state *token)
 	lexer_set_flags(token);
 	if (CURRENT_CHAR == '\\' && (token->flags & QUOTE_STATE) == 0)
 		lexer_change_state(token, &lexer_state_word_esc);
-	else if (is_shellspec(CURRENT_CHAR) == 0 && ft_isblank(CURRENT_CHAR) == 0
-			&& CURRENT_CHAR != '\0' && CURRENT_CHAR != '$')
+	else if (!is_shellspec(CURRENT_CHAR, token) && !ft_isblank(CURRENT_CHAR)
+						&& CURRENT_CHAR != '\0' && CURRENT_CHAR != '$')
 		lexer_change_state(token, &lexer_state_word);
 	else if (((token->flags & QUOTE_STATE) || (token->flags & DQUOTE_STATE))
 			&& CURRENT_CHAR != '\0')
@@ -145,9 +152,13 @@ void			lexer_state_word(t_lexer_state *token)
 			This place is responsible for unclosed sentences ', ", ${, $(, $((
 		*/
 		inside_readline = 1;
-		input = readline(get_prompt(PS2));
-//		ft_putstr("> ");
-//		getline(&input, &linecap, stdin);
+		if (isatty(STDIN_FILENO))
+			input = readline(get_prompt(PS2));
+		else
+		{
+			get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
+			input = ft_strdup(rp(NULL)->user_in);
+		}
 		inside_readline = 0;
 		if (g_hasSiganl)
 		{
@@ -162,9 +173,9 @@ void			lexer_state_word(t_lexer_state *token)
 			lexer_state_word(token);
 	}
 	else if (CURRENT_CHAR == '$' && (token->flags & QUOTE_STATE) == 0)
-	{
 		lexer_change_state(token, &identify_candidates);
-	}
+	else if ((token->flags & ISOPEN_STATE))
+		lexer_change_state(token, &lexer_state_word);
 	else
 		token->tk_type = WORD;
 }
