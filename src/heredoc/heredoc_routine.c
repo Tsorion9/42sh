@@ -1,5 +1,6 @@
 #include "heredoc.h"
 #include "readline.h"
+#include "environment.h"
 
 char 		*read_heredoc_value(char *delimiter)
 {
@@ -9,7 +10,7 @@ char 		*read_heredoc_value(char *delimiter)
 	value = NULL;
 	while (1)
 	{
-		line = readline("heredoc: ");
+		line = readline(ft_getenv(env, "PS2"));
 		if (ft_strequ(line, delimiter))
 		{
 			ft_strdel(&line);
