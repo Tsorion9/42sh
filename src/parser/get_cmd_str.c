@@ -156,6 +156,23 @@ char 	*brace_group_cmd_str(t_brace_group *brace_group)
 	return (res);
 }
 
+void 	join_pipeline(char **res_cmd, char **cmd_str, t_pipeline *next)
+{
+	if (*res_cmd == NULL)
+	{
+		if (next != NULL)
+			*res_cmd = ft_strjoinfreefree(*cmd_str, ft_strdup(" | "));
+		else
+			*res_cmd = *cmd_str;
+	}
+	else
+	{
+		*res_cmd = ft_strjoinfreefree(*res_cmd, *cmd_str);
+		if (next != NULL)
+			*res_cmd = ft_strjoinfreefree(*res_cmd, ft_strdup(" | "));
+	}
+}
+
 /*
 ** Return malloc string representation of pipeline
 ** Input: ls >file 123>along arg1 arg2
@@ -165,17 +182,25 @@ char 	*brace_group_cmd_str(t_brace_group *brace_group)
 char	*get_pipeline_str(t_pipeline *pipeline)
 {
 	char		*cmd_str;
+	char 		*res_cmd_str;
 	t_command	*cmd;
+	t_pipeline	*tmp;
 
-	cmd_str = NULL;
-	cmd = pipeline->command;
-	if (cmd->cmd_type == SIMPLE_CMD)
-		cmd_str = simple_cmd_str(cmd->simple_cmd);
-	else if (cmd->cmd_type == SUBSHELL)
-		cmd_str = subshell_cmd_str(cmd->subshell);
-	else if (cmd->cmd_type == BRACE_GROUP)
-		cmd_str = brace_group_cmd_str(cmd->brace_group);
-	return (cmd_str);
+	res_cmd_str = NULL;
+	tmp = pipeline;
+	while (tmp)
+	{
+		cmd = tmp->command;
+		if (cmd->cmd_type == SIMPLE_CMD)
+			cmd_str = simple_cmd_str(cmd->simple_cmd);
+		else if (cmd->cmd_type == SUBSHELL)
+			cmd_str = subshell_cmd_str(cmd->subshell);
+		else if (cmd->cmd_type == BRACE_GROUP)
+			cmd_str = brace_group_cmd_str(cmd->brace_group);
+		join_pipeline(&res_cmd_str, &cmd_str, tmp->next);
+		tmp = tmp->next;
+	}
+	return (res_cmd_str);
 }
 
 char	*andor_to_str(t_andor_list *andor)
