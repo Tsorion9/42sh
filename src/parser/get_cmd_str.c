@@ -59,7 +59,7 @@ char	*redirects_str(t_redirect *redirects)
 		instruction = get_instruction(tmp->instruction);
 		str_redir = ft_strjoinfreefree(
 						str_redir,
-						join_redirects_parts(fd, filename ? filename : "Some heredoc =)", instruction));
+						join_redirects_parts(fd, filename, instruction));
 		if (tmp->next)
 			str_redir = ft_strjoinfreefree(str_redir, ft_strdup(" "));
 		tmp = tmp->next;
