@@ -1,6 +1,6 @@
 #include "parser.h"
 
-// Используется не только в этой функции, вынести в отдельный файл
+// TODO Используется не только в этой функции, вынести в отдельный файл
 void    set_instruction(t_redirect **redirect, t_tokens type)
 {
     if (type == GREAT)
@@ -17,6 +17,13 @@ void    set_instruction(t_redirect **redirect, t_tokens type)
         (*redirect)->instruction = DUPLICAT_INPUT;
     else
         (*redirect)->instruction = UNKNOWN_REDIRECT;
+    if (need_set_default_fd(IS_NEED_DEFAULT_FD))
+    {
+        if (type == GREAT || type == DGREAT || type == GREATAND)
+            (*redirect)->redirector->fd = STDOUT_FILENO;
+        else if (type == LESS || type == DLESS || type == LESSAND)
+            (*redirect)->redirector->fd = STDIN_FILENO;
+    }
 }
 // Check redirect for io_file
 int     is_redirect_io_file(t_tokens type)

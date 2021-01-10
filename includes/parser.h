@@ -5,9 +5,11 @@
 # include "token.h"
 # include "deque.h"
 
-# define PARSER_ERROR   -1
-# define PARSER_FAIL    0
-# define PARSER_SUCCES  1
+# define PARSER_ERROR		-1
+# define PARSER_FAIL		0
+# define PARSER_SUCCES		1
+# define NEED_DEFAULT_FD	100
+# define IS_NEED_DEFAULT_FD	200
 
 int		match_complete_command(t_complete_cmd **command, t_deque **tokbuf_g);
 int		match_and_or(t_andor_list **and_or, t_deque **tokbuf_g);
@@ -59,6 +61,7 @@ void	set_instruction(t_redirect **redirect, t_tokens type);
 char	*get_pipeline_str(t_pipeline *pipeline);
 char	*get_instruction(t_instruction instruction);
 char	*andor_to_str(t_andor_list *andor);
+int		need_set_default_fd(int action);
 
 t_complete_cmd	*parser();
 
