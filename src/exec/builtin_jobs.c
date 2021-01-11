@@ -54,6 +54,7 @@ static void print_single_job(t_job *j, int flag_p, int flag_l)
 	if (flag_p)
 	{
 		ft_printf("%d\n", j->pgid);
+		free(str_status);
 		return ;
 	}
 	if (flag_l)
