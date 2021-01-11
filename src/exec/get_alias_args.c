@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:41:48 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 23:45:50 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/11 11:08:23 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void		create_value(char *key)
 	while (key[i])
 	{
 		if (key[i] == '\'' || key[i] == '"' ||
-			(key[i] == '\\' && key[i + 1] == '\0'))
+			(key[i] == '\\'))
 			delete_symbol_in_str(key, i);
 		else
 			i++;

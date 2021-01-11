@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 23:11:42 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/11 00:01:51 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/11 20:39:42 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ int			delete_export(char *key)
 		return (EXIT_FAILURE);
 	if ((delete_t_hashtable(key, &(export->hd))) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	export->size--;
 	return (EXIT_SUCCESS);
 }
