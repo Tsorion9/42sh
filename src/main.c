@@ -37,6 +37,20 @@ int main(int argc, char **argv, char **envr)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 
+	int fd;
+
+	if (argc > 1)
+	{
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
+		{
+			ft_fprintf(2, "21sh: Error! Could not open file: %s\n", argv[1]);
+			exit(123);
+		}
+		dup2(fd, 0);
+		close(fd);
+	}
+
 	env = init_env(envr);
 	static_export_action(init);
 	static_hashalias_action(init);

@@ -3,6 +3,7 @@
 /*
 ** {io_redirect}
 */
+
 int match_cmd_prefix(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 {
     t_deque *tokbuf_l;

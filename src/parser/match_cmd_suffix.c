@@ -9,7 +9,7 @@ int     match_cmd_arg(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
     token = gett(tokbuf_g, &tokbuf_l);
     add_word_to_list(&(*simple_cmd)->words, token);
     if (match_cmd_suffix(simple_cmd, tokbuf_g) != PARSER_SUCCES)
-        return (PARSER_ERROR);
+        return (return_err_and_flush_tokens(tokbuf_g, &tokbuf_l));
     erase_tokbuf(&tokbuf_l);
     return (PARSER_SUCCES);
 }

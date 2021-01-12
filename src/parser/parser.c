@@ -28,8 +28,11 @@ t_complete_cmd	*parser(void)
 	ungett(&tokbuf_g, &tokbuf_l);
 	if (match_complete_command(&complete_cmd, &tokbuf_g) != PARSER_SUCCES)
 	{
-		ft_putstr("PARSER ERROR\n");
+		clean_complete_command(&complete_cmd);
+		ft_printf("42sh: syntax error near unexpected token %s\n",
+			get_token_str(pop_back(tokbuf_g)->tk_type));
 		erase_tokbuf(&tokbuf_g);
+		erase_tokbuf(&tokbuf_l);
 		return (NULL);
 	}
 	heredoc_action(ADD_VALUE, NULL, NULL);

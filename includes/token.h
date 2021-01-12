@@ -25,7 +25,6 @@ typedef enum	e_tokens
     GREATAND,
     BG,
     PIPE,
-    PIPE_NEWLINE,
     SEMICOL,
     NEWLINE,
     SIGNAL,// Пока не используется
@@ -33,6 +32,7 @@ typedef enum	e_tokens
     RBRACE,
     LBRACKET,
     RBRACKET,
+    TOKEN_CTRL_C,
     TOKEN_END
 }				t_tokens;
 

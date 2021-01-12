@@ -39,13 +39,14 @@ void    set_command_type(t_command **command, t_deque **tokbuf_g,
     ungett(tokbuf_g, tokbuf_l);
 }
 
-/**
- * "(" и ")" лексер всегда разделяет как токен
- * "{" и "}" либо токены, либо слово
- * if token value = "(" -> subshell
- * if token value = "{" -> brace group
- * else simple command
- */
+/*
+** "(" и ")" лексер всегда разделяет как токен
+** "{" и "}" либо токены, либо слово
+** if token value = "(" -> subshell
+** if token value = "{" -> brace group
+** else simple command
+*/
+
 int     match_command(t_command **command, t_deque **tokbuf_g)
 {
     t_deque *tokbuf_l;

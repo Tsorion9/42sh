@@ -25,7 +25,7 @@ void    set_instruction(t_redirect **redirect, t_tokens type)
             (*redirect)->redirector->fd = STDIN_FILENO;
     }
 }
-// Check redirect for io_file
+
 int     is_redirect_io_file(t_tokens type)
 {
     if (type == DGREAT || type == LESS || type == GREAT

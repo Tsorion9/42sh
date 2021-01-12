@@ -63,10 +63,10 @@ void			*push_back(t_deque **d, t_token *new)
 ** List element is erased, but not token!
 */
 
-void			*pop_back(t_deque *d)
+t_token 		*pop_back(t_deque *d)
 {
 	t_2list	*l;
-	void	*data;
+	t_token *data;
 
 	if (!d)
 		return (NULL);

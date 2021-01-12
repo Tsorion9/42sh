@@ -34,6 +34,7 @@ int 		need_set_default_fd(int action)
 /*
 ** [IO_NUMBER]? (io_file | DLESS WORD)
 */
+
 int         match_io_redirect(t_redirect **head_redirects, t_deque **tokbuf_g)
 {
     t_deque		*tokbuf_l;
@@ -54,7 +55,5 @@ int         match_io_redirect(t_redirect **head_redirects, t_deque **tokbuf_g)
         erase_tokbuf(&tokbuf_l);
         return (PARSER_SUCCES);
     }
-//    clean redirect
-    flush_tokbuf(tokbuf_g, &tokbuf_l);
-    return (PARSER_ERROR);
+    return (return_err_and_flush_tokens(tokbuf_g, &tokbuf_l));
 }

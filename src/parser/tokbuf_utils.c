@@ -17,11 +17,7 @@
 ** Put the token from gloabl queue to local queue
 ** return it's value
 */
-/**
- * @param tokbuf_g global queue
- * @param tokbuf_l local queue
- * @return Значение токена, переложенного из глобальной в локальную очередь
- */
+
 t_token	*gett(t_deque **tokbuf_g, t_deque **tokbuf_l)
 {
 	t_token	*next;

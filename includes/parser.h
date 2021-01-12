@@ -62,6 +62,7 @@ char	*get_pipeline_str(t_pipeline *pipeline);
 char	*get_instruction(t_instruction instruction);
 char	*andor_to_str(t_andor_list *andor);
 int		need_set_default_fd(int action);
+int		return_err_and_flush_tokens(t_deque **tokbuf_g, t_deque **tokbuf_l);
 
 t_complete_cmd	*parser();
 
