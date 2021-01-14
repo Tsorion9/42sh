@@ -162,6 +162,7 @@ CEXEC = builtin_21shopt.c \
 		search_export.c \
 		export_to_array.c \
 
+CEXPANSIONS = tilde_expansion.c \
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMANIPULATION))
@@ -171,8 +172,9 @@ PARSER = $(patsubst %,src/parser/%,$(CPARSER))
 HASH = $(patsubst %,src/hashtable/%,$(CHASH))
 EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 HEREDOC = $(patsubst %,src/heredoc/%,$(CHEREDOC))
+EXPANSIONS = $(patsubst %,src/expansions/%,$(CEXPANSIONS))
 
-SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEXER) $(PARSER) $(EXEC) $(HASH) $(HEREDOC)
+SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEXER) $(PARSER) $(EXEC) $(HASH) $(HEREDOC) $(EXPANSIONS)
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
