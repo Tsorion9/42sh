@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 17:09:27 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/11 21:55:04 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/12 07:15:36 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		print_export(char *key)
 	export = search_export(key);
 	if (export)
 	{
-		ft_printf("export %s=\"%s\"\n", key, export);
+		ft_printf("export %s='%s'\n", key, export);
 		free(export);
 	}
 }
@@ -41,7 +41,7 @@ void		print_exports(void)
 		{
 			while (table)
 			{
-				ft_printf("export %s=\"%s\"\n", table->key, table->value);
+				ft_printf("export %s='%s'\n", table->key, table->value);
 				table = table->next;
 			}
 		}
