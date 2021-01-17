@@ -23,6 +23,25 @@ int			ret_winsize(int a)
 	return (w.ws_row);
 }
 
+/*! \fn set_sigint
+ *  \b Компонента  \b : readline \n
+ *  \b Назначение  \b : Установка сигнала SIGINT c
+ *  завершением системных функций \n
+ *  \param[in] sigint_handler функция-обработчик сигнала
+ */
+void	set_sigint(void (*sigint_handler)(int))
+{
+	struct sigaction	sigint_action;
+
+	sigaction(SIGINT, NULL, &sigint_action);
+	if (sigint_handler)
+		sigint_action.sa_handler = sigint_handler;
+	else
+		sigint_action.sa_handler = SIG_IGN;
+	sigint_action.sa_flags = SA_NOMASK;
+	sigaction(SIGINT, &sigint_action, NULL);
+}
+
 void	processing_sigint(int signal_code)
 {
 	int	user_in_lines;
@@ -30,12 +49,7 @@ void	processing_sigint(int signal_code)
 	(void)signal_code;
 	if (rp(NULL)->in_read)
 	{
-		user_in_lines = str_n(rp(NULL)->prompt_len) - rp(NULL)->cur_pos[1] + 2;
-		while (user_in_lines-- > 0)
-			write(STDERR_FILENO, "\n", 1);
-		ft_memdel((void **)&(rp(NULL)->user_in));
-		gayprompt(get_prompt(PS1));
-		reset_rp_to_start(get_prompt(PS1));
+		/* TODO Если потребуется, то заполнить, иначе - оставить пустой */
 	}
 	return ;
 }
