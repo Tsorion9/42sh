@@ -85,6 +85,14 @@ t_token			*get_token_to_parser(t_lexer_state *token)
 	return (create_new_token(value, token->tk_type));
 }
 
+void 			free_lexer_state(t_lexer_state *token)
+{
+	if (token->value)
+		free(token->value);
+	if (token->head != NULL)
+		free_quequ_lexer(&token->head);
+}
+
 t_token			*lexer_scanner(t_lexer_state *token)
 {
 	t_token		*fresh;
@@ -95,6 +103,14 @@ t_token			*lexer_scanner(t_lexer_state *token)
 		if (isatty(STDIN_FILENO))
 		{
 			token->value = readline(get_prompt(PS1));
+			if (token->value == NULL)
+			{
+				free_lexer_state(token);
+				fresh = malloc(sizeof(t_token));
+				fresh->value = NULL;
+				fresh->tk_type = TOKEN_CTRL_C;
+				return (fresh);
+			}
 			if (token->value && !*(token->value))
 			{
 				fresh = malloc(sizeof(t_token));

@@ -1,5 +1,18 @@
 #include "lexer.h"
 
+void 	free_quequ_lexer(t_queue **head)
+{
+	t_queue *tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		free(*head);
+		*head = tmp;
+	}
+}
+
 t_queue	*create_new_queue(char brace)
 {
 	t_queue	*fresh;

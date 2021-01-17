@@ -29,8 +29,11 @@ t_complete_cmd	*parser(void)
 	if (match_complete_command(&complete_cmd, &tokbuf_g) != PARSER_SUCCES)
 	{
 		clean_complete_command(&complete_cmd);
-		ft_printf("42sh: syntax error near unexpected token %s\n",
-			get_token_str(pop_back(tokbuf_g)->tk_type));
+		t_token *last_token = pop_back(tokbuf_g);
+		if (last_token->tk_type != TOKEN_CTRL_C)
+			ft_printf("42sh: syntax error near unexpected token %s\n",
+				get_token_str(last_token->tk_type));
+		free(last_token);
 		erase_tokbuf(&tokbuf_g);
 		erase_tokbuf(&tokbuf_l);
 		return (NULL);

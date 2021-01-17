@@ -55,7 +55,7 @@ static char	*single_tk_str(t_tokens type)
         return ("}");
 	else if (type == BG)
 		return ("&");
-	return ("ERROR");
+	return ("UNKNOWN TOKEN");
 }
 
 char		*get_token_str(t_tokens type)
