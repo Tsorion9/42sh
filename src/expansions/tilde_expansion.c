@@ -1,6 +1,12 @@
 #include "expansions.h"
 #include "lexer.h"
 
+/*
+** @param str строка в которой происходит подстановка
+** @param value значение подстановки
+** @param start стартовый индекс начала подстановки
+** @param len длина подстроки вместо которой будет подставляться value
+*/
 // TODO Временное решение
 int		replace_value(char **str, char *value, size_t start, size_t len)
 {
@@ -69,6 +75,10 @@ int		get_user_home_path(char *login, char **home_path)
 	return (FUNC_SUCCESS);
 }
 
+/*
+** @param s строка в которой выполняется расширение тильды
+** @param i индекс в строке
+*/
 int		tilde_expansion(char **s, size_t *i)
 {
 	char	*login;
