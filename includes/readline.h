@@ -37,6 +37,14 @@
                                                                                 
 # define GETCURSORPOS "\e[6n"
 
+
+/*
+** Error codes
+*/
+
+# define RL_NOERROR 0
+# define RL_EINTR 1
+
 /*
 ** Character key constants
 */
@@ -320,10 +328,10 @@ void					get_size_of_columns(char **buf, t_column *cl);
 void					print_column(char **buf, t_column *cl);
 
 // TODO: change names
-void	processing_sigint(int signal_code);
-void	processing_sigwinch(int signal_code);
-
-void			init_terminal(void);
+void					processing_sigint(int signal_code);
+void					processing_sigwinch(int signal_code);
+void					set_sigint(void (*sigint_handler)(int));
+void					init_terminal(void);
 
 /*
 ** Return string value of environmental variable PS1 or PS2

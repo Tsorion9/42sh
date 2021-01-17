@@ -32,9 +32,8 @@ int main(int argc, char **argv, char **envr)
 	signal(SIGTTIN, SIG_IGN);
 	signal(SIGTTOU, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
-	signal(SIGINT, processing_sigint);
+	set_sigint(processing_sigint);
 	signal(SIGWINCH, processing_sigwinch);
-	signal(SIGINT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 
 	int fd;
