@@ -16,7 +16,7 @@
 
 void		reset_exit(int status)
 {
-	static int notified;
+	/* static int notified; */
 
 	if (isatty(0))
 	{

@@ -44,8 +44,6 @@ void	set_sigint(void (*sigint_handler)(int))
 
 void	processing_sigint(int signal_code)
 {
-	int	user_in_lines;
-
 	(void)signal_code;
 	if (rp(NULL)->in_read)
 	{
