@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:18 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 22:59:17 by anton            ###   ########.fr       */
+/*   Updated: 2021/01/18 08:26:36 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,51 @@
 ** Implmented only -n flag which suppresses \n
 */
 
-int	builtin_echo(char **args, t_env env, int subshell)
+void			cycle_echo_print(char **args, int n_flag, int e_flag,
+					int E_flag)
 {
-	int	minus_n_flag;
-
-	(void)env;
-	(void)subshell;
-	minus_n_flag = 0;
-	if (!*args)
-		return (1);
-	if (!ft_strcmp(args[0], "-n"))
-	{
-		minus_n_flag = 1;
-		args++;
-	}
 	while (*args)
 	{
 		ft_putstr(*args);
-		if (!minus_n_flag)
+		if (!n_flag)
 			ft_putchar(!*(args + 1) ? '\n' : ' ');
 		else if (*(args + 1))
 			ft_putchar(' ');
 		args++;
 	}
+}
+
+void			check_echo_flags(char **args)
+{
+	int		i;
+	int		n_flag;
+	int		e_flag;
+	int		E_flag;
+
+	i = 0;
+	// Добавить обработку // - просто удалять из строки лишние /, потом передавать в print
+	while (args[i])
+	{
+		if (!ft_strcmp(args[i], "-n"))
+			n_flag = 1;
+		else if (!ft_strcmp(args[i], "-e"))
+			e_flag = 1;
+		else if (!ft_strcmp(args[i], "-E"))
+			E_flag = 1;
+		else
+			break ;
+		i++;
+	}
+	cycle_echo_print(args + i, n_flag, e_flag, E_flag);
+}
+
+int	builtin_echo(char **args, t_env env, int subshell)
+{
+	(void)env;
+	(void)subshell;
+	n_flag = 0;
+	if (!*args)
+		return (1);
+	check_echo_flags(args);
 	return (1);
 }
