@@ -1,5 +1,6 @@
 #include "expansions.h"
 #include "lexer.h"
+#include "environment.h"
 
 /*
 ** @param str строка в которой происходит подстановка
@@ -8,7 +9,7 @@
 ** @param len длина подстроки вместо которой будет подставляться value
 */
 // TODO Временное решение
-int		replace_value(char **str, char *value, size_t start, size_t len)
+int		replace_value(char **str, char *value, size_t *start, size_t len)
 {
 	char	*fresh;
 	size_t	value_len;
@@ -19,12 +20,13 @@ int		replace_value(char **str, char *value, size_t start, size_t len)
 		value_len = 0;
 	if ((fresh = ft_strnew(ft_strlen(*str) - len + value_len)) == NULL)
 		return (FUNC_ERROR);
-	ft_strncpy(fresh, *str, start);
+	ft_strncpy(fresh, *str, *start);
 	if (value != NULL)
 		ft_strcat(fresh, value);
-	ft_strcat(fresh, &(*str)[start + len]);
+	ft_strcat(fresh, &(*str)[*start + len]);
 	ft_strdel(str);
 	*str = fresh;
+	*start += value_len; // TODO Возможен просчет на 1 символ проявлять внимание
 	return (FUNC_SUCCESS);
 }
 
@@ -60,8 +62,7 @@ int		get_user_home_path(char *login, char **home_path)
 
 	if (login[0] == '\0')
 	{
-//		*home_path = get_env_value("HOME", envlst);
-		*home_path = ft_strdup("someHOMEvalue");
+		*home_path = ft_getenv(env, "HOME");
 		if (*home_path == NULL)
 			return (shell_err(E_HOME_NOT_SET, NULL));
 	}
@@ -95,7 +96,7 @@ int		tilde_expansion(char **s, size_t *i)
 			ft_strdel(&login);
 			return (FUNC_ERROR);
 		}
-		ret = replace_value(s, home_path, *i, ft_strlen(login) + 1);
+		ret = replace_value(s, home_path, i, ft_strlen(login) + 1);
 		ft_strdel(&login);
 		return (ret);
 	}

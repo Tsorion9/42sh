@@ -1,4 +1,5 @@
 #include "expansions.h"
+#include "environment.h"
 
 /*
 ** На вход ожидает получить строку с кавычкой в первом символе
@@ -70,6 +71,41 @@ void 	try_tilde_expansion(char **src_word, size_t *i, int word_state)
 	}
 }
 
+int 	is_valid_var_char(char c)
+{
+	if (ft_isalpha(c) || c == '_')
+		return (VALID_VAR_CHAR);
+	return (INVALID_VAR_CHAR);
+}
+
+void 	var_expansion(char **src_word, size_t *i)
+{
+	size_t	j;
+	char	*var_value;
+	char 	*var_name;
+
+	j = *i + 1; // skip '$'
+	while ((*src_word)[j] && is_valid_var_char((*src_word)[j]))
+		j++;
+	var_name = ft_strsub(*src_word, *i + 1, j - *i - 1);
+	var_value = ft_getenv(env, var_name);
+	replace_value(src_word, var_value, i, j - *i);
+	free(var_name);
+}
+
+void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
+{
+	char	c;
+
+	c = (*src_word)[*i + 1];
+	if (c == '{')
+		return ;
+	else if (c == '(')
+		return ;
+	else if (is_valid_var_char(c))
+		var_expansion(src_word, i);
+}
+
 int		word_expansion(char **source_word)
 {
 	size_t 	i;
@@ -94,6 +130,9 @@ int		word_expansion(char **source_word)
 			if (!(word_state & IN_DQUOTE_STATE))
 				i += find_closing_quote(*source_word + i);
 		}
+		else if (c == '$')
+			dollar_expansion(source_word, &i, &word_state);
 		i++;
 	}
+	return (1);
 }
