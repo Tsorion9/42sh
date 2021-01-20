@@ -3,6 +3,8 @@
 
 # include "libft.h"
 
+# define VALID_VAR_CHAR			1
+# define INVALID_VAR_CHAR		0
 # define EXPANSION_FAIL			0
 # define EXPANSION_EMPTY_WORD	(1 << 0)
 # define IN_DQUOTE_STATE		(1 << 0)
@@ -13,5 +15,8 @@
 
 int		tilde_expansion(char **s, size_t *i);
 int		word_expansion(char **source_word);
+
+// misk
+int		replace_value(char **str, char *value, size_t *start, size_t len);
 
 #endif
