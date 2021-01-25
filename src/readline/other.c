@@ -39,20 +39,10 @@ void		move_cursor_to_new_position(int *actual_cur_pos, int *new_cur_pos)
 
 void		delete_last_word(void)
 {
-	while (rp(NULL)->index)
-	{
-		if (ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
-			delete_symbol();
-		else
-			break ;
-	}
-	while (rp(NULL)->index)
-	{
-		if (!ft_isspace(rp(NULL)->user_in[rp(NULL)->index]))
-			delete_symbol();
-		else
-			break ;
-	}
+	while (rp(NULL)->index && ft_isspace(rp(NULL)->user_in[rp(NULL)->index - 1]))
+		delete_symbol();
+	while (rp(NULL)->index && !ft_isspace(rp(NULL)->user_in[rp(NULL)->index - 1]))
+		delete_symbol();
 }
 
 /*
