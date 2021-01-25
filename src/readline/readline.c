@@ -87,6 +87,8 @@ static void	read_till_newline(int *user_in_len, int *error_code)
 	while (c != '\n' && c != -1 && *error_code == RL_NOERROR)
 		c = handle_click(error_code);
 	*user_in_len = ft_strlen(rp(NULL)->user_in);
+	if (*error_code == RL_NOERROR)
+		add_to_start_history(rp(NULL)->history, rp(NULL)->user_in, *user_in_len);
 	rp(NULL)->user_in[*user_in_len] = (char)(c == -1 ? 0 : '\n');
 	rp(NULL)->user_in[*user_in_len + 1] = 0;
 }

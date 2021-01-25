@@ -13,7 +13,7 @@
 #include "readline.h"
 #include "environment.h"
 
-static int	open_21sh_history(int mode)
+static int	open_42sh_history(int mode)
 {
 	int		fd;
 	char	*home_dir;
@@ -21,7 +21,7 @@ static int	open_21sh_history(int mode)
 
 	if (!(home_dir = ft_getenv(env, "HOME")))
 		return (-1);
-	if (!(file_path = ft_strjoin(home_dir, "/.21sh_history")))
+	if (!(file_path = ft_strjoin(home_dir, "/.42sh_history")))
 		return (-1);
 	fd = open(file_path, mode, __S_IREAD | __S_IWRITE);
 	free(file_path);
@@ -34,7 +34,7 @@ void		load_on_file_history(t_history *history)
 	char	c;
 	t_str	*str;
 
-	if ((fd = open_21sh_history(O_RDONLY)) < 0)
+	if ((fd = open_42sh_history(O_RDONLY)) < 0)
 		return ;
 	str = init_str();
 	while (read(fd, &c, 1) > 0)
@@ -97,7 +97,7 @@ void		save_in_file_history(t_history *history)
 	int	fd;
 	int	n;
 
-	if ((fd = open_21sh_history(O_WRONLY | O_TRUNC | O_CREAT)) < 0)
+	if ((fd = open_42sh_history(O_WRONLY | O_TRUNC | O_CREAT)) < 0)
 		return ;
 	n = 0;
 	while (history->next && n < HISTSIZE)
