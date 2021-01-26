@@ -28,7 +28,7 @@ static void	history_search_print(const t_history_search *history_search, const c
 	int		new_cur_pos[2];
 	char	*history_search_before;
 
-	if (!(history_search && user_in && history_search->str[0]))
+	if (!(history_search && user_in && history_search->str))
 		return ;
 	ft_memcpy(new_cur_pos, cur_pos, sizeof(new_cur_pos));
 	clear_all_line(1);
@@ -39,13 +39,8 @@ static void	history_search_print(const t_history_search *history_search, const c
 	ft_putstr_fd(history_search_before, STDERR_FILENO);
 	ft_putstr_fd(history_search->str, STDERR_FILENO);
 	ft_putstr_fd(HISTORY_SEARCH_STR_AFTER, STDERR_FILENO);
-	ft_putstr_fd(user_in, STDERR_FILENO);
-	inverse_search_index(rp(NULL)->cur_pos, rp(NULL)->len, ft_strlen(history_search_before) +
-			ft_strlen(history_search->str) + ft_strlen(HISTORY_SEARCH_STR_AFTER));
-	if (rp(NULL)->cur_pos[0] == 1)
-	{
-		ft_putstr(" \r");
-	}
+	readline_putstr(user_in, rp(NULL)->cur_pos, ft_strlen(history_search_before) +
+			ft_strlen(history_search->str) + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
 	move_cursor_to_new_position(rp(NULL)->cur_pos, new_cur_pos);
 	ft_memcpy(rp(NULL)->cur_pos, new_cur_pos, sizeof(new_cur_pos));
 }
@@ -88,10 +83,10 @@ static int	history_search(int *cur_pos, size_t *index, const char *history_str)
 	}
 	if (found)
 		inverse_search_index(cur_pos, *index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
-			ft_strlen(history_str) + ft_strlen(HISTORY_SEARCH_STR_AFTER));
+			ft_strlen(history_str) + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
 	else
 		inverse_search_index(cur_pos, *index, ft_strlen(HISTORY_SEARCH_STR_NOT_FOUND_BEFORE) +
-			ft_strlen(history_str) + ft_strlen(HISTORY_SEARCH_STR_AFTER));
+			ft_strlen(history_str) + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
 	return (found);
 }
 
@@ -124,7 +119,7 @@ static void exit_history_search(t_history_search *history_search)
 	tc_save_cursor_pos();
 	clear_all_line(1);
 	rp(NULL)->index = history_search->index;
-	inverse_search_index(new_cur_pos, rp(NULL)->index, ft_strlen(rp(NULL)->prompt));
+	inverse_search_index(new_cur_pos, rp(NULL)->index, rp(NULL)->prompt_len);
 	gayprompt(rp(NULL)->prompt);
 	ft_putstr(rp(NULL)->user_in);
 	tc_restore_saved_cursor_pos();
@@ -203,10 +198,10 @@ void		history_search_start(long c)
 	{
 		if (found)
 			inverse_search_index(cur_pos, t_history_search->index, ft_strlen(HISTORY_SEARCH_STR_BEFORE) +
-				t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER));
+				t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
 		else
 			inverse_search_index(cur_pos, t_history_search->index, ft_strlen(HISTORY_SEARCH_STR_NOT_FOUND_BEFORE) +
-				t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER));
+				t_history_search->len + ft_strlen(HISTORY_SEARCH_STR_AFTER) + 1);
 	}
 	history_search_print(t_history_search, rp(NULL)->user_in, cur_pos, found);
 }
