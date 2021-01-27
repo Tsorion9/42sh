@@ -11,6 +11,7 @@
 #include "t_builtin.h"
 #include "find_exec.h"
 #include "job.h"
+#include "assignment_word.h"
 
 int tmp_lstlen(t_word_list *w)
 {
@@ -123,11 +124,35 @@ int make_redirection(t_redirect *redirect)
 	return (0);
 }
 
+void make_assignment(char *as_wrd)
+{
+	char *equal;
+
+	equal = ft_strchr(as_wrd, '='); // TODO: Unquoted '='
+	*equal = 0;
+	ft_setenv(env, ft_strdup(as_wrd), ft_strdup(equal + 1));
+}
+
+void make_assignments(t_simple_cmd *cmd)
+{
+	t_list *current;
+	t_list *next;
+
+	current = cmd->assignments;
+	while (current) {
+		next = current->next;
+		make_assignment((char *)(current->content));
+		free(current->content);
+		free(current);
+		current = next;
+	}
+}
+
 int make_assignments_redirections(t_simple_cmd *cmd)
 {
 	t_redirect *redirect;
 
-	//TODO: also make assignments here
+	make_assignments(cmd);
 	redirect = cmd->redirects;
 	while (redirect)
 	{
@@ -136,6 +161,24 @@ int make_assignments_redirections(t_simple_cmd *cmd)
 		redirect = redirect->next;
 	}
 	return (0);
+}
+
+void words_to_assignments(t_simple_cmd *cmd)
+{
+	t_word_list *current;
+
+	current = cmd->words;
+	cmd->assignments = NULL;
+	while (current) {
+		if (!looks_like_assignment_word(current->word)) {
+			cmd->words = current;
+			break;
+		}
+		cmd->words = current->next;
+		ft_lstadd(&(cmd->assignments), (void *)current->word);
+		free(current);
+		current = cmd->words;
+	}
 }
 
 int exec_simple_cmd(t_simple_cmd *cmd)
@@ -355,11 +398,47 @@ int wait_fg_job(pid_t job)
 	return (0);
 }
 
+int no_words(t_pipeline *pipeline)
+{
+	if (pipeline->next)
+	{
+		return (0);
+	}
+	if (pipeline->command->cmd_type == SIMPLE_CMD)
+	{
+		if (pipeline->command->simple_cmd->words)
+		{
+			return (1);
+		}
+	}
+	return (0);
+}
+
+static void command_words_to_assignments(t_command *cmd)
+{
+	if (cmd->cmd_type == SIMPLE_CMD)
+	{
+		words_to_assignments(cmd->simple_cmd);
+	}
+	else 
+		;// TODO, not implemented in mandatory part
+}
+
+static void pipeline_words_to_assignments(t_pipeline *pipeline)
+{
+	while (pipeline)
+	{
+		command_words_to_assignments(pipeline->command);
+		pipeline = pipeline->next;
+	}
+}
+
 int exec_pipline(t_pipeline *pipeline)
 {
 	pid_t job;
 
-	if (is_single_builtin(pipeline))
+	pipeline_words_to_assignments(pipeline);
+	if (is_single_builtin(pipeline) || no_words(pipeline))
 	{
 		return (exec_single_builtin(pipeline));
 	}
