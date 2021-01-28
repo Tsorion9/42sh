@@ -175,10 +175,34 @@ void words_to_assignments(t_simple_cmd *cmd)
 			break;
 		}
 		cmd->words = current->next;
-		ft_lstadd(&(cmd->assignments), (void *)current->word);
+
+		/* TODO: Order of assignments not preserved; add back!! */
+		ft_lstadd_data(&(cmd->assignments), (void *)current->word, 0);
 		free(current);
 		current = cmd->words;
 	}
+}
+
+void print_cmd_dbg(t_simple_cmd *cmd)
+{
+	t_word_list *c;
+	t_list *l;
+
+	ft_printf("%s\n", "Words: ");
+	c = cmd->words;
+	while (c) {
+		ft_printf("%s ", c->word);
+		c = c->next;
+	}
+	ft_printf("%s", "\n");
+
+	ft_printf("%s\n", "Assignments: ");
+	l = cmd->assignments;
+	while (l) {
+		ft_printf("%s ", (char *)l->content);
+		l = l->next;
+	}
+	ft_printf("%s", "\n");
 }
 
 int exec_simple_cmd(t_simple_cmd *cmd)
@@ -192,6 +216,8 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 	save_fd[0] = dup(STDIN_FILENO);
 	save_fd[1] = dup(STDOUT_FILENO);
 	save_fd[2] = dup(STDERR_FILENO);
+
+	//print_cmd_dbg(cmd);
 
 	if (make_assignments_redirections(cmd) != 0)
 	{
