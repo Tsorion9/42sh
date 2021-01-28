@@ -229,18 +229,20 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 		close(save_fd[2]);
 		return (1);
 	}
-	words = cmd->words;
-	args = collect_argwords(words);
-	builtin = get_builtin(words->word);
-	if (builtin)
+	if (words = cmd->words)
 	{
-		status = builtin(args + 1, env, 0);
+		args = collect_argwords(words);
+		builtin = get_builtin(words->word);
+		if (builtin)
+		{
+			status = builtin(args + 1, env, 0);
+		}
+		else
+		{
+			status = find_exec(args, env);
+		}
+		del_array(args);
 	}
-	else
-	{
-		status = find_exec(args, env);
-	}
-	del_array(args);
 
 	dup2(save_fd[0], STDIN_FILENO);
 	dup2(save_fd[1], STDOUT_FILENO);
@@ -424,7 +426,7 @@ int wait_fg_job(pid_t job)
 	return (0);
 }
 
-int no_words(t_pipeline *pipeline)
+int only_assignments(t_pipeline *pipeline)
 {
 	if (pipeline->next)
 	{
@@ -434,10 +436,10 @@ int no_words(t_pipeline *pipeline)
 	{
 		if (pipeline->command->simple_cmd->words)
 		{
-			return (1);
+			return (0);
 		}
 	}
-	return (0);
+	return (1);
 }
 
 static void command_words_to_assignments(t_command *cmd)
@@ -464,7 +466,7 @@ int exec_pipeline(t_pipeline *pipeline)
 	pid_t job;
 
 	pipeline_words_to_assignments(pipeline);
-	if (is_single_builtin(pipeline) || no_words(pipeline))
+	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 	{
 		return (exec_single_builtin(pipeline));
 	}
