@@ -7,6 +7,8 @@
 ** @param value значение подстановки
 ** @param start стартовый индекс начала подстановки
 ** @param len длина подстроки вместо которой будет подставляться value
+** Example: replace_value(&"foo", "bar", &0, 3)
+** Result:  "bar"
 */
 // TODO Временное решение
 int		replace_value(char **str, char *value, size_t *start, size_t len)

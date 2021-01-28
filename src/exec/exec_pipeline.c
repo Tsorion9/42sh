@@ -12,6 +12,7 @@
 #include "find_exec.h"
 #include "job.h"
 #include "assignment_word.h"
+#include "expansions.h"
 
 int tmp_lstlen(t_word_list *w)
 {
@@ -229,7 +230,7 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 		close(save_fd[2]);
 		return (1);
 	}
-	if (words = cmd->words)
+	if ((words = cmd->words))
 	{
 		args = collect_argwords(words);
 		builtin = get_builtin(words->word);
@@ -461,10 +462,38 @@ static void pipeline_words_to_assignments(t_pipeline *pipeline)
 	}
 }
 
+void 	expand_simple_command(t_simple_cmd *simple_cmd)
+{
+	t_word_list *words;
+
+	words = simple_cmd->words;
+	while (words)
+	{
+		word_expansion(&words->word);
+		words = words->next;
+	}
+}
+
+void 	expand_command(t_command *cmd)
+{
+	if (cmd->cmd_type == SIMPLE_CMD)
+		expand_simple_command(cmd->simple_cmd);
+}
+
+void 	expand_pipeline(t_pipeline *pipeline)
+{
+	while (pipeline)
+	{
+		expand_command(pipeline->command);
+		pipeline = pipeline->next;
+	}
+}
+
 int exec_pipeline(t_pipeline *pipeline)
 {
 	pid_t job;
 
+	expand_pipeline(pipeline);
 	pipeline_words_to_assignments(pipeline);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 	{

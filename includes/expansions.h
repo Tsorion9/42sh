@@ -11,12 +11,16 @@
 # define IN_QUOTE_STATE			(1 << 1)
 # define E_ALLOC_MEMORY			"failed to allocate enough memory\n"
 # define E_HOME_NOT_SET			"environment value HOME not set\n"
-# define E_NO_SUCH_USRDIR		"21sh: no such user or named directory: "
+# define E_NO_SUCH_USRDIR		"42sh: no such user or named directory: "
+# define E_BAD_SUBSTITUTION		"42sh: bad substitution: "
 
 int		tilde_expansion(char **s, size_t *i);
 int		word_expansion(char **source_word);
 
 // misk
 int		replace_value(char **str, char *value, size_t *start, size_t len);
+
+// errors
+int		shell_err(char *error, char *arg);
 
 #endif
