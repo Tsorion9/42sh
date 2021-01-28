@@ -288,7 +288,7 @@ pid_t	make_child(t_command *cmd, int read_fd, int write_fd)
 	return (child);
 }
 
-int exec_pipline_job(t_pipeline *pipeline)
+int exec_pipeline_job(t_pipeline *pipeline)
 {
 	int fd[2];
 	int read_fd;
@@ -433,7 +433,7 @@ static void pipeline_words_to_assignments(t_pipeline *pipeline)
 	}
 }
 
-int exec_pipline(t_pipeline *pipeline)
+int exec_pipeline(t_pipeline *pipeline)
 {
 	pid_t job;
 
@@ -444,7 +444,7 @@ int exec_pipline(t_pipeline *pipeline)
 	}
 	if (!top_level_shell)
 	{
-		return (exec_pipline_job(pipeline));
+		return (exec_pipeline_job(pipeline));
 	}
 	job = fork();
 	if (job) /* Top-level shell */
@@ -460,6 +460,6 @@ int exec_pipline(t_pipeline *pipeline)
 		tcsetpgrp(STDIN_FILENO, getpid()); /* We are foreground */
 		set_jobshell_signal();
 		top_level_shell = 0;
-		exit(exec_pipline_job(pipeline));
+		exit(exec_pipeline_job(pipeline));
 	}
 }

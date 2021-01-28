@@ -30,19 +30,19 @@ int async_notify_bg;
 ** FALSE = 1
 ** unlike C language, weird shell stuff
 */
-static void update_status(int pipline_status, int *status, t_type_andor last_op)
+static void update_status(int pipeline_status, int *status, t_type_andor last_op)
 {
 	if (last_op == ANDOR_NONE)
 	{
-		*status = pipline_status; /* First step */
+		*status = pipeline_status; /* First step */
 	}
 	else if (last_op == ANDOR_AND)
 	{
-		*status = *status || pipline_status;
+		*status = *status || pipeline_status;
 	}
 	else if (last_op == ANDOR_OR)
 	{
-		*status = *status && pipline_status;
+		*status = *status && pipeline_status;
 	}
 }
 
@@ -81,7 +81,7 @@ void perform_word_expansions(t_pipeline *p)
 */
 void exec_andor_list(t_andor_list *list, int *status)
 {
-	int				pipline_status;
+	int				pipeline_status;
 	t_type_andor	last_op;
 
 	last_op = ANDOR_NONE;
@@ -92,8 +92,8 @@ void exec_andor_list(t_andor_list *list, int *status)
 			perform_word_expansions(list->pipeline); /* Only executed commands should be expanded 
 			TODO: Make sure expansions are executed single time
 			*/
-			pipline_status = exec_pipline(list->pipeline);
-			update_status(pipline_status, status, last_op);
+			pipeline_status = exec_pipeline(list->pipeline);
+			update_status(pipeline_status, status, last_op);
 		}
 		last_op = list->type_andor;
 		list = list->next;
