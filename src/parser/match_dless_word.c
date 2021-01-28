@@ -20,7 +20,8 @@ int		match_dless_word(t_redirect **redirect, t_deque **tokbuf_g)
 		flush_tokbuf(tokbuf_g, &tokbuf_l);
 		return (PARSER_FAIL);
 	}
-	heredoc_action(ADD_DELIMITER, token->value, &(*redirect)->heredoc_value);
+	heredoc_action(ADD_DELIMITER, token->value, &(*redirect)->heredoc_value,
+				NULL);
 	(*redirect)->redirector->filename = ft_strdup(token->value);
 	erase_tokbuf(&tokbuf_l);
 	return (PARSER_SUCCES);

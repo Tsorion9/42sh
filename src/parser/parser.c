@@ -19,6 +19,7 @@ t_complete_cmd	*parser(void)
 	t_complete_cmd	*complete_cmd = NULL;
 	static t_deque	*tokbuf_g;
 	t_deque			*tokbuf_l = NULL;
+	int				heredoc_sigint;
 
 	while (gett(&tokbuf_g, &tokbuf_l)->tk_type == NEWLINE)
 		erase_tokbuf(&tokbuf_l);
@@ -38,6 +39,9 @@ t_complete_cmd	*parser(void)
 		erase_tokbuf(&tokbuf_l);
 		return (NULL);
 	}
-	heredoc_action(ADD_VALUE, NULL, NULL);
+	heredoc_sigint = 0;
+	heredoc_action(ADD_VALUE, NULL, NULL, &heredoc_sigint);
+	if (heredoc_sigint)
+		clean_complete_command(&complete_cmd);
 	return (complete_cmd);
 }

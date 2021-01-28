@@ -12,6 +12,7 @@ typedef struct	s_heredoc
 	struct s_heredoc	*next;
 }				t_heredoc;
 
-void			heredoc_action(int action, char *del, char **address_value);
+void			heredoc_action(int action, char *del, char **address_value, int *heredoc_sigint);
+void			clean_all_heardoc(t_heredoc **heredoc);
 
 #endif
