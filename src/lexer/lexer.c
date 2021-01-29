@@ -132,10 +132,17 @@ t_token			*lexer_scanner(t_lexer_state *token)
 	return (fresh);
 }
 
-t_token			*lexer()
+/*
+** value если value != NULL, значит не планируется использовать readline
+** в лексере, потому что строка для лексического анализа уже задана
+*/
+
+t_token *lexer(char *value)
 {
 	t_token	*token;
 
+	if (value != NULL)
+		g_token.value = ft_strdup(value);
 	token = lexer_scanner(&g_token);
 //    print_token(*token);
 	return (token);

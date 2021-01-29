@@ -14,6 +14,8 @@
 #include "parser.h"
 #include "heredoc.h"
 
+// TODO Добавить параметр, на основании которого парсер будет решать
+// TODO Брать входные данные через ридлайн или из command substitution
 t_complete_cmd	*parser(void)
 {
 	t_complete_cmd	*complete_cmd = NULL;

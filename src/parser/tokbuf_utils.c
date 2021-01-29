@@ -23,7 +23,7 @@ t_token	*gett(t_deque **tokbuf_g, t_deque **tokbuf_l)
 	t_token	*next;
 
 	if (!tokbuf_g || !*tokbuf_g || !(*tokbuf_g)->first)
-		next = lexer();
+		next = lexer(NULL);
 	else
 		next = pop_front(*tokbuf_g);
 	push_back(tokbuf_l, next);

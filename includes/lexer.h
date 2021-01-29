@@ -60,7 +60,7 @@ void			lexer_state_word(t_lexer_state *token);
 void			lexer_state_word_esc(t_lexer_state *token);
 void			lexer_state_start(t_lexer_state *token);
 void			lexer_set_flags(t_lexer_state *token);
-t_token			*lexer();
+t_token			*lexer(char *value);
 
 /*
 ** Misk functions for lexer routine
