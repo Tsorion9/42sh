@@ -49,11 +49,12 @@ char		**update_copy(char **args, t_env copy)
 ** env a=b c=d ./program
 */
 
-int			builtin_env(char **args, t_env env, int subshell)
+int			builtin_env(char **args, t_env env_deprecated, int subshell)
 {
 	int		memory_ok;
 	t_env	copy;
 
+	(void)env_deprecated;
 	(void)subshell;
 	if (!(copy = copy_env(env)))
 	{

@@ -39,14 +39,14 @@ static int handle_export_arg(char *arg)
 ** export -p
 ** export name[=word]...
 */
-int			builtin_export(char **args, t_env env, int subshell)
+int			builtin_export(char **args, t_env env_deprecated, int subshell)
 {
 	int status;
 	int i;
 
 	(void)args;
 	(void)subshell;
-	(void)env;
+	(void)env_deprecated;
 	if (!args || !args[0] || !ft_strcmp(args[0], "-p"))
 	{
 		print_env(export_env, &status, "export ");
