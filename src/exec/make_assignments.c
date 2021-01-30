@@ -3,10 +3,12 @@
 void make_assignment(char *as_wrd)
 {
 	char *equal;
+	char *tmp;
 
 	equal = ft_strchr(as_wrd, '=');
 	*equal = 0;
-	ft_setenv(env, ft_strdup(as_wrd), equal + 1);
+	ft_setenv(env, (tmp = ft_strdup(as_wrd)), equal + 1);
+	free(tmp);
 }
 
 void make_assignments(t_simple_cmd *cmd)
