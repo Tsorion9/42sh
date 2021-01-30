@@ -30,8 +30,8 @@ int exec_simple_cmd(t_simple_cmd *cmd);
 int exec_cmd(t_command *cmd);
 int make_assignments_redirections(t_simple_cmd *cmd);
 
-void make_assignment(char *as_wrd);
-void make_assignments(t_simple_cmd *cmd);
+void make_assignment(char *as_wrd, int do_export);
+void make_assignments(t_simple_cmd *cmd, int do_export);
 int make_redirection(t_redirect *redirect);
 
 #endif
