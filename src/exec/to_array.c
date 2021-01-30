@@ -80,14 +80,12 @@ char			**to_array(t_env env, int *memory_ok)
 	char	**envi;
 	t_ptree	*tree;
 
+	(void)memory_ok;
 	tree = (t_ptree *)env;
-	*memory_ok = 1;
 	l = ptree_to_kvpairs(tree);
 	if (ft_lstlen(l) == 1 && !l->content)
 		return (NULL);
 	envi = list_to_array(l);
-	if (!envi)
-		*memory_ok = 0;
 	ft_lstdel(&l, &del_list_entry);
 	return (envi);
 }
