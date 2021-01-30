@@ -6,24 +6,7 @@
 #include "parser.h"
 #include "exec.h"
 #include "job.h"
-
-/* 
-** top-level shell is the only one who does job control
-** if top_level_shell==0, we are in job shell
-** all our children must stay in same group
-*/
-int top_level_shell = 1;
-
-/*
-** Not used now. Probably, will be helpful for scripts
-*/
-int job_control_enabled;
-
-/*
-** If nonzero, do the asynchronious notification when BG job changes state
-** See set -o notify
-*/
-int async_notify_bg;
+#include "jobshell.h"
 
 /*
 ** TRUE = 0
@@ -60,18 +43,8 @@ static int need_exec_pipeline(int status, t_type_andor last_op)
 	return (0);
 }
 
-void set_jobshell_signal(void)
-{
-	signal(SIGINT, SIG_IGN); /* In case of come child handles */
-	signal(SIGTERM, SIG_IGN); /* In case of come child handles */
-
-	/* If SIG_IGN process will be silently destroyed and not turned to zombie*/
-	signal(SIGCHLD, SIG_DFL); /* We wait, parent does job control */
-	signal(SIGTSTP, SIG_DFL);
-}
-
 /*
-** Return 1
+** Used in jobshell.c
 */
 void exec_andor_list(t_andor_list *list, int *status)
 {
@@ -98,34 +71,20 @@ int exec_complete_cmd(t_complete_cmd *cmd)
 {
 	int				status;
 	t_complete_cmd	*save_start;
-	pid_t			job;
 
 	save_start = cmd;
 	while (cmd)
 	{
 		if (cmd->separator_op == OP_BG) 
 		{
-			job = fork();
-			if (job) /* top-level shell */
-			{
-				setpgid(job, job);
-				add_job(job, 1, andor_to_str(cmd->and_or));
-				cmd = cmd->next;
-				continue ;
-			}
-			else	 /* job shell */
-			{
-				setpgid(getpid(), getpid());
-				set_jobshell_signal();
-				top_level_shell = 0;
-				exec_andor_list(cmd->and_or, &status);
-				exit(status);
-			}
+			create_jobshell(cmd);
 		}
-		exec_andor_list(cmd->and_or, &status);
+		else
+		{
+			exec_andor_list(cmd->and_or, &status);
+		}
 		cmd = cmd->next;
 	}
-
 	clean_complete_command(&save_start);
 	return (status);
 }

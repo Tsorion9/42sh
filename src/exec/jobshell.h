@@ -1,0 +1,16 @@
+#ifndef JOBSHELL_H
+# define JOBSHELL_H
+
+#include "job.h"
+#include "parser.h"
+#include "exec.h"
+
+extern int top_level_shell;
+extern int job_control_enabled;
+extern int async_notify_bg;
+
+void set_jobshell_signal(void);
+void create_jobshell(t_complete_cmd *cmd);
+void exec_andor_list(t_andor_list *list, int *status);
+
+#endif
