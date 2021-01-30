@@ -19,11 +19,11 @@ static void update_status(int pipeline_status, int *status, t_type_andor last_op
 	{
 		*status = pipeline_status; /* First step */
 	}
-	else if (last_op == ANDOR_AND)
+	else if (last_op == ANDOR_OR)
 	{
 		*status = *status || pipeline_status;
 	}
-	else if (last_op == ANDOR_OR)
+	else if (last_op == ANDOR_AND)
 	{
 		*status = *status && pipeline_status;
 	}
@@ -35,8 +35,8 @@ static void update_status(int pipeline_status, int *status, t_type_andor last_op
 static int need_exec_pipeline(int status, t_type_andor last_op)
 {
 	if (last_op == ANDOR_NONE || 
-		(last_op == ANDOR_OR && status == 0) || 
-		(last_op == ANDOR_AND && status != 0))
+		(last_op == ANDOR_AND && status == 0) || 
+		(last_op == ANDOR_OR && status != 0))
 	{
 		return (1);
 	}
