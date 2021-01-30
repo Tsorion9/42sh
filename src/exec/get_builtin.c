@@ -22,12 +22,10 @@ t_builtin	get_builtin(char *name)
 		return (&builtin_cd);
 	if (!ft_strcmp(name, "env"))
 		return (&builtin_env);
-	if (!ft_strcmp(name, "setenv"))
-		return (&builtin_setenv);
-	if (!ft_strcmp(name, "getenv"))
-		return (&builtin_getenv);
-	if (!ft_strcmp(name, "unsetenv"))
-		return (&builtin_unsetenv);
+	if (!ft_strcmp(name, "set"))
+		return (&builtin_set);
+	if (!ft_strcmp(name, "unset"))
+		return (&builtin_unset);
 	if (!ft_strcmp(name, "exit"))
 		return (&builtin_exit);
 	if (!ft_strcmp(name, "21shopt"))

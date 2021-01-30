@@ -69,7 +69,7 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 		args = collect_argwords(words);
 		builtin = get_builtin(words->word);
 		if (builtin)
-			status = builtin(args + 1, env, 0);
+			status = builtin(args + 1, 0, 0);
 		else
 			status = find_exec(args, export_env);
 		del_array(args);
