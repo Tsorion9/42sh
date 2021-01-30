@@ -164,6 +164,15 @@ CEXEC = builtin_21shopt.c \
 		assignment_word.c \
 		jobshell.c \
 		expand_pipeline.c \
+		only_assignments.c \
+		is_single_builtin.c \
+		make_assignments.c \
+		make_assignments_redirections.c \
+		make_redirection.c \
+		make_child.c \
+		wait_all_children.c \
+		exec_cmd.c \
+		exec_simple_cmd.c \
 		pipeline_words_to_assignments.c
 
 CEXPANSIONS = tilde_expansion.c \
