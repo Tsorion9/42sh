@@ -344,7 +344,6 @@ int exec_pipeline_job(t_pipeline *pipeline)
 	/* collect exit status of latest child, do not return until every child dies*/
 	while ((finished = waitpid(-1, &status, WUNTRACED | WCONTINUED)) != -1)
 	{
-		//ft_printf("%s\n", "jobshell: inside waitpid loop");
 		if (finished == last_child)
 		{
 			last_child_status = status;
@@ -352,22 +351,18 @@ int exec_pipeline_job(t_pipeline *pipeline)
 	}
 	if (WCOREDUMP(last_child_status)) /*Special case of WIFSIGNALED*/
 	{
-		//ft_printf("%s\n", "jobshell: child core dupmed");
 		signal(SIGSEGV, SIG_DFL);
 		kill(getpid(), SIGSEGV);  //Fucking genious
 	}
 	if (WIFSIGNALED(last_child_status))
 	{
-		//ft_printf("jobshell: child signalled (%d)\n", WTERMSIG(last_child_status));
 		signal(WTERMSIG(last_child_status), SIG_DFL);
 		kill(getpid(), WTERMSIG(last_child_status));  //Fucking genious
 	}
 	if (WIFSTOPPED(last_child_status))
 	{
-		//ft_printf("jobshell: child stopped (%d)\n", WSTOPSIG(last_child_status));
 		return (WSTOPSIG(last_child_status));
 	}
-	//ft_printf("jobshell: child exited (%d)\n", WEXITSTATUS(last_child_status));
 	return (WEXITSTATUS(last_child_status));
 }
 
@@ -449,8 +444,6 @@ static void command_words_to_assignments(t_command *cmd)
 	{
 		words_to_assignments(cmd->simple_cmd);
 	}
-	else 
-		;// TODO, not implemented in mandatory part
 }
 
 static void pipeline_words_to_assignments(t_pipeline *pipeline)
@@ -469,13 +462,9 @@ int exec_pipeline(t_pipeline *pipeline)
 	expand_pipeline(pipeline);
 	pipeline_words_to_assignments(pipeline);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
-	{
 		return (exec_single_builtin(pipeline));
-	}
 	if (!top_level_shell)
-	{
 		return (exec_pipeline_job(pipeline));
-	}
 	job = fork();
 	if (job) /* Top-level shell */
 	{
