@@ -7,7 +7,7 @@ void make_assignment(char *as_wrd)
 
 	equal = ft_strchr(as_wrd, '=');
 	*equal = 0;
-	ft_setenv(env, (tmp = ft_strdup(as_wrd)), equal + 1);
+	ft_setenv(env, (tmp = ft_strdup(as_wrd)), ft_strdup(equal + 1));
 	free(tmp);
 }
 
