@@ -6,7 +6,7 @@ void make_assignment(char *as_wrd)
 
 	equal = ft_strchr(as_wrd, '=');
 	*equal = 0;
-	ft_setenv(env, ft_strdup(as_wrd), ft_strdup(equal + 1));
+	ft_setenv(env, ft_strdup(as_wrd), equal + 1);
 }
 
 void make_assignments(t_simple_cmd *cmd)
