@@ -65,7 +65,7 @@ int			builtin_env(char **args, t_env env, int subshell)
 	if (!*args)
 	{
 		memory_ok = 1;
-		print_env(copy, &memory_ok);
+		print_env(copy, &memory_ok, NULL);
 		if (!memory_ok)
 			ft_fprintf(2, "%s", "Not enough memory\n");
 	}

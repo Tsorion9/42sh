@@ -12,68 +12,52 @@
 
 #include "t_builtin.h"
 #include "t_export.h"
+#include "environment.h"
+#include "libft.h"
 
-void		check_export(char *arg)
+static int handle_export_arg(char *arg)
 {
-	char	*export;
+	char *equal;
+	char *value;
 
-	export = NULL;
-	if ((export = search_export(arg)) == NULL)
-		ft_printf("42sh: export: %s: not found\n", arg);
+	if (!(equal = ft_strchr(arg, '=')))
+	{
+		if (!(value = ft_getenv(env, arg)))
+			return (EXIT_FAILURE);
+		ft_setenv(export_env, arg, ft_strdup(value));
+	}
 	else
 	{
-		free(export);
-		export = NULL;
-		print_export(arg);
+		*equal = 0;
+		ft_setenv(export_env, arg, ft_strdup(equal + 1));
 	}
+	return (EXIT_SUCCESS);
 }
 
-void		builtin_export_cycle_args(char **mas_args)
-{
-	int				i;
-	t_export		*export;
-
-	if ((export = static_export_action(get)) == NULL)
-		return ;
-	i = 0;
-	if (mas_args == NULL)
-		return ;
-	while (mas_args[i])
-	{
-		if (mas_args[i] && !export->flag_n &&  (mas_args[i + 1] == NULL
-			|| ft_strcmp(mas_args[i + 1], "=")))
-			check_export(mas_args[i++]);
-		else if (mas_args[i] && export->flag_n &&  (mas_args[i + 1] == NULL
-			|| ft_strcmp(mas_args[i + 1], "=")))
-			delete_export(mas_args[i++]);
-		else if (mas_args[i] && !ft_strcmp(mas_args[i + 1], "="))
-		{
-			insert_export(mas_args[i], mas_args[i + 2]);
-			i += 3;
-		}
-	}
-	export->flag_n = 0;
-}
-
+/*
+** export -p
+** export name[=word]...
+*/
 int			builtin_export(char **args, t_env env, int subshell)
 {
-	char	**mas_args;
+	int status;
+	int i;
 
-	mas_args = NULL;
 	(void)args;
 	(void)subshell;
 	(void)env;
-	if (*args == NULL)
-		print_exports();
-	else
+	if (!args || !args[0] || !ft_strcmp(args[0], "-p"))
 	{
-		if ((check_flag_pn(&args, print_exports, invalid_export_option) 
-			== EXIT_FAILURE))
-			return (EXIT_FAILURE);
-		if ((mas_args = get_alias_args(args, invalid_export_name)) == NULL)
-			return (EXIT_FAILURE);
-		builtin_export_cycle_args(mas_args);
-		del_array(mas_args);
+		print_env(export_env, &status, "export ");
+		return (EXIT_SUCCESS);
 	}
-	return (EXIT_SUCCESS);
+	status = EXIT_SUCCESS;
+	i = 0;
+	while (args[i])
+	{
+		if (EXIT_FAILURE == handle_export_arg(args[i]))
+			status = EXIT_FAILURE;
+		i++;
+	}
+	return (status);
 }

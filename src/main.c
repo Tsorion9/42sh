@@ -21,6 +21,7 @@
 #include "t_export.h"
 
 t_env env;
+t_env export_env;
 
 int main(int argc, char **argv, char **envr)
 {
@@ -51,7 +52,7 @@ int main(int argc, char **argv, char **envr)
 	}
 
 	env = init_env(envr);
-	static_export_action(init);
+	export_env = copy_env(env);
 	static_hashalias_action(init);
 	init_terminal();
 	init_prompt();

@@ -36,7 +36,11 @@ void			ft_unsetenv(t_env env, char *name)
 	del_key((t_ptree *)env, name);
 }
 
-void			print_env(t_env env, int *memory_ok)
+/*
+** memory_ok - can be null
+** optional_prefix - can be null
+*/
+void			print_env(t_env env, int *memory_ok, char *optional_prefix)
 {
 	char	**arr;
 	char	**start;
@@ -47,7 +51,7 @@ void			print_env(t_env env, int *memory_ok)
 	start = arr;
 	while (*arr)
 	{
-		ft_printf("%s\n", *arr);
+		ft_printf("%s%s\n", optional_prefix ? optional_prefix : "" ,*arr);
 		arr++;
 	}
 	del_array(start);
