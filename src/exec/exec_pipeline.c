@@ -12,7 +12,7 @@
 #include "find_exec.h"
 #include "job.h"
 #include "assignment_word.h"
-#include "expansions.h"
+#include "expand_pipeline.h"
 
 int tmp_lstlen(t_word_list *w)
 {
@@ -458,33 +458,6 @@ static void pipeline_words_to_assignments(t_pipeline *pipeline)
 	while (pipeline)
 	{
 		command_words_to_assignments(pipeline->command);
-		pipeline = pipeline->next;
-	}
-}
-
-void 	expand_simple_command(t_simple_cmd *simple_cmd)
-{
-	t_word_list *words;
-
-	words = simple_cmd->words;
-	while (words)
-	{
-		word_expansion(&words->word);
-		words = words->next;
-	}
-}
-
-void 	expand_command(t_command *cmd)
-{
-	if (cmd->cmd_type == SIMPLE_CMD)
-		expand_simple_command(cmd->simple_cmd);
-}
-
-void 	expand_pipeline(t_pipeline *pipeline)
-{
-	while (pipeline)
-	{
-		expand_command(pipeline->command);
 		pipeline = pipeline->next;
 	}
 }
