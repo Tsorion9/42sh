@@ -13,6 +13,7 @@
 #include "job.h"
 #include "assignment_word.h"
 #include "expand_pipeline.h"
+#include "pipeline_words_to_assignments.h"
 
 int tmp_lstlen(t_word_list *w)
 {
@@ -162,26 +163,6 @@ int make_assignments_redirections(t_simple_cmd *cmd)
 		redirect = redirect->next;
 	}
 	return (0);
-}
-
-void words_to_assignments(t_simple_cmd *cmd)
-{
-	t_word_list *current;
-
-	current = cmd->words;
-	cmd->assignments = NULL;
-	while (current) {
-		if (!looks_like_assignment_word(current->word)) {
-			cmd->words = current;
-			break;
-		}
-		cmd->words = current->next;
-
-		/* TODO: Order of assignments not preserved; add back!! */
-		ft_lstadd_data(&(cmd->assignments), (void *)current->word, 0);
-		free(current);
-		current = cmd->words;
-	}
 }
 
 void print_cmd_dbg(t_simple_cmd *cmd)
@@ -436,23 +417,6 @@ int only_assignments(t_pipeline *pipeline)
 		}
 	}
 	return (1);
-}
-
-static void command_words_to_assignments(t_command *cmd)
-{
-	if (cmd->cmd_type == SIMPLE_CMD)
-	{
-		words_to_assignments(cmd->simple_cmd);
-	}
-}
-
-static void pipeline_words_to_assignments(t_pipeline *pipeline)
-{
-	while (pipeline)
-	{
-		command_words_to_assignments(pipeline->command);
-		pipeline = pipeline->next;
-	}
 }
 
 int exec_pipeline(t_pipeline *pipeline)

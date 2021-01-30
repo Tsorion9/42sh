@@ -163,7 +163,8 @@ CEXEC = builtin_21shopt.c \
 		export_to_array.c \
 		assignment_word.c \
 		jobshell.c \
-		expand_pipeline.c
+		expand_pipeline.c \
+		pipeline_words_to_assignments.c
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \
