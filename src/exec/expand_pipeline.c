@@ -1,29 +1,39 @@
 #include "expansions.h"
 #include "parser.h"
 
-static void 	expand_simple_command(t_simple_cmd *simple_cmd)
+static int 	expand_simple_command(t_simple_cmd *simple_cmd)
 {
 	t_word_list *words;
+	int status;
 
 	words = simple_cmd->words;
 	while (words)
 	{
-		word_expansion(&words->word);
+		status = word_expansion(&words->word);
+		if (status == EXPANSION_FAIL)
+			return (EXPANSION_FAIL);
 		words = words->next;
 	}
+	return (EXPANSION_SUCCESS);
 }
 
-static void 	expand_command(t_command *cmd)
+static int 	expand_command(t_command *cmd)
 {
 	if (cmd->cmd_type == SIMPLE_CMD)
-		expand_simple_command(cmd->simple_cmd);
+	{
+		if (expand_simple_command(cmd->simple_cmd) == EXPANSION_FAIL)
+			return (EXPANSION_FAIL);
+	}
+	return (EXPANSION_SUCCESS);
 }
 
-void 	expand_pipeline(t_pipeline *pipeline)
+int 	expand_pipeline(t_pipeline *pipeline)
 {
 	while (pipeline)
 	{
-		expand_command(pipeline->command);
+		if (expand_command(pipeline->command) == EXPANSION_FAIL)
+			return (EXPANSION_FAIL);
 		pipeline = pipeline->next;
 	}
+	return (EXPANSION_SUCCESS);
 }

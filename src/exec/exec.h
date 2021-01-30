@@ -6,6 +6,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "t_builtin.h"
+#include "expansions.h"
 
 extern int top_level_shell;
 extern int async_notify_bg;

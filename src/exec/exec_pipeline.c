@@ -74,7 +74,8 @@ int exec_pipeline(t_pipeline *pipeline)
 {
 	pid_t job;
 
-	expand_pipeline(pipeline);
+	if (expand_pipeline(pipeline) == EXPANSION_FAIL)
+		return (1);
 	pipeline_words_to_assignments(pipeline);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));
