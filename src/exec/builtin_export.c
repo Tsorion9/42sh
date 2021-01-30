@@ -30,6 +30,7 @@ static int handle_export_arg(char *arg)
 	{
 		*equal = 0;
 		ft_setenv(export_env, arg, ft_strdup(equal + 1));
+		ft_setenv(env, arg, ft_strdup(equal + 1));
 	}
 	return (EXIT_SUCCESS);
 }
