@@ -206,6 +206,22 @@ void 	parameter_expansion(char **src_word)
 		var_expansion(src_word, &i, 0);
 }
 
+/*
+** The getpid() function are always successful, and no return
+** value is reserved to indicate an error.
+*/
+
+void 	pid_expansion(char **src_word, size_t *i)
+{
+	int		pid;
+	char 	*s_pid;
+
+	pid = getpid();
+	s_pid = ft_itoa(pid);
+	replace_value(src_word, s_pid, i, 2);
+	free(s_pid);
+}
+
 void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 {
 	char	c;
@@ -234,8 +250,12 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 	}
 	else if (c == '(')
 		return ;
+	else if (c == '$')
+		pid_expansion(src_word, i);
 	else if (is_valid_var_char(c))
 		var_expansion(src_word, i, 1);
+	else
+		(*i)++;
 }
 
 /*
