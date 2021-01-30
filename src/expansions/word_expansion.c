@@ -176,7 +176,7 @@ char	*ft_strchr_any(char *s, char *search)
 	return (NULL);
 }
 
-int		expasnio_status(int status)
+int		expasnion_status(int status)
 {
 	static int g_status;
 
@@ -186,14 +186,91 @@ int		expasnio_status(int status)
 	return g_status;
 }
 
+void	use_default_values(char **src_word, char **sep,
+						char *param_value, int have_colon)
+{
+	size_t	i;
+
+	i = 0;
+	(*sep)++;
+	if (have_colon)
+	{
+		word_expansion(sep);
+		replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+	}
+	else
+	{
+		if (param_value != NULL && !(*param_value))
+		{
+			*sep = ft_strnew(0);
+			replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+			free(*sep);
+			*sep = NULL;
+		}
+		else if (param_value == NULL)
+		{
+			word_expansion(sep);
+			replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+		}
+	}
+}
+
+void	indicate_error_if_null_or_unset(char **src_word, char **sep,
+									 char *param, int have_colon)
+{
+	char	*param_value;
+
+	(*sep)++;
+	param_value = ft_getenv(env, param);
+	if (param_value != NULL && *param_value == '\0' && !have_colon)
+	{
+		free(*src_word);
+		*src_word = ft_strnew(0);
+	}
+	else
+	{
+		ft_fprintf(STDERR_FILENO, "42sh: %s: %s", param,
+				   (**sep == '\0') ? E_PARAM_NULL_OR_UNSET : *sep);
+		expasnion_status(EXPANSION_FAIL);
+	}
+}
+
+void	use_alternative_value(char **src_word, char **sep,
+						   char *param_value, int have_colon)
+{
+	(*sep)++;
+
+	if (have_colon)
+	{
+		if (param_value == NULL || *param_value == '\0')
+		{
+			free(*src_word);
+			*src_word = ft_strnew(0);
+		}
+	}
+	else
+	{
+		if (param_value == NULL)
+		{
+			free(*src_word);
+			*src_word = ft_strnew(0);
+		}
+	}
+}
+
 /*
+** '-' == использовать значнение word после расширения
+** '?' == выводит сообщение об ошибке, если значение unset/null
+** '+' ==
+**
 ** src_word исходное слово
 ** sep указатель на специальный параметр в src_word
 ** простыми словами, sep подстрока src_word, указывающая на спец символ
 ** parameter испозьуется для присваивания значения, если необходимо
 */
 
-void 	var_unset_or_empty(char **src_word, char **sep, char *param)
+void 	var_unset_or_empty(char **src_word, char **sep, char *param,
+						 								int have_colon)
 {
 	size_t	i;
 	char	c;
@@ -201,22 +278,12 @@ void 	var_unset_or_empty(char **src_word, char **sep, char *param)
 	i = 0;
 	c = **sep;
 	if (c == '-')
-		(*sep)++;
+		use_default_values(src_word, sep, ft_getenv(env, param), have_colon);
 	else if (c == '?')
-	{
-		(*sep)++;
-		word_expansion(sep);
-		ft_fprintf(STDERR_FILENO, "42sh: %s: %s", param,
-			 (**sep == '\0') ? E_PARAM_NULL_OR_UNSET : *sep);
-		free(*src_word);
-		*src_word = ft_strnew(0);
-		expasnio_status(EXPANSION_FAIL);
-		return ;
-	}
+		indicate_error_if_null_or_unset(src_word, sep, param, have_colon);
+//	else if (c == '+')
 	else
-		shell_err(E_BAD_SUBSTITUTION, *src_word);
-	word_expansion(sep);
-	replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
 }
 
 /*
@@ -230,19 +297,30 @@ void 	parameter_expansion(char **src_word)
 	char	*sep;
 	char 	*parameter;
 	char 	*var_value;
+	int		have_colon;
 
 	i = 0;
+	have_colon = 0;
 	sep = ft_strchr(*src_word, ':');
 	if (!sep)
 		sep = ft_strchr_any(*src_word, "-=?+%#");
 	if (sep)
 	{
 		parameter = ft_strsub(*src_word, 0, (size_t)(sep - *src_word));
-		if (*sep == ':')
-			sep++;
+		if (*parameter == '\0')
+		{
+			ft_fprintf(2, "42sh: %s: %s", *src_word, E_BAD_SUBSTITUTION);
+			expasnion_status(EXPANSION_FAIL);
+			return ;
+		}
 		var_value = ft_getenv(env, parameter);
+		if (*sep == ':')
+		{
+			sep++;
+			have_colon = 1;
+		}
 		if (!var_value || !(*var_value))
-			var_unset_or_empty(src_word, &sep, parameter);
+			var_unset_or_empty(src_word, &sep, parameter, have_colon);
 		free(parameter);
 	}
 	else
@@ -325,9 +403,10 @@ int		word_expansion(char **source_word)
 
 	if ((*source_word) == NULL || !(**source_word))
 		return (EXPANSION_EMPTY_WORD);
+	expasnion_status(EXPANSION_SUCCESS);
 	i = 0;
 	word_state = 0;
-	while ((*source_word)[i])
+	while ((*source_word)[i] && expasnion_status(GET_STATUS) != EXPANSION_FAIL)
 	{
 		c = (*source_word)[i];
 		if (c == '~')
@@ -349,5 +428,5 @@ int		word_expansion(char **source_word)
 		else
 			i++;
 	}
-	return (expasnio_status(GET_STATUS));
+	return (expasnion_status(GET_STATUS));
 }

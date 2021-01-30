@@ -5,8 +5,8 @@
 
 # define VALID_VAR_CHAR			1
 # define INVALID_VAR_CHAR		0
-# define EXPANSION_FAIL			0
-# define EXPANSION_SUCCESS		1
+# define EXPANSION_FAIL			-1
+# define EXPANSION_SUCCESS		100
 # define GET_STATUS				1337
 # define EXPANSION_EMPTY_WORD	(1 << 0)
 # define IN_DQUOTE_STATE		(1 << 0)

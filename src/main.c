@@ -53,7 +53,7 @@ int main(int argc, char **argv, char **envr)
 	env = init_env(envr);
 	static_export_action(init);
 	static_hashalias_action(init);
-//	init_terminal();
+	init_terminal();
 	init_prompt();
     rp(init_rp());
 	load_on_file_history(rp(NULL)->history);
