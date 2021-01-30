@@ -19,6 +19,7 @@
 
 int		tilde_expansion(char **s, size_t *i);
 int		word_expansion(char **source_word);
+void	quote_removal(char **str);
 
 // misk
 int		replace_value(char **str, char *value, size_t *start, size_t len);
