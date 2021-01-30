@@ -176,14 +176,52 @@ char	*ft_strchr_any(char *s, char *search)
 	return (NULL);
 }
 
-// TODO
-void 	parameter_action()
+int		expasnio_status(int status)
 {
+	static int g_status;
 
+	if (status == GET_STATUS)
+		return g_status;
+	g_status = status;
+	return g_status;
+}
+
+/*
+** src_word исходное слово
+** sep указатель на специальный параметр в src_word
+** простыми словами, sep подстрока src_word, указывающая на спец символ
+** parameter испозьуется для присваивания значения, если необходимо
+*/
+
+void 	var_unset_or_empty(char **src_word, char **sep, char *param)
+{
+	size_t	i;
+	char	c;
+
+	i = 0;
+	c = **sep;
+	if (c == '-')
+		(*sep)++;
+	else if (c == '?')
+	{
+		(*sep)++;
+		word_expansion(sep);
+		ft_fprintf(STDERR_FILENO, "42sh: %s: %s", param,
+			 (**sep == '\0') ? E_PARAM_NULL_OR_UNSET : *sep);
+		free(*src_word);
+		*src_word = ft_strnew(0);
+		expasnio_status(EXPANSION_FAIL);
+		return ;
+	}
+	else
+		shell_err(E_BAD_SUBSTITUTION, *src_word);
+	word_expansion(sep);
+	replace_value(src_word, *sep, &i, ft_strlen(*src_word));
 }
 
 /*
 ** '{' src_word '}'
+** src_word == parameter( [:][=+-?] | (#[#] | %[%]) )word
 */
 
 void 	parameter_expansion(char **src_word)
@@ -191,7 +229,7 @@ void 	parameter_expansion(char **src_word)
 	size_t	i;
 	char	*sep;
 	char 	*parameter;
-	char 	*word;
+	char 	*var_value;
 
 	i = 0;
 	sep = ft_strchr(*src_word, ':');
@@ -200,7 +238,12 @@ void 	parameter_expansion(char **src_word)
 	if (sep)
 	{
 		parameter = ft_strsub(*src_word, 0, (size_t)(sep - *src_word));
-//		ft_printf("parameter =  %s\n", parameter);
+		if (*sep == ':')
+			sep++;
+		var_value = ft_getenv(env, parameter);
+		if (!var_value || !(*var_value))
+			var_unset_or_empty(src_word, &sep, parameter);
+		free(parameter);
 	}
 	else
 		var_expansion(src_word, &i, 0);
@@ -222,6 +265,20 @@ void 	pid_expansion(char **src_word, size_t *i)
 	free(s_pid);
 }
 
+/*
+** perform variable (parameter) expansion.
+**
+** syntax           POSIX description   var defined     var undefined
+** ======           =================   ===========     =============
+** ${var}           Substitute          var             void
+** ${var:-word}     Use Deflt Values    var             word
+** ${var-word}      Use Deflt Values    var             void
+** ${var:?message}  Error if NULL/Unset var             print message and exit shell,
+**                                                      (if message is empty,print
+**                                                      "var: parameter not set")
+** ${#var}          Calculate String Length
+*/
+
 void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 {
 	char	c;
@@ -234,11 +291,9 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 	{
 		j = find_closing_brace(*src_word, *i + 1);
 		s = ft_strsub(*src_word, *i + 2, j - *i - 2);
-//		ft_printf("{ %s }\n", s);
 		if (s[0] == '#')
 		{
 			res = length_expansion(&s);
-//			ft_printf("res expansion = %s\n", res);
 			replace_value(src_word, res, i, j + 1);
 		}
 		else
@@ -294,5 +349,5 @@ int		word_expansion(char **source_word)
 		else
 			i++;
 	}
-	return (1);
+	return (expasnio_status(GET_STATUS));
 }
