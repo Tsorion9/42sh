@@ -70,12 +70,6 @@ void set_jobshell_signal(void)
 	signal(SIGTSTP, SIG_DFL);
 }
 
-void perform_word_expansions(t_pipeline *p)
-{
-	(void)p;
-	return ;
-}
-
 /*
 ** Return 1
 */
@@ -89,9 +83,6 @@ void exec_andor_list(t_andor_list *list, int *status)
 	{
 		if (need_exec_pipeline(*status, last_op))
 		{
-			perform_word_expansions(list->pipeline); /* Only executed commands should be expanded 
-			TODO: Make sure expansions are executed single time
-			*/
 			pipeline_status = exec_pipeline(list->pipeline);
 			update_status(pipeline_status, status, last_op);
 		}
