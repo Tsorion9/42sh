@@ -55,6 +55,12 @@ void			lexer_state_word_esc(t_lexer_state *token)
 		replace_word = ft_strncpy(replace_word, token->value, token->tk_len);
 
 		input = line_42sh(get_prompt(PS2));
+		if (input && !*(input))
+		{
+			token->tk_type = TOKEN_END;
+			ft_fprintf(STDERR_FILENO, "%s\n", E_SYN_UNEXPECT_EOF);
+			return ;
+		}
 		ft_strdel(&(token->value));
 		token->value = ft_strjoinfreefree(replace_word, input);
 		lexer_state_word(token);
@@ -126,6 +132,15 @@ void	handler(int signal)
 	g_hasSiganl = 1;
 }
 
+char 			get_quote(t_lexer_state *token)
+{
+	if (token->flags & QUOTE_STATE)
+		return ('\'');
+	else if (token->flags & DQUOTE_STATE)
+		return ('"');
+	return (token->head->brace);
+}
+
 void			lexer_state_word(t_lexer_state *token)
 {
 	char *input = NULL;
@@ -147,6 +162,14 @@ void			lexer_state_word(t_lexer_state *token)
 		*/
 		inside_readline = 1;
 		input = line_42sh(get_prompt(PS2));
+		if (input && !*(input))
+		{
+			token->tk_type = TOKEN_END;
+			ft_fprintf(STDERR_FILENO, "%s`%c'\n",
+			  E_UNEXPECTED_EOF, get_quote(token));
+			ft_fprintf(STDERR_FILENO, "%s\n", E_SYN_UNEXPECT_EOF);
+			return ;
+		}
 		inside_readline = 0;
 		if (g_hasSiganl)
 		{

@@ -17,7 +17,7 @@ char *read_heredoc_value(char *delimiter, int *heredoc_sigin)
 			free(value);
 			return (NULL);
 		}
-		if (ft_strequ(line, delimiter))
+		if (ft_strequ(line, delimiter) || !*line)
 		{
 			ft_strdel(&line);
 			break ;

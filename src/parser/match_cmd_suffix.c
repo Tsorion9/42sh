@@ -14,6 +14,21 @@ int     match_cmd_arg(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
     return (PARSER_SUCCES);
 }
 
+/*
+** if token type is TOKEN_END, then EOF reached in noninteractive mode
+** Set token type TOKEN_CTRL_C just to skip printing error message
+*/
+
+int 	check_token_end(t_token *token, t_deque **tokbuf_g, t_deque **tokbuf_l)
+{
+	if (token->tk_type == TOKEN_END)
+	{
+		token->tk_type = TOKEN_CTRL_C;
+		return (return_err_and_flush_tokens(tokbuf_g, tokbuf_l));
+	}
+	return (PARSER_SUCCES);
+}
+
 int     match_cmd_suffix(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 {
     t_deque *tokbuf_l;
@@ -37,5 +52,5 @@ int     match_cmd_suffix(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
         if (match_cmd_arg(simple_cmd, tokbuf_g) != PARSER_SUCCES)
             return (PARSER_ERROR);
     }
-    return (PARSER_SUCCES);
+    return (check_token_end(token, tokbuf_g, &tokbuf_l));
 }
