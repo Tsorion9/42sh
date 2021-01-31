@@ -29,6 +29,7 @@ CREADLINE = add_symbol.c \
 			tc_cursor_n_right.c \
 			termcap_api.c \
 			t_str.c \
+			line_42sh.c \
 			up_down_arrow.c
 
 

@@ -20,9 +20,11 @@ int async_notify_bg;
 
 void set_jobshell_signal(void)
 {
-	signal(SIGINT, SIG_IGN); /* In case of come child handles */
-	signal(SIGTERM, SIG_IGN); /* In case of come child handles */
-
+	if (interactive_shell)
+	{
+		signal(SIGINT, SIG_IGN); /* In case of come child handles */
+		signal(SIGTERM, SIG_IGN); /* In case of come child handles */
+	}
 	/* If SIG_IGN process will be silently destroyed and not turned to zombie*/
 	signal(SIGCHLD, SIG_DFL); /* We wait, parent does job control */
 	signal(SIGTSTP, SIG_DFL);
@@ -36,12 +38,14 @@ void create_jobshell(t_complete_cmd *cmd)
 	job = fork();
 	if (job) /* top-level shell */
 	{
-		setpgid(job, job);
+		if (interactive_shell)
+			setpgid(job, job);
 		add_job(job, 1, andor_to_str(cmd->and_or));
 	}
 	else	 /* job shell */
 	{
-		setpgid(getpid(), getpid());
+		if (interactive_shell)
+			setpgid(getpid(), getpid());
 		set_jobshell_signal();
 		top_level_shell = 0;
 		exec_andor_list(cmd->and_or, &status);

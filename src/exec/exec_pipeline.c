@@ -60,13 +60,16 @@ int wait_fg_job(pid_t job)
 		remove_job(job);
 	}
 
-	if ((j = find_job(job)))
+	if ((j = find_job(job)) && interactive_shell)
 	{
 		tcgetattr(STDIN_FILENO, &(j->tmodes));
 	}
-	/* Put top-level shell to foreground*/
-	tcsetpgrp(STDIN_FILENO, getpid());
-	set_shell_input_mode();
+	if (interactive_shell)
+	{
+		/* Put top-level shell to foreground*/
+		tcsetpgrp(STDIN_FILENO, getpid());
+		set_shell_input_mode();
+	}
 	return (0);
 }
 
@@ -85,15 +88,21 @@ int exec_pipeline(t_pipeline *pipeline)
 	if (job) /* Top-level shell */
 	{
 		add_job(job, 0, get_pipeline_str(pipeline));
-		setpgid(job, job);
-		tcsetpgrp(STDIN_FILENO, job);
+		if (interactive_shell)
+		{
+			setpgid(job, job);
+			tcsetpgrp(STDIN_FILENO, job);
+		}
 		return (wait_fg_job(job)); /* Job is in foreground */
 	}
 	else /* Job shell */
 	{
-		setpgid(getpid(), getpid());
-		tcsetpgrp(STDIN_FILENO, getpid()); /* We are foreground */
-		set_jobshell_signal();
+		if (interactive_shell)
+		{
+			setpgid(getpid(), getpid());
+			tcsetpgrp(STDIN_FILENO, getpid()); /* We are foreground */
+			set_jobshell_signal();
+		}
 		top_level_shell = 0;
 		exit(exec_pipeline_job(pipeline));
 	}

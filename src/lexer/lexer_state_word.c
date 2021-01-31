@@ -54,13 +54,7 @@ void			lexer_state_word_esc(t_lexer_state *token)
 		replace_word = ft_strnew(token->tk_len);
 		replace_word = ft_strncpy(replace_word, token->value, token->tk_len);
 
-		if (isatty(STDIN_FILENO))
-			input = readline(get_prompt(PS2));
-		else
-		{
-			get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
-			input = ft_strdup(rp(NULL)->user_in);
-		}
+		input = line_42sh(get_prompt(PS2));
 		ft_strdel(&(token->value));
 		token->value = ft_strjoinfreefree(replace_word, input);
 		lexer_state_word(token);
@@ -152,13 +146,7 @@ void			lexer_state_word(t_lexer_state *token)
 			This place is responsible for unclosed sentences ', ", ${, $(, $((
 		*/
 		inside_readline = 1;
-		if (isatty(STDIN_FILENO))
-			input = readline(get_prompt(PS2));
-		else
-		{
-			get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
-			input = ft_strdup(rp(NULL)->user_in);
-		}
+		input = line_42sh(get_prompt(PS2));
 		inside_readline = 0;
 		if (g_hasSiganl)
 		{

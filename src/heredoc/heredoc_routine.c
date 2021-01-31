@@ -10,7 +10,7 @@ char *read_heredoc_value(char *delimiter, int *heredoc_sigin)
 	value = NULL;
 	while (1)
 	{
-		line = readline(ft_getenv(env, "PS2"));
+		line = line_42sh(ft_getenv(env, "PS2"));
 		if (line == NULL)
 		{
 			*heredoc_sigin = 1;
