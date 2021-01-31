@@ -170,6 +170,7 @@ CEXEC = builtin_21shopt.c \
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \
 				quote_removal.c \
+				field_splitting.c \
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMANIPULATION))

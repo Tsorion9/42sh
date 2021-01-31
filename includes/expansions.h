@@ -5,6 +5,8 @@
 
 # define VALID_VAR_CHAR			1
 # define INVALID_VAR_CHAR		0
+# define NOT_IFS				0
+# define IFS_CHAR				253
 # define EXPANSION_FAIL			-1
 # define EXPANSION_SUCCESS		100
 # define GET_STATUS				1337
@@ -20,6 +22,7 @@
 int		tilde_expansion(char **s, size_t *i);
 int		word_expansion(char **source_word);
 void	quote_removal(char **str);
+char	**field_splitting(const char *source);
 
 // misk
 int		replace_value(char **str, char *value, size_t *start, size_t len);
