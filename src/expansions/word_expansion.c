@@ -238,23 +238,41 @@ void	indicate_error_if_null_or_unset(char **src_word, char **sep,
 void	use_alternative_value(char **src_word, char **sep,
 						   char *param_value, int have_colon)
 {
-	(*sep)++;
+	size_t	i;
 
-	if (have_colon)
+	(*sep)++;
+	if (param_value == NULL || (have_colon && param_value == NULL))
 	{
-		if (param_value == NULL || *param_value == '\0')
-		{
-			free(*src_word);
-			*src_word = ft_strnew(0);
-		}
+		free(*src_word);
+		*src_word = ft_strnew(0);
 	}
 	else
 	{
-		if (param_value == NULL)
-		{
-			free(*src_word);
-			*src_word = ft_strnew(0);
-		}
+		word_expansion(sep);
+		i = 0;
+		replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+	}
+}
+
+void	assign_default_values(char **src_word, char **sep,
+							  char *param, int have_colon)
+{
+	size_t	i;
+	char	*param_value;
+
+	(*sep)++;
+	i = 0;
+	param_value = ft_getenv(env, param);
+	if (param_value == NULL || (have_colon && param_value == NULL))
+	{
+		word_expansion(sep);
+		ft_setenv(env, param, *sep);
+		replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+	}
+	else
+	{
+		free(*src_word);
+		*src_word = ft_strnew(0);
 	}
 }
 
@@ -281,9 +299,15 @@ void 	var_unset_or_empty(char **src_word, char **sep, char *param,
 		use_default_values(src_word, sep, ft_getenv(env, param), have_colon);
 	else if (c == '?')
 		indicate_error_if_null_or_unset(src_word, sep, param, have_colon);
-//	else if (c == '+')
+	else if (c == '+')
+		use_alternative_value(src_word, sep, ft_getenv(env, param), have_colon);
+	else if (c == '=')
+		assign_default_values(src_word, sep, param, have_colon);
 	else
+	{
 		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
+		expasnion_status(EXPANSION_FAIL);
+	}
 }
 
 /*
