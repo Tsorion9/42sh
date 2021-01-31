@@ -12,12 +12,15 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-s', action='store', dest='start', type = int,
+parser.add_argument('-s', '--start', action='store', dest='start', type = int,
                     help='Start test number', default = 0)
-parser.add_argument('-e', action='store', dest='end', type=int,
+parser.add_argument('-e', '--end', action='store', dest='end', type=int,
                     help='Start test number', default = 1000000)
-
+parser.add_argument('-t', '--timeout', action='store', dest='my_timeout', type=int,
+                    help='Timeout seconds', default = 2)
 parser.add_argument('-v', '--verbose', action='store_true', help="verbose")
+parser.add_argument('-f', '--file', action='store', dest='our_shell', type=str,
+                    help='Path to shell', default = "../../42sh")
 
 args = parser.parse_args()
 print(colored("Running tests for cases {}:{}".format(args.start, args.end), "cyan"))
@@ -26,19 +29,20 @@ verbose = 0
 if (args.verbose):
 	verbose = 1;
 
-os.system("rm -f cases/user_out_* cases/test_out*")
 
-our_shell = "../../42sh"
+our_shell = args.our_shell
 bash = "/bin/bash"
 path_to_cases = "cases"
 valgrind_trace = "last_valgrind_output"
 
+path_to_output = "output"
+os.system("rm -f {}/user_out_* {}/test_out*".format(path_to_output, path_to_output))
+
 offs = 30 #Offset for string succcess or failure
-my_timeout = 1# seconds for single test
+my_timeout = args.my_timeout #1 seconds for single test
 return_segfault_code = 139
 
 os.system("touch {}".format(valgrind_trace))
-
 
 def wait_for_children():
 	procs = psutil.Process(pid = os.getpid()).children(recursive = True)
@@ -130,11 +134,11 @@ for file in sorted(files):
 		continue ;
 
 	case_name = file[9:-4]
-	user_out = path_to_cases + "/user_out_" + case_name + ".txt"
-	test_out = path_to_cases + "/test_out_" + case_name + ".txt"
+	user_out = path_to_output + "/user_out_" + case_name + ".txt"
+	test_out = path_to_output + "/test_out_" + case_name + ".txt"
 
-	user_err = path_to_cases + "/user_err_" + case_name + ".txt" # Write stderror of program to the separate file
-	test_err = path_to_cases + "/test_err_" + case_name + ".txt" 
+	user_err = path_to_output + "/user_err_" + case_name + ".txt" # Write stderror of program to the separate file
+	test_err = path_to_output + "/test_err_" + case_name + ".txt" 
 	# We are interested only in number of lines in these files (both zero or both nonzero -> OK)
 
 	shell_cmd = " exec 2>>{} && cat {} | {} > {} 2>{}".format(user_err, file,  our_shell, user_out, user_err) 
