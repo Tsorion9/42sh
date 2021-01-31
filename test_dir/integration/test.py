@@ -28,7 +28,7 @@ if (args.verbose):
 
 os.system("rm -f cases/user_out_* cases/test_out*")
 
-our_shell = "../../21sh"
+our_shell = "../../42sh"
 bash = "/bin/bash"
 path_to_cases = "cases"
 valgrind_trace = "last_valgrind_output"
