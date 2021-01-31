@@ -65,6 +65,7 @@ int		need_set_default_fd(int action);
 int		return_err_and_flush_tokens(t_deque **tokbuf_g, t_deque **tokbuf_l);
 
 t_complete_cmd	*parser();
+t_word_list		*create_word_node(char *word);
 
 /*
 ** Queue routines

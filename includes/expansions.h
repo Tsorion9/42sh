@@ -2,6 +2,7 @@
 # define EXPANSIONS_H
 
 # include "libft.h"
+# include "command_structs.h"
 
 # define VALID_VAR_CHAR			1
 # define INVALID_VAR_CHAR		0
@@ -19,15 +20,16 @@
 # define E_BAD_SUBSTITUTION		"42sh: bad substitution: "
 # define E_PARAM_NULL_OR_UNSET	"parameter null or unset"
 
-int		tilde_expansion(char **s, size_t *i);
-int		word_expansion(char **source_word);
-void	quote_removal(char **str);
-char	**field_splitting(const char *source);
+int			tilde_expansion(char **s, size_t *i);
+int			word_expansion(char **source_word);
+void		quote_removal(char **str);
+char		**field_splitting(const char *source);
+t_word_list	*field_splitting_list(const char *source);
 
 // misk
-int		replace_value(char **str, char *value, size_t *start, size_t len);
+int			replace_value(char **str, char *value, size_t *start, size_t len);
 
 // errors
-int		shell_err(char *error, char *arg);
+int			shell_err(char *error, char *arg);
 
 #endif

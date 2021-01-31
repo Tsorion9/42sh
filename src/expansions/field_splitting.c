@@ -1,5 +1,6 @@
 #include "expansions.h"
 #include "environment.h"
+#include "parser.h"
 
 size_t	count_space_chars(const char *s)
 {
@@ -159,7 +160,7 @@ void 		fill_fields(char ***fields, const char *src, char *s_ifs,
 			}
 			(*fields)[idx++] = ft_strsub(src, i - len, len);
 			if (src[i] == '\0')
-				return ;
+				break ;
 			while (is_IFS_char(src[i], s_ifs))
 				i++;
 			if (is_IFS_char(src[i], d_ifs))
@@ -173,6 +174,7 @@ void 		fill_fields(char ***fields, const char *src, char *s_ifs,
 			i++;
 		}
 	}
+	(*fields)[idx] = NULL;
 }
 
 char		**field_splitting(const char *source)
@@ -203,4 +205,23 @@ char		**field_splitting(const char *source)
 //	for (int i = 0; fields[i]; ++i)
 //		ft_printf("fields[%d] = %s\n", i, fields[i]);
 	return (fields);
+}
+
+t_word_list *field_splitting_list(const char *source)
+{
+	char		**fields;
+	int 		i;
+	t_word_list	*list;
+	t_word_list *tmp;
+
+	fields = field_splitting(source);
+	i = 0;
+	list = create_word_node(fields[0]);
+	tmp = list;
+	while (fields[++i] != NULL)
+	{
+		tmp->next = create_word_node(fields[i]);
+		tmp = tmp->next;
+	}
+	return (list);
 }
