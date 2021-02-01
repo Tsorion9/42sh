@@ -113,6 +113,7 @@ CPARSER =   clean_commands.c \
 			tokbuf_utils.c \
 			get_cmd_str.c \
 			return_error_and_flush_tokens.c \
+			split_word_into_queue_tokens.c \
 
 CEXEC = builtin_21shopt.c \
 		builtin_bg.c \

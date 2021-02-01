@@ -129,15 +129,19 @@ t_token			*lexer_scanner(t_lexer_state *token)
 ** в лексере, потому что строка для лексического анализа уже задана.
 ** Ожидается полностью валидная с точки зрения lexer-a строка, это значит
 ** lexer не будет вызывать readline
+** Передается адрес value, чтобы отслеживать когда строка кончится, то есть
+** дойдет до символа конца строки, это необходимо, чтобы не вызывался readline
 */
 
-t_token *lexer(char *value)
+t_token *lexer(char **value)
 {
 	t_token	*token;
 
-	if (value != NULL)
-		g_token.value = ft_strdup(value);
+	if (*value != NULL)
+		g_token.value = *value;
 	token = lexer_scanner(&g_token);
+	if (value != NULL)
+		*value = g_token.value;
 //    print_token(*token);
 	return (token);
 }
