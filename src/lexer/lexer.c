@@ -137,7 +137,7 @@ t_token *lexer(char **value)
 {
 	t_token	*token;
 
-	if (*value != NULL)
+	if (value != NULL)
 		g_token.value = *value;
 	token = lexer_scanner(&g_token);
 	if (value != NULL)
