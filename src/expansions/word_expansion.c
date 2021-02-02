@@ -406,7 +406,12 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 		}
 	}
 	else if (c == '(')
+	{
+		j = find_closing_brace(*src_word, *i + 1);
+		s = ft_strsub(*src_word, *i + 2, j - *i - 2);
+		command_substitution(&s);
 		return ;
+	}
 	else if (c == '$')
 		pid_expansion(src_word, i);
 	else if (is_valid_var_char(c))

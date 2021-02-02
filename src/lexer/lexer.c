@@ -143,6 +143,6 @@ t_token *lexer(char **value)
 	token = lexer_scanner(&g_token);
 	if (value != NULL)
 		*value = g_token.value;
-//    print_token(*token);
+    print_token(*token);
 	return (token);
 }

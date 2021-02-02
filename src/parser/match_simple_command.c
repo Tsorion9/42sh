@@ -56,7 +56,7 @@ void	substitute_alias(t_token *token, t_deque **tokbuf_g)
 		if (value)
 		{
 			key = ft_strdup(token->value);
-			gett(tokbuf_g, &tokbuf);
+		 gett(g_parser_input_string, tokbuf_g, &tokbuf);
 			erase_tokbuf(&tokbuf);
 			tokbuf = deque_copy(search_tokbuf(key));
 			deque_apply_inplace(tokbuf, &set_do_not_expand);
@@ -72,10 +72,10 @@ int     match_simple_command(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 
     tokbuf_l = NULL;
     *simple_cmd = init_simple_cmd();
-    t_token *token = gett(tokbuf_g, &tokbuf_l);
+    t_token *token = gett(g_parser_input_string, tokbuf_g, &tokbuf_l);
     ungett(tokbuf_g, &tokbuf_l);
     substitute_alias(token, tokbuf_g);
-    token = gett(tokbuf_g, &tokbuf_l);
+    token = gett(g_parser_input_string, tokbuf_g, &tokbuf_l);
 	ungett(tokbuf_g, &tokbuf_l);
     if (token->tk_type == WORD || token->tk_type == IO_NUMBER
         || is_redirect(token->tk_type))

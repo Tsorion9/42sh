@@ -18,12 +18,29 @@
 ** return it's value
 */
 
-t_token	*gett(t_deque **tokbuf_g, t_deque **tokbuf_l)
+t_token	 *gett(char **s, t_deque **tokbuf_g, t_deque **tokbuf_l)
 {
 	t_token	*next;
+	t_token	*fresh;
+	char	*save_s;
 
 	if (!tokbuf_g || !*tokbuf_g || !(*tokbuf_g)->first)
-		next = lexer(NULL);
+	{
+		save_s = NULL;
+		if (s)
+			save_s = *s;
+		next = lexer(s);
+		if (s && save_s && !*s) /* Lexer deleted the string. Do not need readline*/
+		{
+			fresh = malloc(sizeof(t_token));
+			fresh->value = NULL;
+			fresh->tk_type = TOKEN_END;
+			push_back(tokbuf_l, next);
+			push_back(tokbuf_l, fresh);
+			return (next);
+		}
+			
+	}
 	else
 		next = pop_front(*tokbuf_g);
 	push_back(tokbuf_l, next);

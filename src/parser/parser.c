@@ -14,26 +14,33 @@
 #include "parser.h"
 #include "heredoc.h"
 
+char **g_parser_input_string;
+
 // TODO Добавить параметр, на основании которого парсер будет решать
 // TODO Брать входные данные через ридлайн или из command substitution
-t_complete_cmd	*parser(void)
+t_complete_cmd	*parser(char **s)
 {
 	t_complete_cmd	*complete_cmd = NULL;
 	static t_deque	*tokbuf_g;
 	t_deque			*tokbuf_l = NULL;
 	int				heredoc_sigint;
 
-	while (gett(&tokbuf_g, &tokbuf_l)->tk_type == NEWLINE)
+	g_parser_input_string = s;
+	while  (gett(g_parser_input_string, &tokbuf_g, &tokbuf_l)->tk_type == NEWLINE)
 		erase_tokbuf(&tokbuf_l);
 	ungett(&tokbuf_g, &tokbuf_l);
-	if (gett(&tokbuf_g, &tokbuf_l)->tk_type == TOKEN_END)
+	if  (gett(g_parser_input_string, &tokbuf_g, &tokbuf_l)->tk_type == TOKEN_END)
+	{
+		if (s)
+			return (complete_cmd);
 		reset_exit(0);
+	}
 	ungett(&tokbuf_g, &tokbuf_l);
 	if (match_complete_command(&complete_cmd, &tokbuf_g) != PARSER_SUCCES)
 	{
 		clean_complete_command(&complete_cmd);
 		t_token *last_token = pop_back(tokbuf_g);
-		if (last_token->tk_type != TOKEN_CTRL_C)
+		if (last_token->tk_type != WORD)
 			ft_fprintf(STDERR_FILENO ,
 			  "42sh: syntax error near unexpected token %s\n",
 			  get_token_str(last_token->tk_type));
