@@ -16,8 +16,6 @@
 
 char **g_parser_input_string;
 
-// TODO Добавить параметр, на основании которого парсер будет решать
-// TODO Брать входные данные через ридлайн или из command substitution
 t_complete_cmd	*parser(char **s)
 {
 	t_complete_cmd	*complete_cmd = NULL;

@@ -8,9 +8,9 @@ void command_substitution(char **s)
 	char *tmp;
 	/*DBG*/
 
-	tmp = ft_strdup("ls -l");
+	tmp = ft_strdup("ls -l  -a");
 	cmd = parser(&tmp);
-	printf("OK string: %s; cmd: %s\n", *s,  cmd == NULL? "NULL" : "not null");
+	printf("OK string: %s; cmd: %s\n", tmp == NULL ? "NULL" : tmp ,  cmd == NULL? "NULL" : "not null");
 	print_complete_command(cmd);
 	printf("OK\n");
 	exit(0);

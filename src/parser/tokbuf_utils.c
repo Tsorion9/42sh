@@ -36,7 +36,7 @@ t_token	 *gett(char **s, t_deque **tokbuf_g, t_deque **tokbuf_l)
 			fresh->value = NULL;
 			fresh->tk_type = TOKEN_END;
 			push_back(tokbuf_l, next);
-			push_back(tokbuf_l, fresh);
+			push_front(tokbuf_g, fresh);
 			return (next);
 		}
 			
