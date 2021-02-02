@@ -14,6 +14,7 @@
 # define HASHTABLE_H
 
 # include "inc21sh.h"
+# include "deque.h"
 
 /*
 ** HASH_SIZE - base size for hash_table. Using in hash_function
@@ -25,6 +26,7 @@ typedef struct			s_hashtable
 {
 	char				*key;
 	char				*value;
+	t_deque				*tokbuf_value;
 	struct s_hashtable	*next;
 }						t_hashtable;
 
@@ -56,5 +58,7 @@ int						delete_t_hashtable(char *key, t_hashdata **hd);
 void					delete_hash_table_element(t_hashtable **table);
 void					print_table(t_hashdata *hd);
 void					print_hash_table(t_hashdata *hd);
+t_deque					*search_queue(char *key, t_hashdata *hd);
+t_deque					*search_tokbuf(char *key);
 
 #endif

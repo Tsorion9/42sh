@@ -114,6 +114,7 @@ CPARSER =   clean_commands.c \
 			get_cmd_str.c \
 			return_error_and_flush_tokens.c \
 			split_word_into_queue_tokens.c \
+			deque_copy.c \
 
 CEXEC = builtin_21shopt.c \
 		builtin_bg.c \

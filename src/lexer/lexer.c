@@ -43,6 +43,7 @@ t_token			*create_new_token(char *value, t_tokens tk_type)
 		return NULL;
 	fresh->tk_type = tk_type;
 	fresh->value = value;
+	fresh->do_not_expand_alias = 0;
 	return fresh;
 }
 
