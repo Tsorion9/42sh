@@ -410,6 +410,7 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 		j = find_closing_brace(*src_word, *i + 1);
 		s = ft_strsub(*src_word, *i + 2, j - *i - 2);
 		command_substitution(&s);
+		replace_value(src_word, s, i, j + 1);
 		return ;
 	}
 	else if (c == '$')

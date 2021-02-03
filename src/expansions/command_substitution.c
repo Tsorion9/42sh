@@ -10,8 +10,7 @@
 
 static void	del_simple(void *content, size_t content_size)
 {
-	if (content_size > 0)
-		free(content);
+	free(content);
 }
 
 static char				*concat_and_free(t_list **l, unsigned int total_len)
@@ -45,10 +44,10 @@ static char *read_from_pipe(int fd)
 	l = NULL;
 	while ((bytes_read = read(fd, buf, 1000)) > 0)
 	{
-		printf("Read buf: %s\n Bytes %d \n", buf, bytes_read);
 		buf[bytes_read + 1] = 0;
-		total_len += bytes_read + 1;
-		l = ft_lstappend(l, buf, bytes_read + 1);
+		//printf("Read buf: %s\n Bytes %d \n", buf, bytes_read);
+		total_len += bytes_read;
+		l = ft_lstappend(l, buf, bytes_read);
 	}
 	return (concat_and_free(&l, total_len));
 }
@@ -60,7 +59,7 @@ void command_substitution(char **s)
 	pid_t child;
 	int	pipefd[2];
 
-	tmp = ft_strdup("ls -l  -a");
+	tmp = ft_strdup(*s);
 	cmd = parser(&tmp);
 
 	pipe(pipefd);
@@ -69,10 +68,10 @@ void command_substitution(char **s)
 	{
 		close(pipefd[1]);
 		*s = read_from_pipe(pipefd[0]);
-		printf("Substituted: %s\n", *s);
+		//printf("Substituted: %s\n", *s);
 		close(pipefd[0]);
 	}
-	else
+	else /* Child */
 	{
 		close(pipefd[0]);
 		close(STDIN_FILENO);
