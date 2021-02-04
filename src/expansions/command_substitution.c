@@ -45,7 +45,7 @@ static char *read_from_pipe(int fd)
 	while ((bytes_read = read(fd, buf, 1000)) > 0)
 	{
 		//buf[bytes_read + 1] = 0;
-		//printf("Read buf: %s\n Bytes %d \n", buf, bytes_read);
+		//printf("Read buf: %s\n Bytes %lu \n", buf, bytes_read);
 		total_len += bytes_read;
 		l = ft_lstappend(l, buf, bytes_read);
 	}
