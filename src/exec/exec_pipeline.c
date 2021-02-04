@@ -20,6 +20,7 @@ static int exec_pipeline_job(t_pipeline *pipeline)
 	int fd[2];
 	int read_fd;
 	pid_t last_child;
+	int first_iter = 1;
 
 	if (!pipeline)
 		exit(0);
@@ -32,7 +33,8 @@ static int exec_pipeline_job(t_pipeline *pipeline)
 		{
 			pipe(fd);
 		}
-		last_child = make_child(pipeline->command, read_fd, fd[1]);
+		last_child = make_child(pipeline->command, read_fd, fd[1], fd[0], first_iter);
+		first_iter = 0;
 		pipeline = pipeline->next;
 	}
 	return (wait_all_children(last_child));

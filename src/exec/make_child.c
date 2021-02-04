@@ -39,13 +39,15 @@ void parent_actions(int read_fd, int write_fd)
 	}
 }
 
-pid_t	make_child(t_command *cmd, int read_fd, int write_fd)
+pid_t	make_child(t_command *cmd, int read_fd, int write_fd, int another_read_fd, int need_close)
 {
 	pid_t	child;
 
 	child = fork();
 	if (!child) /* Child, exits*/
 	{
+		if (need_close)
+			close(another_read_fd);
 		child_actions(cmd, read_fd, write_fd);
 	}
 	else
