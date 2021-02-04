@@ -51,5 +51,7 @@ t_complete_cmd	*parser(char **s)
 	heredoc_action(ADD_VALUE, NULL, NULL, &heredoc_sigint);
 	if (heredoc_sigint)
 		clean_complete_command(&complete_cmd);
+	if (s)
+		erase_tokbuf(&tokbuf_g);
 	return (complete_cmd);
 }
