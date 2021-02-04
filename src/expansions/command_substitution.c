@@ -75,7 +75,7 @@ void command_substitution(char **s)
 	{
 		//sleep(1);
 		close(pipefd[0]);
-		close(STDIN_FILENO);
+		//close(STDIN_FILENO);
 		dup2(pipefd[1], STDERR_FILENO);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
