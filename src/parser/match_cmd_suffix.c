@@ -1,6 +1,7 @@
 #include "parser.h"
 
-int     match_cmd_arg(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
+static int     match_cmd_arg(t_simple_cmd **simple_cmd, t_deque **tokbuf_g,
+		t_token **tok)
 {
     t_deque *tokbuf_l;
     t_token *token;
@@ -11,6 +12,7 @@ int     match_cmd_arg(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
     if (match_cmd_suffix(simple_cmd, tokbuf_g) != PARSER_SUCCES)
         return (return_err_and_flush_tokens(tokbuf_g, &tokbuf_l));
     erase_tokbuf(&tokbuf_l);
+	*tok = NULL;
     return (PARSER_SUCCES);
 }
 
@@ -19,9 +21,9 @@ int     match_cmd_arg(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 ** Set token type TOKEN_CTRL_C just to skip printing error message
 */
 
-int 	check_token_end(t_token *token, t_deque **tokbuf_g, t_deque **tokbuf_l)
+static int 	check_token_end(t_token *token, t_deque **tokbuf_g, t_deque **tokbuf_l)
 {
-	if (token->tk_type == TOKEN_END && !g_parser_input_string)
+	if (token && token->tk_type == TOKEN_END && !g_parser_input_string)
 	{
 		token->tk_type = TOKEN_CTRL_C;
 		return (return_err_and_flush_tokens(tokbuf_g, tokbuf_l));
@@ -49,7 +51,7 @@ int     match_cmd_suffix(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
     ungett(tokbuf_g, &tokbuf_l);
     if (token->tk_type == WORD)
     {
-        if (match_cmd_arg(simple_cmd, tokbuf_g) != PARSER_SUCCES)
+        if (match_cmd_arg(simple_cmd, tokbuf_g, &token) != PARSER_SUCCES)
             return (PARSER_ERROR);
     }
     return (check_token_end(token, tokbuf_g, &tokbuf_l));
