@@ -71,7 +71,12 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 		if (builtin)
 			status = builtin(args + 1, 0, 0);
 		else
+		{
+			close(save_fd[0]);
+			close(save_fd[1]);
+			close(save_fd[2]);
 			status = find_exec(args, export_env);
+		}
 		del_array(args);
 	}
 	restore_descriptors(save_fd);
