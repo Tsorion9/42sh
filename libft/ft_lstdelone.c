@@ -3,20 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: bgian <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/12 18:10:32 by mphobos           #+#    #+#             */
-/*   Updated: 2019/09/12 18:22:33 by mphobos          ###   ########.fr       */
+/*   Created: 2019/09/23 16:47:21 by bgian             #+#    #+#             */
+/*   Updated: 2019/10/09 18:36:31 by bgian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/*
+**	Delete first element. *alst points to second.
+*/
+
 void	ft_lstdelone(t_list **alst, void (*del)(void*, size_t))
 {
-	if (*alst == NULL || del == NULL)
-		return ;
+	t_list	*second;
+
+	second = (*alst)->next;
 	del((*alst)->content, (*alst)->content_size);
 	free(*alst);
-	*alst = NULL;
+	*alst = second;
 }
