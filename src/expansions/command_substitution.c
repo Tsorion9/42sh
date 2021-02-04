@@ -36,15 +36,15 @@ static char *read_from_pipe(int fd)
 {
 	static char buf[1002];
 	t_list *l;
-	int bytes_read;
-	unsigned int total_len;
+	size_t bytes_read;
+	size_t total_len;
 
 	bytes_read = 0;
 	total_len = 0;
 	l = NULL;
 	while ((bytes_read = read(fd, buf, 1000)) > 0)
 	{
-		buf[bytes_read + 1] = 0;
+		//buf[bytes_read + 1] = 0;
 		//printf("Read buf: %s\n Bytes %d \n", buf, bytes_read);
 		total_len += bytes_read;
 		l = ft_lstappend(l, buf, bytes_read);
@@ -73,13 +73,13 @@ void command_substitution(char **s)
 	}
 	else /* Child */
 	{
+		//sleep(1);
 		close(pipefd[0]);
 		close(STDIN_FILENO);
 		dup2(pipefd[1], STDERR_FILENO);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 		interactive_shell = 0;
-
 		exec_complete_cmd(cmd);
 		exit(0);
 	}
