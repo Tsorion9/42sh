@@ -11,6 +11,8 @@ static void	search_str_in_history(const char *str, int *operand,
 
 	history_number = 0;
 	history = rp(NULL)->history;
+	while (history->prev)
+		history = history->prev;
 	found = 0;
 	while (history && !found && history_number < HISTSIZE)
 	{
@@ -24,7 +26,7 @@ static void	search_str_in_history(const char *str, int *operand,
 	else if (history_number >= HISTSIZE)
 		*error_code = FC_OUTSIDE_HISTSIZE;
 	else
-		*operand = history_number * (-1);
+		*operand = (history_number - 1) * (-1);
 }
 
 static void	write_history_number_in_operand(int *operand, char *arg,
@@ -50,7 +52,7 @@ void		parse_fc_operands(t_fc_options *options, char **args, int *error_code)
 	if (!(*args))
 	{
 		if (options->flags & FC_FLAG_E)
-			*error_code = FC_USAGE_ERROR;
+			*error_code = FC_EDITOR_NAME_MISSING;
 	}
 	else
 	{
@@ -66,7 +68,7 @@ void		parse_fc_operands(t_fc_options *options, char **args, int *error_code)
 static void	parse_editor(t_fc_options *options, char *editor_name,
 	int *error_code)
 {
-	if (editor_name)
+	if (!editor_name)
 		*error_code = FC_EDITOR_NAME_MISSING;
 	else if (ft_strlen(editor_name) >= FC_MAX_EDITOR_NAME_SIZE)
 		*error_code = FC_EDITOR_NAME_ERROR;

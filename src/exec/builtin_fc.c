@@ -1,6 +1,18 @@
 #include "builtin_fc.h"
 #include "environment.h"
 
+int					print_error_code(int error_code)
+{
+	if (error_code == FC_HISTORY_NOT_FOUND)
+		ft_putstr_fd("fc: history specification out of range\n",
+		STDOUT_FILENO);
+	else if (error_code == FC_USAGE_ERROR || error_code == FC_EDITOR_NAME_ERROR ||
+	error_code == FC_EDITOR_NAME_MISSING)
+		ft_putstr_fd("fc: usage: fc [-e ename] [-lnr] [first] [last] or \
+fc -s [pat=rep] [command]\n", STDOUT_FILENO);
+	return (error_code);
+}
+
 void				init_fc_options(t_fc_options *options)
 {
 	t_history	*history;
@@ -12,15 +24,16 @@ void				init_fc_options(t_fc_options *options)
 	if (ft_strlen(FC_DEFAULT_EDITOR) <= FC_MAX_EDITOR_NAME_SIZE)
 		ft_strcpy(options->editor, FC_DEFAULT_EDITOR);
 	history = rp(NULL)->history;
-	while (history->prev->prev)
+	while (history->prev)
 		history = history->prev;
 	options->number_of_history = 0;
-	while (history->next->next)
+	while (history->next)
 	{
 		history = history->next;
 		options->number_of_history++;
 	}
 	options->history_first = history;
+	options->number_of_history--;
 }
 
 static void			convert_operands_to_pisitive_history_number(t_fc_options *options)
@@ -48,7 +61,7 @@ static t_history	*get_history(t_fc_options *options, int history_number)
 	t_history *history;
 
 	history = options->history_first;
-	while (history->prev->prev && history_number)
+	while (history->prev && history_number)
 	{
 		history = history->prev;
 		history_number--;
@@ -107,12 +120,12 @@ int					builtin_fc(char **args, int subshell)
 	init_fc_options(&options);
 	args = parse_fc_flags_and_editor(&options, args, &error_code);
 	if (error_code != FC_NO_ERROR)
-		return (error_code);
+		return (print_error_code(error_code));
 	if (!fc_flags_valid(&options))
-		return (error_code);
+		return (print_error_code(error_code));
 	parse_fc_operands(&options, args, &error_code);
 	if (error_code != FC_NO_ERROR)
-		return (error_code);
+		return (print_error_code(error_code));
 	if (options.flags & FC_FLAG_L)
 		exec_fc_l(&options);
 	return (error_code);
