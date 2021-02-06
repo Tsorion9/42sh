@@ -28,7 +28,7 @@ int     match_and_or(t_andor_list **and_or, t_deque **tokbuf_g)
     *and_or = init_and_or();
     if (match_pipeline(&(*and_or)->pipeline, tokbuf_g) != PARSER_SUCCES)
         return (PARSER_ERROR);
-    set_type_if(and_or, gett(tokbuf_g, &tokbuf_l));
+    set_type_if(and_or, gett(g_parser_input_string, tokbuf_g, &tokbuf_l));
     if ((*and_or)->type_andor != ANDOR_NONE)
     {
         clean_grammar_linebreaks(tokbuf_g);

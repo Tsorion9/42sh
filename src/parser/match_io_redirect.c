@@ -42,7 +42,7 @@ int         match_io_redirect(t_redirect **head_redirects, t_deque **tokbuf_g)
 
     tokbuf_l = NULL;
     tail_redir = create_tail_redirects(head_redirects);
-    if (gett(tokbuf_g, &tokbuf_l)->tk_type != IO_NUMBER)
+    if  (gett(g_parser_input_string, tokbuf_g, &tokbuf_l)->tk_type != IO_NUMBER)
 	{
         ungett(tokbuf_g, &tokbuf_l);
     	need_set_default_fd(NEED_DEFAULT_FD);

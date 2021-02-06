@@ -10,7 +10,7 @@ int match_cmd_prefix(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
     t_token *token;
 
     tokbuf_l = NULL;
-    token = gett(tokbuf_g, &tokbuf_l);
+    token = gett(g_parser_input_string, tokbuf_g, &tokbuf_l);
     ungett(tokbuf_g, &tokbuf_l);
     if (token->tk_type == IO_NUMBER || is_redirect(token->tk_type))
     {

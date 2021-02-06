@@ -29,6 +29,7 @@ CREADLINE = add_symbol.c \
 			tc_cursor_n_right.c \
 			termcap_api.c \
 			t_str.c \
+			line_42sh.c \
 			up_down_arrow.c
 
 
@@ -112,6 +113,8 @@ CPARSER =   clean_commands.c \
 			tokbuf_utils.c \
 			get_cmd_str.c \
 			return_error_and_flush_tokens.c \
+			split_word_into_queue_tokens.c \
+			deque_copy.c \
 
 CEXEC = builtin_21shopt.c \
 		builtin_bg.c \
@@ -151,19 +154,26 @@ CEXEC = builtin_21shopt.c \
 		builtin_unalias.c \
 		delete_alias.c \
 		delete_t_hashalias.c \
-		check_flags.c \
-		static_export_action.c \
-		delete_t_export.c \
-		copy_env_to_exports.c \
-		insert_export.c \
-		print_exports.c \
-		print_invalid_export.c \
-		delete_export.c \
-		search_export.c \
-		export_to_array.c \
+		assignment_word.c \
+		jobshell.c \
+		expand_pipeline.c \
+		only_assignments.c \
+		is_single_builtin.c \
+		make_assignments.c \
+		make_assignments_redirections.c \
+		make_redirection.c \
+		make_child.c \
+		wait_all_children.c \
+		exec_cmd.c \
+		exec_simple_cmd.c \
+		parse_alias_args.c \
+		pipeline_words_to_assignments.c
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \
+				quote_removal.c \
+				field_splitting.c \
+				command_substitution.c
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMANIPULATION))

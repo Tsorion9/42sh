@@ -16,3 +16,16 @@ tags
 .vscode
 test_complection
 .DS_Store
+test_dir/integration/last_valgrind_output
+test_dir/integration/output
+
+test_dir/integration/1.txt
+test_dir/integration/12
+test_dir/integration/last_valgrind_output
+test_dir/integration/path.txt
+test_dir/integration/remove_m
+test_dir/integration/test.py
+test_dir/integration/test/fifi
+test_dir/integration/valgr_2.txt
+test_dir/integration/valgr_out.txt
+

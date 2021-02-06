@@ -43,6 +43,7 @@ t_token			*create_new_token(char *value, t_tokens tk_type)
 		return NULL;
 	fresh->tk_type = tk_type;
 	fresh->value = value;
+	fresh->do_not_expand_alias = 0;
 	return fresh;
 }
 
@@ -100,29 +101,21 @@ t_token			*lexer_scanner(t_lexer_state *token)
 	token->tk_type = ERROR;
 	if (token->value == NULL)
 	{
-		if (isatty(STDIN_FILENO))
+		token->value = line_42sh(get_prompt(PS1));
+		if (token->value == NULL)
 		{
-			token->value = readline(get_prompt(PS1));
-			if (token->value == NULL)
-			{
-				free_lexer_state(token);
-				fresh = malloc(sizeof(t_token));
-				fresh->value = NULL;
-				fresh->tk_type = TOKEN_CTRL_C;
-				return (fresh);
-			}
-			if (token->value && !*(token->value))
-			{
-				fresh = malloc(sizeof(t_token));
-				fresh->value = NULL;
-				fresh->tk_type = TOKEN_END;
-				return (fresh);
-			}
+			free_lexer_state(token);
+			fresh = malloc(sizeof(t_token));
+			fresh->value = NULL;
+			fresh->tk_type = TOKEN_CTRL_C;
+			return (fresh);
 		}
-		else
+		if (token->value && !*(token->value))
 		{
-			get_next_line_wrapper(STDIN_FILENO, &(rp(NULL)->user_in));
-			token->value = ft_strdup(rp(NULL)->user_in);
+			fresh = malloc(sizeof(t_token));
+			fresh->value = NULL;
+			fresh->tk_type = TOKEN_END;
+			return (fresh);
 		}
 	}
 	while (ft_isblank(CURRENT_CHAR))
@@ -132,11 +125,24 @@ t_token			*lexer_scanner(t_lexer_state *token)
 	return (fresh);
 }
 
-t_token			*lexer()
+/*
+** value если value != NULL, значит не планируется использовать readline
+** в лексере, потому что строка для лексического анализа уже задана.
+** Ожидается полностью валидная с точки зрения lexer-a строка, это значит
+** lexer не будет вызывать readline
+** Передается адрес value, чтобы отслеживать когда строка кончится, то есть
+** дойдет до символа конца строки, это необходимо, чтобы не вызывался readline
+*/
+
+t_token *lexer(char **value)
 {
 	t_token	*token;
 
+	if (value != NULL)
+		g_token.value = *value;
 	token = lexer_scanner(&g_token);
-//    print_token(*token);
+	if (value != NULL)
+		*value = g_token.value;
+    //print_token(*token);
 	return (token);
 }

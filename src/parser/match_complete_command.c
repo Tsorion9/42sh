@@ -28,10 +28,10 @@ int             match_complete_command(t_complete_cmd **command, t_deque **tokbu
     *command = init_complete_command();
     if (match_and_or(&(*command)->and_or, tokbuf_g) != PARSER_SUCCES)
         return (PARSER_ERROR);
-    set_separator_op(command, gett(tokbuf_g, &tokbuf_l));
+    set_separator_op(command, gett(g_parser_input_string, tokbuf_g, &tokbuf_l));
     if ((*command)->separator_op != OP_NONE)
     {
-        if (gett(tokbuf_g, &tokbuf_l)->tk_type == NEWLINE)
+        if  (gett(g_parser_input_string, tokbuf_g, &tokbuf_l)->tk_type == NEWLINE)
             erase_tokbuf(&tokbuf_l);
         else
         {

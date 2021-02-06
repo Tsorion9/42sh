@@ -13,6 +13,8 @@
 #ifndef FIND_EXEC_H
 # define FIND_EXEC_H
 
+# include "environment.h"
+
 int			find_exec(char **args, t_env env);
 
 #endif

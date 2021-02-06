@@ -24,7 +24,7 @@ int     match_cmd_word(t_word_list **word_list, t_deque **tokbuf_g)
     t_deque *tokbuf_l = NULL;
     t_token *token;
 
-    token = gett(tokbuf_g, &tokbuf_l);
+    token = gett(g_parser_input_string, tokbuf_g, &tokbuf_l);
     if (token->tk_type == WORD)
     {
         add_word_to_list(word_list, token);

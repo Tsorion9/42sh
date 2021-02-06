@@ -12,10 +12,11 @@
 
 #include "environment.h"
 
-int			builtin_getenv(char **args, t_env env, int subshell)
+int			builtin_getenv(char **args, t_env env_deprecated, int subshell)
 {
 	char	*c;
 
+	(void)env_deprecated;
 	if (subshell)
 		return (1);
 	if (!args[0])
@@ -41,10 +42,11 @@ int			builtin_getenv(char **args, t_env env, int subshell)
 ** Bash also does not tolerate ':', but we do
 */
 
-int			builtin_setenv(char **args, t_env env, int subshell)
+int			builtin_set(char **args, t_env env_deprecated, int subshell)
 {
 	char	*tmp;
 
+	(void)env_deprecated;
 	if (subshell)
 		return (1);
 	if (!*args)
@@ -69,13 +71,15 @@ int			builtin_setenv(char **args, t_env env, int subshell)
 	return (1);
 }
 
-int			builtin_unsetenv(char **args, t_env env, int subshell)
+int			builtin_unset(char **args, t_env env_deprecated, int subshell)
 {
+	(void)env_deprecated;
 	if (subshell)
 		return (1);
 	while (*args)
 	{
 		ft_unsetenv(env, *args);
+		ft_unsetenv(export_env, *args);
 		args++;
 	}
 	return (1);

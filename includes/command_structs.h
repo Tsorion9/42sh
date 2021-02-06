@@ -13,6 +13,8 @@
 #ifndef COMMAND_STRUCTS_H
 # define COMMAND_STRUCTS_H
 
+#include "libft.h"
+
 typedef enum	e_command_type
 {
 	SIMPLE_CMD,
@@ -82,6 +84,7 @@ typedef struct	s_simple_cmd
 {
 	t_word_list				*words;
 	t_redirect				*redirects;
+	t_list					*assignments;
 }				t_simple_cmd;
 
 typedef struct	s_compound_list

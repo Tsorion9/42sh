@@ -31,10 +31,11 @@ void			delenv(t_env env);
 t_env			copy_env(t_env env);
 int				ft_setenv(t_env env, char *name, char *value);
 void			ft_unsetenv(t_env env, char *name);
-void			print_env(t_env env, int *memory_ok);
+void			print_env(t_env env, int *memory_ok, char *optional_prefix);
 
 char			*ft_getenv(t_env env, char *name);
 
 extern t_env env;
+extern t_env export_env;
 
 #endif

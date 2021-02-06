@@ -11,6 +11,28 @@
 /* ************************************************************************** */
 
 #include "hashtable.h"
+#include "deque.h"
+
+t_deque					*search_queue(char *key, t_hashdata *hd)
+{
+	int				i;
+	t_hashtable		*table;
+
+	if (hd == NULL || key == NULL)
+		return (NULL);
+	if ((i = hash_function(key)) < 0)
+		return (NULL);
+	if ((table = hd->hashtable[i]) != NULL)
+		while (table && ft_strcmp(table->key, key))
+		{
+			if (table && !ft_strcmp(table->key, key))
+				break ;
+			table = table->next;
+		}
+	if (table == NULL)
+		return (NULL);
+	return (table->tokbuf_value);
+}
 
 char					*search_hash_data(char *key, t_hashdata *hd)
 {

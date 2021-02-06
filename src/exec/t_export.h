@@ -26,7 +26,6 @@ typedef struct			s_export
 	int					flag_n;
 }						t_export;
 
-t_export				*static_export_action(int action);
 void					copy_env_to_exports(void);
 int						delete_export(char *key);
 void					delete_t_export(void);

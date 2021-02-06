@@ -41,6 +41,9 @@
 # define ISCLOSED_STATE		(1 << 5)
 # define DOLLAR_STATE		(1 << 6)
 
+# define E_SYN_UNEXPECT_EOF	"42sh: syntax error: unexpected end of file"
+# define E_UNEXPECTED_EOF	"42sh: unexpected EOF while looking for matching "
+
 /*
 **----------------------------------lexer--------------------------------------
 */
@@ -60,7 +63,7 @@ void			lexer_state_word(t_lexer_state *token);
 void			lexer_state_word_esc(t_lexer_state *token);
 void			lexer_state_start(t_lexer_state *token);
 void			lexer_set_flags(t_lexer_state *token);
-t_token			*lexer();
+t_token			*lexer(char **value);
 
 /*
 ** Misk functions for lexer routine

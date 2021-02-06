@@ -18,7 +18,7 @@ void		check_alias(char *arg)
 
 	alias = NULL;
 	if ((alias = search_alias(arg)) == NULL)
-		ft_printf("42sh: alias: %s: not found\n", arg);
+		ft_fprintf(STDERR_FILENO ,"42sh: alias: %s: not found\n", arg);
 	else
 	{
 		free(alias);

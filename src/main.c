@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <signal.h>
 #include "lexer.h"
 #include "parser.h"
@@ -21,45 +22,68 @@
 #include "t_export.h"
 
 t_env env;
+t_env export_env;
+int interactive_shell;
 
-int main(int argc, char **argv, char **envr)
+static void set_toplevel_shell_signal(void)
 {
-    t_complete_cmd *complete_cmd = NULL;
-
-	(void)argc;
-	(void)argv;
-
+	if (!interactive_shell)
+		return ;
 	signal(SIGTTIN, SIG_IGN);
 	signal(SIGTTOU, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	set_sigint(processing_sigint);
 	signal(SIGWINCH, processing_sigwinch);
 	signal(SIGTSTP, SIG_IGN);
+}
 
-	int fd;
-
-	if (argc > 1)
-	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd == -1)
-		{
-			ft_fprintf(2, "21sh: Error! Could not open file: %s\n", argv[1]);
-			exit(123);
-		}
-		dup2(fd, 0);
-		close(fd);
-	}
-
-	env = init_env(envr);
-	static_export_action(init);
-	static_hashalias_action(init);
+static void init_readline(void)
+{
+	if (!interactive_shell)
+		return ;
 	init_terminal();
 	init_prompt();
     rp(init_rp());
 	load_on_file_history(rp(NULL)->history);
+}
+
+static void init_shell(char **envr)
+{
+	set_toplevel_shell_signal();
+	env = init_env(envr);
+	export_env = copy_env(env);
+	static_hashalias_action(init);
+	init_readline();
+}
+
+static void read_from_file(char *filename)
+{
+	int fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_fprintf(2, "42sh: Error! Could not open file: %s\n", filename);
+		exit(123);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+}
+
+int main(int argc, char **argv, char **envr)
+{
+    t_complete_cmd *complete_cmd = NULL;
+
+	if (argc > 1)
+	{
+		read_from_file(argv[1]);
+	}
+	interactive_shell = isatty(STDIN_FILENO);
+	init_shell(envr);
 	while (1)
 	{
-		complete_cmd = parser();
+		complete_cmd = parser(NULL);
+//		print_complete_command(complete_cmd);
 		set_canon_input_mode(1);
 		exec_complete_cmd(complete_cmd);
 		set_canon_input_mode(0);

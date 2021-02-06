@@ -14,7 +14,7 @@ void    set_separator_compound_list(t_compound_list **compound_list, t_deque **t
 {
     t_token *token;
 
-    token = gett(tokbuf_g, tokbuf_l);
+    token = gett(g_parser_input_string, tokbuf_g, tokbuf_l);
     if (token->tk_type == SEMICOL)
         (*compound_list)->separator = SEP_SEMICOL;
     else if (token->tk_type == BG)

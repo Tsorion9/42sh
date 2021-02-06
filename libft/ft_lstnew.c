@@ -25,7 +25,7 @@ t_list	*ft_lstnew(const void *content, size_t content_size)
 		ptr->content_size = 0;
 		return (ptr);
 	}
-	if (!(ptr->content = (void*)xmalloc(sizeof(content_size))))
+	if (!(ptr->content = (void*)xmalloc(content_size)))
 	{
 		free(ptr);
 		return (NULL);

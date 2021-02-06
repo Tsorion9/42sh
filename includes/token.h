@@ -49,6 +49,7 @@ typedef struct	s_toke
 typedef struct	s_token
 {
     char				*value;
+    int 				do_not_expand_alias;
     t_tokens			tk_type;
 }				t_token;
 

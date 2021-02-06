@@ -10,12 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc21sh.h"
 #include "hashtable.h"
+#include "deque.h"
+#include "lexer.h"
+#include "parser.h"
 
 t_hashtable				*new_hash_table_element(char *key, char *value)
 {
 	t_hashtable *new;
+	char		*s;
 
 	new = (t_hashtable*)ft_memalloc(sizeof(t_hashtable));
 	if (new == NULL)
@@ -30,16 +33,23 @@ t_hashtable				*new_hash_table_element(char *key, char *value)
 		free(new);
 		return (NULL);
 	}
+	s = ft_strdup(value);
+	new->tokbuf_value = split_word_into_queue_tokens(s);
 	return (new);
 }
 
 int						hash_api_change_data(t_hashtable **ht, char *value)
 {
+	char	*s;
+
 	if ((*ht)->value)
 	{
 		free((*ht)->value);
 		if (!((*ht)->value = ft_strdup(value)))
 			return (EXIT_FAILURE);
+		erase_tokbuf(&(*ht)->tokbuf_value);
+		s = ft_strdup((*ht)->value);
+		(*ht)->tokbuf_value = split_word_into_queue_tokens(s);
 	}
 	return (EXIT_SUCCESS);
 }

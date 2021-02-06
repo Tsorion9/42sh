@@ -29,8 +29,8 @@ int			ret_winsize(int a)
  *  завершением системных функций \n
  *  \param[in] sigint_handler функция-обработчик сигнала
  */
- // TODO На маках нет SA_NOMASK, но есть SA_NODEFER \
- // TODO Сделать кроссплатформенной
+ /* TODO На маках нет SA_NOMASK, но есть SA_NODEFER \
+  TODO Сделать кроссплатформенной */
 void	set_sigint(void (*sigint_handler)(int))
 {
 	struct sigaction	sigint_action;

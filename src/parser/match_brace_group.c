@@ -21,12 +21,12 @@ int         match_brace_group(t_brace_group **brace_group, t_deque **tokbuf_g)
 
     tokbuf_l = NULL;
     *brace_group = init_brace_group();
-    gett(tokbuf_g, &tokbuf_l); // Здесь должен быть токен '{', просто вытаскиваем его. Ожидаем потому что есть проверка в match_command
+    gett(g_parser_input_string, tokbuf_g, &tokbuf_l); // Здесь должен быть токен '{', просто вытаскиваем его. Ожидаем потому что есть проверка в match_command
     if (match_compound_list(&(*brace_group)->compound_list, tokbuf_g) != PARSER_SUCCES)
         return (return_err_and_flush_tokens(tokbuf_g, &tokbuf_l));
-    if (gett(tokbuf_g, &tokbuf_l)->tk_type != RBRACE)
+    if  (gett(g_parser_input_string, tokbuf_g, &tokbuf_l)->tk_type != RBRACE)
         return (return_err_and_flush_tokens(tokbuf_g, &tokbuf_l));
-    tk_type = gett(tokbuf_g, &tokbuf_l)->tk_type;
+    tk_type = gett(g_parser_input_string, tokbuf_g, &tokbuf_l)->tk_type;
     ungett(tokbuf_g, &tokbuf_l);
     if (tk_type != NEWLINE)
     {

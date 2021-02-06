@@ -18,7 +18,7 @@ int match_pipeline(t_pipeline **pipeline, t_deque **tokbuf_g)
     *pipeline = init_pipeline();
     if (match_command(&(*pipeline)->command, tokbuf_g) != PARSER_SUCCES)
         return (PARSER_ERROR);
-    if (gett(tokbuf_g, &tokbuf_l)->tk_type == PIPE)
+    if  (gett(g_parser_input_string, tokbuf_g, &tokbuf_l)->tk_type == PIPE)
     {
         clean_grammar_linebreaks(tokbuf_g);
         if (match_pipeline(&(*pipeline)->next, tokbuf_g) != PARSER_SUCCES)

@@ -29,7 +29,7 @@ void    set_command_type(t_command **command, t_deque **tokbuf_g,
 {
     t_token *token;
 
-    token = gett(tokbuf_g, tokbuf_l);
+    token = gett(g_parser_input_string, tokbuf_g, tokbuf_l);
     if (token->tk_type == LBRACKET)
         (*command)->cmd_type = SUBSHELL;
     else if (token->tk_type == LBRACE)

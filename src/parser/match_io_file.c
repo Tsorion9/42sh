@@ -40,14 +40,14 @@ int     match_io_file(t_redirect **redirect, t_deque **tokbuf_g)
     t_token *token;
 
     tokbuf_l = NULL;
-    token = gett(tokbuf_g, &tokbuf_l);
+    token = gett(g_parser_input_string, tokbuf_g, &tokbuf_l);
     if (!is_redirect_io_file(token->tk_type))
     {
         ungett(tokbuf_g, &tokbuf_l);
         return (PARSER_FAIL);
     }
     set_instruction(redirect, token->tk_type);
-    token = gett(tokbuf_g, &tokbuf_l);
+    token = gett(g_parser_input_string, tokbuf_g, &tokbuf_l);
     if (token->tk_type != WORD)
     {
         flush_tokbuf(tokbuf_g, &tokbuf_l);

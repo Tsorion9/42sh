@@ -11,6 +11,8 @@
 # define NEED_DEFAULT_FD	100
 # define IS_NEED_DEFAULT_FD	200
 
+extern char **g_parser_input_string;
+
 int		match_complete_command(t_complete_cmd **command, t_deque **tokbuf_g);
 int		match_and_or(t_andor_list **and_or, t_deque **tokbuf_g);
 int		match_pipeline(t_pipeline **pipeline, t_deque **tokbuf_g);
@@ -64,13 +66,15 @@ char	*andor_to_str(t_andor_list *andor);
 int		need_set_default_fd(int action);
 int		return_err_and_flush_tokens(t_deque **tokbuf_g, t_deque **tokbuf_l);
 
-t_complete_cmd	*parser();
+t_complete_cmd	*parser(char **s);
+t_word_list		*create_word_node(char *word);
+t_deque			*split_word_into_queue_tokens(char *word);
 
 /*
 ** Queue routines
 */
 void	ungett(t_deque **tokbuf_g, t_deque **tokbuf_l);
-t_token	*gett(t_deque **tokbuf_g, t_deque **tokbuf_l);
+t_token	 *gett(char **g_parser_input_string, t_deque **tokbuf_g, t_deque **tokbuf_l);
 void	erase_tokbuf(t_deque **tokbuf);
 void	flush_tokbuf(t_deque **tokbuf_g, t_deque **tokbubf_l);
 void	syntax_error(t_token *token);
