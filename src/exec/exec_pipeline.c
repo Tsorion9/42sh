@@ -72,7 +72,7 @@ int wait_fg_job(pid_t job)
 		tcsetpgrp(STDIN_FILENO, getpid());
 		set_shell_input_mode();
 	}
-	return (0);
+	return (status);
 }
 
 int exec_pipeline(t_pipeline *pipeline)

@@ -24,6 +24,7 @@
 t_env env;
 t_env export_env;
 int interactive_shell;
+int last_cmd_status;
 
 static void set_toplevel_shell_signal(void)
 {

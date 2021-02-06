@@ -15,6 +15,7 @@
 */
 static void update_status(int pipeline_status, int *status, t_type_andor last_op)
 {
+	last_cmd_status = pipeline_status;
 	if (last_op == ANDOR_NONE)
 	{
 		*status = pipeline_status; /* First step */

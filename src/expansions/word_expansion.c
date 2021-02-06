@@ -1,5 +1,7 @@
+#include <unistd.h>
 #include "expansions.h"
 #include "environment.h"
+#include "exec.h"
 
 /*
 ** На вход ожидает получить строку с кавычкой в первом символе
@@ -290,10 +292,8 @@ void	assign_default_values(char **src_word, char **sep,
 void 	var_unset_or_empty(char **src_word, char **sep, char *param,
 						 								int have_colon)
 {
-	size_t	i;
 	char	c;
 
-	i = 0;
 	c = **sep;
 	if (c == '-')
 		use_default_values(src_word, sep, ft_getenv(env, param), have_colon);
@@ -367,6 +367,25 @@ void 	pid_expansion(char **src_word, size_t *i)
 	free(s_pid);
 }
 
+void 	last_cmd_status_expansion(char **src_word, size_t *i)
+{
+	char 	*s_status;
+	int status;
+
+	status = last_cmd_status;
+	if (WIFEXITED(last_cmd_status))
+		status = WEXITSTATUS(last_cmd_status);
+	if (WIFSIGNALED(last_cmd_status))
+		status = WTERMSIG(last_cmd_status) + 128;
+	if (WIFSTOPPED(last_cmd_status))
+		status = WSTOPSIG(last_cmd_status) + 128;
+
+	s_status = ft_itoa(status);
+	replace_value(src_word, s_status, i, 2);
+	free(s_status);
+}
+
+
 /*
 ** perform variable (parameter) expansion.
 **
@@ -415,6 +434,8 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 	}
 	else if (c == '$')
 		pid_expansion(src_word, i);
+	else if (c == '?')
+		last_cmd_status_expansion(src_word, i);
 	else if (is_valid_var_char(c))
 		var_expansion(src_word, i, 1);
 	else
