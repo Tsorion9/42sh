@@ -41,7 +41,7 @@ void clean_simple_cmd(t_simple_cmd **simple_cmd)
 {
     clean_words(&(*simple_cmd)->words);
     clean_redirects(&(*simple_cmd)->redirects);
-    //ft_lstdel(&(*simple_cmd)->assignments, delete_assignment); Crash =)
+    ft_lstdel(&(*simple_cmd)->assignments, delete_assignment);
     free(*simple_cmd);
     *simple_cmd = NULL;
 }
