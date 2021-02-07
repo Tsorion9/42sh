@@ -39,7 +39,7 @@ t_complete_cmd	*parser(char **s)
 	{
 		clean_complete_command(&complete_cmd);
 		t_token *last_token = pop_back(tokbuf_g);
-		if (last_token->tk_type != WORD)
+		if (last_token->tk_type != WORD && last_token->tk_type != TOKEN_CTRL_C)
 			ft_fprintf(STDERR_FILENO ,
 			  "42sh: syntax error near unexpected token %s\n",
 			  get_token_str(last_token->tk_type));
