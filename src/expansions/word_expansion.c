@@ -525,7 +525,7 @@ int		word_expansion(char **source_word)
 		if (c == '~')
 			try_tilde_expansion(source_word, &i, word_state, inside_assignment_word);
 		else if (c == '\\')
-			i++;
+			i += 2;
 		else if (c == '"')
 		{
 			word_state ^= IN_DQUOTE_STATE;
