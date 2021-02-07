@@ -37,6 +37,7 @@ char	*join_redirects_parts(int fd, char *file, const char *instruct)
 	ft_strcat(res, instruct);
 	ft_strcat(res, " ");
 	ft_strcat(res, file);
+	free(str_fd);
 	return (res);
 }
 
