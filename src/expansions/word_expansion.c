@@ -34,7 +34,7 @@ size_t	find_closing_quote(char *data)
 	return (0);
 }
 
-void 	try_tilde_expansion(char **src_word, size_t *i, int word_state)
+void 	try_tilde_expansion(char **src_word, size_t *i, int word_state, int inside_assignment_word)
 {
 	size_t	j;
 	char 	c;
@@ -42,7 +42,8 @@ void 	try_tilde_expansion(char **src_word, size_t *i, int word_state)
 
 	if ((word_state & IN_DQUOTE_STATE) || (word_state & IN_QUOTE_STATE))
 		return ;
-	if (*i == 0)
+	if (*i == 0 || (inside_assignment_word &&
+			(((*src_word)[*i - 1] == '=')  || (*src_word)[*i - 1] == ':')))	
 	{
 		j = 0;
 		quoted_state = 0;
@@ -68,10 +69,10 @@ void 	try_tilde_expansion(char **src_word, size_t *i, int word_state)
 			*i = j;
 			return ;
 		}
-		tilde_expansion(src_word, i);
-		(*i)++; // skip '/' example: user_home/some_text '/' in the middle
-		// would be skipped
+		tilde_expansion(src_word, i, inside_assignment_word);
 	}
+	(*i)++; // skip '/' example: user_home/some_text '/' in the middle
+	// would be skipped
 }
 
 int 	is_valid_var_char(char c)
@@ -451,17 +452,21 @@ int		word_expansion(char **source_word)
 	size_t 	i;
 	char 	c;
 	int 	word_state;
+	int		inside_assignment_word;
 
 	if ((*source_word) == NULL || !(**source_word))
 		return (EXPANSION_EMPTY_WORD);
 	expasnion_status(EXPANSION_SUCCESS);
 	i = 0;
 	word_state = 0;
+	inside_assignment_word = 0;
 	while ((*source_word)[i] && expasnion_status(GET_STATUS) != EXPANSION_FAIL)
 	{
+		if (word_state == 0 && (*source_word)[i] == '=') /* Not quotes */
+			inside_assignment_word = 1;
 		c = (*source_word)[i];
 		if (c == '~')
-			try_tilde_expansion(source_word, &i, word_state);
+			try_tilde_expansion(source_word, &i, word_state, inside_assignment_word);
 		else if (c == '\\')
 			i++;
 		else if (c == '"')
