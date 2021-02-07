@@ -62,7 +62,11 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 	int status = 0;
 
 	save_descriptors(save_fd);
-	make_assignments_redirections(cmd);
+	if (make_assignments_redirections(cmd) != 0)
+	{
+		restore_descriptors(save_fd);
+		return (-1);
+	}
 	if ((words = cmd->words))
 	{
 		args = collect_argwords(words);
