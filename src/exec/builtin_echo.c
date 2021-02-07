@@ -41,5 +41,5 @@ int	builtin_echo(char **args, t_env env, int subshell)
 			ft_putchar(' ');
 		args++;
 	}
-	return (1);
+	return (0);
 }

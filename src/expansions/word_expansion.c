@@ -437,17 +437,8 @@ void 	pid_expansion(char **src_word, size_t *i)
 void 	last_cmd_status_expansion(char **src_word, size_t *i)
 {
 	char 	*s_status;
-	int status;
 
-	status = last_cmd_status;
-	if (WIFEXITED(last_cmd_status))
-		status = WEXITSTATUS(last_cmd_status);
-	if (WIFSIGNALED(last_cmd_status))
-		status = WTERMSIG(last_cmd_status) + 128;
-	if (WIFSTOPPED(last_cmd_status))
-		status = WSTOPSIG(last_cmd_status) + 128;
-
-	s_status = ft_itoa(status);
+	s_status = ft_itoa(last_cmd_status);
 	replace_value(src_word, s_status, i, 2);
 	free(s_status);
 }

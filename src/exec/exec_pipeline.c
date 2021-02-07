@@ -23,7 +23,7 @@ static int exec_pipeline_job(t_pipeline *pipeline)
 	int first_iter = 1;
 
 	if (!pipeline)
-		exit(0);
+		exit(last_cmd_status);
 	fd[0] = IGNORE_STREAM;
 	while (pipeline && pipeline->command)
 	{

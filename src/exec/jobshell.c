@@ -49,6 +49,6 @@ void create_jobshell(t_complete_cmd *cmd)
 		set_jobshell_signal();
 		top_level_shell = 0;
 		exec_andor_list(cmd->and_or, &status);
-		exit(status);
+		exit(last_cmd_status);
 	}
 }
