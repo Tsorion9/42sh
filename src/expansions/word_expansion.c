@@ -535,6 +535,8 @@ int		word_expansion(char **source_word)
 		{
 			if (!(word_state & IN_DQUOTE_STATE))
 				i += find_closing_quote(*source_word + i) + 1;
+			else
+				i++;
 		}
 		else if (c == '$')
 			dollar_expansion(source_word, &i, &word_state);
