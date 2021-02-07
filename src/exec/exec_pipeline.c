@@ -75,11 +75,18 @@ int wait_fg_job(pid_t job)
 	return (status);
 }
 
+static void	quote_removal_filename(t_redirect **redirect)
+{
+	if (*redirect != NULL)
+		quote_removal(&((*redirect)->redirector->filename));
+}
+
 void	simple_command_quote_removal(t_simple_cmd *cmd)
 {
 	t_word_list *words;
 
 	words = cmd->words;
+	quote_removal_filename(&cmd->redirects);
 	while (words)
 	{
 		quote_removal(&words->word);
