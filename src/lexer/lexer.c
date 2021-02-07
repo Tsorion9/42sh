@@ -117,6 +117,7 @@ t_token			*lexer_scanner(t_lexer_state *token)
 		}
 		if (token->value && !*(token->value))
 		{
+			free(token->value);
 			fresh = malloc(sizeof(t_token));
 			fresh->value = NULL;
 			fresh->tk_type = TOKEN_END;

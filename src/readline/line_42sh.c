@@ -13,7 +13,5 @@ char *line_42sh(char *prompt)
 	status = get_next_line_wrapper(STDIN_FILENO, &line);
 	if (status == -1)
 		ft_fprintf(STDERR_FILENO, "%s\n", "42sh: read error");
-	else if (status == 0)
-		return (ft_strdup(""));
 	return (line);
 }
