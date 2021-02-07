@@ -294,7 +294,7 @@ void	assign_default_values(char **src_word, char **word,
 /*
 ** '-' == использовать значнение word после расширения
 ** '?' == выводит сообщение об ошибке, если значение unset/null
-** '+' ==
+** '+' == использовать альтернативное значение
 **
 ** src_word исходное слово
 ** sep указатель на специальный параметр в src_word
@@ -319,6 +319,11 @@ void 	var_unset_or_empty(char **src_word, char **sep, char *param,
 						have_colon);
 	else if (c == '=')
 		assign_default_values(src_word, &word, param, have_colon);
+	else if (c == '%' || c == '#')
+	{
+		ft_strdel(src_word);
+		*src_word = ft_strnew(0);
+	}
 	else
 	{
 		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
