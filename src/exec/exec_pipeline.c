@@ -75,6 +75,24 @@ int wait_fg_job(pid_t job)
 	return (status);
 }
 
+void	simple_command_quote_removal(t_simple_cmd *cmd)
+{
+	t_word_list *words;
+
+	words = cmd->words;
+	while (words)
+	{
+		quote_removal(&words->word);
+		words = words->next;
+	}
+}
+
+static void	command_quote_removal(t_command *command)
+{
+	if (command->cmd_type == SIMPLE_CMD)
+		simple_command_quote_removal(command->simple_cmd);
+}
+
 int exec_pipeline(t_pipeline *pipeline)
 {
 	pid_t job;
@@ -82,6 +100,8 @@ int exec_pipeline(t_pipeline *pipeline)
 	if (expand_pipeline(pipeline) == EXPANSION_FAIL)
 		return (1);
 	pipeline_words_to_assignments(pipeline);
+	// TODO Здесь предполагаю будет происходить field splitting
+	command_quote_removal(pipeline->command);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));
 	if (!top_level_shell)
