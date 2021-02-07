@@ -189,41 +189,48 @@ int		expasnion_status(int status)
 	return g_status;
 }
 
-void	use_default_values(char **src_word, char **sep,
+/*
+** parameter[:]-[word]
+*/
+
+void	use_default_values(char **src_word, char **word,
 						char *param_value, int have_colon)
 {
 	size_t	i;
 
 	i = 0;
-	(*sep)++;
 	if (have_colon)
 	{
-		word_expansion(sep);
-		replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+		word_expansion(word);
+		replace_value(src_word, *word, &i, ft_strlen(*src_word));
 	}
 	else
 	{
 		if (param_value != NULL && !(*param_value))
 		{
-			*sep = ft_strnew(0);
-			replace_value(src_word, *sep, &i, ft_strlen(*src_word));
-			free(*sep);
-			*sep = NULL;
+			ft_strdel(word);
+			*word = ft_strnew(0);
+			replace_value(src_word, *word, &i, ft_strlen(*src_word));
+			free(*word);
+			*word = NULL;
 		}
 		else if (param_value == NULL)
 		{
-			word_expansion(sep);
-			replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+			word_expansion(word);
+			replace_value(src_word, *word, &i, ft_strlen(*src_word));
 		}
 	}
 }
 
-void	indicate_error_if_null_or_unset(char **src_word, char **sep,
+/*
+** parameter[:]?[word]
+*/
+
+void	indicate_error_if_null_or_unset(char **src_word, char **word,
 									 char *param, int have_colon)
 {
 	char	*param_value;
 
-	(*sep)++;
 	param_value = ft_getenv(env, param);
 	if (param_value != NULL && *param_value == '\0' && !have_colon)
 	{
@@ -233,17 +240,20 @@ void	indicate_error_if_null_or_unset(char **src_word, char **sep,
 	else
 	{
 		ft_fprintf(STDERR_FILENO, "42sh: %s: %s", param,
-				   (**sep == '\0') ? E_PARAM_NULL_OR_UNSET : *sep);
+				   (**word == '\0') ? E_PARAM_NULL_OR_UNSET : *word);
 		expasnion_status(EXPANSION_FAIL);
 	}
 }
 
-void	use_alternative_value(char **src_word, char **sep,
+/*
+** parameter[:]+[word]
+*/
+
+void	use_alternative_value(char **src_word, char **word,
 						   char *param_value, int have_colon)
 {
 	size_t	i;
 
-	(*sep)++;
 	if (param_value == NULL || (have_colon && param_value == NULL))
 	{
 		free(*src_word);
@@ -251,26 +261,29 @@ void	use_alternative_value(char **src_word, char **sep,
 	}
 	else
 	{
-		word_expansion(sep);
+		word_expansion(word);
 		i = 0;
-		replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+		replace_value(src_word, *word, &i, ft_strlen(*src_word));
 	}
 }
 
-void	assign_default_values(char **src_word, char **sep,
+/*
+** parameter[:]=[word]
+*/
+
+void	assign_default_values(char **src_word, char **word,
 							  char *param, int have_colon)
 {
 	size_t	i;
 	char	*param_value;
 
-	(*sep)++;
 	i = 0;
 	param_value = ft_getenv(env, param);
 	if (param_value == NULL || (have_colon && param_value == NULL))
 	{
-		word_expansion(sep);
-		ft_setenv(env, param, *sep);
-		replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+		word_expansion(word);
+		ft_setenv(env, param, *word);
+		replace_value(src_word, *word, &i, ft_strlen(*src_word));
 	}
 	else
 	{
@@ -282,33 +295,84 @@ void	assign_default_values(char **src_word, char **sep,
 /*
 ** '-' == использовать значнение word после расширения
 ** '?' == выводит сообщение об ошибке, если значение unset/null
-** '+' ==
+** '+' == использовать альтернативное значение
+** '=' == присвоить значение
+** '#' == удалить наименьший префикс
+** '##' == удалить наибольший префикс
+** '%' == удалить наименьший суффикс
+** '%%' == удалить наибольший суффикс
 **
 ** src_word исходное слово
 ** sep указатель на специальный параметр в src_word
 ** простыми словами, sep подстрока src_word, указывающая на спец символ
-** parameter испозьуется для присваивания значения, если необходимо
+** parameter используется для присваивания значения, если необходимо
 */
 
 void 	var_unset_or_empty(char **src_word, char **sep, char *param,
 						 								int have_colon)
 {
 	char	c;
+	char 	*word;
 
 	c = **sep;
+	word = ft_strdup(*sep + 1);
 	if (c == '-')
-		use_default_values(src_word, sep, ft_getenv(env, param), have_colon);
+		use_default_values(src_word, &word, ft_getenv(env, param), have_colon);
 	else if (c == '?')
-		indicate_error_if_null_or_unset(src_word, sep, param, have_colon);
+		indicate_error_if_null_or_unset(src_word, &word, param, have_colon);
 	else if (c == '+')
-		use_alternative_value(src_word, sep, ft_getenv(env, param), have_colon);
+		use_alternative_value(src_word, &word, ft_getenv(env, param),
+						have_colon);
 	else if (c == '=')
-		assign_default_values(src_word, sep, param, have_colon);
+		assign_default_values(src_word, &word, param, have_colon);
+	else if (c == '%' || c == '#')
+	{
+		ft_strdel(src_word);
+		*src_word = ft_strnew(0);
+	}
 	else
 	{
 		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
 		expasnion_status(EXPANSION_FAIL);
 	}
+	free(word);
+}
+
+/*
+** '-' == использовать значнение word после расширения
+** '?' == выводит сообщение об ошибке, если значение unset/null
+** '+' == использовать альтернативное значение
+** '=' == присвоить значение
+** '#' == удалить наименьший префикс
+** '##' == удалить наибольший префикс
+** '%' == удалить наименьший суффикс
+** '%%' == удалить наибольший суффикс
+**
+** src_word исходное слово
+** sep указатель на специальный параметр в src_word
+** простыми словами, sep подстрока src_word, указывающая на спец символ
+** parameter используется для присваивания значения, если необходимо
+*/
+
+void	var_not_null(char **src_word, char **sep, char *param)
+{
+	char	c;
+	char 	*word;
+	char 	*param_value;
+	size_t	i;
+
+	c = **sep;
+	word = ft_strdup(*sep + 1);
+	param_value = ft_getenv(env, param);
+	i = 0;
+	if (c == '-' || c == '=' || c == '?')
+		replace_value(src_word, param_value, &i, ft_strlen(*src_word));
+	else
+	{
+		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
+		expasnion_status(EXPANSION_FAIL);
+	}
+	free(word);
 }
 
 /*
@@ -346,6 +410,8 @@ void 	parameter_expansion(char **src_word)
 		}
 		if (!var_value || !(*var_value))
 			var_unset_or_empty(src_word, &sep, parameter, have_colon);
+		else
+			var_not_null(src_word, &sep, parameter);
 		free(parameter);
 	}
 	else
