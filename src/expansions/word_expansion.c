@@ -295,11 +295,16 @@ void	assign_default_values(char **src_word, char **word,
 ** '-' == использовать значнение word после расширения
 ** '?' == выводит сообщение об ошибке, если значение unset/null
 ** '+' == использовать альтернативное значение
+** '=' == присвоить значение
+** '#' == удалить наименьший префикс
+** '##' == удалить наибольший префикс
+** '%' == удалить наименьший суффикс
+** '%%' == удалить наибольший суффикс
 **
 ** src_word исходное слово
 ** sep указатель на специальный параметр в src_word
 ** простыми словами, sep подстрока src_word, указывающая на спец символ
-** parameter испозьуется для присваивания значения, если необходимо
+** parameter используется для присваивания значения, если необходимо
 */
 
 void 	var_unset_or_empty(char **src_word, char **sep, char *param,
@@ -324,6 +329,43 @@ void 	var_unset_or_empty(char **src_word, char **sep, char *param,
 		ft_strdel(src_word);
 		*src_word = ft_strnew(0);
 	}
+	else
+	{
+		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
+		expasnion_status(EXPANSION_FAIL);
+	}
+	free(word);
+}
+
+/*
+** '-' == использовать значнение word после расширения
+** '?' == выводит сообщение об ошибке, если значение unset/null
+** '+' == использовать альтернативное значение
+** '=' == присвоить значение
+** '#' == удалить наименьший префикс
+** '##' == удалить наибольший префикс
+** '%' == удалить наименьший суффикс
+** '%%' == удалить наибольший суффикс
+**
+** src_word исходное слово
+** sep указатель на специальный параметр в src_word
+** простыми словами, sep подстрока src_word, указывающая на спец символ
+** parameter используется для присваивания значения, если необходимо
+*/
+
+void	var_not_null(char **src_word, char **sep, char *param)
+{
+	char	c;
+	char 	*word;
+	char 	*param_value;
+	size_t	i;
+
+	c = **sep;
+	word = ft_strdup(*sep + 1);
+	param_value = ft_getenv(env, param);
+	i = 0;
+	if (c == '-' || c == '=' || c == '?')
+		replace_value(src_word, param_value, &i, ft_strlen(*src_word));
 	else
 	{
 		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
@@ -367,6 +409,8 @@ void 	parameter_expansion(char **src_word)
 		}
 		if (!var_value || !(*var_value))
 			var_unset_or_empty(src_word, &sep, parameter, have_colon);
+		else
+			var_not_null(src_word, &sep, parameter);
 		free(parameter);
 	}
 	else
