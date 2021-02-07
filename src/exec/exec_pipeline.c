@@ -75,6 +75,43 @@ int wait_fg_job(pid_t job)
 	return (status);
 }
 
+static void	adding_field_spit_result(t_word_list **words, t_word_list **fields)
+{
+	t_word_list	*next;
+	t_word_list *tail_fields;
+
+	next = (*words)->next;
+	free((*words)->word);
+	free(*words);
+	*words = *fields;
+	tail_fields = *fields;
+	while (tail_fields->next)
+		tail_fields = tail_fields->next;
+	tail_fields->next = next;
+	*words = tail_fields;
+	*fields = NULL;
+}
+
+static void	apply_field_splitting_simple_cmd(t_simple_cmd **simple_cmd)
+{
+	t_word_list *words;
+	t_word_list *fields;
+
+	words = (*simple_cmd)->words;
+	while (words)
+	{
+		fields = field_splitting_list(words->word);
+		adding_field_spit_result(&words, &fields);
+		words = words->next;
+	}
+}
+
+static void apply_field_splitting(t_command *command)
+{
+	if (command->cmd_type == SIMPLE_CMD)
+		apply_field_splitting_simple_cmd(&command->simple_cmd);
+}
+
 int exec_pipeline(t_pipeline *pipeline)
 {
 	pid_t job;
@@ -82,6 +119,7 @@ int exec_pipeline(t_pipeline *pipeline)
 	if (expand_pipeline(pipeline) == EXPANSION_FAIL)
 		return (1);
 	pipeline_words_to_assignments(pipeline);
+//	apply_field_splitting(pipeline->command);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));
 	if (!top_level_shell)

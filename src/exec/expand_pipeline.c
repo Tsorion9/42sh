@@ -3,8 +3,8 @@
 
 static int 	expand_simple_command(t_simple_cmd *simple_cmd)
 {
-	t_word_list *words;
-	int status;
+	t_word_list	*words;
+	int			status;
 
 	words = simple_cmd->words;
 	while (words)
