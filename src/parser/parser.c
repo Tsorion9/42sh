@@ -12,6 +12,7 @@
 
 #include "inc21sh.h"
 #include "parser.h"
+#include "lexer.h"
 #include "heredoc.h"
 
 char **g_parser_input_string;
@@ -42,6 +43,7 @@ t_complete_cmd	*parser(char **s)
 			ft_fprintf(STDERR_FILENO ,
 			  "42sh: syntax error near unexpected token %s\n",
 			  get_token_str(last_token->tk_type));
+		free_lexer_state(&g_token);
 		free(last_token);
 		erase_tokbuf(&tokbuf_g);
 		erase_tokbuf(&tokbuf_l);

@@ -92,6 +92,11 @@ void 			free_lexer_state(t_lexer_state *token)
 		free(token->value);
 	if (token->head != NULL)
 		free_quequ_lexer(&token->head);
+	token->value = NULL;
+	token->head = NULL;
+	token->tk_len = 0;
+	token->str_index = 0;
+	token->flags = 0;
 }
 
 t_token			*lexer_scanner(t_lexer_state *token)

@@ -74,6 +74,7 @@ char			*get_token_str(t_tokens type);
 int				dquote_spec(char c);
 int				is_contain_quote(char *str);
 void			print_token(t_token token);
+void			free_lexer_state(t_lexer_state *token);
 
 /*
 ** For queue routine
