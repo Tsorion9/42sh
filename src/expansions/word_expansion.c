@@ -41,7 +41,10 @@ void 	try_tilde_expansion(char **src_word, size_t *i, int word_state, int inside
 	int 	quoted_state;
 
 	if ((word_state & IN_DQUOTE_STATE) || (word_state & IN_QUOTE_STATE))
+	{
+		(*i)++;
 		return ;
+	}
 	if (*i == 0 || (inside_assignment_word &&
 			(((*src_word)[*i - 1] == '=')  || (*src_word)[*i - 1] == ':')))	
 	{
