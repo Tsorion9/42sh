@@ -88,6 +88,7 @@ int exec_complete_cmd(t_complete_cmd *cmd)
 	t_complete_cmd	*save_start;
 
 	save_start = cmd;
+	status = 0;
 	while (cmd)
 	{
 		if (cmd->separator_op == OP_BG) 

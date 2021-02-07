@@ -59,7 +59,7 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 	char **args;
 	int save_fd[3];
 	t_builtin builtin;
-	int status;
+	int status = 0;
 
 	save_descriptors(save_fd);
 	if (make_assignments_redirections(cmd) != 0)
