@@ -68,7 +68,7 @@ static void read_from_file(char *filename)
 		exit(123);
 	}
 	dup2(fd, STDIN_FILENO);
-	close(fd);
+	close_wrapper(fd);
 }
 
 int main(int argc, char **argv, char **envr)

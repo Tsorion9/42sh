@@ -48,9 +48,9 @@ static void restore_descriptors(int *save_fd)
 	dup2(save_fd[0], STDIN_FILENO);
 	dup2(save_fd[1], STDOUT_FILENO);
 	dup2(save_fd[2], STDERR_FILENO);
-	close(save_fd[0]);
-	close(save_fd[1]);
-	close(save_fd[2]);
+	close_wrapper(save_fd[0]);
+	close_wrapper(save_fd[1]);
+	close_wrapper(save_fd[2]);
 }
 
 int exec_simple_cmd(t_simple_cmd *cmd)
@@ -72,9 +72,9 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 			status = builtin(args + 1, 0, 0);
 		else
 		{
-			close(save_fd[0]);
-			close(save_fd[1]);
-			close(save_fd[2]);
+			close_wrapper(save_fd[0]);
+			close_wrapper(save_fd[1]);
+			close_wrapper(save_fd[2]);
 			status = find_exec(args, export_env);
 		}
 		del_array(args);

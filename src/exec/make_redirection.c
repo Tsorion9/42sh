@@ -11,16 +11,16 @@ static void make_heredoc_redirection(t_redirect *redirect)
 
 	pipe(pipefd);
 	dup2(pipefd[0], redirect->redirector->fd);
-	close(pipefd[0]);
+	close_wrapper(pipefd[0]);
 	child = fork();
 	if (child)
 	{
-		close(pipefd[1]);
+		close_wrapper(pipefd[1]);
 		return ;
 	}
 	else
 	{
-		close(redirect->redirector->fd);
+		close_wrapper(redirect->redirector->fd);
 		ft_fprintf(pipefd[1], "%s", redirect->heredoc_value);
 		exit(0);
 	}
@@ -38,7 +38,7 @@ static int file_redirection(t_redirect *redirect, int flags, int mode)
 		return (1);
 	}
 	dup2(fd, redirect->redirector->fd);
-	close(fd);
+	close_wrapper(fd);
 	return (0);
 }
 
@@ -57,11 +57,11 @@ int make_redirection(t_redirect *redirect)
 	{
 		if (!ft_strcmp(redirect->redirector->filename, "-"))
 		{
-			close(redirect->redirector->fd);
+			close_wrapper(redirect->redirector->fd);
 			return (1);
 		}
 		dup2(ft_atoi(redirect->redirector->filename), redirect->redirector->fd); // TODO: read/write 0 bytes to check if fd is valid
-		//close(redirect->redirector->fd);
+		//close_wrapper(redirect->redirector->fd);
 	}
 	return (0);
 }

@@ -36,4 +36,6 @@ void make_assignment(char *as_wrd, int do_export);
 void make_assignments(t_simple_cmd *cmd, int do_export);
 int make_redirection(t_redirect *redirect);
 
+int close_wrapper(int fd);
+
 #endif

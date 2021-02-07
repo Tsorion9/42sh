@@ -66,19 +66,19 @@ void command_substitution(char **s)
 	child = fork();
 	if (child) /* Parent */
 	{
-		close(pipefd[1]);
+		close_wrapper(pipefd[1]);
 		*s = read_from_pipe(pipefd[0]);
 		//printf("Substituted: %s\n", *s);
-		close(pipefd[0]);
+		close_wrapper(pipefd[0]);
 	}
 	else /* Child */
 	{
 		//sleep(1);
-		close(pipefd[0]);
-		//close(STDIN_FILENO);
+		close_wrapper(pipefd[0]);
+		//close_wrapper(STDIN_FILENO);
 		dup2(pipefd[1], STDERR_FILENO);
 		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
+		close_wrapper(pipefd[1]);
 		interactive_shell = 0;
 		exec_complete_cmd(cmd);
 		exit(0);

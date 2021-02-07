@@ -167,6 +167,7 @@ CEXEC = builtin_21shopt.c \
 		exec_cmd.c \
 		exec_simple_cmd.c \
 		parse_alias_args.c \
+		close_wrapper.c \
 		pipeline_words_to_assignments.c
 
 CEXPANSIONS = tilde_expansion.c \

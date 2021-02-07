@@ -54,7 +54,7 @@ void		load_on_file_history(t_history *history)
 		}
 	}
 	free_str(str);
-	close(fd);
+	close_wrapper(fd);
 }
 
 static void	save_in_file_history_sup(int fd, int n, char *history)
@@ -117,5 +117,5 @@ void		save_in_file_history(t_history *history)
 		write(fd, "\n", 1);
 		history = history->prev;
 	}
-	close(fd);
+	close_wrapper(fd);
 }

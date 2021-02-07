@@ -16,12 +16,12 @@ void child_actions(t_command *cmd, int read_fd, int write_fd)
 	if (read_fd != IGNORE_STREAM)
 	{
 		dup2(read_fd, 0); /* TODO: Handle errors here*/
-		close(read_fd);
+		close_wrapper(read_fd);
 	}
 	if (write_fd != IGNORE_STREAM)
 	{
 		dup2(write_fd, 1);
-		close(write_fd);
+		close_wrapper(write_fd);
 	}
 	code = exec_cmd(cmd);
 	exit(code); /* In case of builtin */
@@ -31,11 +31,11 @@ void parent_actions(int read_fd, int write_fd)
 {
 	if (read_fd != IGNORE_STREAM)
 	{
-		close(read_fd);
+		close_wrapper(read_fd);
 	}
 	if (write_fd != IGNORE_STREAM)
 	{
-		close(write_fd);
+		close_wrapper(write_fd);
 	}
 }
 
@@ -47,7 +47,7 @@ pid_t	make_child(t_command *cmd, int read_fd, int write_fd, int another_read_fd,
 	if (!child) /* Child, exits*/
 	{
 		if (need_close)
-			close(another_read_fd);
+			close_wrapper(another_read_fd);
 		child_actions(cmd, read_fd, write_fd);
 	}
 	else
