@@ -438,12 +438,17 @@ void 	pid_expansion(char **src_word, size_t *i)
 	free(s_pid);
 }
 
-void 	last_cmd_status_expansion(char **src_word, size_t *i)
+/*
+** len используется для 2 случаев '$?' и '${?}'
+** для '$?' длина заменяемой части 2, для '${?}' 4
+*/
+
+void 	last_cmd_status_expansion(char **src_word, size_t *i, size_t len)
 {
 	char 	*s_status;
 
 	s_status = ft_itoa(last_cmd_status);
-	replace_value(src_word, s_status, i, 2);
+	replace_value(src_word, s_status, i, len);
 	free(s_status);
 }
 
@@ -478,13 +483,16 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 		{
 			res = length_expansion(&s);
 			replace_value(src_word, res, i, j + 1);
+			free(res);
 		}
+		else if (ft_strequ(s, "?"))
+			last_cmd_status_expansion(src_word, i, 4);
 		else
 		{
 			parameter_expansion(&s);
 			replace_value(src_word, s, i, j + 1);
-			free(s);
 		}
+		free(s);
 	}
 	else if (c == '(')
 	{
@@ -497,7 +505,7 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 	else if (c == '$')
 		pid_expansion(src_word, i);
 	else if (c == '?')
-		last_cmd_status_expansion(src_word, i);
+		last_cmd_status_expansion(src_word, i, 2);
 	else if (is_valid_var_char(c))
 		var_expansion(src_word, i, 1);
 	else
