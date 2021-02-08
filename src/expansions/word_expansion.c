@@ -243,7 +243,7 @@ void	indicate_error_if_null_or_unset(char **src_word, char **word,
 	}
 	else
 	{
-		ft_fprintf(STDERR_FILENO, "42sh: %s: %s", param,
+		ft_fprintf(STDERR_FILENO, "42sh: %s: %s\n", param,
 				   (**word == '\0') ? E_PARAM_NULL_OR_UNSET : *word);
 		expasnion_status(EXPANSION_FAIL);
 	}
@@ -402,7 +402,7 @@ void 	parameter_expansion(char **src_word)
 		parameter = ft_strsub(*src_word, 0, (size_t)(sep - *src_word));
 		if (*parameter == '\0')
 		{
-			ft_fprintf(2, "42sh: %s: %s", *src_word, E_BAD_SUBSTITUTION);
+			ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
 			expasnion_status(EXPANSION_FAIL);
 			return ;
 		}
