@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:18 by anton             #+#    #+#             */
-/*   Updated: 2021/01/18 08:26:36 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/23 19:57:01 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ void			cycle_echo_print(char **args, int n_flag, int e_flag,
 	}
 }
 
-void			check_echo_flags(char **args)
+// void			delete_slash_in_echo(char *)
+
+
+
+void			check_echo_flags_and_print(char **args)
 {
 	int		i;
 	int		n_flag;
@@ -60,9 +64,8 @@ int	builtin_echo(char **args, t_env env, int subshell)
 {
 	(void)env;
 	(void)subshell;
-	n_flag = 0;
 	if (!*args)
 		return (1);
-	check_echo_flags(args);
+	check_echo_flags_and_print(args);
 	return (1);
 }

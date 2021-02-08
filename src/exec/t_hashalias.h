@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 22:53:51 by nriker           ###   ########.fr       */
+/*   Updated: 2021/01/23 18:34:37 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int						check_flag_p(char ***args, void (*print)(void),
 							void (*invalid_print)(char *arg));
 int						check_valid_symbol(char *key, char *copy, int i,
 							void (*print)(char *copy));
+int						check_valid_flag(char *arg, void (*print)(char *arg));
 
 /*
 ** API FOR JSANCE
