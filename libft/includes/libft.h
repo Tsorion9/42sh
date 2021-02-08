@@ -104,6 +104,8 @@ char				*ft_straddchar(char *s, char c);
 int					ft_lstlen(t_list *l);
 char				*ft_path_append(char *path, char *name);
 int					ft_strfirststr(const char *haystack, const char *needle);
+int					ft_isnumber(char *str);
+
 /*
 ** ft_ptree.g
 */
