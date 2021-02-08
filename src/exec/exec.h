@@ -11,6 +11,7 @@
 extern int top_level_shell;
 extern int async_notify_bg;
 extern int interactive_shell;
+extern int last_cmd_status;
 
 void set_jobshell_signal(void);
 void sigchld_handler(int n);
@@ -34,5 +35,7 @@ int make_assignments_redirections(t_simple_cmd *cmd);
 void make_assignment(char *as_wrd, int do_export);
 void make_assignments(t_simple_cmd *cmd, int do_export);
 int make_redirection(t_redirect *redirect);
+
+int close_wrapper(int fd);
 
 #endif

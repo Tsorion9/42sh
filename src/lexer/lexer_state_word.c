@@ -168,6 +168,7 @@ void			lexer_state_word(t_lexer_state *token)
 			ft_fprintf(STDERR_FILENO, "%s`%c'\n",
 			  E_UNEXPECTED_EOF, get_quote(token));
 			ft_fprintf(STDERR_FILENO, "%s\n", E_SYN_UNEXPECT_EOF);
+			free(input);
 			return ;
 		}
 		inside_readline = 0;

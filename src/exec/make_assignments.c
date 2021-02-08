@@ -26,4 +26,5 @@ void make_assignments(t_simple_cmd *cmd, int do_export)
 		free(current);
 		current = next;
 	}
+	cmd->assignments = NULL;
 }

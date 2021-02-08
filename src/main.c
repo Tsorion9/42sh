@@ -24,6 +24,7 @@
 t_env env;
 t_env export_env;
 int interactive_shell;
+int last_cmd_status;
 
 static void set_toplevel_shell_signal(void)
 {
@@ -67,7 +68,7 @@ static void read_from_file(char *filename)
 		exit(123);
 	}
 	dup2(fd, STDIN_FILENO);
-	close(fd);
+	close_wrapper(fd);
 }
 
 int main(int argc, char **argv, char **envr)

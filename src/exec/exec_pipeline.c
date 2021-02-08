@@ -23,7 +23,7 @@ static int exec_pipeline_job(t_pipeline *pipeline)
 	int first_iter = 1;
 
 	if (!pipeline)
-		exit(0);
+		exit(last_cmd_status);
 	fd[0] = IGNORE_STREAM;
 	while (pipeline && pipeline->command)
 	{
@@ -72,7 +72,32 @@ int wait_fg_job(pid_t job)
 		tcsetpgrp(STDIN_FILENO, getpid());
 		set_shell_input_mode();
 	}
-	return (0);
+	return (status);
+}
+
+static void	quote_removal_filename(t_redirect **redirect)
+{
+	if (*redirect != NULL)
+		quote_removal(&((*redirect)->redirector->filename));
+}
+
+void	simple_command_quote_removal(t_simple_cmd *cmd)
+{
+	t_word_list *words;
+
+	words = cmd->words;
+	quote_removal_filename(&cmd->redirects);
+	while (words)
+	{
+		quote_removal(&words->word);
+		words = words->next;
+	}
+}
+
+static void	command_quote_removal(t_command *command)
+{
+	if (command->cmd_type == SIMPLE_CMD)
+		simple_command_quote_removal(command->simple_cmd);
 }
 
 int exec_pipeline(t_pipeline *pipeline)
@@ -82,6 +107,8 @@ int exec_pipeline(t_pipeline *pipeline)
 	if (expand_pipeline(pipeline) == EXPANSION_FAIL)
 		return (1);
 	pipeline_words_to_assignments(pipeline);
+	// TODO Здесь предполагаю будет происходить field splitting
+	command_quote_removal(pipeline->command);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));
 	if (!top_level_shell)

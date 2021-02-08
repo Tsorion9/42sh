@@ -20,7 +20,7 @@
 # define E_BAD_SUBSTITUTION		"42sh: bad substitution: "
 # define E_PARAM_NULL_OR_UNSET	"parameter null or unset"
 
-int			tilde_expansion(char **s, size_t *i);
+int			tilde_expansion(char **s, size_t *i, int inside_assignment_word);
 int			word_expansion(char **source_word);
 void		quote_removal(char **str);
 char		**field_splitting(const char *source);

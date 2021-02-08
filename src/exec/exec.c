@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -8,6 +9,17 @@
 #include "job.h"
 #include "jobshell.h"
 
+int status_to_exitcode(int pipeline_status)
+{
+	if (WIFEXITED(pipeline_status))
+		return (WEXITSTATUS(pipeline_status));
+	if (WIFSIGNALED(pipeline_status))
+		return (WTERMSIG(pipeline_status) + 128);
+	if (WIFSTOPPED(pipeline_status))
+		return (WSTOPSIG(pipeline_status) + 128);
+	return (pipeline_status);
+}
+
 /*
 ** TRUE = 0
 ** FALSE = 1
@@ -15,6 +27,9 @@
 */
 static void update_status(int pipeline_status, int *status, t_type_andor last_op)
 {
+	last_cmd_status = status_to_exitcode(pipeline_status);
+	//printf("%d: pipeline_status=%d, transformed to last_cmd_status=%d\n", getpid(), pipeline_status, last_cmd_status);
+	fflush(NULL);
 	if (last_op == ANDOR_NONE)
 	{
 		*status = pipeline_status; /* First step */
@@ -73,6 +88,7 @@ int exec_complete_cmd(t_complete_cmd *cmd)
 	t_complete_cmd	*save_start;
 
 	save_start = cmd;
+	status = 0;
 	while (cmd)
 	{
 		if (cmd->separator_op == OP_BG) 

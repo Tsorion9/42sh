@@ -1,5 +1,8 @@
+#include <unistd.h>
 #include "expansions.h"
 #include "environment.h"
+#include "exec.h"
+#include "readline.h"
 
 /*
 ** На вход ожидает получить строку с кавычкой в первом символе
@@ -32,15 +35,19 @@ size_t	find_closing_quote(char *data)
 	return (0);
 }
 
-void 	try_tilde_expansion(char **src_word, size_t *i, int word_state)
+void 	try_tilde_expansion(char **src_word, size_t *i, int word_state, int inside_assignment_word)
 {
 	size_t	j;
 	char 	c;
 	int 	quoted_state;
 
 	if ((word_state & IN_DQUOTE_STATE) || (word_state & IN_QUOTE_STATE))
+	{
+		(*i)++;
 		return ;
-	if (*i == 0)
+	}
+	if (*i == 0 || (inside_assignment_word &&
+			(((*src_word)[*i - 1] == '=')  || (*src_word)[*i - 1] == ':')))	
 	{
 		j = 0;
 		quoted_state = 0;
@@ -66,10 +73,10 @@ void 	try_tilde_expansion(char **src_word, size_t *i, int word_state)
 			*i = j;
 			return ;
 		}
-		tilde_expansion(src_word, i);
-		(*i)++; // skip '/' example: user_home/some_text '/' in the middle
-		// would be skipped
+		tilde_expansion(src_word, i, inside_assignment_word);
 	}
+	(*i)++; // skip '/' example: user_home/some_text '/' in the middle
+	// would be skipped
 }
 
 int 	is_valid_var_char(char c)
@@ -186,41 +193,48 @@ int		expasnion_status(int status)
 	return g_status;
 }
 
-void	use_default_values(char **src_word, char **sep,
+/*
+** parameter[:]-[word]
+*/
+
+void	use_default_values(char **src_word, char **word,
 						char *param_value, int have_colon)
 {
 	size_t	i;
 
 	i = 0;
-	(*sep)++;
 	if (have_colon)
 	{
-		word_expansion(sep);
-		replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+		word_expansion(word);
+		replace_value(src_word, *word, &i, ft_strlen(*src_word));
 	}
 	else
 	{
 		if (param_value != NULL && !(*param_value))
 		{
-			*sep = ft_strnew(0);
-			replace_value(src_word, *sep, &i, ft_strlen(*src_word));
-			free(*sep);
-			*sep = NULL;
+			ft_strdel(word);
+			*word = ft_strnew(0);
+			replace_value(src_word, *word, &i, ft_strlen(*src_word));
+			free(*word);
+			*word = NULL;
 		}
 		else if (param_value == NULL)
 		{
-			word_expansion(sep);
-			replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+			word_expansion(word);
+			replace_value(src_word, *word, &i, ft_strlen(*src_word));
 		}
 	}
 }
 
-void	indicate_error_if_null_or_unset(char **src_word, char **sep,
+/*
+** parameter[:]?[word]
+*/
+
+void	indicate_error_if_null_or_unset(char **src_word, char **word,
 									 char *param, int have_colon)
 {
 	char	*param_value;
 
-	(*sep)++;
 	param_value = ft_getenv(env, param);
 	if (param_value != NULL && *param_value == '\0' && !have_colon)
 	{
@@ -229,18 +243,21 @@ void	indicate_error_if_null_or_unset(char **src_word, char **sep,
 	}
 	else
 	{
-		ft_fprintf(STDERR_FILENO, "42sh: %s: %s", param,
-				   (**sep == '\0') ? E_PARAM_NULL_OR_UNSET : *sep);
+		ft_fprintf(STDERR_FILENO, "42sh: %s: %s\n", param,
+				   (**word == '\0') ? E_PARAM_NULL_OR_UNSET : *word);
 		expasnion_status(EXPANSION_FAIL);
 	}
 }
 
-void	use_alternative_value(char **src_word, char **sep,
+/*
+** parameter[:]+[word]
+*/
+
+void	use_alternative_value(char **src_word, char **word,
 						   char *param_value, int have_colon)
 {
 	size_t	i;
 
-	(*sep)++;
 	if (param_value == NULL || (have_colon && param_value == NULL))
 	{
 		free(*src_word);
@@ -248,26 +265,29 @@ void	use_alternative_value(char **src_word, char **sep,
 	}
 	else
 	{
-		word_expansion(sep);
+		word_expansion(word);
 		i = 0;
-		replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+		replace_value(src_word, *word, &i, ft_strlen(*src_word));
 	}
 }
 
-void	assign_default_values(char **src_word, char **sep,
+/*
+** parameter[:]=[word]
+*/
+
+void	assign_default_values(char **src_word, char **word,
 							  char *param, int have_colon)
 {
 	size_t	i;
 	char	*param_value;
 
-	(*sep)++;
 	i = 0;
 	param_value = ft_getenv(env, param);
 	if (param_value == NULL || (have_colon && param_value == NULL))
 	{
-		word_expansion(sep);
-		ft_setenv(env, param, *sep);
-		replace_value(src_word, *sep, &i, ft_strlen(*src_word));
+		word_expansion(word);
+		ft_setenv(env, param, *word);
+		replace_value(src_word, *word, &i, ft_strlen(*src_word));
 	}
 	else
 	{
@@ -279,35 +299,84 @@ void	assign_default_values(char **src_word, char **sep,
 /*
 ** '-' == использовать значнение word после расширения
 ** '?' == выводит сообщение об ошибке, если значение unset/null
-** '+' ==
+** '+' == использовать альтернативное значение
+** '=' == присвоить значение
+** '#' == удалить наименьший префикс
+** '##' == удалить наибольший префикс
+** '%' == удалить наименьший суффикс
+** '%%' == удалить наибольший суффикс
 **
 ** src_word исходное слово
 ** sep указатель на специальный параметр в src_word
 ** простыми словами, sep подстрока src_word, указывающая на спец символ
-** parameter испозьуется для присваивания значения, если необходимо
+** parameter используется для присваивания значения, если необходимо
 */
 
 void 	var_unset_or_empty(char **src_word, char **sep, char *param,
 						 								int have_colon)
 {
-	size_t	i;
 	char	c;
+	char 	*word;
 
-	i = 0;
 	c = **sep;
+	word = ft_strdup(*sep + 1);
 	if (c == '-')
-		use_default_values(src_word, sep, ft_getenv(env, param), have_colon);
+		use_default_values(src_word, &word, ft_getenv(env, param), have_colon);
 	else if (c == '?')
-		indicate_error_if_null_or_unset(src_word, sep, param, have_colon);
+		indicate_error_if_null_or_unset(src_word, &word, param, have_colon);
 	else if (c == '+')
-		use_alternative_value(src_word, sep, ft_getenv(env, param), have_colon);
+		use_alternative_value(src_word, &word, ft_getenv(env, param),
+						have_colon);
 	else if (c == '=')
-		assign_default_values(src_word, sep, param, have_colon);
+		assign_default_values(src_word, &word, param, have_colon);
+	else if (c == '%' || c == '#')
+	{
+		ft_strdel(src_word);
+		*src_word = ft_strnew(0);
+	}
 	else
 	{
 		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
 		expasnion_status(EXPANSION_FAIL);
 	}
+	free(word);
+}
+
+/*
+** '-' == использовать значнение word после расширения
+** '?' == выводит сообщение об ошибке, если значение unset/null
+** '+' == использовать альтернативное значение
+** '=' == присвоить значение
+** '#' == удалить наименьший префикс
+** '##' == удалить наибольший префикс
+** '%' == удалить наименьший суффикс
+** '%%' == удалить наибольший суффикс
+**
+** src_word исходное слово
+** sep указатель на специальный параметр в src_word
+** простыми словами, sep подстрока src_word, указывающая на спец символ
+** parameter используется для присваивания значения, если необходимо
+*/
+
+void	var_not_null(char **src_word, char **sep, char *param)
+{
+	char	c;
+	char 	*word;
+	char 	*param_value;
+	size_t	i;
+
+	c = **sep;
+	word = ft_strdup(*sep + 1);
+	param_value = ft_getenv(env, param);
+	i = 0;
+	if (c == '-' || c == '=' || c == '?')
+		replace_value(src_word, param_value, &i, ft_strlen(*src_word));
+	else
+	{
+		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
+		expasnion_status(EXPANSION_FAIL);
+	}
+	free(word);
 }
 
 /*
@@ -333,7 +402,7 @@ void 	parameter_expansion(char **src_word)
 		parameter = ft_strsub(*src_word, 0, (size_t)(sep - *src_word));
 		if (*parameter == '\0')
 		{
-			ft_fprintf(2, "42sh: %s: %s", *src_word, E_BAD_SUBSTITUTION);
+			ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
 			expasnion_status(EXPANSION_FAIL);
 			return ;
 		}
@@ -345,6 +414,8 @@ void 	parameter_expansion(char **src_word)
 		}
 		if (!var_value || !(*var_value))
 			var_unset_or_empty(src_word, &sep, parameter, have_colon);
+		else
+			var_not_null(src_word, &sep, parameter);
 		free(parameter);
 	}
 	else
@@ -366,6 +437,21 @@ void 	pid_expansion(char **src_word, size_t *i)
 	replace_value(src_word, s_pid, i, 2);
 	free(s_pid);
 }
+
+/*
+** len используется для 2 случаев '$?' и '${?}'
+** для '$?' длина заменяемой части 2, для '${?}' 4
+*/
+
+void 	last_cmd_status_expansion(char **src_word, size_t *i, size_t len)
+{
+	char 	*s_status;
+
+	s_status = ft_itoa(last_cmd_status);
+	replace_value(src_word, s_status, i, len);
+	free(s_status);
+}
+
 
 /*
 ** perform variable (parameter) expansion.
@@ -397,13 +483,16 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 		{
 			res = length_expansion(&s);
 			replace_value(src_word, res, i, j + 1);
+			free(res);
 		}
+		else if (ft_strequ(s, "?"))
+			last_cmd_status_expansion(src_word, i, 4);
 		else
 		{
 			parameter_expansion(&s);
 			replace_value(src_word, s, i, j + 1);
-			free(s);
 		}
+		free(s);
 	}
 	else if (c == '(')
 	{
@@ -415,8 +504,122 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 	}
 	else if (c == '$')
 		pid_expansion(src_word, i);
+	else if (c == '?')
+		last_cmd_status_expansion(src_word, i, 2);
 	else if (is_valid_var_char(c))
 		var_expansion(src_word, i, 1);
+	else
+		(*i)++;
+}
+
+static void			init_history_num_and_first(t_history **history_first,
+	int *number_of_history)
+{
+	t_history *history;
+
+	history = rp(NULL)->history;
+	while (history->prev)
+		history = history->prev;
+	*number_of_history = 0;
+	while (history->next)
+	{
+		history = history->next;
+		(*number_of_history)++;
+	}
+	*history_first = history;
+	(*number_of_history)--;
+}
+
+static t_history	*get_history(t_history *history_first,
+	const int number_of_history, int history_number)
+{
+	t_history *history;
+
+	if (history_number > number_of_history)
+		history_number = number_of_history - 1;
+	if (history_number < 0)
+	{
+		history_number = number_of_history + history_number;
+		if (history_number < 1)
+			history_number = 1;
+	}
+	history = history_first;
+	while (history->prev && history_number)
+	{
+		history = history->prev;
+		history_number--;
+	}
+	return (history);
+}
+
+static int			search_str_in_history(const char *str)
+{
+	t_history	*history;
+	int			found;
+	int			history_number;
+
+	history_number = 0;
+	history = rp(NULL)->history;
+	while (history->prev)
+		history = history->prev;
+	found = 0;
+	while (history && !found && history_number < HISTSIZE)
+	{
+		if (ft_strfirststr(history->str, str))
+			found = 1;
+		history = history->next;
+		history_number++;
+	}
+	return ((history_number - 2) * (-1));
+}
+
+static int			search_history_number(char *str)
+{
+	if (str)
+	{
+		if (ft_isnumber(str))
+			return (ft_atoi(str));
+		else if (str[0] != '-')
+			return (search_str_in_history(str));
+	}
+	return (-1);
+}
+
+static size_t		find_end_history_expansions(const char *str)
+{
+	size_t	len;
+
+	len = 0;
+	while (ft_isalpha(*str) || *str == '-' || ft_isdigit(*str))
+	{
+		str++;
+		len++;
+	}
+	return (len);
+}
+
+void 				history_expansion(char **src_word, size_t *i)
+{
+	char		c;
+	t_history	*history_first;
+	int			number_of_history;
+	t_history	*history;
+	int			history_number;
+
+	c = (*src_word)[*i + 1];
+	init_history_num_and_first(&history_first, &number_of_history);
+	if (c == '!')
+	{
+		history = get_history(history_first, number_of_history, -1);
+		replace_value(src_word, history->str, i, 2);
+	}
+	else if (ft_isalpha(c) || c == '-' || ft_isdigit(c))
+	{
+		history_number = search_history_number(*src_word + 1);
+		history = get_history(history_first, number_of_history, history_number);
+		replace_value(src_word, history->str, i, 
+			find_end_history_expansions(*src_word) - 1);
+	}
 	else
 		(*i)++;
 }
@@ -430,19 +633,23 @@ int		word_expansion(char **source_word)
 	size_t 	i;
 	char 	c;
 	int 	word_state;
+	int		inside_assignment_word;
 
 	if ((*source_word) == NULL || !(**source_word))
 		return (EXPANSION_EMPTY_WORD);
 	expasnion_status(EXPANSION_SUCCESS);
 	i = 0;
 	word_state = 0;
+	inside_assignment_word = 0;
 	while ((*source_word)[i] && expasnion_status(GET_STATUS) != EXPANSION_FAIL)
 	{
+		if (word_state == 0 && (*source_word)[i] == '=') /* Not quotes */
+			inside_assignment_word = 1;
 		c = (*source_word)[i];
 		if (c == '~')
-			try_tilde_expansion(source_word, &i, word_state);
+			try_tilde_expansion(source_word, &i, word_state, inside_assignment_word);
 		else if (c == '\\')
-			i++;
+			i += 2;
 		else if (c == '"')
 		{
 			word_state ^= IN_DQUOTE_STATE;
@@ -452,9 +659,13 @@ int		word_expansion(char **source_word)
 		{
 			if (!(word_state & IN_DQUOTE_STATE))
 				i += find_closing_quote(*source_word + i) + 1;
+			else
+				i++;
 		}
 		else if (c == '$')
 			dollar_expansion(source_word, &i, &word_state);
+		else if (c == '!')
+			history_expansion(source_word, &i);
 		else
 			i++;
 	}
