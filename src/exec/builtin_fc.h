@@ -35,6 +35,7 @@ char				**parse_fc_flags_and_editor(t_fc_options *options,
 	char **args, int *error_code);
 void				parse_fc_operands(t_fc_options *options, char **args,
 	int *error_code);
-int					fc_flags_valid(const t_fc_options *options);
+void				fc_flags_valid(const t_fc_options *options,
+	int *error_code);
 
 #endif

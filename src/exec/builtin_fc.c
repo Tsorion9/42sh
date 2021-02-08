@@ -121,7 +121,8 @@ int					builtin_fc(char **args, int subshell)
 	args = parse_fc_flags_and_editor(&options, args, &error_code);
 	if (error_code != FC_NO_ERROR)
 		return (print_error_code(error_code));
-	if (!fc_flags_valid(&options))
+	fc_flags_valid(&options, &error_code);
+	if (error_code != FC_NO_ERROR)
 		return (print_error_code(error_code));
 	parse_fc_operands(&options, args, &error_code);
 	if (error_code != FC_NO_ERROR)
