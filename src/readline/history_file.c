@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   history_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:13:28 by mphobos           #+#    #+#             */
-/*   Updated: 2021/01/04 20:11:08 by anton            ###   ########.fr       */
+/*   Updated: 2021/02/08 21:58:10 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 #include "environment.h"
+#include "exec.h"
 
 static int	open_42sh_history(int mode)
 {
