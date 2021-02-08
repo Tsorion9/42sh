@@ -22,7 +22,7 @@ int		match_subshell(t_subshell **subshell, t_deque **tokbuf_g);
 int		match_brace_group(t_brace_group **brace_group, t_deque **tokbuf_g);
 int		match_compound_list(t_compound_list **compound_lst, t_deque **tokbuf_g);
 int		match_cmd_prefix(t_simple_cmd **simple_cmd, t_deque **tokbuf_g);
-int		match_cmd_word(t_word_list **word_list, t_deque **tokbuf_g);
+int		match_cmd_word(t_simple_cmd **simple_cmd, t_deque **tokbuf_g);
 int		match_cmd_suffix(t_simple_cmd **simple_cmd, t_deque **tokbuf_g);
 int		match_io_redirect(t_redirect **head_redirects, t_deque **tokbuf_g);
 int		match_io_file(t_redirect **redirect, t_deque **tokbuf_g);

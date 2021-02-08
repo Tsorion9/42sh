@@ -82,7 +82,7 @@ int     match_simple_command(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
     {
         if (match_cmd_prefix(simple_cmd, tokbuf_g) != PARSER_SUCCES)
             return (PARSER_ERROR);
-        if (match_cmd_word(&(*simple_cmd)->words, tokbuf_g) != PARSER_SUCCES)
+        if (match_cmd_word(simple_cmd, tokbuf_g) != PARSER_SUCCES)
             return (PARSER_ERROR);
         if (match_cmd_suffix(simple_cmd, tokbuf_g) != PARSER_SUCCES)
             return (PARSER_ERROR);
