@@ -75,7 +75,7 @@ void 	try_tilde_expansion(char **src_word, size_t *i, int word_state, int inside
 		}
 		tilde_expansion(src_word, i, inside_assignment_word);
 	}
-	if ((*src_word)[*i] == '/')
+	else if ((*src_word)[*i] == '/' || *i )
 		(*i)++;// skip '/' example: user_home/some_text '/' in the middle
 		// would be skipped
 }
