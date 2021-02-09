@@ -89,8 +89,8 @@
 # define CTRL_UP 71696882162459
 # define CTRL_DOWN 72796393790235
 
-# define HOME 4738843
-# define END  4607771
+# define HOME 4741915
+# define END  4610843
 
 # define CTRL_D 4
 # define CTRL_C 3

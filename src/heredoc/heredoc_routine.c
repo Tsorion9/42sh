@@ -20,6 +20,11 @@ char *read_heredoc_value(char *delimiter, int *heredoc_sigin)
 		if (ft_strequ(line, delimiter) || !*line)
 		{
 			ft_strdel(&line);
+			line = ft_strnew(0);
+			if (value == NULL)
+				value = line;
+			else
+				value = ft_strjoinfreefree(value, line);
 			break ;
 		}
 		if (value == NULL)

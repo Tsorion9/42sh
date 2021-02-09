@@ -100,6 +100,18 @@ static void	command_quote_removal(t_command *command)
 		simple_command_quote_removal(command->simple_cmd);
 }
 
+static void pipeline_quote_removal(t_pipeline *pipeline)
+{
+	t_pipeline *tmp;
+
+	tmp = pipeline;
+	while (tmp)
+	{
+		command_quote_removal(tmp->command);
+		tmp = tmp->next;
+	}
+}
+
 int exec_pipeline(t_pipeline *pipeline)
 {
 	pid_t job;
@@ -108,7 +120,7 @@ int exec_pipeline(t_pipeline *pipeline)
 		return (1);
 	pipeline_words_to_assignments(pipeline);
 	// TODO Здесь предполагаю будет происходить field splitting
-	command_quote_removal(pipeline->command);
+	pipeline_quote_removal(pipeline);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));
 	if (!top_level_shell)
