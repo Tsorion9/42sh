@@ -98,6 +98,7 @@ int		tilde_expansion(char **s, size_t *i, int inside_assignment_word)
 	if (get_user_home_path(login, &home_path, inside_assignment_word) == FUNC_ERROR)
 	{
 		ft_strdel(&login);
+		(*i)++;
 		return (FUNC_ERROR);
 	}
 	ret = replace_value(s, home_path, i, login[0] == ':' ? 1 : ft_strlen(login) + 1);
