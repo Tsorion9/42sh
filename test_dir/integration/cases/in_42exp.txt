@@ -1,0 +1,14 @@
+echo $$
+echo $?
+echo ${?}
+echo "$HOME"
+echo "$HOME""${HOME}"
+echo ${}
+echo $zzz
+a=b
+echo $a
+export a=B
+echo $a
+echo '$a'
+echo '${a}'
+echo '\'
