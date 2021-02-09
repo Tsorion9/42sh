@@ -126,6 +126,7 @@ CEXEC = builtin_21shopt.c \
 		builtin_echo.c \
 		builtin_exit.c \
 		builtin_fc.c \
+		builtin_type.c \
 		valid_fc.c \
 		parse_fc.c \
 		canonicize.c \
@@ -171,7 +172,9 @@ CEXEC = builtin_21shopt.c \
 		exec_simple_cmd.c \
 		parse_alias_args.c \
 		close_wrapper.c \
-		pipeline_words_to_assignments.c
+		pipeline_words_to_assignments.c \
+		print_invalid_type.c \
+		check_type_input.c \
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \

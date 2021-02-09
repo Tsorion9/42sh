@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:18 by anton             #+#    #+#             */
-/*   Updated: 2021/02/08 21:20:29 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/09 21:29:23 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void			cycle_echo_print(char **args, int n_flag, int e_flag,
 	while (*args)
 	{
 		ft_putstr(*args);
-		if (!n_flag)
+		if (n_flag)
 			ft_putchar(!*(args + 1) ? '\n' : ' ');
 		else if (*(args + 1))
 			ft_putchar(' ');

@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 14:52:20 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/11 00:01:47 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/09 08:19:35 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			builtin_export(char **args, t_env env_deprecated, int subshell)
 	int status;
 	int i;
 
-	(void)args;
+	// (void)args;
 	(void)subshell;
 	(void)env_deprecated;
 	if (!args || !args[0] || !ft_strcmp(args[0], "-p"))
