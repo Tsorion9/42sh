@@ -37,7 +37,10 @@ int             match_complete_command(t_complete_cmd **command, t_deque **tokbu
         {
             ungett(tokbuf_g, &tokbuf_l);
             if (match_complete_command(&(*command)->next, tokbuf_g) != PARSER_SUCCES)
+			{
+				erase_tokbuf(&tokbuf_l);
                 return (PARSER_ERROR);
+			}
             erase_tokbuf(&tokbuf_l);
         }
     }

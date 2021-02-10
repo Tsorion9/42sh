@@ -98,7 +98,7 @@ char			*get_curpath(char **args, t_env env)
 	{
 		if (!(home = ft_getenv(env, "HOME")) || !*home)
 		{
-			ft_putstr_fd("21sh: cd: HOME not set (or set to NULL)\n", 2);
+			ft_putstr_fd("42sh: cd: HOME not set (or set to NULL)\n", 2);
 			return (NULL);
 		}
 		directory = home;

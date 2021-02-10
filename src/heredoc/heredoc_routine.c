@@ -2,6 +2,10 @@
 #include "readline.h"
 #include "environment.h"
 
+/*
+** return NULL if SIGINT arrived
+*/
+
 char *read_heredoc_value(char *delimiter, int *heredoc_sigin)
 {
 	char 				*value;
@@ -17,9 +21,16 @@ char *read_heredoc_value(char *delimiter, int *heredoc_sigin)
 			free(value);
 			return (NULL);
 		}
+		if (!*line && !isatty(STDIN_FILENO))
+			ft_fprintf(STDERR_FILENO, "%s\n", HEREDOC_WARNING);
 		if (ft_strequ(line, delimiter) || !*line)
 		{
 			ft_strdel(&line);
+			line = ft_strnew(0);
+			if (value == NULL)
+				value = line;
+			else
+				value = ft_strjoinfreefree(value, line);
 			break ;
 		}
 		if (value == NULL)

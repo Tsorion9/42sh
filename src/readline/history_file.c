@@ -12,6 +12,7 @@
 
 #include "readline.h"
 #include "environment.h"
+#include "exec.h"
 
 static int	open_42sh_history(int mode)
 {
