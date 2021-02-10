@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   insert_alias.c                                     :+:      :+:    :+:   */
+/*   delete_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 12:24:48 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/10 07:22:54 by nriker           ###   ########.fr       */
+/*   Created: 2021/02/10 07:21:37 by nriker            #+#    #+#             */
+/*   Updated: 2021/02/10 07:24:45 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_hashalias.h"
+#include "t_hash.h"
 
-void					insert_alias(char *key, char *value)
+void			delete_path(void)
 {
-	t_hashalias		*hash_alias;
+	t_hash		*hash;
 
-	if ((hash_alias = static_hashalias_action(get)) == NULL)
+	if ((hash = static_hash_action(get)) == NULL)
 		return ;
-	insert_hash_value(key, value, hash_alias->hd);
+	if (hash->copy_path != NULL)
+	{
+		del_array(hash->copy_path);
+		hash->copy_path = NULL;
+	}
 }

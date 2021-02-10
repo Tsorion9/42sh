@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   insert_alias.c                                     :+:      :+:    :+:   */
+/*   delete_hash.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 12:24:48 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/10 07:22:54 by nriker           ###   ########.fr       */
+/*   Created: 2021/02/10 07:36:55 by nriker            #+#    #+#             */
+/*   Updated: 2021/02/10 07:41:22 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_hashalias.h"
+#include "t_hash.h"
 
-void					insert_alias(char *key, char *value)
+int				delete_hash(char *key)
 {
-	t_hashalias		*hash_alias;
+	t_hash		*hash;
 
-	if ((hash_alias = static_hashalias_action(get)) == NULL)
-		return ;
-	insert_hash_value(key, value, hash_alias->hd);
+	if ((hash = static_hash_action(get)) == NULL)
+		return (EXIT_FAILURE);
+	if ((delete_t_hashtable(key, &(hash->hd))) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

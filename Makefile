@@ -127,6 +127,7 @@ CEXEC = builtin_21shopt.c \
 		builtin_exit.c \
 		builtin_fc.c \
 		builtin_type.c \
+		builtin_hash.c \
 		valid_fc.c \
 		parse_fc.c \
 		canonicize.c \
@@ -175,6 +176,16 @@ CEXEC = builtin_21shopt.c \
 		pipeline_words_to_assignments.c \
 		print_invalid_type.c \
 		check_type_input.c \
+		static_hash_action.c \
+		init_t_hash.c \
+		delete_t_hash.c \
+		insert_hash.c \
+		print_hash.c \
+		search_hash.c \
+		delete_hash.c \
+		delete_path.c \
+		is_path_was_changed.c \
+		is_hash_empty.c \
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \

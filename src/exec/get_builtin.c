@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:33 by anton             #+#    #+#             */
-/*   Updated: 2021/02/09 07:46:30 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/10 08:36:17 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ t_builtin	get_builtin(char *name)
 		return (&builtin_fc);
 	if (!ft_strcmp(name, "type"))
 		return (&builtin_type);
+	if (!ft_strcmp(name, "hash"))
+		return (&builtin_hash);
 	return (NULL);
 }

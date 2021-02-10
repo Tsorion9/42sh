@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   insert_alias.c                                     :+:      :+:    :+:   */
+/*   init_t_hash.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 12:24:48 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/10 07:22:54 by nriker           ###   ########.fr       */
+/*   Created: 2021/02/10 06:49:07 by nriker            #+#    #+#             */
+/*   Updated: 2021/02/10 06:52:40 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_hashalias.h"
+#include "t_hash.h"
 
-void					insert_alias(char *key, char *value)
+t_hash			*init_t_hash(void)
 {
-	t_hashalias		*hash_alias;
+	t_hash		*hash;
 
-	if ((hash_alias = static_hashalias_action(get)) == NULL)
-		return ;
-	insert_hash_value(key, value, hash_alias->hd);
+	hash = ft_memalloc(sizeof(t_hash));
+	if (hash == NULL)
+		return (NULL);
+	hash->hd = init_t_hashdata();
+	hash->copy_path = NULL;
+	if (hash->hd == NULL)
+		return NULL;
+	return (hash);
 }
