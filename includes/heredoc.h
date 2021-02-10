@@ -1,9 +1,10 @@
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
-# define ADD_DELIMITER	1
-# define ADD_VALUE		2
-# define CLEAN_HEREDOC	3
+# define ADD_DELIMITER		1
+# define ADD_VALUE			2
+# define CLEAN_HEREDOC		3
+# define HEREDOC_WARNING	"42sh: warning: here-document delimeted by EOF"
 
 typedef struct	s_heredoc
 {
