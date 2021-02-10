@@ -40,6 +40,7 @@ void	clean_redirects(t_redirect **redirects);
 void	clean_complete_command(t_complete_cmd **complete_cmd);
 void	clean_grammar_linebreaks(t_deque **tokbuf_g);
 void	clean_compound_list(t_compound_list **compound_list);
+void	clean_words(t_word_list **words);
 
 /*
 ** print command

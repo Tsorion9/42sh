@@ -204,7 +204,21 @@ char		**field_splitting(const char *source)
 	fill_fields(&fields, source, s_ifs, d_ifs);
 //	for (int i = 0; fields[i]; ++i)
 //		ft_printf("fields[%d] = %s\n", i, fields[i]);
+	ft_strdel(&s_ifs);
+	ft_strdel(&d_ifs);
 	return (fields);
+}
+
+void 		print_list(t_word_list *list)
+{
+	t_word_list *tmp;
+
+	tmp = list;
+	while (tmp)
+	{
+		ft_putendl(tmp->word);
+		tmp = tmp->next;
+	}
 }
 
 t_word_list *field_splitting_list(const char *source)
@@ -223,5 +237,7 @@ t_word_list *field_splitting_list(const char *source)
 		tmp->next = create_word_node(fields[i]);
 		tmp = tmp->next;
 	}
+	del_array(fields);
+//	print_list(list);
 	return (list);
 }
