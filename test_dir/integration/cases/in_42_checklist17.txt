@@ -1,0 +1,10 @@
+ls -l && ls
+echo ${?}
+ls doesnotexist || echo "Notice me senpai"
+echo ${?}
+echo 'No error' || echo 'You cant see me'
+echo ${?}
+false && echo foo || echo bar
+echo ${?}
+true || echo foo && echo bar
+echo ${?}

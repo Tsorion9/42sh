@@ -1,0 +1,7 @@
+cat > /tmp/heredoc-append << FIN
+abc
+FIN
+cat -e >> /tmp/heredoc-append << FIN
+def
+FIN
+cat /tmp/heredoc-append

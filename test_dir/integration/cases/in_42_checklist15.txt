@@ -1,0 +1,14 @@
+cd /tmp
+pwd
+cd ../tmp
+pwd
+cd -
+cd /bin
+pwd cd -
+cd
+cd -L /tmp; cd -P ..
+pwd
+cd
+CDPATH=/tmp
+cd
+pwd

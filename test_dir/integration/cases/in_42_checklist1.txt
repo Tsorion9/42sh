@@ -1,0 +1,5 @@
+echo 1 >out >&2 2>err
+echo 2 >out 2>err
+cat err
+cat out
+rm err out
