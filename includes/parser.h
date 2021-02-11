@@ -9,6 +9,7 @@
 # define PARSER_FAIL		0
 # define PARSER_SUCCES		1
 # define NEED_DEFAULT_FD	100
+# define NOT_NEED_DEFAULT	0
 # define IS_NEED_DEFAULT_FD	200
 
 extern char **g_parser_input_string;

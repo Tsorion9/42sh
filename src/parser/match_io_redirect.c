@@ -28,6 +28,8 @@ int 		need_set_default_fd(int action)
 
 	if (action == NEED_DEFAULT_FD)
 		is_default_fd_needed = 1;
+	else if (action == NOT_NEED_DEFAULT)
+		is_default_fd_needed = 0;
 	return (is_default_fd_needed);
 }
 
@@ -48,7 +50,10 @@ int         match_io_redirect(t_redirect **head_redirects, t_deque **tokbuf_g)
     	need_set_default_fd(NEED_DEFAULT_FD);
 	}
     else
+	{
         tail_redir->redirector->fd = ft_atoi(deque_n_th(tokbuf_l, 0)->value);
+    	need_set_default_fd(NOT_NEED_DEFAULT);
+	}
     if (match_io_file(&tail_redir, tokbuf_g) == PARSER_SUCCES
         || match_dless_word(&tail_redir, tokbuf_g) == PARSER_SUCCES)
     {
