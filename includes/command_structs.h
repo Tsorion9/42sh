@@ -48,11 +48,23 @@ typedef enum	e_instruction
 	UNKNOWN_REDIRECT
 }				t_instruction;
 
+/*
+** Односвязный список слов
+*/
+
+typedef struct	s_word_list
+{
+	int 				need_field_split;
+	char				*word;
+	struct s_word_list	*next;
+}				t_word_list;
+
 typedef struct	s_redirector
 {
 	int 				need_field_split;
 	int					fd;
 	char				*filename;
+	t_word_list			*splitted_filename;
 }				t_redirector;
 
 /*
@@ -68,17 +80,6 @@ typedef struct	s_redirect
 	char				*heredoc_value;
 	struct s_redirect	*next;
 }				t_redirect;
-
-/*
-** Односвязный список слов
-*/
-
-typedef struct	s_word_list
-{
-	int 				need_field_split;
-	char				*word;
-	struct s_word_list	*next;
-}				t_word_list;
 
 /*
 ** Simple list of words and redirects

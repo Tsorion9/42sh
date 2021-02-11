@@ -28,8 +28,16 @@ static int make_heredoc_redirection(t_redirect *redirect)
 
 static int file_redirection(t_redirect *redirect, int flags, int mode)
 {
-	int fd;
+	int				fd;
+	t_redirector	*redir;
 
+	redir = redirect->redirector;
+	if (redir->splitted_filename && redir->splitted_filename->next)
+	{
+		ft_fprintf(STDERR_FILENO, "%s: %s: %s\n",
+				   "42sh", redirect->redirector->filename, E_AMBIGUOUS_REDIR);
+		return (1);
+	}
 	fd = open(redirect->redirector->filename, flags, mode);
 	if (fd == -1)
 	{

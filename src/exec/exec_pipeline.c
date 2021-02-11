@@ -87,6 +87,20 @@ static t_word_list *get_tail(t_word_list *list)
 	return (tmp);
 }
 
+static void	redirect_field_splitting(t_redirect **redirect)
+{
+	char			*file;
+	t_redirector	*redirector;
+
+	if ((*redirect) != NULL && (*redirect)->redirector)
+	{
+		redirector = (*redirect)->redirector;
+		file = redirector->filename;
+		if (redirector->need_field_split)
+			redirector->splitted_filename = field_splitting_list(file);
+	}
+}
+
 static void	apply_field_splitting_simple_cmd(t_simple_cmd **simple_cmd)
 {
 	t_word_list *words;
@@ -97,6 +111,7 @@ static void	apply_field_splitting_simple_cmd(t_simple_cmd **simple_cmd)
 	words = (*simple_cmd)->words;
 	tail = NULL;
 	head = NULL;
+	redirect_field_splitting(&(*simple_cmd)->redirects);
 	while (words)
 	{
 		if (words->need_field_split)

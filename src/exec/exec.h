@@ -1,12 +1,13 @@
 #ifndef EXEC_H
 # define EXEC_H
 
-#define IGNORE_STREAM -2
+# define IGNORE_STREAM		-2
+# define E_AMBIGUOUS_REDIR	"ambiguous redirect"
 
-#include "lexer.h"
-#include "parser.h"
-#include "t_builtin.h"
-#include "expansions.h"
+# include "lexer.h"
+# include "parser.h"
+# include "t_builtin.h"
+# include "expansions.h"
 
 extern int top_level_shell;
 extern int async_notify_bg;
