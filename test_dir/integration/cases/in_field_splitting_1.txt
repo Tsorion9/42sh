@@ -1,3 +1,4 @@
 a='a b c'
-echo $a
 ls $a
+
+echo $(ls)
