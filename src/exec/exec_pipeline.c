@@ -110,7 +110,8 @@ static void	apply_field_splitting_simple_cmd(t_simple_cmd **simple_cmd)
 			else
 			{
 				tail->next = fields;
-				tail = get_tail(fields);
+				if (fields != NULL)
+					tail = get_tail(fields);
 			}
 		}
 		else
