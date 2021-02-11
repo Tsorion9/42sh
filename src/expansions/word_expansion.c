@@ -100,6 +100,7 @@ void 	var_expansion(char **src_word, size_t *i, int skeep_char)
 	var_value = ft_getenv(env, var_name);
 	replace_value(src_word, var_value, i, j - *i);
 	free(var_name);
+	expasnion_status(NEED_FIELD_SPLIT);
 }
 
 /*
@@ -421,6 +422,8 @@ void 	parameter_expansion(char **src_word)
 	}
 	else
 		var_expansion(src_word, &i, 0);
+	if (expasnion_status(GET_STATUS) == EXPANSION_SUCCESS)
+		expasnion_status(NEED_FIELD_SPLIT);
 }
 
 /*

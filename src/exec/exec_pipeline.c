@@ -97,16 +97,32 @@ static void	apply_field_splitting_simple_cmd(t_simple_cmd **simple_cmd)
 	head = NULL;
 	while (words)
 	{
-		fields = field_splitting_list(words->word);
-		if (head == NULL)
+		if (words->need_field_split)
 		{
-			head = fields;
-			tail = get_tail(fields);
+			fields = field_splitting_list(words->word);
+			if (head == NULL)
+			{
+				head = fields;
+				tail = get_tail(fields);
+			}
+			else
+			{
+				tail->next = fields;
+				tail = get_tail(fields);
+			}
 		}
 		else
 		{
-			tail->next = fields;
-			tail = get_tail(fields);
+			if (head == NULL)
+			{
+				head = create_word_node(words->word);
+				tail = head;
+			}
+			else
+			{
+				tail->next = create_word_node(words->word);
+				tail = tail->next;
+			}
 		}
 		words = words->next;
 	}
@@ -118,6 +134,18 @@ static void apply_field_splitting(t_command *command)
 {
 	if (command->cmd_type == SIMPLE_CMD)
 		apply_field_splitting_simple_cmd(&command->simple_cmd);
+}
+
+void		pipeline_field_splitting(t_pipeline *pipeline)
+{
+	t_pipeline *tmp;
+
+	tmp = pipeline;
+	while (tmp)
+	{
+		apply_field_splitting(pipeline->command);
+		tmp = tmp->next;
+	}
 }
 
 static void	quote_removal_filename(t_redirect **redirect)
@@ -164,7 +192,7 @@ int exec_pipeline(t_pipeline *pipeline)
 	if (expand_pipeline(pipeline) == EXPANSION_FAIL)
 		return (1);
 	pipeline_words_to_assignments(pipeline);
-	apply_field_splitting(pipeline->command);
+	pipeline_field_splitting(pipeline);
 	pipeline_quote_removal(pipeline);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));

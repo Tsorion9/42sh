@@ -50,6 +50,7 @@ typedef enum	e_instruction
 
 typedef struct	s_redirector
 {
+	int 				need_field_split;
 	int					fd;
 	char				*filename;
 }				t_redirector;
@@ -71,8 +72,10 @@ typedef struct	s_redirect
 /*
 ** Односвязный список слов
 */
+
 typedef struct	s_word_list
 {
+	int 				need_field_split;
 	char				*word;
 	struct s_word_list	*next;
 }				t_word_list;
@@ -80,6 +83,7 @@ typedef struct	s_word_list
 /*
 ** Simple list of words and redirects
 */
+
 typedef struct	s_simple_cmd
 {
 	t_word_list				*words;

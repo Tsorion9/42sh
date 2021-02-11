@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <stdio.h>
-#include "lexer.h"
+#include "expansions.h"
 #include "parser.h"
 #include "exec.h"
 
@@ -83,5 +83,5 @@ void command_substitution(char **s)
 		exec_complete_cmd(cmd);
 		exit(0);
 	}
-
+	expasnion_status(NEED_FIELD_SPLIT);
 }
