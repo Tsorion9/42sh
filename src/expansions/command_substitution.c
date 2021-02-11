@@ -52,7 +52,7 @@ static char *read_from_pipe(int fd)
 	return (concat_and_free(&l, total_len));
 }
 
-void command_substitution(char **s)
+void command_substitution(char **s, int word_state)
 {
 	t_complete_cmd *cmd;
 	char *tmp;
@@ -83,5 +83,6 @@ void command_substitution(char **s)
 		exec_complete_cmd(cmd);
 		exit(0);
 	}
-	expasnion_status(NEED_FIELD_SPLIT);
+	if (!(word_state & IN_DQUOTE_STATE) && !(word_state & IN_QUOTE_STATE))
+		expasnion_status(NEED_FIELD_SPLIT);
 }

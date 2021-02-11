@@ -26,7 +26,7 @@ int			word_expansion(char **source_word);
 void		quote_removal(char **str);
 char		**field_splitting(const char *source);
 t_word_list	*field_splitting_list(const char *source);
-void		command_substitution(char **s);
+void		command_substitution(char **s, int word_state);
 int			expasnion_status(int status);
 
 // misk

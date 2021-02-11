@@ -87,7 +87,11 @@ int 	is_valid_var_char(char c)
 	return (INVALID_VAR_CHAR);
 }
 
-void 	var_expansion(char **src_word, size_t *i, int skeep_char)
+/*
+** word_state is used to check quote states
+*/
+
+void var_expansion(char **src_word, size_t *i, int skeep_char, int word_state)
 {
 	size_t	j;
 	char	*var_value;
@@ -100,7 +104,8 @@ void 	var_expansion(char **src_word, size_t *i, int skeep_char)
 	var_value = ft_getenv(env, var_name);
 	replace_value(src_word, var_value, i, j - *i);
 	free(var_name);
-	expasnion_status(NEED_FIELD_SPLIT);
+	if (!(word_state & IN_DQUOTE_STATE) && !(word_state & IN_QUOTE_STATE))
+		expasnion_status(NEED_FIELD_SPLIT);
 }
 
 /*
@@ -163,7 +168,7 @@ char	*length_expansion(char **src_word)
 		shell_err(E_BAD_SUBSTITUTION, *src_word);
 		return (NULL);
 	}
-	var_expansion(src_word, &j, 1);
+	var_expansion(src_word, &j, 1, 0);
 	len = ft_strlen(*src_word);
 	s_len = ft_itoa(len);
 	return (s_len);
@@ -384,9 +389,10 @@ void	var_not_null(char **src_word, char **sep, char *param)
 /*
 ** '{' src_word '}'
 ** src_word == parameter( [:][=+-?] | (#[#] | %[%]) )word
+** word_state is used to check quote states
 */
 
-void 	parameter_expansion(char **src_word)
+void 	parameter_expansion(char **src_word, int word_state)
 {
 	size_t	i;
 	char	*sep;
@@ -421,8 +427,9 @@ void 	parameter_expansion(char **src_word)
 		free(parameter);
 	}
 	else
-		var_expansion(src_word, &i, 0);
-	if (expasnion_status(GET_STATUS) == EXPANSION_SUCCESS)
+		var_expansion(src_word, &i, 0, word_state);
+	if (expasnion_status(GET_STATUS) == EXPANSION_SUCCESS
+		&& !(word_state & IN_QUOTE_STATE) && !(word_state & IN_DQUOTE_STATE))
 		expasnion_status(NEED_FIELD_SPLIT);
 }
 
@@ -471,7 +478,7 @@ void 	last_cmd_status_expansion(char **src_word, size_t *i, size_t len)
 ** ${#var}          Calculate String Length
 */
 
-void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
+void 	dollar_expansion(char **src_word, size_t *i, int word_state)
 {
 	char	c;
 	char 	*s;
@@ -493,7 +500,7 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 			last_cmd_status_expansion(src_word, i, 4);
 		else
 		{
-			parameter_expansion(&s);
+			parameter_expansion(&s, word_state);
 			replace_value(src_word, s, i, j + 1);
 		}
 		free(s);
@@ -502,7 +509,7 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 	{
 		j = find_closing_brace(*src_word, *i + 1);
 		s = ft_strsub(*src_word, *i + 2, j - *i - 2);
-		command_substitution(&s);
+		command_substitution(&s, word_state);
 		replace_value(src_word, s, i, j + 1);
 		return ;
 	}
@@ -511,7 +518,7 @@ void 	dollar_expansion(char **src_word, size_t *i, int *word_state)
 	else if (c == '?')
 		last_cmd_status_expansion(src_word, i, 2);
 	else if (is_valid_var_char(c))
-		var_expansion(src_word, i, 1);
+		var_expansion(src_word, i, 1, word_state);
 	else
 		(*i)++;
 }
@@ -667,7 +674,7 @@ int		word_expansion(char **source_word)
 				i++;
 		}
 		else if (c == '$')
-			dollar_expansion(source_word, &i, &word_state);
+			dollar_expansion(source_word, &i, word_state);
 		else if (c == '!')
 			history_expansion(source_word, &i);
 		else

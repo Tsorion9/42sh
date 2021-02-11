@@ -159,13 +159,20 @@ static void	quote_removal_filename(t_redirect **redirect)
 void	simple_command_quote_removal(t_simple_cmd *cmd)
 {
 	t_word_list *words;
+	t_list		*assign;
 
 	words = cmd->words;
+	assign = cmd->assignments;
 	quote_removal_filename(&cmd->redirects);
 	while (words)
 	{
 		quote_removal(&words->word);
 		words = words->next;
+	}
+	while (assign)
+	{
+		quote_removal((char**)(&assign->content));
+		assign = assign->next;
 	}
 }
 
