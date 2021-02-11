@@ -1,0 +1,19 @@
+a=hello
+b=world
+set | grep -E '(a|b)='
+env | grep -E '(a|b)='
+export b
+env | grep -E '(a|b)='
+
+ONESHOT= env | grep ONESHOT
+env | grep ONESHOT
+unset a b
+env | grep -E '(a|b)='
+set | grep -E '(a|b)='
+
+unset PATH
+PATH=/bin:/usr/bin
+mkdir testdir
+echo ${?}
+
+ls -1 | grep testdir
