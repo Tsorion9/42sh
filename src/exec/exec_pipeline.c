@@ -79,6 +79,8 @@ static t_word_list *get_tail(t_word_list *list)
 {
 	t_word_list *tmp;
 
+	if (list == NULL)
+		return (NULL);
 	tmp = list;
 	while (tmp->next)
 		tmp = tmp->next;

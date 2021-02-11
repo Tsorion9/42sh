@@ -229,6 +229,8 @@ t_word_list *field_splitting_list(const char *source)
 	t_word_list *tmp;
 
 	fields = field_splitting(source);
+	if (fields == NULL)
+		return (NULL);
 	i = 0;
 	list = create_word_node(fields[0]);
 	tmp = list;
