@@ -31,6 +31,9 @@
 # include "libft.h"
 # include "get_next_line.h"
 
+# define E_NUMERIC_ARG_REQUIRED	"numeric argument required"
+# define E_TOO_MANY_ARGS		"42sh: exit: too many arguments"
+
 int						wait_fg_job(pid_t job);
 
 int						set_shell_input_mode(void);
