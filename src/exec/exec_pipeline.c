@@ -53,6 +53,15 @@ int wait_fg_job(pid_t job)
 	j = find_job(job);
 	j->state = job_status_to_state(status);
 	j->status = status;
+	if (WIFSTOPPED(status))
+	{
+		/* 
+		** We have a SIGTSTP-ed jobshell here 
+		** It cannot perform any job control in this state.
+		*/
+		//fprintf(stderr, "Sending SIGCONT\n");
+		kill(j->pgid, SIGCONT);
+	}
 	if (j->state != DONE)
 	{
 		j->priority = next_priority();
