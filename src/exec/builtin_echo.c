@@ -21,12 +21,16 @@
 int	builtin_echo(char **args, t_env env, int subshell)
 {
 	int	minus_n_flag;
+	char c = '\n';
 
 	(void)env;
 	(void)subshell;
 	minus_n_flag = 0;
 	if (!*args)
-		return (1);
+	{
+		write(1, &c, 1);
+		return (0);
+	}
 	if (!ft_strcmp(args[0], "-n"))
 	{
 		minus_n_flag = 1;
@@ -36,7 +40,7 @@ int	builtin_echo(char **args, t_env env, int subshell)
 	{
 		ft_putstr(*args);
 		if (!minus_n_flag)
-			ft_putchar(!*(args + 1) ? '\n' : ' ');
+			ft_putchar(!*(args + 1) ? '\n' : ' '); // TODO: Check write errors
 		else if (*(args + 1))
 			ft_putchar(' ');
 		args++;
