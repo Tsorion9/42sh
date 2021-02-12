@@ -27,7 +27,10 @@ void set_jobshell_signal(void)
 	}
 	/* If SIG_IGN process will be silently destroyed and not turned to zombie*/
 	signal(SIGCHLD, SIG_DFL); /* We wait, parent does job control */
-	signal(SIGTSTP, SIG_DFL);
+	signal(SIGTSTP, SIG_DFL); /* 
+								 Jobshell is stopped and top-level shell
+								 recieves SIGCHLD and sends SIGCONT
+								*/
 }
 
 void create_jobshell(t_complete_cmd *cmd)
