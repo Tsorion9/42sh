@@ -501,7 +501,7 @@ void 	dollar_expansion(char **src_word, size_t *i, int word_state)
 		else
 		{
 			parameter_expansion(&s, word_state);
-			replace_value(src_word, s, i, j + 1);
+			replace_value(src_word, s, i, j + 1 - *i);
 		}
 		free(s);
 	}
