@@ -191,7 +191,7 @@ void	simple_command_quote_removal(t_simple_cmd *cmd)
 	}
 	while (assign)
 	{
-		if (!assign->need_field_split)
+		if (assign->need_quote_rm)
 			quote_removal(&assign->word);
 		assign = assign->next;
 	}

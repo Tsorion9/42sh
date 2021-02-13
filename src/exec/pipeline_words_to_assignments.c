@@ -8,20 +8,22 @@
 static void words_to_assignments(t_simple_cmd *cmd)
 {
 	t_word_list *current;
+	t_word_list *new;
 
 	current = cmd->words;
 	cmd->assignments = NULL;
 	while (current) {
-		// TODO: this happenes after quote removal, so we do not need any complex FSM
 		if (!looks_like_assignment_word(current->word)) { 
 			cmd->words = current;
 			break;
 		}
 		cmd->words = current->next;
 
-		/* TODO: Order of assignments not preserved; add back!! */
-		add_word_to_list(&(cmd->assignments), current->word);
-		cmd->assignments->need_field_split = current->need_field_split;
+		new = create_word_node(current->word);
+		new->need_field_split = current->need_field_split;
+		new->need_quote_rm = current->need_quote_rm;
+
+		add_word_to_list(&(cmd->assignments), new);
 		free(current->word);
 		free(current);
 		current = cmd->words;
