@@ -1,4 +1,4 @@
-ls -l && ls
+ls -a / && ls
 echo ${?}
 ls doesnotexist || echo "Notice me senpai"
 echo ${?}
