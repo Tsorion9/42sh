@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:33:31 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 17:07:53 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 13:19:15 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_hashtable				*new_hash_table_element(char *key, char *value)
 	}
 	s = ft_strdup(value);
 	new->tokbuf_value = split_word_into_queue_tokens(s);
+	free(s);
 	return (new);
 }
 
