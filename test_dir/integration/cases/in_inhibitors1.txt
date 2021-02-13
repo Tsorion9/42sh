@@ -1,6 +1,6 @@
 l\
 s \
--la
+-a
 
 ls\
 |cat -e
