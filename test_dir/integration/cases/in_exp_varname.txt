@@ -5,3 +5,6 @@ rm -f $a
 
 echo hello >~/a
 rm -f ~/a
+
+echo $PS1
+echo $PS2

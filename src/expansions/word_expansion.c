@@ -98,7 +98,8 @@ void var_expansion(char **src_word, size_t *i, int skeep_char, int word_state)
 	char 	*var_name;
 
 	j = *i + skeep_char; // skip '$' or '#'
-	while ((*src_word)[j] && is_valid_var_char((*src_word)[j]))
+	while ((*src_word)[j] && is_valid_var_char((*src_word)[j])
+		|| (j != 0 && ft_isdigit((*src_word)[j])))
 		j++;
 	var_name = ft_strsub(*src_word, *i + skeep_char, j - *i - skeep_char);
 	var_value = ft_getenv(env, var_name);
