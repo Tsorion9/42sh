@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:18 by anton             #+#    #+#             */
-/*   Updated: 2021/02/14 00:37:54 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/14 00:40:16 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ void			cycle_echo_print(char **args, int n_flag, int e_flag,
 	char c = '\n';
 
 	(void)env;
-	(void)subshell;
+	// (void)subshell;
 	minus_n_flag = 0;
 	if (!*args)
 	{
 		write(1, &c, 1);
-		return (0);
+		// return (0);
+		return ;
 	}
 	if (!ft_strcmp(args[0], "-n"))
 	{
