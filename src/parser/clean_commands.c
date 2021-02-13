@@ -31,17 +31,11 @@ void clean_words(t_word_list **words)
     }
 }
 
-void delete_assignment(void *data, size_t garbage_arg)
-{
-	(void)garbage_arg;
-	free(data);
-}
-
 void clean_simple_cmd(t_simple_cmd **simple_cmd)
 {
     clean_words(&(*simple_cmd)->words);
     clean_redirects(&(*simple_cmd)->redirects);
-    ft_lstdel(&(*simple_cmd)->assignments, delete_assignment);
+    clean_words(&(*simple_cmd)->assignments);
     free(*simple_cmd);
     *simple_cmd = NULL;
 }

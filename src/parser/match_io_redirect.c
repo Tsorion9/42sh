@@ -8,6 +8,7 @@ t_redirect  *init_redirects()
     if (!fresh)
         return (NULL);
     fresh->redirector = (t_redirector*)ft_memalloc(sizeof(t_redirector));
+    fresh->redirector->need_quote_rm = 1;
     return (fresh);
 }
 

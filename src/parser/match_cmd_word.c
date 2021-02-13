@@ -8,15 +8,16 @@ t_word_list *create_word_node(char *word)
     if (!fresh)
         return (NULL);
     fresh->word = ft_strdup(word);
+    fresh->need_quote_rm = 1;
     return (fresh);
 }
 // TODO Используется не только здесь лучше вынести в отдельную функцию
-void    add_word_to_list(t_word_list **word_list, t_token *token)
+void    add_word_to_list(t_word_list **word_list, char *word)
 {
     if (*word_list == NULL)
-        *word_list = create_word_node(token->value);
+        *word_list = create_word_node(word);
     else
-        add_word_to_list(&(*word_list)->next, token);
+        add_word_to_list(&(*word_list)->next, word);
 }
 
 /*
@@ -35,7 +36,7 @@ int     match_cmd_word(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
     token = gett(g_parser_input_string, tokbuf_g, &tokbuf_l);
     if (token->tk_type == WORD)
     {
-        add_word_to_list(&(*simple_cmd)->words, token);
+        add_word_to_list(&(*simple_cmd)->words, token->value);
         erase_tokbuf(&tokbuf_l);
         return (PARSER_SUCCES);
     }

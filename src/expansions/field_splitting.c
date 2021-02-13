@@ -237,6 +237,7 @@ t_word_list *field_splitting_list(const char *source)
 	while (fields[++i] != NULL)
 	{
 		tmp->next = create_word_node(fields[i]);
+		tmp->need_quote_rm = 0;
 		tmp = tmp->next;
 	}
 	del_array(fields);

@@ -8,7 +8,7 @@ static int     match_cmd_arg(t_simple_cmd **simple_cmd, t_deque **tokbuf_g,
 
     tokbuf_l = NULL;
     token = gett(g_parser_input_string, tokbuf_g, &tokbuf_l);
-    add_word_to_list(&(*simple_cmd)->words, token);
+    add_word_to_list(&(*simple_cmd)->words, token->value);
     if (match_cmd_suffix(simple_cmd, tokbuf_g) != PARSER_SUCCES)
         return (return_err_and_flush_tokens(tokbuf_g, &tokbuf_l));
     erase_tokbuf(&tokbuf_l);

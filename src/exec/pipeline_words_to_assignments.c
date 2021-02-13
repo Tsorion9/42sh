@@ -20,7 +20,8 @@ static void words_to_assignments(t_simple_cmd *cmd)
 		cmd->words = current->next;
 
 		/* TODO: Order of assignments not preserved; add back!! */
-		ft_lstadd_data(&(cmd->assignments), (void *)current->word, 0);
+		add_word_to_list(&(cmd->assignments), current->word);
+		cmd->assignments->need_field_split = current->need_field_split;
 		free(current);
 		current = cmd->words;
 	}

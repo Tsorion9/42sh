@@ -2,3 +2,10 @@ a='a b c'
 ls $a
 
 echo $(ls)
+
+a='"a"'
+echo hello > $a
+rm $a
+
+a=$(echo '"a"')
+echo $a
