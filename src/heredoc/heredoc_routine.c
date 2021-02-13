@@ -1,6 +1,7 @@
 #include "heredoc.h"
 #include "readline.h"
 #include "environment.h"
+#include "expansions.h"
 
 /*
 ** return NULL if SIGINT arrived
@@ -41,6 +42,20 @@ char *read_heredoc_value(char *delimiter, int *heredoc_sigin)
 	return (value);
 }
 
+int		contain_quote(const char *s)
+{
+	int i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == '\'' || s[i] == '"' || s[i] == '\\')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 /*
 ** address_value is field address *heredoc_value of s_redirect structure
 ** delimiter is heredoc delimiter
@@ -51,6 +66,8 @@ t_heredoc	*create_heredoc(char *delimiter, char **address_value)
 	t_heredoc			*fresh;
 
 	fresh = (t_heredoc*)ft_memalloc(sizeof(t_heredoc));
+	if (contain_quote(delimiter))
+		quote_removal(&delimiter);
 	fresh->delimiter = ft_strjoin(delimiter, "\n");
 	fresh->value = address_value;
 	return (fresh);

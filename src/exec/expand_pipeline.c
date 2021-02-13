@@ -7,7 +7,11 @@ static int	expand_filename(t_redirect **redirect)
 
 	status = EXPANSION_SUCCESS;
 	if (*redirect != NULL)
+	{
 		status = word_expansion(&((*redirect)->redirector->filename));
+		if (status != EXPANSION_FAIL && (*redirect)->need_expand_heredoc)
+			status = word_expansion(&(*redirect)->heredoc_value);
+	}
 	return (status);
 }
 
