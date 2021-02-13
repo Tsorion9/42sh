@@ -13,15 +13,15 @@ t_deque *split_word_into_queue_tokens(char *word)
 	t_deque *deque = NULL;
 	t_token *token;
 	char 	*s;
-	char	*str;
+	t_deque	**str;
 
 	str = NULL;
 	s = ft_strdup(word);
 	while (s != NULL)
 	{
 		token = lexer(&s);
-		str = (char *)push_back(&deque, token);
-		free(str);
+		str = (t_deque **)push_back(&deque, token);
+		deque_del(str, NULL);
 	}
 //	deque_apply_inplace(deque, &print_token_); // TODO ONLY FOR DEBUG
 	return (deque);
