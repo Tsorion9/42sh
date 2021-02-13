@@ -163,6 +163,11 @@ void			lexer_state_word(t_lexer_state *token)
 		*/
 		inside_readline = 1;
 		input = line_42sh(get_prompt(PS2));
+		if (!input)
+		{
+			token->tk_type = TOKEN_CTRL_C;
+			return ;
+		}
 		if (input && !*(input))
 		{
 			token->tk_type = TOKEN_END;
