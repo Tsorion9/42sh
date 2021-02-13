@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:12:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/13 13:24:35 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 13:25:45 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		check_in_alias(char *args)
 	{
 		ft_printf("%s is aliased to '%s'\n", args, alias);
 		free(alias);
+		alias = NULL;
 		return (EXIT_SUCCESS);
 	}
 	return (EXIT_FAILURE);
