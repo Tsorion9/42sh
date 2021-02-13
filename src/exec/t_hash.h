@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 00:01:25 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/10 08:51:33 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/10 09:26:00 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct			s_hash
 t_hash			*static_hash_action(int action);
 t_hash			*init_t_hash(void);
 void			delete_t_hash(void);
+void			insert_command_to_hash(char **path, char *command);
 void			insert_hash(char *key, char *value);
 void			insert_hash_path(char **path);
 void			print_hash(char *key);

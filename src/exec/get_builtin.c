@@ -42,8 +42,6 @@ t_builtin	get_builtin(char *name)
 		return (&builtin_fg);
 	if (!ft_strcmp(name, "export"))
 		return (&builtin_export);
-	if (!ft_strcmp(name, "fc"))
-		return (&builtin_fc);
 	if (!ft_strcmp(name, "type"))
 		return (&builtin_type);
 	if (!ft_strcmp(name, "hash"))

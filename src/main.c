@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:42:26 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 17:07:20 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/10 09:23:42 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "exec.h"
 #include "t_hashalias.h"
 #include "t_export.h"
+#include "t_hash.h"
 
 t_env env;
 t_env export_env;
@@ -54,6 +55,7 @@ static void init_shell(char **envr)
 	env = init_env(envr);
 	export_env = copy_env(env);
 	static_hashalias_action(init);
+	static_hash_action(init);
 	init_readline();
 }
 

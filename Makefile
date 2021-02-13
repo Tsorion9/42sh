@@ -125,7 +125,6 @@ CEXEC = builtin_21shopt.c \
 		builtin_jobs.c \
 		builtin_echo.c \
 		builtin_exit.c \
-		builtin_fc.c \
 		builtin_type.c \
 		builtin_hash.c \
 		valid_fc.c \
