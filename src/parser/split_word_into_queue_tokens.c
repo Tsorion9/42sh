@@ -19,7 +19,7 @@ t_deque *split_word_into_queue_tokens(char *word)
 	while (s != NULL)
 	{
 		token = lexer(&s);
-		push_back(&deque, token);
+		// push_back(&deque, token);
 		// deque_del(str, NULL);
 	}
 //	deque_apply_inplace(deque, &print_token_); // TODO ONLY FOR DEBUG
