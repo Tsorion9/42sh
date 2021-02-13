@@ -12,7 +12,8 @@
 
 #include "lexer.h"
 #include "readline.h"
-#include <stdio.h>
+#include "expansions.h"
+#include <stdio.h>// TODO remove me
 
 int		g_a; // For what??
 int		inside_readline;
@@ -46,14 +47,12 @@ void			lexer_state_word_esc(t_lexer_state *token)
 {
 	char	*replace_word;
 	char	*input = NULL;
+	size_t	i;
 	
 	if (CURRENT_CHAR == '\n')
 	{
 		token->str_index--;
 		token->tk_len--;
-		replace_word = ft_strnew(token->tk_len);
-		replace_word = ft_strncpy(replace_word, token->value, token->tk_len);
-
 		input = line_42sh(get_prompt(PS2));
 		if (input && !*(input))
 		{
@@ -61,8 +60,9 @@ void			lexer_state_word_esc(t_lexer_state *token)
 			ft_fprintf(STDERR_FILENO, "%s\n", E_SYN_UNEXPECT_EOF);
 			return ;
 		}
-		ft_strdel(&(token->value));
-		token->value = ft_strjoinfreefree(replace_word, input);
+		i = token->str_index;
+		replace_value(&token->value, input, &i, 2);
+		free(input);
 		lexer_state_word(token);
 	}
 	else if (CURRENT_CHAR != '\0')
@@ -72,6 +72,7 @@ void			lexer_state_word_esc(t_lexer_state *token)
 /*
 ** Token delimiters
 */
+
 int				is_shellspec(char c, t_lexer_state *token)
 {
 	if (c == '\n' || (ft_strchr("|><;&", c) != NULL))

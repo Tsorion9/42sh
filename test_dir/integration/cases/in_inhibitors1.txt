@@ -1,0 +1,13 @@
+l\
+s \
+-la
+
+ls\
+|cat -e
+
+ls\
+cat -e
+
+ls\
+>somefile
+rm somefile
