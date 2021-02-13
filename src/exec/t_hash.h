@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 00:01:25 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/10 09:26:00 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 12:08:30 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 
 # include "environment.h"
 # include "hashtable.h"
-
-typedef enum	e_hash_action
-{
-	init,
-	get,
-	del
-}				t_hash_action;
 
 typedef struct			s_hash
 {
