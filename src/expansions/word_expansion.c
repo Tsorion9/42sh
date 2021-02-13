@@ -512,6 +512,7 @@ void 	dollar_expansion(char **src_word, size_t *i, int word_state)
 		s = ft_strsub(*src_word, *i + 2, j - *i - 2);
 		command_substitution(&s, word_state);
 		replace_value(src_word, s, i, j + 1);
+		free(s);
 		return ;
 	}
 	else if (c == '$')

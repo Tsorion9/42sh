@@ -67,8 +67,11 @@ void command_substitution(char **s, int word_state)
 	if (child) /* Parent */
 	{
 		close_wrapper(pipefd[1]);
+		free(*s);
+		free(tmp);
 		*s = read_from_pipe(pipefd[0]);
 		//printf("Substituted: %s\n", *s);
+		clean_complete_command(&cmd);
 		close_wrapper(pipefd[0]);
 	}
 	else /* Child */
