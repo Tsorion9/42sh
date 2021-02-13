@@ -4,6 +4,7 @@
 # define ADD_DELIMITER		1
 # define ADD_VALUE			2
 # define CLEAN_HEREDOC		3
+# define NEED_EXPAND_HERE	4
 # define HEREDOC_WARNING	"42sh: warning: here-document delimeted by EOF"
 
 typedef struct	s_heredoc
@@ -15,5 +16,6 @@ typedef struct	s_heredoc
 
 void			heredoc_action(int action, char *del, char **address_value, int *heredoc_sigint);
 void			clean_all_heardoc(t_heredoc **heredoc);
+int				contain_quote(const char *s);
 
 #endif

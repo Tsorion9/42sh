@@ -1,17 +1,11 @@
 #include <unistd.h>
-#include <sys/types.h>
 #include <signal.h>
 #include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include "inc21sh.h"
 #include "libft.h"
 #include "exec.h"
-#include "t_builtin.h"
-#include "find_exec.h"
 #include "job.h"
-#include "assignment_word.h"
 #include "expand_pipeline.h"
 #include "pipeline_words_to_assignments.h"
 
