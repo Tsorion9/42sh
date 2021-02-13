@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:24 by anton             #+#    #+#             */
-/*   Updated: 2021/02/13 13:40:45 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 13:52:54 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void			*push_back(t_deque **d, t_token *new)
 	(*d)->last->next = lst;
 	lst->prev = (*d)->last;
 	(*d)->last = lst;
+	free(lst);
 	return (*d);
 }
 
