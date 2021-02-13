@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:31:24 by anton             #+#    #+#             */
-/*   Updated: 2021/02/13 13:54:57 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 14:05:26 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void			*push_front(t_deque **d, t_token *new)
 	return (*d);
 }
 
-void			*push_back(t_deque **d, t_token *new)
+void			push_back(t_deque **d, t_token *new)
 {
 	t_2list	*lst;
 
@@ -41,22 +41,25 @@ void			*push_back(t_deque **d, t_token *new)
 	{
 		*d = ft_memalloc(sizeof(t_deque));
 		if (!*d)
-			return (NULL);
+			// return (NULL);
+			return ;
 		(*d)->first = NULL;
 		(*d)->last = NULL;
 	}
 	if (!(lst = lst2_new(new)))
-		return (NULL);
+		// return (NULL);
+		return ;
 	if (!(*d)->last)
 	{
 		(*d)->first = lst;
 		(*d)->last = (*d)->first;
-		return (*d);
+		// return (*d);
+		return ;
 	}
 	(*d)->last->next = lst;
 	lst->prev = (*d)->last;
 	(*d)->last = lst;
-	return (*d);
+	// return (*d);
 }
 
 /*

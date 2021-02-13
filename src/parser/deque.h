@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 18:43:59 by anton             #+#    #+#             */
-/*   Updated: 2021/02/13 13:40:49 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 14:04:46 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct	s_deque
 */
 
 void			*push_front(t_deque **d, t_token *new);
-void			*push_back(t_deque **d, t_token *new);
+void			push_back(t_deque **d, t_token *new);
 void			*pop_front(t_deque *d);
 t_token 		*pop_back(t_deque *d);
 void			deque_del(t_deque **d, void (*del)(t_token *));
