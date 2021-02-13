@@ -56,12 +56,13 @@ void	substitute_alias(t_token *token, t_deque **tokbuf_g)
 		if (value)
 		{
 			key = ft_strdup(token->value);
-		 gett(g_parser_input_string, tokbuf_g, &tokbuf);
+			gett(g_parser_input_string, tokbuf_g, &tokbuf);
 			erase_tokbuf(&tokbuf);
 			tokbuf = deque_copy(search_tokbuf(key));
 			deque_apply_inplace(tokbuf, &set_do_not_expand);
 			flush_tokbuf(tokbuf_g, &tokbuf);
 			free(key);
+			free(value);
 		}
 	}
 }

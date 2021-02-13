@@ -14,7 +14,6 @@ t_deque *split_word_into_queue_tokens(char *word)
 	t_token *token;
 	char 	*s;
 
-	// str = NULL;
 	s = ft_strdup(word);
 	while (s != NULL)
 	{

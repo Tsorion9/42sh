@@ -4,7 +4,7 @@ static t_token	*copy_token(t_token *token)
 {
 	t_token *fresh;
 
-	fresh = (t_token*)ft_memalloc(sizeof(token));
+	fresh = (t_token*)ft_memalloc(sizeof(t_token));
 	fresh->value = ft_strdup(token->value);
 	fresh->do_not_expand_alias = token->do_not_expand_alias;
 	fresh->tk_type = token->tk_type;

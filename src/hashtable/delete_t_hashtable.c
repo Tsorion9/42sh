@@ -19,6 +19,7 @@ void					delete_hash_table_element(t_hashtable **table)
 		free((*table)->key);
 	if ((*table)->value)
 		free((*table)->value);
+	erase_tokbuf(&(*table)->tokbuf_value);
 	free(*table);
 }
 

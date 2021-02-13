@@ -51,6 +51,7 @@ int						hash_api_change_data(t_hashtable **ht, char *value)
 		erase_tokbuf(&(*ht)->tokbuf_value);
 		s = ft_strdup((*ht)->value);
 		(*ht)->tokbuf_value = split_word_into_queue_tokens(s);
+		free(s);
 	}
 	return (EXIT_SUCCESS);
 }
