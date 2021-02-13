@@ -4,7 +4,7 @@ cd ../tmp
 pwd
 cd -
 cd /bin
-pwd cd -
+pwd ;cd -
 cd
 cd -L /tmp; cd -P ..
 pwd
