@@ -41,7 +41,7 @@ static void print_single_job(t_job *j, int flag_p, int flag_l)
 	int		status;
 	char	*str_status;
 
-	if (waitpid(j->pgid, &status,  WNOHANG | WUNTRACED | WCONTINUED) > 0) /* Job state changed */
+	if (waitpid(j->pgid, &status,  WNOHANG | WUNTRACED) > 0) /* Job state changed */
 	{
 		update_job_state(j->pgid, job_status_to_state(status), status);
 		str_status = job_status_tostr(j->status);

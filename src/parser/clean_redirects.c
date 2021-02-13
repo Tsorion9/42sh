@@ -4,6 +4,7 @@ void	clean_redirector(t_redirector **redirector)
 {
 	if ((*redirector)->filename)
 		ft_strdel(&(*redirector)->filename);
+	clean_words(&((*redirector)->splitted_filename));
 	free(*redirector);
 	*redirector = NULL;
 }

@@ -9,6 +9,7 @@
 # define PARSER_FAIL		0
 # define PARSER_SUCCES		1
 # define NEED_DEFAULT_FD	100
+# define NOT_NEED_DEFAULT	0
 # define IS_NEED_DEFAULT_FD	200
 
 extern char **g_parser_input_string;
@@ -40,6 +41,7 @@ void	clean_redirects(t_redirect **redirects);
 void	clean_complete_command(t_complete_cmd **complete_cmd);
 void	clean_grammar_linebreaks(t_deque **tokbuf_g);
 void	clean_compound_list(t_compound_list **compound_list);
+void	clean_words(t_word_list **words);
 
 /*
 ** print command

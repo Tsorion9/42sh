@@ -1,5 +1,5 @@
 
-echo a > remove_me | ls
+echo a > remove_me | ls | grep -v remove_me
 echo Hello
 cat remove_me
 rm -f remove_me

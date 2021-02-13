@@ -86,7 +86,6 @@ int main(int argc, char **argv, char **envr)
 	while (1)
 	{
 		complete_cmd = parser(NULL);
-//		print_complete_command(complete_cmd);
 		set_canon_input_mode(1);
 		exec_complete_cmd(complete_cmd);
 		set_canon_input_mode(0);

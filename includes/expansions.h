@@ -10,6 +10,7 @@
 # define IFS_CHAR				253
 # define EXPANSION_FAIL			-1
 # define EXPANSION_SUCCESS		100
+# define NEED_FIELD_SPLIT		200
 # define GET_STATUS				1337
 # define EXPANSION_EMPTY_WORD	(1 << 0)
 # define IN_DQUOTE_STATE		(1 << 0)
@@ -25,7 +26,8 @@ int			word_expansion(char **source_word);
 void		quote_removal(char **str);
 char		**field_splitting(const char *source);
 t_word_list	*field_splitting_list(const char *source);
-void        command_substitution(char **s);
+void		command_substitution(char **s, int word_state);
+int			expasnion_status(int status);
 
 // misk
 int			replace_value(char **str, char *value, size_t *start, size_t len);

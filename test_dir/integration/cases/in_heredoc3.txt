@@ -1,0 +1,7 @@
+cat << "e"
+$HOME
+e
+
+cat << e
+$HOME
+e

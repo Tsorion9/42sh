@@ -1,17 +1,11 @@
 #include <unistd.h>
-#include <sys/types.h>
 #include <signal.h>
 #include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include "inc21sh.h"
 #include "libft.h"
 #include "exec.h"
-#include "t_builtin.h"
-#include "find_exec.h"
 #include "job.h"
-#include "assignment_word.h"
 #include "expand_pipeline.h"
 #include "pipeline_words_to_assignments.h"
 
@@ -53,6 +47,15 @@ int wait_fg_job(pid_t job)
 	j = find_job(job);
 	j->state = job_status_to_state(status);
 	j->status = status;
+	if (WIFSTOPPED(status))
+	{
+		/* 
+		** We have a SIGTSTP-ed jobshell here 
+		** It cannot perform any job control in this state.
+		*/
+		//fprintf(stderr, "Sending SIGCONT\n");
+		kill(j->pgid, SIGCONT);
+	}
 	if (j->state != DONE)
 	{
 		j->priority = next_priority();
@@ -75,6 +78,97 @@ int wait_fg_job(pid_t job)
 	return (status);
 }
 
+static t_word_list *get_tail(t_word_list *list)
+{
+	t_word_list *tmp;
+
+	if (list == NULL)
+		return (NULL);
+	tmp = list;
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
+}
+
+static void	redirect_field_splitting(t_redirect **redirect)
+{
+	char			*file;
+	t_redirector	*redirector;
+
+	if ((*redirect) != NULL && (*redirect)->redirector)
+	{
+		redirector = (*redirect)->redirector;
+		file = redirector->filename;
+		if (redirector->need_field_split)
+			redirector->splitted_filename = field_splitting_list(file);
+	}
+}
+
+static void	apply_field_splitting_simple_cmd(t_simple_cmd **simple_cmd)
+{
+	t_word_list *words;
+	t_word_list *tail;
+	t_word_list *head;
+	t_word_list *fields;
+
+	words = (*simple_cmd)->words;
+	tail = NULL;
+	head = NULL;
+	redirect_field_splitting(&(*simple_cmd)->redirects);
+	while (words)
+	{
+		if (words->need_field_split)
+		{
+			fields = field_splitting_list(words->word);
+			if (head == NULL)
+			{
+				head = fields;
+				tail = get_tail(fields);
+			}
+			else
+			{
+				tail->next = fields;
+				if (fields != NULL)
+					tail = get_tail(fields);
+			}
+		}
+		else
+		{
+			if (head == NULL)
+			{
+				head = create_word_node(words->word);
+				tail = head;
+			}
+			else
+			{
+				tail->next = create_word_node(words->word);
+				tail = tail->next;
+			}
+		}
+		words = words->next;
+	}
+	clean_words(&(*simple_cmd)->words);
+	(*simple_cmd)->words = head;
+}
+
+static void apply_field_splitting(t_command *command)
+{
+	if (command->cmd_type == SIMPLE_CMD)
+		apply_field_splitting_simple_cmd(&command->simple_cmd);
+}
+
+void		pipeline_field_splitting(t_pipeline *pipeline)
+{
+	t_pipeline *tmp;
+
+	tmp = pipeline;
+	while (tmp)
+	{
+		apply_field_splitting(pipeline->command);
+		tmp = tmp->next;
+	}
+}
+
 static void	quote_removal_filename(t_redirect **redirect)
 {
 	if (*redirect != NULL)
@@ -84,13 +178,20 @@ static void	quote_removal_filename(t_redirect **redirect)
 void	simple_command_quote_removal(t_simple_cmd *cmd)
 {
 	t_word_list *words;
+	t_list		*assign;
 
 	words = cmd->words;
+	assign = cmd->assignments;
 	quote_removal_filename(&cmd->redirects);
 	while (words)
 	{
 		quote_removal(&words->word);
 		words = words->next;
+	}
+	while (assign)
+	{
+		quote_removal((char**)(&assign->content));
+		assign = assign->next;
 	}
 }
 
@@ -119,7 +220,7 @@ int exec_pipeline(t_pipeline *pipeline)
 	if (expand_pipeline(pipeline) == EXPANSION_FAIL)
 		return (1);
 	pipeline_words_to_assignments(pipeline);
-	// TODO Здесь предполагаю будет происходить field splitting
+	pipeline_field_splitting(pipeline);
 	pipeline_quote_removal(pipeline);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));

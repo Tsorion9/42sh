@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <stdio.h>
-#include "lexer.h"
+#include "expansions.h"
 #include "parser.h"
 #include "exec.h"
 
@@ -52,7 +52,7 @@ static char *read_from_pipe(int fd)
 	return (concat_and_free(&l, total_len));
 }
 
-void command_substitution(char **s)
+void command_substitution(char **s, int word_state)
 {
 	t_complete_cmd *cmd;
 	char *tmp;
@@ -67,8 +67,11 @@ void command_substitution(char **s)
 	if (child) /* Parent */
 	{
 		close_wrapper(pipefd[1]);
+		free(*s);
+		free(tmp);
 		*s = read_from_pipe(pipefd[0]);
 		//printf("Substituted: %s\n", *s);
+		clean_complete_command(&cmd);
 		close_wrapper(pipefd[0]);
 	}
 	else /* Child */
@@ -83,5 +86,6 @@ void command_substitution(char **s)
 		exec_complete_cmd(cmd);
 		exit(0);
 	}
-
+	if (!(word_state & IN_DQUOTE_STATE) && !(word_state & IN_QUOTE_STATE))
+		expasnion_status(NEED_FIELD_SPLIT);
 }
