@@ -68,6 +68,8 @@ char		*get_token_str(t_tokens type)
 		return ("IO_NUM");
 	else if (type == NEWLINE)
 		return ("\\n");
+	else if (type == TOKEN_END)
+		return ("end of file");
 	else if (type == SIGNAL || type == TOKEN_CTRL_C)
 		return ("SIGANL");
 	else
