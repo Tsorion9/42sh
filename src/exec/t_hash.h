@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 00:01:25 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/13 12:27:06 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 16:57:15 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void			insert_command_to_hash(char **path, char *command);
 void			insert_hash(char *key, char *value);
 void			insert_hash_path(char **path);
 void			print_hash(char *key);
-void			print_all_aliases(void);
+void			print_all_hash(void);
 char			*search_hash(char *key);
 int				delete_hash(char *key);
 void			delete_path(void);

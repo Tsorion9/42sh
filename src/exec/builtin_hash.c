@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/13 12:27:52 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 23:25:49 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		check_hash_params(char **args)
 	{
 		if (search_hash(args[i]) == NULL)
 		{
-			ft_printf("42sh: hash: %s: not found", args[i]);
+			ft_fprintf(STDERR_FILENO, "42sh: hash: %s: not found\n", args[i]);
 			return (EXIT_FAILURE);
 		}
 		i++;
@@ -40,11 +40,14 @@ int		builtin_hash(char **args, t_env env, int subshell)
 	(void)subshell;
 	if (((hash = static_hash_action(get)) == NULL) ||
 		is_hash_empty() == EXIT_SUCCESS)
-		ft_printf("hash: hash table empty\n");
+	{
+		ft_fprintf(STDERR_FILENO, "hash: hash table empty\n");
+		return (EXIT_FAILURE);
+	}
 	if (!*args)
 	{
-		ft_printf("hits\t\tcommand");
-		// print_all_hash();
+		ft_printf("hits\t\tcommand\n");
+		print_all_hash();
 		return (EXIT_SUCCESS);
 	}
 	if (!ft_strcmp(args[0], "-r"))

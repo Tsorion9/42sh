@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 14:52:20 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/09 08:19:35 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/14 00:22:53 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,23 @@
 
 static int handle_export_arg(char *arg)
 {
-	char *equal;
-	char *value;
+	char	*equal;
+	char	*value;
+	char	*key;
 
-	if (!(equal = ft_strchr(arg, '=')))
+	key = NULL;
+	if ((equal = ft_strchr(arg, '=')))
 	{
-		if (!(value = ft_getenv(env, arg)))
+		key = ft_strcut(arg, '=');
+		if (ft_isdigit(*key))
+		{
+			free(key);
+			ft_fprintf(STDERR_FILENO, "42sh: export: '%s': not a valid identifier\n", arg);
 			return (EXIT_FAILURE);
-		ft_setenv(export_env, arg, ft_strdup(value));
-	}
-	else
-	{
-		*equal = 0;
-		ft_setenv(export_env, arg, ft_strdup(equal + 1));
-		ft_setenv(env, arg, ft_strdup(equal + 1));
+		}
+		ft_setenv(export_env, key, ft_strdup(equal + 1));
+		ft_setenv(env, key, ft_strdup(equal + 1));
+		free(key);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -44,7 +47,6 @@ int			builtin_export(char **args, t_env env_deprecated, int subshell)
 	int status;
 	int i;
 
-	// (void)args;
 	(void)subshell;
 	(void)env_deprecated;
 	if (!args || !args[0] || !ft_strcmp(args[0], "-p"))
