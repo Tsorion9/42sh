@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 09:28:31 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/10 09:39:26 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 12:30:21 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ void			insert_command_to_hash(char **path, char *command)
 		static_hash_action(init);
 		return ;
 	}
-	if (search_hash(command) == NULL)
-		insert_hash(command, );
+	// if (search_hash(command) == NULL)
+	// 	insert_hash(command, );
 }

@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:27 by anton             #+#    #+#             */
-/*   Updated: 2021/02/10 09:27:17 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 12:29:37 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int				find_exec(char **args, t_env env)
 		return (no_exec_rights(progname));
 	child_env = to_array(env, &memory_ok);
 	execute(progname, args + 1, child_env);
-	insert_command_to_hash(args[0], progname);
+	// insert_command_to_hash(args[0], progname);
 	free(progname);
 	del_array(child_env);
 	return (1);
