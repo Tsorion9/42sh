@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:12:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/13 13:25:45 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/13 13:32:47 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		check_in_path(char *args, t_env env)
 	if ((path = find_path(args, env)) != NULL)
 	{
 		ft_printf("%s is %s\n", args, path);
+		free(path);
 		return (EXIT_SUCCESS);
 	}
 	return (EXIT_FAILURE);
