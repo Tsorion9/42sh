@@ -22,6 +22,7 @@ static void words_to_assignments(t_simple_cmd *cmd)
 		/* TODO: Order of assignments not preserved; add back!! */
 		add_word_to_list(&(cmd->assignments), current->word);
 		cmd->assignments->need_field_split = current->need_field_split;
+		free(current->word);
 		free(current);
 		current = cmd->words;
 	}
