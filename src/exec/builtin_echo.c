@@ -6,54 +6,72 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:18 by anton             #+#    #+#             */
-/*   Updated: 2021/02/14 00:40:16 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/14 23:40:31 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "environment.h"
+#include "readline.h"
 
 /*
 ** Print all arguments separated by ' '. Print \n.
 ** Implmented only -n flag which suppresses \n
 */
 
-void			cycle_echo_print(char **args, int n_flag, int e_flag,
-					int E_flag)
+int				print_echo_output(char *args)
 {
-	int	minus_n_flag;
-	char c = '\n';
+	int		i;
 
-	(void)env;
-	// (void)subshell;
-	minus_n_flag = 0;
+	i = 0;
+	while (args[i])
+	{
+		if (args[i] == '\\')
+		{
+			if (args[i + 1] == 't')
+				ft_putchar('\t');
+			else if (args[i + 1] == 'n')
+				ft_putchar('\n');
+			else if (args[i + 1] == 'c')
+				return (EXIT_FAILURE);
+			else
+			{
+				ft_putchar(args[i]);
+				ft_putchar(args[i + 1]);
+			}
+			i += 2;
+		}
+		else
+			ft_putchar(args[i++]);
+	}
+	return (EXIT_SUCCESS);
+}
+
+int				cycle_echo_print(char **args, int n_flag, int E_flag)
+{
 	if (!*args)
 	{
-		write(1, &c, 1);
-		// return (0);
-		return ;
-	}
-	if (!ft_strcmp(args[0], "-n"))
-	{
-		minus_n_flag = 1;
-		args++;
+		if (!n_flag)
+			ft_putchar('\n');
+		return (EXIT_SUCCESS);
 	}
 	while (*args)
 	{
-		ft_putstr(*args);
-		if (!minus_n_flag)
-			ft_putchar(!*(args + 1) ? '\n' : ' '); // TODO: Check write errors
+		if (E_flag)
+			ft_putstr(*args);
+		else
+			if (print_echo_output(*args) == EXIT_FAILURE)
+				return (EXIT_SUCCESS);
+		if (!n_flag)
+			ft_putchar(!*(args + 1) ? '\n' : ' ');
 		else if (*(args + 1))
 			ft_putchar(' ');
 		args++;
 	}
+	return (EXIT_FAILURE);
 }
 
-// void			delete_slash_in_echo(char *)
-
-
-
-void			check_echo_flags_and_print(char **args)
+int				check_echo_flags_and_print(char **args)
 {
 	int		i;
 	int		n_flag;
@@ -61,7 +79,9 @@ void			check_echo_flags_and_print(char **args)
 	int		E_flag;
 
 	i = 0;
-	// Добавить обработку // - просто удалять из строки лишние /, потом передавать в print
+	n_flag = 0;
+	e_flag = 0;
+	E_flag = 0;
 	while (args[i])
 	{
 		if (!ft_strcmp(args[i], "-n"))
@@ -74,15 +94,12 @@ void			check_echo_flags_and_print(char **args)
 			break ;
 		i++;
 	}
-	cycle_echo_print(args + i, n_flag, e_flag, E_flag);
+	return (cycle_echo_print(args + i, n_flag, e_flag));
 }
 
-int	builtin_echo(char **args, t_env env, int subshell)
+int				builtin_echo(char **args, t_env env, int subshell)
 {
 	(void)env;
 	(void)subshell;
-	if (!*args)
-		return (1);
-	check_echo_flags_and_print(args);
-	return (1);
+	return (check_echo_flags_and_print(args));
 }
