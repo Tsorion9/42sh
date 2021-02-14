@@ -1,1 +1,1 @@
- ls aaaa . 2>&1 >/dev/null
+ ls aaaa . 1>/tmp/tmp.txt 2>&1 >/dev/null ; cat /tmp/tmp.txt | wc -l
