@@ -491,7 +491,12 @@ void 	dollar_expansion(char **src_word, size_t *i, int word_state)
 	{
 		j = find_closing_brace(*src_word, *i + 1);
 		s = ft_strsub(*src_word, *i + 2, j - *i - 2);
-		if (s[0] == '#')
+		if (s && *s == '\0')
+		{
+			ft_fprintf(STDERR_FILENO, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
+			expasnion_status(EXPANSION_FAIL);
+		}
+		else if (s[0] == '#')
 		{
 			res = length_expansion(&s);
 			replace_value(src_word, res, i, j + 1 - *i);
