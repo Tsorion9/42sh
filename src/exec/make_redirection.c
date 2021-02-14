@@ -50,6 +50,34 @@ static int file_redirection(t_redirect *redirect, int flags, int mode)
 	return (0);
 }
 
+static int try_duplicate_fd(t_redirect *redirect)
+{
+	int status;
+
+	status = dup2(ft_atoi(redirect->redirector->filename), redirect->redirector->fd);
+	if (status == -1)
+	{
+		ft_fprintf(STDERR_FILENO, "42sh: %d: Bad file descriptor\n",
+				ft_atoi(redirect->redirector->filename));
+		return (-1);
+	}
+	if (redirect->instruction == DUPLICAT_OUTPUT)
+	{
+		status = write(redirect->redirector->fd, &status, 0);
+	}
+	else if (redirect->instruction == DUPLICAT_INPUT)
+	{
+		status = read(redirect->redirector->fd, &status, 0);
+	}
+
+	if (status == -1)
+	{
+		ft_fprintf(STDERR_FILENO, "42sh: %d: Bad file descriptor\n",
+				redirect->redirector->fd);
+	}
+	return (status);
+}
+
 int make_redirection(t_redirect *redirect)
 {
 	int status;
@@ -70,8 +98,7 @@ int make_redirection(t_redirect *redirect)
 		{
 			return (close_wrapper(redirect->redirector->fd));
 		}
-		dup2(ft_atoi(redirect->redirector->filename), redirect->redirector->fd); // TODO: read/write 0 bytes to check if fd is valid
-		//close_wrapper(redirect->redirector->fd);
+		status = try_duplicate_fd(redirect);
 	}
 	return (status);
 }
