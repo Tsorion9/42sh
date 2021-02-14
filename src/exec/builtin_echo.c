@@ -22,14 +22,15 @@ int	builtin_echo(char **args, t_env env, int subshell)
 {
 	int	minus_n_flag;
 	char c = '\n';
+	int status;
 
 	(void)env;
 	(void)subshell;
 	minus_n_flag = 0;
+	status = 0;
 	if (!*args)
 	{
-		write(1, &c, 1);
-		return (0);
+		return (write(1, &c, 1) == -1);
 	}
 	if (!ft_strcmp(args[0], "-n"))
 	{
@@ -40,10 +41,12 @@ int	builtin_echo(char **args, t_env env, int subshell)
 	{
 		ft_putstr(*args);
 		if (!minus_n_flag)
-			ft_putchar(!*(args + 1) ? '\n' : ' '); // TODO: Check write errors
+			status |= (-1 == ft_putchar(!*(args + 1) ? '\n' : ' '));
 		else if (*(args + 1))
-			ft_putchar(' ');
+			status |= (-1 == ft_putchar(' '));
 		args++;
 	}
-	return (0);
+	if (status)
+		ft_fprintf(STDERR_FILENO, "%s", "42sh: echo: bad file descriptor\n");
+	return (status);
 }
