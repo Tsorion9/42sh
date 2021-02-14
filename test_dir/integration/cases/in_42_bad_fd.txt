@@ -1,0 +1,3 @@
+ls <&3
+ls 3>tmp.txt; rm -f tmp.txt
+ls 2>tmp.txt 0>&2
