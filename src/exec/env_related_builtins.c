@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_related_builtins.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anton <a@b>                                +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:21 by anton             #+#    #+#             */
-/*   Updated: 2020/06/28 11:34:51 by anton            ###   ########.fr       */
+/*   Updated: 2021/02/15 00:19:28 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environment.h"
+#include "readline.h"
+
 
 int			builtin_getenv(char **args, t_env env_deprecated, int subshell)
 {
@@ -42,32 +44,43 @@ int			builtin_getenv(char **args, t_env env_deprecated, int subshell)
 ** Bash also does not tolerate ':', but we do
 */
 
+static int handle_set_arg(char *arg)
+{
+	char	*equal;
+	char	*value;
+	char	*key;
+
+	key = NULL;
+	if ((equal = ft_strchr(arg, '=')))
+	{
+		key = ft_strcut(arg, '=');
+		ft_setenv(env, key, ft_strdup(equal + 1));
+		free(key);
+	}
+	return (EXIT_SUCCESS);
+}
+
 int			builtin_set(char **args, t_env env_deprecated, int subshell)
 {
-	char	*tmp;
+	int		status;
+	int		i;
 
-	(void)env_deprecated;
-	if (subshell)
-		return (1);
+	status = 0;
+	(void)subshell;
 	if (!*args)
-		return (1);
-	if (*args && !*(args + 1))
 	{
-		ft_setenv(env, *args, ft_strdup(""));
-		return (1);
+		print_env(env, &status, "");
+		return (EXIT_SUCCESS);
 	}
-	tmp = *args;
-	while (*tmp)
+	status = EXIT_SUCCESS;
+	i = 0;
+	while (args[i])
 	{
-		if (*tmp == '=')
-			return (1);
-		tmp++;
+		if (EXIT_FAILURE == handle_set_arg(args[i]))
+			status = EXIT_FAILURE;
+		i++;
 	}
-	if (!ft_setenv(env, *args, ft_strdup(*(args + 1))))
-	{
-		ft_printf("Error: Could not set env\n");
-		return (0);
-	}
+	return (status);
 	return (1);
 }
 
