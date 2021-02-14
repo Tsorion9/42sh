@@ -233,6 +233,7 @@ t_word_list *field_splitting_list(const char *source)
 		return (NULL);
 	i = 0;
 	list = create_word_node(fields[0]);
+	list->need_quote_rm = 0;
 	tmp = list;
 	while (fields[++i] != NULL)
 	{
