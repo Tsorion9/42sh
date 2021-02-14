@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 /*
 ** Return exit status of last child
