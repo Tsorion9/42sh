@@ -15,9 +15,6 @@
 # define EXPANSION_EMPTY_WORD	(1 << 0)
 # define IN_DQUOTE_STATE		(1 << 0)
 # define IN_QUOTE_STATE			(1 << 1)
-# define E_ALLOC_MEMORY			"failed to allocate enough memory\n"
-# define E_HOME_NOT_SET			"environment value HOME not set\n"
-# define E_NO_SUCH_USRDIR		"42sh: no such user or named directory: "
 # define E_BAD_SUBSTITUTION		"42sh: bad substitution: "
 # define E_PARAM_NULL_OR_UNSET	"parameter null or unset"
 
@@ -29,8 +26,34 @@ t_word_list	*field_splitting_list(const char *source);
 void		command_substitution(char **s, int word_state);
 int			expasnion_status(int status);
 
+/*
+** Fill IFS characters
+*/
+
+void		fill_delimiters_ifs(char **d_ifs, const char *ifs);
+void		fill_space_ifs(char **s_ifs, const char *ifs);
+
+/*
+** Expansion
+*/
+
+void		try_tilde_expansion(char **src_word, size_t *i, int word_state,
+							int inside_assignment_word);
+void		dollar_expansion(char **src_word, size_t *i, int word_state);
+void		pid_expansion(char **src_word, size_t *i);
+void		last_cmd_status_expansion(char **src_word, size_t *i, size_t len);
+void		length_expansion(char **src_word, int word_state);
+void		parameter_expansion(char **src_word, int word_state);
+void		var_expansion(char **src_word, size_t *i, int skeep_char,
+					int word_state);
+
 // misk
 int			replace_value(char **str, char *value, size_t *start, size_t len);
+void		skip_ifs_chars(const char *s, int *i,
+					 const char *s_ifs, const char *d_ifs);
+int			is_ifs_char(char c, const char *ifs);
+size_t		find_closing_quote(char *data);
+int			is_valid_var_char(char c);
 
 // errors
 int			shell_err(char *error, char *arg);

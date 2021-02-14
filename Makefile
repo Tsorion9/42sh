@@ -177,7 +177,16 @@ CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \
 				quote_removal.c \
 				field_splitting.c \
-				command_substitution.c
+				command_substitution.c \
+				fill_ifs_chars.c \
+				field_splitting_misc.c \
+				try_tilde_expansion.c \
+				pid_expansion.c \
+				command_status_expansion.c \
+				length_expansion.c \
+				var_expansion.c \
+				dollar_expansion.c
+
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
 CURSORMANIPULATION = $(patsubst %,src/readline/cursor_manipulation/%,$(CCURSORMANIPULATION))

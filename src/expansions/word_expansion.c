@@ -1,178 +1,14 @@
 #include <unistd.h>
 #include "expansions.h"
 #include "environment.h"
-#include "exec.h"
 #include "readline.h"
 
-/*
-** На вход ожидает получить строку с кавычкой в первом символе
-** Пример:	'someword'more
-** 			"someword"more
-*/
-size_t	find_closing_quote(char *data)
-{
-	char	quote;
-	size_t	i;
-	size_t	len;
-
-	quote = data[0];
-	if (quote != '\'' && quote != '"')
-		return (0);
-	len = strlen(data);
-	i = 0;
-	while(++i < len)
-	{
-		if(data[i] == quote)
-		{
-			if(data[i-1] == '\\')
-			{
-				if(quote != '\'')
-					continue;
-			}
-			return (i);
-		}
-	}
-	return (0);
-}
-
-void 	try_tilde_expansion(char **src_word, size_t *i, int word_state, int inside_assignment_word)
-{
-	size_t	j;
-	char 	c;
-	int 	quoted_state;
-
-	if ((word_state & IN_DQUOTE_STATE) || (word_state & IN_QUOTE_STATE))
-	{
-		(*i)++;
-		return ;
-	}
-	if (*i == 0 || (inside_assignment_word &&
-			(((*src_word)[*i - 1] == '=')  || (*src_word)[*i - 1] == ':')))	
-	{
-		j = 0;
-		quoted_state = 0;
-		while ((*src_word)[j] != '\0' && quoted_state == 0)
-		{
-			c = (*src_word)[j];
-			if (c == '\\')
-			{
-				quoted_state = 1;
-				j++;
-			}
-			else if (c == '\'' || c == '"')
-			{
-				quoted_state = 1;
-				j += find_closing_quote(*src_word + j);
-			}
-			else if (c == '/')
-				break ;
-			j++;
-		}
-		if (quoted_state)
-		{
-			*i = j;
-			return ;
-		}
-		tilde_expansion(src_word, i, inside_assignment_word);
-	}
-	else if ((*src_word)[*i] == '/' || *i )
-		(*i)++;// skip '/' example: user_home/some_text '/' in the middle
-		// would be skipped
-}
-
+// TODO Используется в нескольких функциях
 int 	is_valid_var_char(char c)
 {
 	if (ft_isalpha(c) || c == '_')
 		return (VALID_VAR_CHAR);
 	return (INVALID_VAR_CHAR);
-}
-
-/*
-** word_state is used to check quote states
-*/
-
-void var_expansion(char **src_word, size_t *i, int skeep_char, int word_state)
-{
-	size_t	j;
-	char	*var_value;
-	char 	*var_name;
-
-	j = *i + skeep_char; // skip '$' or '#'
-	while ((*src_word)[j] && (is_valid_var_char((*src_word)[j])
-		|| (j != 0 && ft_isdigit((*src_word)[j])))) 
-		j++;
-	var_name = ft_strsub(*src_word, *i + skeep_char, j - *i - skeep_char);
-	var_value = ft_getenv(env, var_name);
-	replace_value(src_word, var_value, i, j - *i);
-	free(var_name);
-	if (!(word_state & IN_DQUOTE_STATE) && !(word_state & IN_QUOTE_STATE))
-		expasnion_status(NEED_FIELD_SPLIT);
-}
-
-/*
-** Ожидается строка с балансом строк
-*/
-size_t	find_closing_brace(char *src_word, size_t i)
-{
-	char	o_brace;
-	char	c_brace;
-	char	c;
-	int 	opens;
-
-	o_brace = src_word[i];
-	c_brace = o_brace == '{' ? '}' : ')';
-	opens = 1;
-	while (opens && ++i)
-	{
-		c = src_word[i];
-		if ((c == '"' || c == '\'') && src_word[i - 1] != '\\')
-			i += find_closing_quote(src_word + i);
-		if (src_word[i - 1] != '\\')
-		{
-			if (c == o_brace)
-				opens++;
-			else if (c == c_brace)
-				opens--;
-		}
-	}
-	return (i);
-}
-
-int 	is_contain_any_spec(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (ft_strchr("-=?+%#:'\"`!@$%^,.&*;()\\|~", s[i]) != NULL)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-/*
-** '{' #src_word '}'
-** return NULL if error occured
-** else malloced string of len of var
-*/
-char	*length_expansion(char **src_word)
-{
-	size_t	j;
-	char 	*s_len;
-	int 	len;
-
-	j = 0;
-	if (is_contain_any_spec((*src_word) + 1))
-	{
-		shell_err(E_BAD_SUBSTITUTION, *src_word);
-		return (NULL);
-	}
-	var_expansion(src_word, &j, 1, 0);
-	len = ft_strlen(*src_word);
-	s_len = ft_itoa(len);
-	return (s_len);
 }
 
 char	*ft_strchr_any(char *s, char *search)
@@ -434,102 +270,6 @@ void 	parameter_expansion(char **src_word, int word_state)
 		expasnion_status(NEED_FIELD_SPLIT);
 }
 
-/*
-** The getpid() function are always successful, and no return
-** value is reserved to indicate an error.
-*/
-
-void 	pid_expansion(char **src_word, size_t *i)
-{
-	int		pid;
-	char 	*s_pid;
-
-	pid = getpid();
-	s_pid = ft_itoa(pid);
-	replace_value(src_word, s_pid, i, 2);
-	free(s_pid);
-}
-
-/*
-** len используется для 2 случаев '$?' и '${?}'
-** для '$?' длина заменяемой части 2, для '${?}' 4
-*/
-
-void 	last_cmd_status_expansion(char **src_word, size_t *i, size_t len)
-{
-	char 	*s_status;
-
-	s_status = ft_itoa(last_cmd_status);
-	replace_value(src_word, s_status, i, len);
-	free(s_status);
-}
-
-
-/*
-** perform variable (parameter) expansion.
-**
-** syntax           POSIX description   var defined     var undefined
-** ======           =================   ===========     =============
-** ${var}           Substitute          var             void
-** ${var:-word}     Use Deflt Values    var             word
-** ${var-word}      Use Deflt Values    var             void
-** ${var:?message}  Error if NULL/Unset var             print message and exit shell,
-**                                                      (if message is empty,print
-**                                                      "var: parameter not set")
-** ${#var}          Calculate String Length
-*/
-
-void 	dollar_expansion(char **src_word, size_t *i, int word_state)
-{
-	char	c;
-	char 	*s;
-	char 	*res;
-	size_t	j;
-
-	c = (*src_word)[*i + 1];
-	if (c == '{')
-	{
-		j = find_closing_brace(*src_word, *i + 1);
-		s = ft_strsub(*src_word, *i + 2, j - *i - 2);
-		if (s && *s == '\0')
-		{
-			ft_fprintf(STDERR_FILENO, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
-			expasnion_status(EXPANSION_FAIL);
-		}
-		else if (s[0] == '#')
-		{
-			res = length_expansion(&s);
-			replace_value(src_word, res, i, j + 1 - *i);
-			free(res);
-		}
-		else if (ft_strequ(s, "?"))
-			last_cmd_status_expansion(src_word, i, 4);
-		else
-		{
-			parameter_expansion(&s, word_state);
-			replace_value(src_word, s, i, j + 1 - *i);
-		}
-		free(s);
-	}
-	else if (c == '(')
-	{
-		j = find_closing_brace(*src_word, *i + 1);
-		s = ft_strsub(*src_word, *i + 2, j - *i - 2);
-		command_substitution(&s, word_state);
-		replace_value(src_word, s, i, j + 1 - *i);
-		free(s);
-		return ;
-	}
-	else if (c == '$')
-		pid_expansion(src_word, i);
-	else if (c == '?')
-		last_cmd_status_expansion(src_word, i, 2);
-	else if (is_valid_var_char(c))
-		var_expansion(src_word, i, 1, word_state);
-	else
-		(*i)++;
-}
-
 static void			init_history_num_and_first(t_history **history_first,
 	int *number_of_history)
 {
@@ -661,7 +401,7 @@ int		word_expansion(char **source_word)
 	inside_assignment_word = 0;
 	while ((*source_word)[i] && expasnion_status(GET_STATUS) != EXPANSION_FAIL)
 	{
-		if (word_state == 0 && (*source_word)[i] == '=') /* Not quotes */
+		if (word_state == 0 && (*source_word)[i] == '=')
 			inside_assignment_word = 1;
 		c = (*source_word)[i];
 		if (c == '~')

@@ -2,6 +2,7 @@ echo $?
 echo ${?}
 echo "$HOME"
 echo "$HOME""${HOME}"
+echo ${#HOME}
 echo ${}
 echo $zzz
 a=b
