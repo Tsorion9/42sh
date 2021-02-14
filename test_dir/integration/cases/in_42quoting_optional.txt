@@ -1,0 +1,19 @@
+echo 'foo\
+bar' | cat -e
+
+echo "foo\
+bar" | cat -e
+
+echo "'foo\
+bar'
+baz" | cat -e
+
+l\
+s \
+-at
+
+echo abc \| cat -e
+abc | cat -e
+
+echo abc \\| cat -e
+abc \$
