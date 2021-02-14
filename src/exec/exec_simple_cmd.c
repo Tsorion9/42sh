@@ -53,6 +53,7 @@ static void restore_descriptors(int *save_fd)
 	close_wrapper(save_fd[2]);
 }
 
+
 int exec_simple_cmd(t_simple_cmd *cmd)
 {
 	t_word_list *words;
@@ -62,22 +63,33 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 	int status = 0;
 
 	save_descriptors(save_fd);
-	if (make_assignments_redirections(cmd) != 0)
-	{
-		restore_descriptors(save_fd);
-		return (-1);
-	}
+	make_assignments(cmd, cmd->words != NULL); /* If no words, do not export */
 	if ((words = cmd->words))
 	{
 		args = collect_argwords(words);
 		builtin = get_builtin(words->word);
 		if (builtin)
+		{
+			if (make_redirections(cmd) != 0)
+			{
+				restore_descriptors(save_fd);
+				del_array(args);
+				return (-1);
+			}
 			status = builtin(args + 1, env, 0);
+		}
+
 		else
 		{
 			close_wrapper(save_fd[0]);
 			close_wrapper(save_fd[1]);
 			close_wrapper(save_fd[2]);
+			if (make_redirections(cmd) != 0)
+			{
+				restore_descriptors(save_fd);
+				del_array(args);
+				return (-1);
+			}
 			status = find_exec(args, export_env);
 		}
 		del_array(args);
