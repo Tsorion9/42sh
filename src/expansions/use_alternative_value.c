@@ -1,38 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   field_splitting_misc.c                             :+:      :+:    :+:   */
+/*   use_alternative_value.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/14 18:04:43 by jsance            #+#    #+#             */
-/*   Updated: 2021/02/14 18:07:20 by jsance           ###   ########.fr       */
+/*   Created: 2021/02/15 19:13:48 by jsance            #+#    #+#             */
+/*   Updated: 2021/02/15 19:13:49 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansions.h"
 
-int		is_ifs_char(char c, const char *ifs)
-{
-	int		i;
+/*
+** parameter[:]+[word]
+*/
 
-	if (!*ifs)
-		return (NOT_IFS);
-	i = 0;
-	while (ifs[i] != '\0')
+void	use_alternative_value(char **src_word, char **word,
+						char *param_value, int have_colon)
+{
+	size_t	i;
+
+	if (param_value == NULL || (have_colon && param_value == NULL))
 	{
-		if (c == ifs[i])
-			return (IFS_CHAR);
-		i++;
+		free(*src_word);
+		*src_word = ft_strnew(0);
 	}
-	return (NOT_IFS);
-}
-
-void	skip_ifs_chars(const char *s, size_t *i,
-						const char *s_ifs, const char *d_ifs)
-{
-	while (is_ifs_char(s[*i], s_ifs))
-		(*i)++;
-	if (is_ifs_char(s[*i], d_ifs))
-		(*i)++;
+	else
+	{
+		word_expansion(word);
+		i = 0;
+		replace_value(src_word, *word, &i, ft_strlen(*src_word));
+	}
 }

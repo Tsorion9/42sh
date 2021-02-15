@@ -185,7 +185,12 @@ CEXPANSIONS = tilde_expansion.c \
 				command_status_expansion.c \
 				length_expansion.c \
 				var_expansion.c \
-				dollar_expansion.c
+				dollar_expansion.c \
+				parameter_expansion.c \
+				indicate_error_if_null_or_unset.c \
+				use_default_values.c \
+				use_alternative_value.c \
+				assign_default_values.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
