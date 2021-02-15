@@ -13,42 +13,13 @@
 #include "lexer.h"
 #include "readline.h"
 #include "expansions.h"
-#include <stdio.h>// TODO remove me
-
-int		g_a; // For what??
-int		inside_readline;
-int		g_hasSiganl;
-
-// for debugging
-void printqueue(t_lexer_state *token)
-{
-	t_queue *tmp;
-
-	tmp = token->head;
-	while (tmp) {
-		printf("brace = %c\n", tmp->brace);
-		tmp = tmp->next;
-	}
-	printf("-----------------------------------------\n");
-}
-
-// for debugging
-void	print_info_token(t_lexer_state *token)
-{
-	printf("tk_type = %d\n", token->tk_type);
-	printf("tk_len = %zu\n", token->tk_len);
-	printf("str = %s\n", token->value);
-	printf("str_index = %zu\n", token->str_index);
-	printf("flags = %d\n", token->flags);
-	printf("head = %p\n", token->head);
-}
 
 void			lexer_state_word_esc(t_lexer_state *token)
 {
-	char	*replace_word;
-	char	*input = NULL;
+	char	*input;
 	size_t	i;
-	
+
+	input = NULL;
 	if (CURRENT_CHAR == '\n')
 	{
 		token->str_index--;
@@ -85,15 +56,15 @@ int				is_shellspec(char c, t_lexer_state *token)
 }
 
 /*
-	Jump in then '$' founded
-	'$' skipped via lexer_change_state
-	Checking:
-		@Parameter Expansion
-		@Command Sabstitution
-		@Arithmetic Expansion
-	If nothing sabstitution or expansions founded then resume checking word
-	If we in the end of line then it's something like that: "123$", but
-	we can get 123$123${test$ -- need to close sentence with '}'
+** Jump in then '$' founded
+** '$' skipped via lexer_change_state
+** Checking:
+**		@Parameter Expansion
+**		@Command Sabstitution
+**		@Arithmetic Expansion
+** If nothing sabstitution or expansions founded then resume checking word
+** If we in the end of line then it's something like that: "123$", but
+** we can get 123$123${test$ -- need to close sentence with '}'
 */
 
 void			identify_candidates(t_lexer_state *token)
@@ -118,35 +89,12 @@ void			identify_candidates(t_lexer_state *token)
 		lexer_state_word(token);
 }
 
-
-
-void	handler(int signal)
-{
-	(void) signal;
-	if (!inside_readline)
-		return ;
-	free(g_token.value);
-	free(g_token.head);
-	g_token.value = NULL;
-	g_token.head = NULL;
-	ft_memset(&g_token, 0, sizeof(t_lexer_state));
-	g_hasSiganl = 1;
-}
-
-char 			get_quote(t_lexer_state *token)
-{
-	if (token->flags & QUOTE_STATE)
-		return ('\'');
-	else if (token->flags & DQUOTE_STATE)
-		return ('"');
-	return (token->head->brace);
-}
-
 void			lexer_state_word(t_lexer_state *token)
 {
-	char *input = NULL;
-	
+	char *input;
+
 	lexer_set_flags(token);
+	input = NULL;
 	if (CURRENT_CHAR == '\\' && (token->flags & QUOTE_STATE) == 0)
 		lexer_change_state(token, &lexer_state_word_esc);
 	else if (!is_shellspec(CURRENT_CHAR, token) && !ft_isblank(CURRENT_CHAR)
@@ -157,39 +105,7 @@ void			lexer_state_word(t_lexer_state *token)
 		lexer_change_state(token, &lexer_state_word);
 	else if ((token->flags & ISOPEN_STATE)
 		&& (CURRENT_CHAR == '\0' || CURRENT_CHAR == '\n'))
-	{
-		/*
-			This place is responsible for unclosed sentences ', ", ${, $(, $((
-		*/
-		inside_readline = 1;
-		input = line_42sh(get_prompt(PS2));
-		if (!input)
-		{
-			token->tk_type = TOKEN_CTRL_C;
-			return ;
-		}
-		if (input && !*(input))
-		{
-			token->tk_type = TOKEN_END;
-			ft_fprintf(STDERR_FILENO, "%s`%c'\n",
-			  E_UNEXPECTED_EOF, get_quote(token));
-			ft_fprintf(STDERR_FILENO, "%s\n", E_SYN_UNEXPECT_EOF);
-			free(input);
-			return ;
-		}
-		inside_readline = 0;
-		if (g_hasSiganl)
-		{
-			token->tk_type = SIGNAL;
-			return ;
-		}
-
-		token->value = ft_strjoinfreefree(token->value, input);
-		if (CURRENT_CHAR == '\n')
-			lexer_change_state(token, &lexer_state_word);
-		else
-			lexer_state_word(token);
-	}
+		lexer_unclosed_state(token);
 	else if (CURRENT_CHAR == '$' && (token->flags & QUOTE_STATE) == 0)
 		lexer_change_state(token, &identify_candidates);
 	else if ((token->flags & ISOPEN_STATE))

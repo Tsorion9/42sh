@@ -12,6 +12,13 @@
 
 #include "lexer.h"
 
+void			clean_token(t_lexer_state *token)
+{
+	token->flags = 0;
+	token->tk_len = 0;
+	token->str_index = 0;
+}
+
 int				is_spec(char c)
 {
 	if (c != '\0' && ft_strchr("-~$?/\\'\"", c) != NULL)

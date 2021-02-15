@@ -79,7 +79,11 @@ CLEXER =    lexer.c \
 			lexer_state_less.c \
 			lexer_state_more.c \
 			lexer_state_word.c \
-			print_tree.c
+			lexer_state_braces.c \
+			lexer_state_brackets.c \
+			lexer_unclosed_state.c \
+			tokens_string.c \
+			retrieve_token.c
 
 CPARSER =   clean_commands.c \
 			clean_compound_list.c \
