@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:18 by anton             #+#    #+#             */
-/*   Updated: 2021/02/15 06:03:18 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/15 06:17:57 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int				cycle_echo_print(char **args, int n_flag, int E_flag)
 		if (!n_flag)
 			ft_putchar(!*(args + 1) ? '\n' : ' ');
 		else if (*(args + 1))
-			status |= (-1 == ft_putchar(' '));
+			ft_putchar(' ');
 		args++;
 	}
 	return (EXIT_FAILURE);

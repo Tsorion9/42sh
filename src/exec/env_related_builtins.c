@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:21 by anton             #+#    #+#             */
-/*   Updated: 2021/02/15 00:19:28 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/15 00:24:25 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int			builtin_set(char **args, t_env env_deprecated, int subshell)
 		i++;
 	}
 	return (status);
-	return (1);
 }
 
 int			builtin_unset(char **args, t_env env_deprecated, int subshell)
