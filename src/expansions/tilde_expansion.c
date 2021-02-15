@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tilde_expansion.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/14 18:14:44 by jsance            #+#    #+#             */
+/*   Updated: 2021/02/14 18:15:11 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansions.h"
 #include "lexer.h"
 #include "environment.h"
@@ -10,7 +22,7 @@
 ** Example: replace_value(&"foo", "bar", &0, 3)
 ** Result:  "bar"
 */
-// TODO Временное решение
+
 int		replace_value(char **str, char *value, size_t *start, size_t len)
 {
 	char	*fresh;
@@ -28,19 +40,8 @@ int		replace_value(char **str, char *value, size_t *start, size_t len)
 	ft_strcat(fresh, &(*str)[*start + len]);
 	ft_strdel(str);
 	*str = fresh;
-	*start += value_len; // TODO Возможен просчет на 1 символ проявлять внимание
+	*start += value_len;
 	return (FUNC_SUCCESS);
-}
-
-// TODO Временное решение
-int		shell_err(char *error, char *arg)
-{
-	(void) *arg;
-	(void) *error;
-	//ft_putstr_fd(error, 2);
-	//if (arg != NULL)
-	//	ft_putendl_fd(arg, 2);
-	return (FUNC_ERROR);
 }
 
 char	*get_login(char *s, size_t i)
@@ -62,7 +63,9 @@ char	*get_login(char *s, size_t i)
 /*
 ** If HOME is unset, results are unspecified by POSIX
 */
-int		get_user_home_path(char *login, char **home_path, int inside_assignment_word)
+
+int		get_user_home_path(char *login, char **home_path,
+						int inside_assignment_word)
 {
 	struct passwd	*user_info;
 
@@ -70,13 +73,13 @@ int		get_user_home_path(char *login, char **home_path, int inside_assignment_wor
 	{
 		*home_path = ft_getenv(env, "HOME");
 		if (*home_path == NULL)
-			return (shell_err(E_HOME_NOT_SET, NULL));
+			return (FUNC_ERROR);
 	}
 	else
 	{
 		user_info = getpwnam(login);
 		if (user_info == NULL)
-			return (shell_err(E_NO_SUCH_USRDIR, login));
+			return (FUNC_ERROR);
 		*home_path = user_info->pw_dir;
 	}
 	return (FUNC_SUCCESS);
@@ -86,6 +89,7 @@ int		get_user_home_path(char *login, char **home_path, int inside_assignment_wor
 ** @param s строка в которой выполняется расширение тильды
 ** @param i индекс в строке
 */
+
 int		tilde_expansion(char **s, size_t *i, int inside_assignment_word)
 {
 	char	*login;
@@ -94,14 +98,15 @@ int		tilde_expansion(char **s, size_t *i, int inside_assignment_word)
 
 	home_path = NULL;
 	if ((login = get_login(*s, *i)) == NULL)
-		return (shell_err(E_ALLOC_MEMORY, NULL));
-	if (get_user_home_path(login, &home_path, inside_assignment_word) == FUNC_ERROR)
+		return (FUNC_ERROR);
+	if (get_user_home_path(login, &home_path, inside_assignment_word) == -1)
 	{
 		ft_strdel(&login);
 		(*i)++;
 		return (FUNC_ERROR);
 	}
-	ret = replace_value(s, home_path, i, login[0] == ':' ? 1 : ft_strlen(login) + 1);
+	ret = replace_value(s, home_path, i,
+						login[0] == ':' ? 1 : ft_strlen(login) + 1);
 	ft_strdel(&login);
 	return (ret);
 }

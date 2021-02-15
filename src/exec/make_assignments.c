@@ -14,15 +14,15 @@ void make_assignment(char *as_wrd, int do_export)
 
 void make_assignments(t_simple_cmd *cmd, int do_export)
 {
-	t_list *current;
-	t_list *next;
+	t_word_list	*current;
+	t_word_list	*next;
 
 	current = cmd->assignments;
 	while (current)
 	{
 		next = current->next;
-		make_assignment((char *)(current->content), do_export);
-		free(current->content);
+		make_assignment(current->word, do_export);
+		free(current->word);
 		free(current);
 		current = next;
 	}

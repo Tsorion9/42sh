@@ -1,4 +1,20 @@
 a='a b c'
 ls $a
 
+a='"a" b'
+ls $a
+
+a='"" a """'
+ls $a
+
+a="'a'"
+echo $a
+
 echo $(ls)
+
+a='"a"'
+echo hello > $a
+rm $a
+
+a=$(echo '"a"')
+echo $a

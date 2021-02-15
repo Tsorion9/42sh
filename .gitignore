@@ -1,3 +1,7 @@
+err
+out
+out2
+tmp.txt
 input_for_debug.txt
 cmake-build-debug
 CMakeLists.txt

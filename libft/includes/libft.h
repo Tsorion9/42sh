@@ -55,7 +55,7 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
 char				*ft_strnstr(const char *hay, const char *need, size_t len);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
-void				ft_putchar(char c);
+int					ft_putchar(char c);
 void				ft_putstr(const char *s);
 void				ft_strclr(char *s);
 void				ft_striter(char *s, void (*f)(char*));

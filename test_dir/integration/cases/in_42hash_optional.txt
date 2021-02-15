@@ -1,0 +1,7 @@
+hash mkdir; hash
+
+hash -r
+hash
+hash DOESNOTEXIST; hash
+
+hash ps 42sh umount; hash
