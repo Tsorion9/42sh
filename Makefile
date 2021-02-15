@@ -190,7 +190,8 @@ CEXPANSIONS = tilde_expansion.c \
 				indicate_error_if_null_or_unset.c \
 				use_default_values.c \
 				use_alternative_value.c \
-				assign_default_values.c
+				assign_default_values.c \
+				expansions_misc.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
