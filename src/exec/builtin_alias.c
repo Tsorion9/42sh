@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 11:34:50 by anton             #+#    #+#             */
-/*   Updated: 2021/02/15 07:11:59 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/15 07:18:39 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,7 @@ void		check_previous_keys(char *key, char* value)
 			while (table)
 			{
 				if (!ft_strcmp(table->value, key))
-				{
 					insert_alias(table->key, value);
-				}
-				// delete_alias
-				// ft_printf("alias %s='%s'\n", table->key, table->value);
 				table = table->next;
 			}
 		}
