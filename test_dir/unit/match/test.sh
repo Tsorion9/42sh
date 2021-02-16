@@ -7,9 +7,9 @@
 test () {
 	OUT=$(./match "$1" "$2" "$3")
 	if [ "$OUT" = "$4" ]; then
-		RESULT="OK"
+		RESULT="$(tput setaf 2)OK$(tput sgr 0)"
 	else
-		RESULT="KO"
+		RESULT="$(tput setaf 1)KO$(tput sgr 0)"
 	fi
 	printf "%10s %10s %10s %10s\n" "$1"  "$2" "$3" $RESULT
 }
