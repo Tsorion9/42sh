@@ -195,7 +195,8 @@ CEXPANSIONS = tilde_expansion.c \
 				use_default_values.c \
 				use_alternative_value.c \
 				assign_default_values.c \
-				expansions_misc.c
+				expansions_misc.c \
+				pattern_quote_removal.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))

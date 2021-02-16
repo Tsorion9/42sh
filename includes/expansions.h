@@ -32,11 +32,17 @@
 
 int			tilde_expansion(char **s, size_t *i, int inside_assignment_word);
 int			word_expansion(char **source_word);
-void		quote_removal(char **str);
 char		**field_splitting(const char *source);
 t_word_list	*field_splitting_list(const char *source);
 void		command_substitution(char **s, int word_state);
 int			expasnion_status(int status);
+
+/*
+** Quote removal
+*/
+
+void		quote_removal(char **str);
+char		*pattern_quote_removal(char **pattern);
 
 /*
 ** Fill IFS characters
