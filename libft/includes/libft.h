@@ -173,5 +173,6 @@ t_list				*ptree_to_kvpairs(t_ptree *tree);
 void				*xmalloc(size_t n);
 
 int ft_match(char *string, char *pattern);
+int ft_clever_match(char *string, char *pattern, char *not_quoted);
 
 #endif
