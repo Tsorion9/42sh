@@ -17,7 +17,7 @@
 ** Return the n-th element from start
 */
 
-t_token * deque_n_th(t_deque *deque, int number)
+t_token	*deque_n_th(t_deque *deque, int number)
 {
 	t_2list *tmp;
 

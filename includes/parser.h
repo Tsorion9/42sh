@@ -12,7 +12,7 @@
 # define NOT_NEED_DEFAULT	0
 # define IS_NEED_DEFAULT_FD	200
 
-extern char **g_parser_input_string;
+extern char **g_parser_input_str;
 
 int		match_complete_command(t_complete_cmd **command, t_deque **tokbuf_g);
 int		match_and_or(t_andor_list **and_or, t_deque **tokbuf_g);
@@ -63,6 +63,10 @@ int		is_redirect(t_tokens type);
 void	add_word_to_list(t_word_list **word_list, t_word_list *word);
 void	set_instruction(t_redirect **redirect, t_tokens type);
 char	*get_pipeline_str(t_pipeline *pipeline);
+char	*brace_group_cmd_str(t_brace_group *brace_group);
+char	*subshell_cmd_str(t_subshell *subshell);
+char	*redirects_str(t_redirect *redirects);
+char	*simple_cmd_str(t_simple_cmd *cmd);
 char	*get_instruction(t_instruction instruction);
 char	*andor_to_str(t_andor_list *andor);
 int		need_set_default_fd(int action);

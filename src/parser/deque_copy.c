@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   deque_copy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/17 22:31:17 by jsance            #+#    #+#             */
+/*   Updated: 2021/02/17 22:31:18 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 static t_token	*copy_token(t_token *token)
 {
-	t_token *fresh;
+	t_token	*fresh;
 
 	fresh = (t_token*)ft_memalloc(sizeof(token));
 	fresh->value = ft_strdup(token->value);
@@ -11,11 +23,11 @@ static t_token	*copy_token(t_token *token)
 	return (fresh);
 }
 
-t_deque	*deque_copy(t_deque *source)
+t_deque			*deque_copy(t_deque *source)
 {
-	t_deque *fresh;
-	int 	len;
-	int 	i;
+	t_deque	*fresh;
+	int		len;
+	int		i;
 
 	len = deque_len(source);
 	i = 0;

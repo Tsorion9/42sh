@@ -1,23 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   match_cmd_word.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/17 21:56:30 by jsance            #+#    #+#             */
+/*   Updated: 2021/02/17 21:56:31 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-t_word_list *create_word_node(char *word)
+t_word_list	*create_word_node(char *word)
 {
-    t_word_list *fresh;
+	t_word_list	*fresh;
 
-    fresh = (t_word_list*)ft_memalloc(sizeof(t_word_list));
-    if (!fresh)
-        return (NULL);
-    fresh->word = ft_strdup(word);
-    fresh->need_quote_rm = 1;
-    return (fresh);
-}
-// TODO Используется не только здесь лучше вынести в отдельную функцию
-void    add_word_to_list(t_word_list **word_list, t_word_list *word)
-{
-    if (*word_list == NULL)
-        *word_list = word;
-    else
-        add_word_to_list(&(*word_list)->next, word);
+	fresh = (t_word_list*)ft_memalloc(sizeof(t_word_list));
+	if (!fresh)
+		return (NULL);
+	fresh->word = ft_strdup(word);
+	fresh->need_quote_rm = 1;
+	return (fresh);
 }
 
 /*
@@ -26,20 +30,21 @@ void    add_word_to_list(t_word_list **word_list, t_word_list *word)
 ** Иначе WORD является опциональным
 */
 
-int     match_cmd_word(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
+int			match_cmd_word(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 {
-    t_deque		*tokbuf_l = NULL;
-    t_token		*token;
-    t_redirect	*redirects;
+	t_deque		*tokbuf_l;
+	t_token		*token;
+	t_redirect	*redirects;
 
-    redirects = (*simple_cmd)->redirects;
-    token = gett(g_parser_input_string, tokbuf_g, &tokbuf_l);
-    if (token->tk_type == WORD)
-    {
-        add_word_to_list(&(*simple_cmd)->words, create_word_node(token->value));
-        erase_tokbuf(&tokbuf_l);
-        return (PARSER_SUCCES);
-    }
-    ungett(tokbuf_g, &tokbuf_l);
-    return ((redirects != NULL) ? PARSER_SUCCES : PARSER_ERROR);
+	redirects = (*simple_cmd)->redirects;
+	tokbuf_l = NULL;
+	token = gett(g_parser_input_str, tokbuf_g, &tokbuf_l);
+	if (token->tk_type == WORD)
+	{
+		add_word_to_list(&(*simple_cmd)->words, create_word_node(token->value));
+		erase_tokbuf(&tokbuf_l);
+		return (PARSER_SUCCES);
+	}
+	ungett(tokbuf_g, &tokbuf_l);
+	return ((redirects != NULL) ? PARSER_SUCCES : PARSER_ERROR);
 }

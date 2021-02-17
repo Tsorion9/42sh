@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_word_into_queue_tokens.c                     :+:      :+:    :+:   */
+/*   is_redirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/17 21:34:30 by jsance            #+#    #+#             */
-/*   Updated: 2021/02/17 21:34:31 by jsance           ###   ########.fr       */
+/*   Created: 2021/02/17 21:45:28 by jsance            #+#    #+#             */
+/*   Updated: 2021/02/17 21:45:29 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "lexer.h"
 
-t_deque	*split_word_into_queue_tokens(char *word)
+int				is_redirect(t_tokens type)
 {
-	t_deque	*deque;
-	t_token	*token;
-	char	*s;
-
-	s = ft_strdup(word);
-	deque = NULL;
-	while (s != NULL)
-	{
-		token = lexer(&s);
-		push_back(&deque, token);
-	}
-	return (deque);
+	if (type == DLESS || type == DGREAT || type == LESS ||
+		type == GREAT || type == LESSAND || type == GREATAND)
+		return (1);
+	return (0);
 }

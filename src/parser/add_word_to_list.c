@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_word_into_queue_tokens.c                     :+:      :+:    :+:   */
+/*   add_word_to_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/17 21:34:30 by jsance            #+#    #+#             */
-/*   Updated: 2021/02/17 21:34:31 by jsance           ###   ########.fr       */
+/*   Created: 2021/02/17 21:57:25 by jsance            #+#    #+#             */
+/*   Updated: 2021/02/17 21:57:26 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "lexer.h"
 
-t_deque	*split_word_into_queue_tokens(char *word)
+void	add_word_to_list(t_word_list **word_list, t_word_list *word)
 {
-	t_deque	*deque;
-	t_token	*token;
-	char	*s;
-
-	s = ft_strdup(word);
-	deque = NULL;
-	while (s != NULL)
-	{
-		token = lexer(&s);
-		push_back(&deque, token);
-	}
-	return (deque);
+	if (*word_list == NULL)
+		*word_list = word;
+	else
+		add_word_to_list(&(*word_list)->next, word);
 }

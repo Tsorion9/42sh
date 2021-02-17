@@ -36,6 +36,7 @@ char		**field_splitting(const char *source);
 t_word_list	*field_splitting_list(const char *source);
 void		command_substitution(char **s, int word_state);
 int			expasnion_status(int status);
+char		**path_clever_split(const char *path);
 
 /*
 ** Quote removal
@@ -88,5 +89,6 @@ void		skip_ifs_chars(const char *s, size_t *i,
 int			is_ifs_char(char c, const char *ifs);
 size_t		find_closing_quote(char *data);
 int			is_valid_var_char(char c);
+
 
 #endif

@@ -119,6 +119,13 @@ CPARSER =   clean_commands.c \
 			return_error_and_flush_tokens.c \
 			split_word_into_queue_tokens.c \
 			deque_copy.c \
+			get_pipeline_str.c \
+			get_compound_cmd_str.c \
+			get_redirect_str.c \
+			is_redirect.c \
+			add_word_to_list.c \
+			clean_grammar_linebreaks.c \
+			set_instruction.c
 
 CEXEC = builtin_21shopt.c \
 		builtin_bg.c \
@@ -196,7 +203,8 @@ CEXPANSIONS = tilde_expansion.c \
 				use_alternative_value.c \
 				assign_default_values.c \
 				expansions_misc.c \
-				pattern_quote_removal.c
+				pattern_quote_removal.c \
+				path_clever_split.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
