@@ -106,6 +106,9 @@ char				*ft_path_append(char *path, char *name);
 int					ft_strfirststr(const char *haystack, const char *needle);
 int					ft_isnumber(char *str);
 
+void			qsort_void_ptr(void **arr, int len,\
+		int (*is_greater)(void *, void *));
+
 /*
 ** ft_ptree.g
 */

@@ -5,7 +5,27 @@
 #include "expansions.h"
 #include "environment.h"
 
-void del(void *mem, size_t garbage)
+static char		**list_to_array(t_list *l, int *len)
+{
+	char	**arr;
+	char	**ret;
+
+	if (!(arr = ft_memalloc(sizeof(char *) * (ft_lstlen(l) + 1))))
+		return (NULL);
+	*len = 0;
+	ret = arr;
+	while (l)
+	{
+		(*len)++;
+		*arr = ft_strdup((char *)l->content);
+		l = l->next;
+		arr++;
+	}
+	return (ret);
+}
+
+
+static void del(void *mem, size_t garbage)
 {
 	(void) garbage;
 	free(mem);
@@ -73,6 +93,22 @@ static int starts_from_root(const char *word)
 	return (res);
 }
 
+static int is_greater(void *a, void *b)
+{
+	return (ft_strcmp((char *)a, (char *)b));
+}
+
+static void print_array(char **arr, int len)
+{
+	int i = 0;
+
+	while (i < len)
+	{
+		ft_printf("%s\n", arr[i]);
+		i++;
+	}
+}
+
 /*
 ** TODO: write documentation
 */
@@ -82,12 +118,16 @@ char **pathname_expansion(const char *word)
 	char **res;
 	t_list *matches = NULL;
 	char *current_path;
+	int len;
 
 	path_components = path_clever_split(word);
-	current_path = starts_from_root(word)? ft_strdup("/") : ft_strdup("./");
+	current_path = starts_from_root(word)? ft_strdup("/") : ft_strdup(".");
 	match_files(&matches, path_components, current_path);
-	
+	res = list_to_array(matches, &len);
+	//print_array(res, len);
+	qsort_void_ptr((void **)res, len, is_greater);
 	del_array(path_components);
-	res = NULL;
+	ft_lstdel(&matches, del);
+
 	return (res);
 }
