@@ -204,6 +204,7 @@ CEXPANSIONS = tilde_expansion.c \
 				assign_default_values.c \
 				expansions_misc.c \
 				pattern_quote_removal.c \
+				pathname_expansion.c \
 				path_clever_split.c
 
 
