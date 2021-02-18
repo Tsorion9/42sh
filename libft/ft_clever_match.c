@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "libft.h"
 
 char *find_closing_bracket(char *s, char *not_quoted)
@@ -82,7 +83,7 @@ void negate(char arr[256])
 }
 
 /*
-void print_arr(char symbols[256])
+static void print_arr(char symbols[256])
 {
 	int i;
 
@@ -95,7 +96,7 @@ void print_arr(char symbols[256])
 	}
 }
 
-void print_range(char *string, char *closing_bracket, char symbols[256])
+static void print_range(char *string, char *closing_bracket, char symbols[256])
 {
 	if (!*closing_bracket)
 		return ;
@@ -131,7 +132,7 @@ static int range_match(char *string, char *pattern, char *not_quoted)
 	//print_range(pattern, closing_bracket, symbols);
 	if (symbols[(int)*string])
 		return (ft_clever_match(string + 1, *closing_bracket ? closing_bracket + 1 : pattern + 1, 
-											*closing_bracket ? not_quoted + (closing_bracket - string) + 1 : not_quoted + 1));
+											*closing_bracket ? not_quoted + (closing_bracket - pattern) + 1 : not_quoted + 1));
 	return (0);
 }
 
@@ -151,6 +152,7 @@ static int range_match(char *string, char *pattern, char *not_quoted)
 */
 int ft_clever_match(char *string, char *pattern, char *not_quoted)
 {
+	//ft_printf("DEBUG: matching '%s' '%s', '%s'\n", string, pattern, not_quoted);
 	if (!*string && !*pattern)
 		return (1);
 	if (*pattern == '*' && *not_quoted == 'y')
