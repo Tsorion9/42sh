@@ -32,6 +32,8 @@ static t_list *search_dir(char *current_path, char *new_component)
 					ft_path_append(current_path, entry->d_name), 0);
 		}
 	}
+	free(is_unquoted);
+	closedir(d);
 	return (matches);
 }
 
@@ -41,7 +43,7 @@ static void match_files(t_list **matches, char **path_components, char *current_
 	t_list *current;
 	
 	if (!path_components[0]) {
-		ft_lstadd_data(matches, current_path, 0);
+		ft_lstadd_data(matches, ft_strdup(current_path), 0);
 		return ;
 	}
 	new_matches = search_dir(current_path, path_components[0]);
@@ -78,17 +80,13 @@ char **pathname_expansion(const char *word)
 {
 	char **path_components;
 	char **res;
-	t_list *matches;
+	t_list *matches = NULL;
 	char *current_path;
 
 	path_components = path_clever_split(word);
 	current_path = starts_from_root(word)? ft_strdup("/") : ft_strdup("./");
 	match_files(&matches, path_components, current_path);
-	while (matches)
-	{
-		ft_printf("%s\n", (char *)matches->content);
-		matches = matches->next;
-	}
+	
 	del_array(path_components);
 	res = NULL;
 	return (res);
