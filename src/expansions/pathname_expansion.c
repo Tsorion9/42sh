@@ -132,6 +132,7 @@ char **pathname_expansion(const char *word)
 	qsort_void_ptr((void **)res, len, is_greater);
 	del_array(path_components);
 	ft_lstdel(&matches, del);
+	free(current_path);
 	return (res);
 }
 
