@@ -4,6 +4,7 @@
 #include "libft.h"
 #include "expansions.h"
 #include "environment.h"
+#include "parser.h"
 
 static char		**list_to_array(t_list *l, int *len)
 {
@@ -30,7 +31,7 @@ static void del(void *mem, size_t garbage)
 	(void) garbage;
 	free(mem);
 }
-  
+
 static t_list *search_dir(char *current_path, char *new_component)
 {
 	char *is_unquoted;
@@ -46,7 +47,8 @@ static t_list *search_dir(char *current_path, char *new_component)
 	is_unquoted = pattern_quote_removal(&new_component);
 	while ((entry = readdir(d)))
 	{
-		if (ft_clever_match(entry->d_name, new_component, is_unquoted))
+		if (ft_clever_match(entry->d_name, new_component, is_unquoted)
+		&& ft_strcmp(entry->d_name, ".") && ft_strcmp(entry->d_name, ".."))
 		{
 			ft_lstadd_data(&matches,
 					ft_path_append(current_path, entry->d_name), 0);
@@ -98,6 +100,7 @@ static int is_greater(void *a, void *b)
 	return (ft_strcmp((char *)a, (char *)b));
 }
 
+// TODO Used only for debugging
 static void print_array(char **arr, int len)
 {
 	int i = 0;
@@ -110,8 +113,9 @@ static void print_array(char **arr, int len)
 }
 
 /*
-** TODO: write documentation
+** Return malloced 2d dimensional array of words
 */
+
 char **pathname_expansion(const char *word)
 {
 	char **path_components;
@@ -124,10 +128,34 @@ char **pathname_expansion(const char *word)
 	current_path = starts_from_root(word)? ft_strdup("/") : ft_strdup(".");
 	match_files(&matches, path_components, current_path);
 	res = list_to_array(matches, &len);
-	//print_array(res, len);
+//	print_array(res, len);
 	qsort_void_ptr((void **)res, len, is_greater);
 	del_array(path_components);
 	ft_lstdel(&matches, del);
-
 	return (res);
+}
+
+t_word_list	*pathname_expansion_list(const char *word)
+{
+	char		**res;
+	t_word_list	*fields;
+	t_word_list *tmp;
+	int			i;
+
+	res = pathname_expansion(word);
+	if (!res || !res[0])
+	{
+		del_array(res);
+		return (NULL);
+	}
+	fields = create_word_node(res[0]);
+	tmp = fields;
+	i = 0;
+	while (res[++i])
+	{
+		tmp->next = create_word_node(res[i]);
+		tmp = tmp->next;
+	}
+	del_array(res);
+	return (fields);
 }
