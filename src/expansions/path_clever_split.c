@@ -48,6 +48,11 @@ static void del(void *mem, size_t garbage)
 	free(mem);
 }
 
+void p(t_list *elem)
+{
+	ft_printf("%s\n", elem->content);
+}
+
 char **path_clever_split(char *s)
 {
 	char *slash;
@@ -66,7 +71,9 @@ char **path_clever_split(char *s)
 		s = slash + 1;
 	}
 	l = ft_lstappend(l, ft_strdup(s), 0);
+	//ft_lstiter(l, p);
 	res = list_to_array(l, &len);
 	ft_lstdel(&l, del);
+	//ft_printf("%s\n", res[0]);
 	return (res);
 }
