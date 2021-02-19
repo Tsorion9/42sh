@@ -20,11 +20,11 @@ static void	save_list_attributes(t_word_list *src, t_word_list **dest)
 // TODO Need to refactor this shit!
 static void	redirect_pathname_expansion(t_redirect **redirect)
 {
-	t_redirector	*redirector;
-	t_word_list		*tmp;
-	t_word_list		*tail;
-	t_word_list		*head;
-	t_word_list		*fields;
+	t_redirector	*redirector = NULL;
+	t_word_list		*tmp = NULL;
+	t_word_list		*tail = NULL;
+	t_word_list		*head = NULL;
+	t_word_list		*fields = NULL;
 
 	if ((*redirect) != NULL && (*redirect)->redirector)
 	{
