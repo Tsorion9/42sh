@@ -35,7 +35,7 @@ static char *next_unquoted_slash(char *s)
 			else if (state == '"')
 				state = 0;
 		}
-		else if (*s == '\\' && state == 0)
+		else if (*s == '\\' && state == 0 && *(s + 1))
 			s++;
 		s++;
 	}
