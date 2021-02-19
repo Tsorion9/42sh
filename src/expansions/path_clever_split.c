@@ -66,12 +66,11 @@ char **path_clever_split(char *s)
 	{
 		*slash = '\0';
 		component = ft_strdup(s);
-		l = ft_lstappend(l, component, 0);
+		ft_lstadd_data_back(&l, component, 0);
 		*slash = '/';
 		s = slash + 1;
 	}
-	l = ft_lstappend(l, ft_strdup(s), 0);
-	//ft_lstiter(l, p);
+	ft_lstadd_data_back(&l, ft_strdup(s), 0);
 	res = list_to_array(l, &len);
 	ft_lstdel(&l, del);
 	//ft_printf("%s\n", res[0]);
