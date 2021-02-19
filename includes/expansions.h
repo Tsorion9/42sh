@@ -36,7 +36,7 @@ char		**field_splitting(const char *source);
 t_word_list	*field_splitting_list(const char *source);
 void		command_substitution(char **s, int word_state);
 int			expasnion_status(int status);
-char		**path_clever_split(const char *path);
+char		**path_clever_split(char *path);
 
 /*
 ** Quote removal

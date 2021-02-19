@@ -11,95 +11,62 @@
 /* ************************************************************************** */
 
 #include "expansions.h"
+char		**list_to_array(t_list *l, int *len);
 
-static int		is_quote(char c)
+static char *next_unquoted_slash(char *s)
 {
-	if (c == '\'' || c == '"')
-		return (1);
-	return (0);
-}
+	int state = 0;
 
-static size_t	count_fields(const char *s, char delim)
-{
-	size_t	size;
-	int		i;
-	int		in_quote;
-
-	size = 0;
-	i = -1;
-	in_quote = 0;
-	while (s[++i] != '\0')
+	while (*s)
 	{
-		if (s[i] != delim)
+		if (*s == '/' && state == 0)
+			break ;
+		if (*s == '\'')
 		{
-			size++;
-			while ((s[i] != '\0' && s[i] != delim) || in_quote)
-			{
-				if (is_quote(s[i]))
-					in_quote ^= s[i];
-				i++;
-			}
-			if (s[i] == '\0')
-				return (size);
+			if (state == 0)
+				state = '\'';
+			else if (state == '\'')
+				state = 0;
 		}
-	}
-	return (size);
-}
-
-static size_t	count_len_sub_path(const char *s, size_t *i, char delim)
-{
-	size_t	len;
-	int		in_quote;
-
-	len = 0;
-	in_quote = 0;
-	while ((s[*i] != '\0' && s[*i] != delim) || in_quote)
-	{
-		if (is_quote(s[*i]))
-			in_quote ^= s[*i];
-		len++;
-		(*i)++;
-	}
-	return (len);
-}
-
-static void		fill_fields(char ***splitted_fields, char delim, const char *s)
-{
-	size_t	size;
-	size_t	i;
-	size_t	len;
-	int		idx;
-
-	i = 0;
-	idx = 0;
-	size = count_fields(s, delim);
-	(*splitted_fields) = (char**)ft_memalloc(8 * (size + 1));
-	while (s[i] != '\0')
-	{
-		if (s[i] != delim)
+		else if (*s == '"' && state == 0)
 		{
-			len = count_len_sub_path(s, &i, delim);
-			(*splitted_fields)[idx++] = ft_strsub(s, i - len, len);
-			if (s[i] == '\0')
-				return ;
+			if (state == 0)
+				state = '"';
+			else if (state == '"')
+				state = 0;
 		}
-		i++;
+		else if (*s == '\\' && state == 0)
+			s++;
+		s++;
 	}
-	(*splitted_fields)[idx] = NULL;
+	return (s);
 }
 
-/*
-** Split path by '/' character
-** return malloced 2-dimensional array of sub-paths of path without '/' char
-*/
-
-char			**path_clever_split(const char *path)
+static void del(void *mem, size_t garbage)
 {
-	char	**splitted_path;
+	(void) garbage;
+	free(mem);
+}
 
-	if (!path || *path == '\0')
-		return (NULL);
-	splitted_path = NULL;
-	fill_fields(&splitted_path, '/', path);
-	return (splitted_path);
+char **path_clever_split(char *s)
+{
+	char *slash;
+	char *component;
+	t_list *l; 
+	char **res;
+	int len;
+
+	l = NULL;
+	while (*(slash = next_unquoted_slash(s)))
+	{
+		*slash = '\0';
+		component = ft_strdup(s);
+		l = ft_lstappend(l, component, 0);
+		*slash = '/';
+		s = slash + 1;
+	}
+	l = ft_lstappend(l, ft_strdup(s), 0);
+	res = list_to_array(l, &len);
+	ft_lstdel(&l, del);
+	return (res);
 }

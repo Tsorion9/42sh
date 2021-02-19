@@ -6,7 +6,7 @@
 #include "environment.h"
 #include "parser.h"
 
-static char		**list_to_array(t_list *l, int *len)
+char		**list_to_array(t_list *l, int *len)
 {
 	char	**arr;
 	char	**ret;
