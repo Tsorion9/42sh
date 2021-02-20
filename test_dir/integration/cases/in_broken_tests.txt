@@ -1,0 +1,9 @@
+rm -rf garbage; mkdir garbage; cd garbage; mkdir garbage1; cd garbage1
+
+touch "abc" "bbc"
+
+echo []ab]*
+
+echo [z-a]*
+
+cd ../../ ; rm -r garbage

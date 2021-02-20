@@ -55,11 +55,13 @@ static void	redirect_pathname_expansion(t_redirect **redirect)
 					if (head == NULL)
 					{
 						head = create_word_node(tmp->word);
+						save_list_attributes(tmp, &head);
 						tail = head;
 					}
 					else
 					{
 						tail->next = create_word_node(tmp->word);
+						save_list_attributes(tmp, &tail->next);
 						tail = tail->next;
 					}
 				}
@@ -109,11 +111,13 @@ static void	simple_cmd_pathname_expansion(t_simple_cmd **simple_cmd)
 			if (head == NULL)
 			{
 				head = create_word_node(words->word);
+				save_list_attributes(words, &head);
 				tail = head;
 			}
 			else
 			{
 				tail->next = create_word_node(words->word);
+				save_list_attributes(words, &tail->next);
 				tail = tail->next;
 			}
 		}

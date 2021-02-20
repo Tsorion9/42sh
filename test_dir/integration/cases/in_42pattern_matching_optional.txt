@@ -48,4 +48,4 @@ echo [!a-z]
 
 echo [4-z][A-b]
 
-cd ../.. ; rm -r garbage
+cd ../../../ ; rm -r garbage

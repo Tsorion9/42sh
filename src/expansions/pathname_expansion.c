@@ -38,11 +38,17 @@ static void del(void *mem, size_t garbage)
 
 static void *make_new_data(char *current_path, char *new_component)
 {
+	char	*tmp;
+	char	*res;
+
 	if (ft_strequ(current_path, "."))
 	{
 		if (ft_strequ(new_component, ".") || ft_strequ(new_component, ".."))
 		{
-			return (ft_path_append(new_component, ft_strdup("")));
+			tmp = ft_strdup("");
+			res = ft_path_append(new_component, tmp);
+			free(tmp);
+			return (res);
 		}
 		return (ft_strdup(new_component));
 	}
@@ -146,6 +152,11 @@ char **pathname_expansion(const char *word)
 	int len;
 
 	path_components = path_clever_split(word);
+	if (path_components && !path_components[0])
+	{
+		del_array(path_components);
+		return (NULL);
+	}
 	current_path = starts_from_root(word) ? ft_strdup("/") : ft_strdup(".");
 	match_files(&matches, path_components, current_path);
 	res = clever_list_to_array(matches, &len);
@@ -165,7 +176,9 @@ t_word_list	*pathname_expansion_list(const char *word)
 	int			i;
 
 	res = pathname_expansion(word);
-	if (!res || !res[0])
+	if (!res)
+		return (NULL);
+	if (!res[0])
 	{
 		del_array(res);
 		return (NULL);
