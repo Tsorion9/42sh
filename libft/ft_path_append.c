@@ -24,7 +24,7 @@ char	*ft_path_append(char *path, char *name)
 	while ((*new++ = *path++))
 		;
 	new--;
-	if (*(path - 1) != '/')
+	if (*(new - 1) != '/')
 		*new++ = '/';
 	ft_strcpy(new, name[0] == '/' ? name + 1 : name);
 	return (start);

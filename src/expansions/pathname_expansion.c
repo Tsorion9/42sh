@@ -6,7 +6,7 @@
 #include "environment.h"
 #include "parser.h"
 
-char		**list_to_array(t_list *l, int *len)
+char		**clever_list_to_array(t_list *l, int *len)
 {
 	char	**arr;
 	char	**ret;
@@ -17,6 +17,10 @@ char		**list_to_array(t_list *l, int *len)
 	ret = arr;
 	while (l)
 	{
+		if (ft_strlen((char *)l->content) == 0) {
+			l = l->next;
+			continue ;
+		}
 		(*len)++;
 		*arr = ft_strdup((char *)l->content);
 		l = l->next;
@@ -32,12 +36,26 @@ static void del(void *mem, size_t garbage)
 	free(mem);
 }
 
+static void *make_new_data(char *current_path, char *new_component)
+{
+	if (ft_strequ(current_path, "."))
+	{
+		if (ft_strequ(new_component, ".") || ft_strequ(new_component, ".."))
+		{
+			return (ft_path_append(new_component, ft_strdup("")));
+		}
+		return (ft_strdup(new_component));
+	}
+	return (ft_path_append(current_path, new_component));
+}
+
 static t_list *search_dir(char *current_path, char *new_component)
 {
 	char *is_unquoted;
 	DIR *d;
 	struct dirent *entry;
 	t_list *matches;
+	char *new_data;
 
 	d = opendir(current_path);
 	if (!d)
@@ -47,11 +65,14 @@ static t_list *search_dir(char *current_path, char *new_component)
 	is_unquoted = pattern_quote_removal(&new_component);
 	while ((entry = readdir(d)))
 	{
-		if (ft_clever_match(entry->d_name, new_component, is_unquoted)
-		&& ft_strcmp(entry->d_name, ".") && ft_strcmp(entry->d_name, ".."))
+		if (*(entry->d_name) == '.' && *new_component != '.')
+			continue ;
+		if (ft_clever_match(entry->d_name, new_component, is_unquoted))
 		{
+			new_data = make_new_data(current_path, entry->d_name);
 			ft_lstadd_data(&matches,
-					ft_path_append(current_path, entry->d_name), 0);
+					new_data,
+					0);
 		}
 	}
 	free(is_unquoted);
@@ -125,10 +146,10 @@ char **pathname_expansion(const char *word)
 	int len;
 
 	path_components = path_clever_split(word);
-	current_path = starts_from_root(word)? ft_strdup("/") : ft_strdup(".");
+	current_path = starts_from_root(word) ? ft_strdup("/") : ft_strdup(".");
 	match_files(&matches, path_components, current_path);
-	res = list_to_array(matches, &len);
-//	print_array(res, len);
+	res = clever_list_to_array(matches, &len);
+//	print_array(res, len);  ./g* COMP: . g*
 	qsort_void_ptr((void **)res, len, is_greater);
 	del_array(path_components);
 	ft_lstdel(&matches, del);

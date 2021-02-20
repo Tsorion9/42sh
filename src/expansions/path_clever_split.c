@@ -12,6 +12,26 @@
 
 #include "expansions.h"
 char		**list_to_array(t_list *l, int *len);
+char		**clever_list_to_array(t_list *l, int *len);
+
+char		**list_to_array(t_list *l, int *len)
+{
+	char	**arr;
+	char	**ret;
+
+	if (!(arr = ft_memalloc(sizeof(char *) * (ft_lstlen(l) + 1))))
+		return (NULL);
+	*len = 0;
+	ret = arr;
+	while (l)
+	{
+		(*len)++;
+		*arr = ft_strdup((char *)l->content);
+		l = l->next;
+		arr++;
+	}
+	return (ret);
+}
 
 static char *next_unquoted_slash(char *s)
 {
@@ -71,7 +91,7 @@ char **path_clever_split(char *s)
 		s = slash + 1;
 	}
 	ft_lstadd_data_back(&l, ft_strdup(s), 0);
-	res = list_to_array(l, &len);
+	res = clever_list_to_array(l, &len);
 	ft_lstdel(&l, del);
 	//ft_printf("%s\n", res[0]);
 	return (res);
