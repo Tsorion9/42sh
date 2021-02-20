@@ -1,3 +1,5 @@
+rm -rf garbage; mkdir garbage; cd garbage; mkdir garbage1; cd garbage1
+
 mkdir empty && cd empty
 touch a? b* [c]; ls -1
 
@@ -45,3 +47,5 @@ echo **
 echo [!a-z]
 
 echo [4-z][A-b]
+
+cd ../.. ; rm -r garbage

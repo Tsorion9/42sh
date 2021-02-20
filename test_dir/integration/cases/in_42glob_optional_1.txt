@@ -1,6 +1,0 @@
-rm -rf garbage; mkdir garbage ; cd garbage
-touch a? b* [c] ; ls -1
-
-echo a >aa && echo b >ab && cat -e a?
-
-rm -r *
