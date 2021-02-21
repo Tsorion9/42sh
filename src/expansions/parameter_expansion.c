@@ -13,6 +13,7 @@
 #include "expansions.h"
 #include "environment.h"
 
+// TODO Возможно, стоит вынести в библиотеку
 static char	*ft_strchr_any(char *s, char *search)
 {
 	int		i;
@@ -60,7 +61,7 @@ static void	var_not_null(char **src_word, char **sep, char *param)
 		replace_value(src_word, param_value, &i, ft_strlen(*src_word));
 	else
 	{
-		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
+		ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
 		expasnion_status(EXPANSION_FAIL);
 	}
 	free(word);
@@ -105,7 +106,7 @@ static void	var_unset_or_empty(char **src_word, char **sep, char *param,
 	}
 	else
 	{
-		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
+		ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
 		expasnion_status(EXPANSION_FAIL);
 		ft_strdel(&word);
 	}
@@ -127,6 +128,7 @@ static void	perform_parameter_expansion(char **src_word, int word_state,
 		return ;
 	}
 	var_value = ft_getenv(env, parameter);
+	ft_printf("parameter = %s\n", parameter);
 	if (*sep == ':')
 	{
 		sep++;
@@ -140,20 +142,41 @@ static void	perform_parameter_expansion(char **src_word, int word_state,
 }
 
 /*
+** start string in which perform search
+** search string of symbols that need to search
+** return a pointer to the found element from search else NULL
+*/
+
+static char	*search_separator(char *start, const char *search)
+{
+	char	*pointer;
+
+	pointer = start;
+	while (*pointer)
+	{
+		if (*pointer == '\'' || *pointer == '"')
+			pointer += find_closing_quote(pointer);
+		else if (ft_strchr(search, *pointer))
+			return (pointer);
+		pointer++;
+	}
+	return (NULL);
+}
+
+/*
 ** '{' src_word '}'
 ** src_word == parameter( [:][=+-?] | (#[#] | %[%]) )word
 ** word_state is used to check quote states
 */
-
+// TODO Добавить проверку, если parameter в состоянии кавычек(дада '\' тоже
+//  считается состоянием кавычек), то выводить bad substitution
 void		parameter_expansion(char **src_word, int word_state)
 {
 	size_t	i;
 	char	*sep;
 
 	i = 0;
-	sep = ft_strchr(*src_word, ':');
-	if (!sep)
-		sep = ft_strchr_any(*src_word, "-=?+%#");
+	sep = search_separator(*src_word, ":-=?+%#");
 	if (sep)
 		perform_parameter_expansion(src_word, word_state, sep);
 	else
