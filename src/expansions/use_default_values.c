@@ -34,8 +34,6 @@ void	use_default_values(char **src_word, char **word,
 			ft_strdel(word);
 			*word = ft_strnew(0);
 			replace_value(src_word, *word, &i, ft_strlen(*src_word));
-			free(*word);
-			*word = NULL;
 		}
 		else if (param_value == NULL)
 		{
@@ -43,4 +41,5 @@ void	use_default_values(char **src_word, char **word,
 			replace_value(src_word, *word, &i, ft_strlen(*src_word));
 		}
 	}
+	ft_strdel(word);
 }

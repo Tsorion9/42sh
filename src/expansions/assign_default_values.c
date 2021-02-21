@@ -35,5 +35,6 @@ void	assign_default_values(char **src_word, char **word,
 	{
 		free(*src_word);
 		*src_word = ft_strnew(0);
+		ft_strdel(word);
 	}
 }

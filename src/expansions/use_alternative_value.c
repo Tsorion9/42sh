@@ -32,4 +32,5 @@ void	use_alternative_value(char **src_word, char **word,
 		i = 0;
 		replace_value(src_word, *word, &i, ft_strlen(*src_word));
 	}
+	ft_strdel(word);
 }

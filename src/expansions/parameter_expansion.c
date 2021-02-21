@@ -101,13 +101,14 @@ static void	var_unset_or_empty(char **src_word, char **sep, char *param,
 	{
 		ft_strdel(src_word);
 		*src_word = ft_strnew(0);
+		ft_strdel(&word);
 	}
 	else
 	{
 		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
 		expasnion_status(EXPANSION_FAIL);
+		ft_strdel(&word);
 	}
-	free(word);
 }
 
 // TODO word_state is unused now

@@ -34,4 +34,5 @@ void	indicate_error_if_null_or_unset(char **src_word, char **word,
 					(**word == '\0') ? E_PARAM_NULL_OR_UNSET : *word);
 		expasnion_status(EXPANSION_FAIL);
 	}
+	ft_strdel(word);
 }
