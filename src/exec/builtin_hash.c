@@ -6,12 +6,13 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/13 23:25:49 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/19 07:52:08 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environment.h"
 #include "t_hash.h"
+#include "find_path.h"
 
 int		check_hash_params(char **args)
 {
@@ -30,7 +31,7 @@ int		check_hash_params(char **args)
 	return (EXIT_SUCCESS);
 }
 
-int		builtin_hash(char **args, t_env env, int subshell)
+int		builtin_hash(char **args, t_env envs, int subshell)
 {
 	t_hash			*hash;
 	t_hashtable		*table;
@@ -38,15 +39,14 @@ int		builtin_hash(char **args, t_env env, int subshell)
 
 	(void)env;
 	(void)subshell;
-	if (((hash = static_hash_action(get)) == NULL) ||
-		is_hash_empty() == EXIT_SUCCESS)
+	if (is_hash_empty() == EXIT_SUCCESS)
 	{
 		ft_fprintf(STDERR_FILENO, "hash: hash table empty\n");
 		return (EXIT_FAILURE);
 	}
-	if (!*args)
+	if (!*args && is_hash_empty())
 	{
-		ft_printf("hits\t\tcommand\n");
+		ft_printf("command\t\tpath\n");
 		print_all_hash();
 		return (EXIT_SUCCESS);
 	}

@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 06:45:56 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/10 08:43:14 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/18 22:25:55 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 t_hash			*static_hash_action(int action)
 {
 	static t_hash	*hash;
+	char			*env_path;
 
 	if (action == init)
 	{
 		if ((hash = init_t_hash()) == NULL)
 			return NULL;
+		env_path = ft_getenv(env, "PATH");
+		hash->copy_path = ft_strsplit(env_path, ':');
+		if (env_path)
+			free(env_path);
 		return hash;
 	}
 	else if (action == get)
