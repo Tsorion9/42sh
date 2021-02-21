@@ -10,6 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#define _GNU_SOURCE             /* See feature_test_macros(7) */
+#include <fcntl.h>              /* Obtain O_* constant definitions */
+#include <unistd.h>
+
+
 #include <unistd.h>
 #include <signal.h>
 #include "lexer.h"
@@ -25,6 +30,7 @@ t_env env;
 t_env export_env;
 int interactive_shell;
 int last_cmd_status;
+int paths_pipefd[2];
 
 static void set_toplevel_shell_signal(void)
 {
@@ -74,7 +80,10 @@ static void read_from_file(char *filename)
 int main(int argc, char **argv, char **envr)
 {
     t_complete_cmd *complete_cmd = NULL;
-
+	char *path;
+	
+	path = NULL;
+	pipe2(paths_pipefd, O_NONBLOCK);
 	if (argc > 1)
 	{
 		read_from_file(argv[1]);
@@ -86,6 +95,11 @@ int main(int argc, char **argv, char **envr)
 		complete_cmd = parser(NULL);
 		set_canon_input_mode(1);
 		exec_complete_cmd(complete_cmd);
+		get_next_line(paths_pipefd[0], &path);
+		if (path)
+			ft_printf("%s\n", path);
+		free(path);
+		path = NULL;
 		set_canon_input_mode(0);
 	}
     reset_exit(0);

@@ -16,6 +16,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+extern int paths_pipefd[2];
+
 /*
 ** Add path to executable as argv[0]
 */
@@ -65,6 +67,8 @@ int				find_exec(char **args, t_env env)
 	if (!*args)
 		return (-1);
 	progname = find_path(args[0], env);
+	if (progname)
+		ft_fprintf(paths_pipefd[1], "%s:%s\n", args[0], progname);
 	if (!progname)
 	{
 		ft_fprintf(2, "%s: command not found\n", args[0]);

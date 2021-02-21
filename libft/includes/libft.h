@@ -19,6 +19,8 @@
 # include "get_next_line.h"
 # include "ft_ptree.h"
 
+# include "bbtree_utils.h"
+
 typedef struct		s_list
 {
 	void			*content;
@@ -105,6 +107,8 @@ int					ft_lstlen(t_list *l);
 char				*ft_path_append(char *path, char *name);
 int					ft_strfirststr(const char *haystack, const char *needle);
 int					ft_isnumber(char *str);
+void				del_simple(void *content, size_t content_size);
+void				*ft_memdup(void *c, size_t n);
 
 void			qsort_void_ptr(void **arr, int len,\
 		int (*is_greater)(void *, void *));
