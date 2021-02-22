@@ -14,6 +14,8 @@
 
 void	clean_command(t_command **command)
 {
+	if (!*command)
+		return ;
 	if ((*command)->cmd_type == SUBSHELL)
 		clean_subshell(&(*command)->subshell);
 	else if ((*command)->cmd_type == BRACE_GROUP)

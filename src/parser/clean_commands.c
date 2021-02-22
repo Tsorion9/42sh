@@ -17,12 +17,16 @@ void	clean_subshell(t_subshell **subshell)
 {
 	clean_compound_list(&(*subshell)->compound_list);
 	clean_redirects(&(*subshell)->redirects);
+	free(*subshell);
+	*subshell = NULL;
 }
 
 void	clean_brace_group(t_brace_group **brace_group)
 {
 	clean_compound_list(&(*brace_group)->compound_list);
 	clean_redirects(&(*brace_group)->redirects);
+	free(*brace_group);
+	*brace_group = NULL;
 }
 
 void	clean_words(t_word_list **words)
