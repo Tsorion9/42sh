@@ -108,9 +108,11 @@ int main(int argc, char **argv, char **envr)
 			// get_next_line(paths_pipefd[i], &path);
 			key = ft_strcut(path, ':');
 			// insert_hash(key, ft_strchr(path, ':') + 1);
-			insert_command_to_hash(key, ft_strchr(path, ':') + 1);
 			if (key)
+			{
+				insert_command_to_hash(key, ft_strchr(path, ':') + 1);
 				free(key);
+			}
 			key = NULL;
 			// ft_printf("%s\n", path);
 			free(path);
