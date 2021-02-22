@@ -12,8 +12,6 @@ unset foo 2>&-; echo ${foo:=bar} ${foo}
 
 foo=foo; echo ${foo:=bar} ${foo}
 
-unset foo 2>&-; echo ${foo:?bar}
-
 foo=foo; echo ${foo:?bar}
 
 unset foo 2>&-; echo ${foo:+bar} ${foo}
