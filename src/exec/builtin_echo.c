@@ -51,7 +51,7 @@ int				cycle_echo_print(char **args, int n_flag, int E_flag)
 {
 	int	status;
 
-	status = 0;
+	status = EXIT_SUCCESS;
 	if (!*args)
 	{
 		if (!n_flag)
@@ -68,12 +68,12 @@ int				cycle_echo_print(char **args, int n_flag, int E_flag)
 		if (!n_flag)
 			status |= (-1 == ft_putchar(!*(args + 1) ? '\n' : ' '));
 		else if (*(args + 1))
-			status |= (-1 ==ft_putchar(' '));
+			status |= (-1 == ft_putchar(' '));
 		args++;
 	}
 	if (status)
 		ft_fprintf(STDERR_FILENO, "%s", "42sh: echo: bad file descriptor\n");
-	return (EXIT_SUCCESS);
+	return (status);
 }
 
 int				check_echo_flags_and_print(char **args)
