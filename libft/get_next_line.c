@@ -84,7 +84,7 @@ static size_t			try_buffer(t_unread_buff *buff, t_list **l)
 		}
 		len++;
 	}
-	*l = ft_lstappend(*l, ft_memdup(buff->data + buff->pos, len), len);
+	ft_lstadd_data_back(l, ft_memdup(buff->data + buff->pos, len), len);
 	buff->pos += len + 1;
 	return ((size_t)len);
 }
