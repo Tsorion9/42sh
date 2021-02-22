@@ -1,6 +1,6 @@
 #include "expansions.h"
 
-size_t	match_prefix(char *pattern, char *param_value, int longest,
+static size_t	match_prefix(char *pattern, char *param_value, int longest,
 					char *not_quoted)
 {
 	char	c;
@@ -40,7 +40,7 @@ size_t	match_prefix(char *pattern, char *param_value, int longest,
 	return (0);
 }
 
-void	remove_prefix(char **src_word, char **word, char *param_value,
+void			remove_prefix(char **src_word, char **word, char *param_value,
 						int longest)
 {
 	size_t	prefix_len;

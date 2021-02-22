@@ -80,6 +80,8 @@ void		assign_default_values(char **src_word, char **word,
 							char *param, int have_colon);
 void		remove_prefix(char **src_word, char **word, char *param_value,
 							int longest);
+void			remove_suffix(char **src_word, char **word, char *param_value,
+							int longest);
 
 /*
 ** Misc

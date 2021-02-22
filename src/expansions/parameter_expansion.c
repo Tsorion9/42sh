@@ -71,6 +71,16 @@ static void	var_not_null(char **src_word, char **sep, char *param)
 		}
 		remove_prefix(src_word, &word, param_value, longest);
 	}
+	else if (c == '%')
+	{
+		if (*(*sep + 1) == '%')
+		{
+			longest = 1;
+			ft_strdel(&word);
+			word = ft_strdup(*sep + 2);
+		}
+		remove_suffix(src_word, &word, param_value, longest);
+	}
 	else
 	{
 		ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
