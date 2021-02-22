@@ -1,5 +1,6 @@
-a=hello
+unset LS_COLORS
 b=world
+a=hello
 set | grep -E '(a|b)='
 env | grep -E '(a|b)='
 export b
@@ -14,6 +15,5 @@ set | grep -E '(a|b)='
 unset PATH
 PATH=/bin:/usr/bin
 mkdir testdir
-echo ${?}
 
 ls -1 | grep testdir
