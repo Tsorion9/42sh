@@ -64,12 +64,19 @@ int				find_exec(char **args, t_env env)
 	char	**child_env;
 	char	*progname;
 	int		memory_ok;
+	char	buf[PATH_MAX];
 
 	if (!*args)
 		return (-1);
-	progname = find_path(args[0], env);
-	if (progname)
-		ft_fprintf(paths_pipefd[1], "%s:%s\n", args[0], progname);
+	progname = find_path(args[0]);
+	if (progname  && (ft_strlen(args[0]) + ft_strlen(progname) + 3 < PATH_MAX))
+	{
+		ft_strcpy(buf, args[0]);
+		ft_strcat(buf, ":");
+		ft_strcat(buf, progname);
+		ft_strcat(buf, "\n");
+		write(paths_pipefd[1], buf, ft_strlen(buf));
+	}
 	if (!progname)
 	{
 		ft_fprintf(2, "%s: command not found\n", args[0]);
