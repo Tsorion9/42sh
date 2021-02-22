@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:42:26 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/22 17:18:10 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/22 18:20:04 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,13 @@ int main(int argc, char **argv, char **envr)
 		set_canon_input_mode(1);
 		exec_complete_cmd(complete_cmd);
 		get_next_line(paths_pipefd[0], &path);
+		// char *env_path = ft_getenv(env, "PATH");
 		while (path)
 		{
 			// get_next_line(paths_pipefd[i], &path);
 			key = ft_strcut(path, ':');
-			insert_hash(key, ft_strchr(path, ':') + 1);
+			// insert_hash(key, ft_strchr(path, ':') + 1);
+			insert_command_to_hash(key, ft_strchr(path, ':') + 1);
 			if (key)
 				free(key);
 			key = NULL;
