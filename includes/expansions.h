@@ -36,7 +36,7 @@ char		**field_splitting(const char *source);
 t_word_list	*field_splitting_list(const char *source);
 void		command_substitution(char **s, int word_state);
 int			expasnion_status(int status);
-char		**path_clever_split(const char *path);
+char		**path_clever_split(char *path);
 
 /*
 ** Quote removal
@@ -65,6 +65,9 @@ void		length_expansion(char **src_word, int word_state);
 void		parameter_expansion(char **src_word, int word_state);
 void		var_expansion(char **src_word, size_t *i, int skeep_char,
 					int word_state);
+char		**pathname_expansion(const char *word);
+t_word_list	*pathname_expansion_list(const char *word);
+
 
 /*
 ** Parameter expansion special formats

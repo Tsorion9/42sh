@@ -41,7 +41,7 @@ static char		*concat_key_value(t_list *l)
 ** list is assumed to have entries
 */
 
-static char		**list_to_array(t_list *l)
+static char		**list1_to_array(t_list *l)
 {
 	char	**env;
 	char	**ret;
@@ -85,7 +85,7 @@ char			**to_array(t_env env, int *memory_ok)
 	l = ptree_to_kvpairs(tree);
 	if (ft_lstlen(l) == 1 && !l->content)
 		return (NULL);
-	envi = list_to_array(l);
+	envi = list1_to_array(l);
 	ft_lstdel(&l, &del_list_entry);
 	return (envi);
 }
