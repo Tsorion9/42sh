@@ -78,6 +78,8 @@ void		use_alternative_value(char **src_word, char **word,
 							char *param_value, int have_colon);
 void		assign_default_values(char **src_word, char **word,
 							char *param, int have_colon);
+void		remove_prefix(char **src_word, char **word, char *param_value,
+							int longest);
 
 /*
 ** Misc

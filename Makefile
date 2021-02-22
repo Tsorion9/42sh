@@ -205,7 +205,8 @@ CEXPANSIONS = tilde_expansion.c \
 				expansions_misc.c \
 				pattern_quote_removal.c \
 				pathname_expansion.c \
-				path_clever_split.c
+				path_clever_split.c \
+				remove_prefix.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))

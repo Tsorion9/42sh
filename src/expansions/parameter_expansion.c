@@ -48,6 +48,7 @@ static char	*ft_strchr_any(char *s, char *search)
 
 static void	var_not_null(char **src_word, char **sep, char *param)
 {
+	int		longest;
 	char	c;
 	char	*word;
 	char	*param_value;
@@ -56,9 +57,20 @@ static void	var_not_null(char **src_word, char **sep, char *param)
 	c = **sep;
 	word = ft_strdup(*sep + 1);
 	param_value = ft_getenv(env, param);
+	longest = 0;
 	i = 0;
 	if (c == '-' || c == '=' || c == '?')
 		replace_value(src_word, param_value, &i, ft_strlen(*src_word));
+	else if (c == '#')
+	{
+		if (*(*sep + 1) == '#')
+		{
+			longest = 1;
+			ft_strdel(&word);
+			word = ft_strdup(*sep + 2);
+		}
+		remove_prefix(src_word, &word, param_value, longest);
+	}
 	else
 	{
 		ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
@@ -128,7 +140,6 @@ static void	perform_parameter_expansion(char **src_word, int word_state,
 		return ;
 	}
 	var_value = ft_getenv(env, parameter);
-	ft_printf("parameter = %s\n", parameter);
 	if (*sep == ':')
 	{
 		sep++;
