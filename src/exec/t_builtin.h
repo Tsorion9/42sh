@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 02:02:56 by anton             #+#    #+#             */
-/*   Updated: 2021/02/09 23:40:59 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/22 23:43:05 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int			builtin_cd(char **args, t_env env, int subshell);
 int			builtin_getenv(char **args, t_env env, int subshell);
 int			builtin_set(char **args, t_env env, int subshell);
 int			builtin_unset(char **args, t_env env, int subshell);
-int			builtin_env(char **args, t_env env, int subshell);
 int			builtin_exit(char **args, t_env env, int subshell);
 int			builtin_21shopt(char **args, t_env env, int subshell);
 int			builtin_alias(char **args, t_env env, int subshell);
