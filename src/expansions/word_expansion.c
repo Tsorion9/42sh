@@ -1,397 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   word_expansion.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/15 19:57:20 by jsance            #+#    #+#             */
+/*   Updated: 2021/02/15 19:57:21 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "expansions.h"
-#include "environment.h"
-#include "readline.h"
 
-// TODO Используется в нескольких функциях
-int 	is_valid_var_char(char c)
+static void	word_expansion_loop(char **src_word, size_t i, int word_state,
+								int inside_assign_word)
 {
-	if (ft_isalpha(c) || c == '_')
-		return (VALID_VAR_CHAR);
-	return (INVALID_VAR_CHAR);
-}
-
-char	*ft_strchr_any(char *s, char *search)
-{
-	int		i;
-	char	*res;
-
-	i = 0;
-	while (search[i])
+	while ((*src_word)[i] && expasnion_status(GET_STATUS) != EXPANSION_FAIL)
 	{
-		res = ft_strchr(s, search[i]);
-		if (res)
-			return (res);
-		i++;
-	}
-	return (NULL);
-}
-
-int		expasnion_status(int status)
-{
-	static int g_status;
-
-	if (status == GET_STATUS)
-		return g_status;
-	g_status = status;
-	return g_status;
-}
-
-/*
-** parameter[:]-[word]
-*/
-
-void	use_default_values(char **src_word, char **word,
-						char *param_value, int have_colon)
-{
-	size_t	i;
-
-	i = 0;
-	if (have_colon)
-	{
-		word_expansion(word);
-		replace_value(src_word, *word, &i, ft_strlen(*src_word));
-	}
-	else
-	{
-		if (param_value != NULL && !(*param_value))
+		if (word_state == 0 && (*src_word)[i] == '=')
+			inside_assign_word = 1;
+		if ((*src_word)[i] == '~')
+			try_tilde_expansion(src_word, &i, word_state, inside_assign_word);
+		else if ((*src_word)[i] == '\\')
+			i += 2;
+		else if ((*src_word)[i] == '"')
 		{
-			ft_strdel(word);
-			*word = ft_strnew(0);
-			replace_value(src_word, *word, &i, ft_strlen(*src_word));
-			free(*word);
-			*word = NULL;
+			word_state ^= IN_DQUOTE_STATE;
+			i++;
 		}
-		else if (param_value == NULL)
+		else if ((*src_word)[i] == '\'')
 		{
-			word_expansion(word);
-			replace_value(src_word, *word, &i, ft_strlen(*src_word));
+			if (!(word_state & IN_DQUOTE_STATE))
+				i += find_closing_quote(*src_word + i) + 1;
+			else
+				i++;
 		}
-	}
-}
-
-/*
-** parameter[:]?[word]
-*/
-
-void	indicate_error_if_null_or_unset(char **src_word, char **word,
-									 char *param, int have_colon)
-{
-	char	*param_value;
-
-	param_value = ft_getenv(env, param);
-	if (param_value != NULL && *param_value == '\0' && !have_colon)
-	{
-		free(*src_word);
-		*src_word = ft_strnew(0);
-	}
-	else
-	{
-		ft_fprintf(STDERR_FILENO, "42sh: %s: %s\n", param,
-				   (**word == '\0') ? E_PARAM_NULL_OR_UNSET : *word);
-		expasnion_status(EXPANSION_FAIL);
-	}
-}
-
-/*
-** parameter[:]+[word]
-*/
-
-void	use_alternative_value(char **src_word, char **word,
-						   char *param_value, int have_colon)
-{
-	size_t	i;
-
-	if (param_value == NULL || (have_colon && param_value == NULL))
-	{
-		free(*src_word);
-		*src_word = ft_strnew(0);
-	}
-	else
-	{
-		word_expansion(word);
-		i = 0;
-		replace_value(src_word, *word, &i, ft_strlen(*src_word));
-	}
-}
-
-/*
-** parameter[:]=[word]
-*/
-
-void	assign_default_values(char **src_word, char **word,
-							  char *param, int have_colon)
-{
-	size_t	i;
-	char	*param_value;
-
-	i = 0;
-	param_value = ft_getenv(env, param);
-	if (param_value == NULL || (have_colon && param_value == NULL))
-	{
-		word_expansion(word);
-		ft_setenv(env, param, *word);
-		replace_value(src_word, *word, &i, ft_strlen(*src_word));
-	}
-	else
-	{
-		free(*src_word);
-		*src_word = ft_strnew(0);
-	}
-}
-
-/*
-** '-' == использовать значнение word после расширения
-** '?' == выводит сообщение об ошибке, если значение unset/null
-** '+' == использовать альтернативное значение
-** '=' == присвоить значение
-** '#' == удалить наименьший префикс
-** '##' == удалить наибольший префикс
-** '%' == удалить наименьший суффикс
-** '%%' == удалить наибольший суффикс
-**
-** src_word исходное слово
-** sep указатель на специальный параметр в src_word
-** простыми словами, sep подстрока src_word, указывающая на спец символ
-** parameter используется для присваивания значения, если необходимо
-*/
-
-void 	var_unset_or_empty(char **src_word, char **sep, char *param,
-						 								int have_colon)
-{
-	char	c;
-	char 	*word;
-
-	c = **sep;
-	word = ft_strdup(*sep + 1);
-	if (c == '-')
-		use_default_values(src_word, &word, ft_getenv(env, param), have_colon);
-	else if (c == '?')
-		indicate_error_if_null_or_unset(src_word, &word, param, have_colon);
-	else if (c == '+')
-		use_alternative_value(src_word, &word, ft_getenv(env, param),
-						have_colon);
-	else if (c == '=')
-		assign_default_values(src_word, &word, param, have_colon);
-	else if (c == '%' || c == '#')
-	{
-		ft_strdel(src_word);
-		*src_word = ft_strnew(0);
-	}
-	else
-	{
-		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
-		expasnion_status(EXPANSION_FAIL);
-	}
-	free(word);
-}
-
-/*
-** '-' == использовать значнение word после расширения
-** '?' == выводит сообщение об ошибке, если значение unset/null
-** '+' == использовать альтернативное значение
-** '=' == присвоить значение
-** '#' == удалить наименьший префикс
-** '##' == удалить наибольший префикс
-** '%' == удалить наименьший суффикс
-** '%%' == удалить наибольший суффикс
-**
-** src_word исходное слово
-** sep указатель на специальный параметр в src_word
-** простыми словами, sep подстрока src_word, указывающая на спец символ
-** parameter используется для присваивания значения, если необходимо
-*/
-
-void	var_not_null(char **src_word, char **sep, char *param)
-{
-	char	c;
-	char 	*word;
-	char 	*param_value;
-	size_t	i;
-
-	c = **sep;
-	word = ft_strdup(*sep + 1);
-	param_value = ft_getenv(env, param);
-	i = 0;
-	if (c == '-' || c == '=' || c == '?')
-		replace_value(src_word, param_value, &i, ft_strlen(*src_word));
-	else
-	{
-		ft_fprintf(STDERR_FILENO, "%s %s", E_BAD_SUBSTITUTION, *src_word);
-		expasnion_status(EXPANSION_FAIL);
-	}
-	free(word);
-}
-
-/*
-** '{' src_word '}'
-** src_word == parameter( [:][=+-?] | (#[#] | %[%]) )word
-** word_state is used to check quote states
-*/
-
-void 	parameter_expansion(char **src_word, int word_state)
-{
-	size_t	i;
-	char	*sep;
-	char 	*parameter;
-	char 	*var_value;
-	int		have_colon;
-
-	i = 0;
-	have_colon = 0;
-	sep = ft_strchr(*src_word, ':');
-	if (!sep)
-		sep = ft_strchr_any(*src_word, "-=?+%#");
-	if (sep)
-	{
-		parameter = ft_strsub(*src_word, 0, (size_t)(sep - *src_word));
-		if (*parameter == '\0')
-		{
-			ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
-			expasnion_status(EXPANSION_FAIL);
-			return ;
-		}
-		var_value = ft_getenv(env, parameter);
-		if (*sep == ':')
-		{
-			sep++;
-			have_colon = 1;
-		}
-		if (!var_value || !(*var_value))
-			var_unset_or_empty(src_word, &sep, parameter, have_colon);
+		else if ((*src_word)[i] == '$')
+			dollar_expansion(src_word, &i, word_state);
 		else
-			var_not_null(src_word, &sep, parameter);
-		free(parameter);
+			i++;
 	}
-	else
-		var_expansion(src_word, &i, 0, word_state);
-	if (expasnion_status(GET_STATUS) == EXPANSION_SUCCESS
-		&& !(word_state & IN_QUOTE_STATE) && !(word_state & IN_DQUOTE_STATE))
-		expasnion_status(NEED_FIELD_SPLIT);
-}
-
-static void			init_history_num_and_first(t_history **history_first,
-	int *number_of_history)
-{
-	t_history *history;
-
-	history = rp(NULL)->history;
-	while (history->prev)
-		history = history->prev;
-	*number_of_history = 0;
-	while (history->next)
-	{
-		history = history->next;
-		(*number_of_history)++;
-	}
-	*history_first = history;
-	(*number_of_history)--;
-}
-
-static t_history	*get_history(t_history *history_first,
-	const int number_of_history, int history_number)
-{
-	t_history *history;
-
-	if (history_number > number_of_history)
-		history_number = number_of_history - 1;
-	if (history_number < 0)
-	{
-		history_number = number_of_history + history_number;
-		if (history_number < 1)
-			history_number = 1;
-	}
-	history = history_first;
-	while (history->prev && history_number)
-	{
-		history = history->prev;
-		history_number--;
-	}
-	return (history);
-}
-
-static int			search_str_in_history(const char *str)
-{
-	t_history	*history;
-	int			found;
-	int			history_number;
-
-	history_number = 0;
-	history = rp(NULL)->history;
-	while (history->prev)
-		history = history->prev;
-	found = 0;
-	while (history && !found && history_number < HISTSIZE)
-	{
-		if (ft_strfirststr(history->str, str))
-			found = 1;
-		history = history->next;
-		history_number++;
-	}
-	return ((history_number - 2) * (-1));
-}
-
-static int			search_history_number(char *str)
-{
-	if (str)
-	{
-		if (ft_isnumber(str))
-			return (ft_atoi(str));
-		else if (str[0] != '-')
-			return (search_str_in_history(str));
-	}
-	return (-1);
-}
-
-static size_t		find_end_history_expansions(const char *str)
-{
-	size_t	len;
-
-	len = 0;
-	while (ft_isalpha(*str) || *str == '-' || ft_isdigit(*str))
-	{
-		str++;
-		len++;
-	}
-	return (len);
-}
-
-void 				history_expansion(char **src_word, size_t *i)
-{
-	char		c;
-	t_history	*history_first;
-	int			number_of_history;
-	t_history	*history;
-	int			history_number;
-
-	c = (*src_word)[*i + 1];
-	init_history_num_and_first(&history_first, &number_of_history);
-	if (c == '!')
-	{
-		history = get_history(history_first, number_of_history, -1);
-		replace_value(src_word, history->str, i, 2);
-	}
-	else if (ft_isalpha(c) || c == '-' || ft_isdigit(c))
-	{
-		history_number = search_history_number(*src_word + 1);
-		history = get_history(history_first, number_of_history, history_number);
-		replace_value(src_word, history->str, i, 
-			find_end_history_expansions(*src_word) - 1);
-	}
-	else
-		(*i)++;
 }
 
 /*
 ** source_word malloced
 */
 
-int		word_expansion(char **source_word)
+int			word_expansion(char **source_word)
 {
-	size_t 	i;
-	char 	c;
-	int 	word_state;
-	int		inside_assignment_word;
+	size_t		i;
+	int			word_state;
+	int			inside_assignment_word;
 
 	if ((*source_word) == NULL || !(**source_word))
 		return (EXPANSION_EMPTY_WORD);
@@ -399,33 +59,6 @@ int		word_expansion(char **source_word)
 	i = 0;
 	word_state = 0;
 	inside_assignment_word = 0;
-	while ((*source_word)[i] && expasnion_status(GET_STATUS) != EXPANSION_FAIL)
-	{
-		if (word_state == 0 && (*source_word)[i] == '=')
-			inside_assignment_word = 1;
-		c = (*source_word)[i];
-		if (c == '~')
-			try_tilde_expansion(source_word, &i, word_state, inside_assignment_word);
-		else if (c == '\\')
-			i += 2;
-		else if (c == '"')
-		{
-			word_state ^= IN_DQUOTE_STATE;
-			i++;
-		}
-		else if (c == '\'')
-		{
-			if (!(word_state & IN_DQUOTE_STATE))
-				i += find_closing_quote(*source_word + i) + 1;
-			else
-				i++;
-		}
-		else if (c == '$')
-			dollar_expansion(source_word, &i, word_state);
-		else if (c == '!')
-			history_expansion(source_word, &i);
-		else
-			i++;
-	}
+	word_expansion_loop(source_word, i, word_state, inside_assignment_word);
 	return (expasnion_status(GET_STATUS));
 }

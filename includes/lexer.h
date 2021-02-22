@@ -63,6 +63,9 @@ void			lexer_state_word(t_lexer_state *token);
 void			lexer_state_word_esc(t_lexer_state *token);
 void			lexer_state_start(t_lexer_state *token);
 void			lexer_set_flags(t_lexer_state *token);
+void			lexer_state_braces(t_lexer_state *token);
+void			lexer_state_brackets(t_lexer_state *token);
+void			lexer_unclosed_state(t_lexer_state *token);
 t_token			*lexer(char **value);
 
 /*
@@ -75,6 +78,10 @@ int				dquote_spec(char c);
 int				is_contain_quote(char *str);
 void			print_token(t_token token);
 void			free_lexer_state(t_lexer_state *token);
+int				ft_isbraces(char c);
+int				ft_isbrackets(char c);
+void			clean_token(t_lexer_state *token);
+t_token			*get_token_to_parser(t_lexer_state *token);
 
 /*
 ** For queue routine

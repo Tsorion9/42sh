@@ -18,7 +18,7 @@
 ** return it's value
 */
 
-t_token	 *gett(char **s, t_deque **tokbuf_g, t_deque **tokbuf_l)
+t_token		*gett(char **s, t_deque **tokbuf_g, t_deque **tokbuf_l)
 {
 	t_token	*next;
 	t_token	*fresh;
@@ -30,7 +30,7 @@ t_token	 *gett(char **s, t_deque **tokbuf_g, t_deque **tokbuf_l)
 		if (s)
 			save_s = *s;
 		next = lexer(s);
-		if (s && save_s && !*s) /* Lexer deleted the string. Do not need readline*/
+		if (s && save_s && !*s)
 		{
 			fresh = malloc(sizeof(t_token));
 			fresh->value = NULL;
@@ -39,7 +39,6 @@ t_token	 *gett(char **s, t_deque **tokbuf_g, t_deque **tokbuf_l)
 			push_front(tokbuf_g, fresh);
 			return (next);
 		}
-			
 	}
 	else
 		next = pop_front(*tokbuf_g);
@@ -51,7 +50,7 @@ t_token	 *gett(char **s, t_deque **tokbuf_g, t_deque **tokbuf_l)
 ** Put the last read token back into the global buffer
 */
 
-void	ungett(t_deque **tokbuf_g, t_deque **tokbuf_l)
+void		ungett(t_deque **tokbuf_g, t_deque **tokbuf_l)
 {
 	t_token	*last;
 
@@ -69,13 +68,13 @@ void	ungett(t_deque **tokbuf_g, t_deque **tokbuf_l)
 	}
 }
 
-void	del_token(t_token *token)
+void		del_token(t_token *token)
 {
 	free(token->value);
 	free(token);
 }
 
-void	erase_tokbuf(t_deque **tokbuf)
+void		erase_tokbuf(t_deque **tokbuf)
 {
 	deque_del(tokbuf, del_token);
 }
@@ -85,7 +84,7 @@ void	erase_tokbuf(t_deque **tokbuf)
 ** TODO: We should do it in constant time
 */
 
-void	flush_tokbuf(t_deque **tokbuf_g, t_deque **tokbuf_l)
+void		flush_tokbuf(t_deque **tokbuf_g, t_deque **tokbuf_l)
 {
 	while (*tokbuf_l && (*tokbuf_l)->first)
 		ungett(tokbuf_g, tokbuf_l);

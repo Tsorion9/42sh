@@ -106,6 +106,9 @@ char				*ft_path_append(char *path, char *name);
 int					ft_strfirststr(const char *haystack, const char *needle);
 int					ft_isnumber(char *str);
 
+void			qsort_void_ptr(void **arr, int len,\
+		int (*is_greater)(void *, void *));
+
 /*
 ** ft_ptree.g
 */
@@ -173,5 +176,6 @@ t_list				*ptree_to_kvpairs(t_ptree *tree);
 void				*xmalloc(size_t n);
 
 int ft_match(char *string, char *pattern);
+int ft_clever_match(char *string, char *pattern, char *not_quoted);
 
 #endif

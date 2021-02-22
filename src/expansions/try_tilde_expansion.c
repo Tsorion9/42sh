@@ -44,7 +44,7 @@ size_t		find_closing_quote(char *data)
 	return (0);
 }
 
-static int	tilde_set_quote_state(const char *s, int *quoted_state, size_t *j)
+static void	tilde_set_quote_state(const char *s, int *quoted_state, size_t *j)
 {
 	*j = 0;
 	*quoted_state = 0;

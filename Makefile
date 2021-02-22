@@ -79,7 +79,11 @@ CLEXER =    lexer.c \
 			lexer_state_less.c \
 			lexer_state_more.c \
 			lexer_state_word.c \
-			print_tree.c
+			lexer_state_braces.c \
+			lexer_state_brackets.c \
+			lexer_unclosed_state.c \
+			tokens_string.c \
+			retrieve_token.c
 
 CPARSER =   clean_commands.c \
 			clean_compound_list.c \
@@ -115,13 +119,20 @@ CPARSER =   clean_commands.c \
 			return_error_and_flush_tokens.c \
 			split_word_into_queue_tokens.c \
 			deque_copy.c \
+			get_pipeline_str.c \
+			get_compound_cmd_str.c \
+			get_redirect_str.c \
+			is_redirect.c \
+			add_word_to_list.c \
+			clean_grammar_linebreaks.c \
+			set_instruction.c
 
 CEXEC = builtin_21shopt.c \
 		builtin_bg.c \
+		builtin_fg.c \
 		builtin_cd.c \
 		builtin_env.c \
 		builtin_export.c \
-		builtin_fg.c \
 		builtin_jobs.c \
 		builtin_echo.c \
 		builtin_exit.c \
@@ -197,7 +208,16 @@ CEXPANSIONS = tilde_expansion.c \
 				command_status_expansion.c \
 				length_expansion.c \
 				var_expansion.c \
-				dollar_expansion.c
+				dollar_expansion.c \
+				parameter_expansion.c \
+				indicate_error_if_null_or_unset.c \
+				use_default_values.c \
+				use_alternative_value.c \
+				assign_default_values.c \
+				expansions_misc.c \
+				pattern_quote_removal.c \
+				pathname_expansion.c \
+				path_clever_split.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))

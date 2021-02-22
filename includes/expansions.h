@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansions.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/15 19:27:47 by jsance            #+#    #+#             */
+/*   Updated: 2021/02/15 19:27:48 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXPANSIONS_H
 # define EXPANSIONS_H
 
@@ -20,11 +32,18 @@
 
 int			tilde_expansion(char **s, size_t *i, int inside_assignment_word);
 int			word_expansion(char **source_word);
-void		quote_removal(char **str);
 char		**field_splitting(const char *source);
 t_word_list	*field_splitting_list(const char *source);
 void		command_substitution(char **s, int word_state);
 int			expasnion_status(int status);
+char		**path_clever_split(const char *path);
+
+/*
+** Quote removal
+*/
+
+void		quote_removal(char **str);
+char		*pattern_quote_removal(char **pattern);
 
 /*
 ** Fill IFS characters
@@ -47,15 +66,29 @@ void		parameter_expansion(char **src_word, int word_state);
 void		var_expansion(char **src_word, size_t *i, int skeep_char,
 					int word_state);
 
-// misk
+/*
+** Parameter expansion special formats
+*/
+
+void		use_default_values(char **src_word, char **word,
+							char *param_value, int have_colon);
+void		indicate_error_if_null_or_unset(char **src_word, char **word,
+							char *param, int have_colon);
+void		use_alternative_value(char **src_word, char **word,
+							char *param_value, int have_colon);
+void		assign_default_values(char **src_word, char **word,
+							char *param, int have_colon);
+
+/*
+** Misc
+*/
+
 int			replace_value(char **str, char *value, size_t *start, size_t len);
-void		skip_ifs_chars(const char *s, int *i,
-					 const char *s_ifs, const char *d_ifs);
+void		skip_ifs_chars(const char *s, size_t *i,
+							const char *s_ifs, const char *d_ifs);
 int			is_ifs_char(char c, const char *ifs);
 size_t		find_closing_quote(char *data);
 int			is_valid_var_char(char c);
 
-// errors
-int			shell_err(char *error, char *arg);
 
 #endif

@@ -11,17 +11,6 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include <stdio.h>
-
-void		print_token(t_token token)
-{
-	printf("%-16s", get_token_str(token.tk_type));
-	if (token.tk_type == IO_NUMBER || token.tk_type == WORD)
-		printf("%-16s", token.value);
-	else
-		printf("%-16s", get_token_str(token.tk_type));
-	printf("\n");
-}
 
 static char	*single_tk_str(t_tokens type)
 {
@@ -45,14 +34,6 @@ static char	*single_tk_str(t_tokens type)
 		return ("|");
 	else if (type == SEMICOL)
 		return (";");
-    else if (type == RBRACKET)
-        return (")");
-    else if (type == LBRACKET)
-        return ("(");
-    else if (type == LBRACE)
-        return ("{");
-    else if (type == RBRACE)
-        return ("}");
 	else if (type == BG)
 		return ("&");
 	return ("UNKNOWN TOKEN");
@@ -70,8 +51,16 @@ char		*get_token_str(t_tokens type)
 		return ("\\n");
 	else if (type == TOKEN_END)
 		return ("end of file");
+	else if (type == RBRACKET)
+		return (")");
+	else if (type == LBRACKET)
+		return ("(");
+	else if (type == LBRACE)
+		return ("{");
+	else if (type == RBRACE)
+		return ("}");
 	else if (type == SIGNAL || type == TOKEN_CTRL_C)
-		return ("SIGANL");
+		return ("SIGNAL");
 	else
 		return (single_tk_str(type));
 }

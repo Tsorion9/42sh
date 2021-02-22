@@ -21,7 +21,7 @@
 static int		count_fields(const char *s, char *s_ifs, char *d_ifs)
 {
 	int		size;
-	int		i;
+	size_t	i;
 
 	size = 0;
 	i = 0;

@@ -13,14 +13,13 @@
 #ifndef T2LIST_H
 # define T2LIST_H
 
-//# include "libft.h"
 # include "token.h"
 
 typedef struct			s_2list
 {
 	struct s_2list		*next;
 	struct s_2list		*prev;
-	t_token 			*token;
+	t_token				*token;
 }						t_2list;
 
 t_2list					*lst2_new(t_token *token);

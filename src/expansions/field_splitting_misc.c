@@ -28,7 +28,7 @@ int		is_ifs_char(char c, const char *ifs)
 	return (NOT_IFS);
 }
 
-void	skip_ifs_chars(const char *s, int *i,
+void	skip_ifs_chars(const char *s, size_t *i,
 						const char *s_ifs, const char *d_ifs)
 {
 	while (is_ifs_char(s[*i], s_ifs))
