@@ -28,6 +28,7 @@
 # define IN_DQUOTE_STATE		(1 << 0)
 # define IN_QUOTE_STATE			(1 << 1)
 # define E_BAD_SUBSTITUTION		"42sh: bad substitution: "
+# define E_CMD_BAD_SUBSTITUTION		"42sh: bad command substitution"
 # define E_PARAM_NULL_OR_UNSET	"parameter null or unset"
 
 int			tilde_expansion(char **s, size_t *i, int inside_assignment_word);

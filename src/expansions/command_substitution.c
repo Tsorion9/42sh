@@ -59,6 +59,12 @@ void					command_substitution(char **s, int word_state)
 
 	tmp = ft_strdup(*s);
 	cmd = parser(&tmp);
+	if (!cmd)
+	{
+		ft_fprintf(2, "%s\n", E_CMD_BAD_SUBSTITUTION);
+		expasnion_status(EXPANSION_FAIL);
+		return ;
+	}
 	pipe(pipefd);
 	child = fork();
 	if (child) /* Parent */
