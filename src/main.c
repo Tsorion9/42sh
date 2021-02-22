@@ -6,14 +6,13 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:42:26 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 17:07:20 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/22 11:45:03 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _GNU_SOURCE             /* See feature_test_macros(7) */
 #include <fcntl.h>              /* Obtain O_* constant definitions */
 #include <unistd.h>
-
 
 #include <unistd.h>
 #include <signal.h>
@@ -83,7 +82,8 @@ int main(int argc, char **argv, char **envr)
 	char *path;
 	
 	path = NULL;
-	pipe2(paths_pipefd, O_NONBLOCK);
+	pipe(paths_pipefd);
+	fcntl(paths_pipefd[0], O_NONBLOCK);
 	if (argc > 1)
 	{
 		read_from_file(argv[1]);
