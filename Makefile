@@ -131,7 +131,6 @@ CEXEC = builtin_21shopt.c \
 		builtin_bg.c \
 		builtin_fg.c \
 		builtin_cd.c \
-		builtin_env.c \
 		builtin_export.c \
 		builtin_jobs.c \
 		builtin_echo.c \

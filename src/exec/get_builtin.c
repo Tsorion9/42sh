@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:33 by anton             #+#    #+#             */
-/*   Updated: 2021/02/22 11:23:52 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/22 23:44:22 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ t_builtin	get_builtin(char *name)
 		return (&builtin_echo);
 	if (!ft_strcmp(name, "cd"))
 		return (&builtin_cd);
-	if (!ft_strcmp(name, "env"))
-		return (&builtin_env);
 	if (!ft_strcmp(name, "set"))
 		return (&builtin_set);
 	if (!ft_strcmp(name, "unset"))
