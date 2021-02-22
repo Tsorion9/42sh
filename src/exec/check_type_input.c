@@ -17,7 +17,7 @@ int		check_in_path(char *args, t_env env)
 	char	*path;
 
 	path = NULL;
-	if ((path = find_path(args, env)) != NULL)
+	if ((path = find_path(args)) != NULL)
 	{
 		ft_printf("%s is %s\n", args, path);
 		free(path);

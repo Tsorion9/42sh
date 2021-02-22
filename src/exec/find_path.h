@@ -15,6 +15,6 @@
 
 # include "environment.h"
 
-char	*find_path(char *name, t_env env);
+char	*find_path(char *name);
 
 #endif

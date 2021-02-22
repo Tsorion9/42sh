@@ -67,13 +67,14 @@ static int	looks_like_path(char *name)
 ** Or search in $PATH (if such exists)
 */
 
-char		*find_path(char *name, t_env env)
+char		*find_path(char *name)
 {
 	char	*env_path;
 
 	if (looks_like_path(name))
 		return (ft_strdup(name));
-	if (!(env_path = ft_getenv(env, "PATH")))
+	env_path = ft_getenv(export_env, "PATH");
+	if (!env_path && !(env_path = ft_getenv(env, "PATH")))
 		return (NULL);
 	return (find_executable(name, env_path));
 }
