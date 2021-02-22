@@ -83,6 +83,7 @@ int main(int argc, char **argv, char **envr)
     t_complete_cmd	*complete_cmd = NULL;
 	char			*path;
 	char			*key;
+	int				flags;
 	
 	path = NULL;
 	key = NULL;
@@ -93,7 +94,8 @@ int main(int argc, char **argv, char **envr)
 	interactive_shell = isatty(STDIN_FILENO);
 	init_shell(envr);
 	pipe(paths_pipefd);
-	fcntl(paths_pipefd[0], O_NONBLOCK);
+	flags = fcntl(paths_pipefd[0], F_GETFL, 0);
+	fcntl(paths_pipefd[0], F_SETFL, flags | O_NONBLOCK);
 	while (1)
 	{
 		complete_cmd = parser(NULL);
