@@ -45,7 +45,8 @@ void		length_expansion(char **src_word, int word_state)
 	(void)word_state;
 	if (is_contain_any_spec((*src_word) + 1))
 	{
-		ft_fprintf(STDERR_FILENO, "%s%s", E_BAD_SUBSTITUTION, *src_word);
+		ft_fprintf(STDERR_FILENO, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
+		expasnion_status(EXPANSION_FAIL);
 		return ;
 	}
 	var_expansion(src_word, &j, 1, 0);

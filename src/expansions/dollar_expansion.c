@@ -51,7 +51,8 @@ static void		perform_expansion(char **src, int word_state, size_t *i,
 	j = find_closing_brace(*src, *i + 1);
 	s = ft_strsub(*src, *i + 2, j - *i - 2);
 	expand(&s, word_state);
-	replace_value(src, s, i, j + 1 - *i);
+	if (expasnion_status(GET_STATUS) != EXPANSION_FAIL)
+		replace_value(src, s, i, j + 1 - *i);
 	free(s);
 }
 
