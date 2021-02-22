@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "libft.h"
 
 char *find_closing_bracket(char *s, char *not_quoted)
@@ -44,7 +43,7 @@ int find_range(char *pattern, char *closing_bracket, char symbols[256], char *no
 {
 	int negate_result;
 
-	memset(symbols, 0, 256);
+	ft_memset(symbols, 0, 256);
 	negate_result = 0;
 	if (!*closing_bracket)
 	{

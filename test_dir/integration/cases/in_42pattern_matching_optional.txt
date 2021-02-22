@@ -20,32 +20,4 @@ rm -r *
 touch 'a[a-z][x' 'ab[x'
 echo a[a-z][*; echo a[a-z]*; echo a[a\-z]*
 
-rm *
-touch ".bc" "abc" "bbc" "cbc" "-bc" '!bc' "+bc" ",bc" "0bc" "1bc"
-echo [ab-]*
-
-echo [-ab]*
-
-echo [!-ab]*
-
-echo [!ab]*
-
-echo []ab]*
-
-echo [+--]*
-
-echo [--1]*
-
-echo [z-a]*
-
-echo [a-a]bc
-
-rm * .*; ls -A
-touch aa bb cc 11 22 33
-echo **
-
-echo [!a-z]
-
-echo [4-z][A-b]
-
 cd ../../../ ; rm -r garbage
