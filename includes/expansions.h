@@ -28,6 +28,7 @@
 # define IN_DQUOTE_STATE		(1 << 0)
 # define IN_QUOTE_STATE			(1 << 1)
 # define E_BAD_SUBSTITUTION		"42sh: bad substitution: "
+# define E_CMD_BAD_SUBSTITUTION		"42sh: bad command substitution"
 # define E_PARAM_NULL_OR_UNSET	"parameter null or unset"
 
 int			tilde_expansion(char **s, size_t *i, int inside_assignment_word);
@@ -36,7 +37,7 @@ char		**field_splitting(const char *source);
 t_word_list	*field_splitting_list(const char *source);
 void		command_substitution(char **s, int word_state);
 int			expasnion_status(int status);
-char		**path_clever_split(const char *path);
+char		**path_clever_split(char *path);
 
 /*
 ** Quote removal
@@ -65,6 +66,9 @@ void		length_expansion(char **src_word, int word_state);
 void		parameter_expansion(char **src_word, int word_state);
 void		var_expansion(char **src_word, size_t *i, int skeep_char,
 					int word_state);
+char		**pathname_expansion(const char *word);
+t_word_list	*pathname_expansion_list(const char *word);
+
 
 /*
 ** Parameter expansion special formats
@@ -78,6 +82,10 @@ void		use_alternative_value(char **src_word, char **word,
 							char *param_value, int have_colon);
 void		assign_default_values(char **src_word, char **word,
 							char *param, int have_colon);
+void		remove_prefix(char **src_word, char **word, char *param_value,
+							int longest);
+void			remove_suffix(char **src_word, char **word, char *param_value,
+							int longest);
 
 /*
 ** Misc

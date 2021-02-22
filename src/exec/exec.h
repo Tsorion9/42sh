@@ -21,6 +21,18 @@ int exec_pipeline(t_pipeline *pipeline);
 int exec_complete_cmd(t_complete_cmd *cmd);
 
 /*
+** Pipeline functions
+*/
+
+void		pipeline_pathname_expansion(t_pipeline *pipeline);
+
+/*
+** Misk
+*/
+
+t_word_list	*get_tail(t_word_list *list);
+
+/*
 ** Helper-functions
 */
 int only_assignments(t_pipeline *pipeline);

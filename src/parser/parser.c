@@ -17,6 +17,12 @@
 
 char **g_parser_input_str;
 
+static void				delete_token(t_token **token)
+{
+	ft_strdel(&(*token)->value);
+	free(*token);
+}
+
 static t_complete_cmd	*handle_parser_fail(t_complete_cmd **cmd,
 								t_deque **tokbuf_g, t_deque **tokbuf_l)
 {
@@ -29,7 +35,7 @@ static t_complete_cmd	*handle_parser_fail(t_complete_cmd **cmd,
 					"42sh: syntax error near unexpected token %s\n",
 					get_token_str(last_token->tk_type));
 	free_lexer_state(&g_token);
-	free(last_token);
+	delete_token(&last_token);
 	erase_tokbuf(tokbuf_g);
 	erase_tokbuf(tokbuf_l);
 	return (NULL);

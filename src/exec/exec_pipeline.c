@@ -78,7 +78,9 @@ int wait_fg_job(pid_t job)
 	return (status);
 }
 
-static t_word_list *get_tail(t_word_list *list)
+// TODO Используется не только здесь(pipeline_pathname_expansion) вынести
+// TODO в отдельный файл
+t_word_list *get_tail(t_word_list *list)
 {
 	t_word_list *tmp;
 
@@ -223,6 +225,7 @@ int exec_pipeline(t_pipeline *pipeline)
 		return (1);
 	pipeline_words_to_assignments(pipeline);
 	pipeline_field_splitting(pipeline);
+	pipeline_pathname_expansion(pipeline);
 	pipeline_quote_removal(pipeline);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));

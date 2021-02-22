@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deque_copy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 22:31:17 by jsance            #+#    #+#             */
-/*   Updated: 2021/02/17 22:31:18 by jsance           ###   ########.fr       */
+/*   Updated: 2021/02/22 23:07:05 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_token	*copy_token(t_token *token)
 {
 	t_token	*fresh;
 
-	fresh = (t_token*)ft_memalloc(sizeof(t_token));
+	fresh = (t_token*)ft_memalloc(sizeof(*token));
 	fresh->value = ft_strdup(token->value);
 	fresh->do_not_expand_alias = token->do_not_expand_alias;
 	fresh->tk_type = token->tk_type;

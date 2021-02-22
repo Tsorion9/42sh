@@ -11,95 +11,88 @@
 /* ************************************************************************** */
 
 #include "expansions.h"
+char		**list_to_array(t_list *l, int *len);
+char		**clever_list_to_array(t_list *l, int *len);
 
-static int		is_quote(char c)
+char		**list_to_array(t_list *l, int *len)
 {
-	if (c == '\'' || c == '"')
-		return (1);
-	return (0);
-}
+	char	**arr;
+	char	**ret;
 
-static size_t	count_fields(const char *s, char delim)
-{
-	size_t	size;
-	int		i;
-	int		in_quote;
-
-	size = 0;
-	i = -1;
-	in_quote = 0;
-	while (s[++i] != '\0')
-	{
-		if (s[i] != delim)
-		{
-			size++;
-			while ((s[i] != '\0' && s[i] != delim) || in_quote)
-			{
-				if (is_quote(s[i]))
-					in_quote ^= s[i];
-				i++;
-			}
-			if (s[i] == '\0')
-				return (size);
-		}
-	}
-	return (size);
-}
-
-static size_t	count_len_sub_path(const char *s, size_t *i, char delim)
-{
-	size_t	len;
-	int		in_quote;
-
-	len = 0;
-	in_quote = 0;
-	while ((s[*i] != '\0' && s[*i] != delim) || in_quote)
-	{
-		if (is_quote(s[*i]))
-			in_quote ^= s[*i];
-		len++;
-		(*i)++;
-	}
-	return (len);
-}
-
-static void		fill_fields(char ***splitted_fields, char delim, const char *s)
-{
-	size_t	size;
-	size_t	i;
-	size_t	len;
-	int		idx;
-
-	i = 0;
-	idx = 0;
-	size = count_fields(s, delim);
-	(*splitted_fields) = (char**)ft_memalloc(8 * (size + 1));
-	while (s[i] != '\0')
-	{
-		if (s[i] != delim)
-		{
-			len = count_len_sub_path(s, &i, delim);
-			(*splitted_fields)[idx++] = ft_strsub(s, i - len, len);
-			if (s[i] == '\0')
-				return ;
-		}
-		i++;
-	}
-	(*splitted_fields)[idx] = NULL;
-}
-
-/*
-** Split path by '/' character
-** return malloced 2-dimensional array of sub-paths of path without '/' char
-*/
-
-char			**path_clever_split(const char *path)
-{
-	char	**splitted_path;
-
-	if (!path || *path == '\0')
+	if (!(arr = ft_memalloc(sizeof(char *) * (ft_lstlen(l) + 1))))
 		return (NULL);
-	splitted_path = NULL;
-	fill_fields(&splitted_path, '/', path);
-	return (splitted_path);
+	*len = 0;
+	ret = arr;
+	while (l)
+	{
+		(*len)++;
+		*arr = ft_strdup((char *)l->content);
+		l = l->next;
+		arr++;
+	}
+	return (ret);
+}
+
+static char *next_unquoted_slash(char *s)
+{
+	int state = 0;
+
+	while (*s)
+	{
+		if (*s == '/' && state == 0)
+			break ;
+		if (*s == '\'')
+		{
+			if (state == 0)
+				state = '\'';
+			else if (state == '\'')
+				state = 0;
+		}
+		else if (*s == '"' && state == 0)
+		{
+			if (state == 0)
+				state = '"';
+			else if (state == '"')
+				state = 0;
+		}
+		else if (*s == '\\' && state == 0 && *(s + 1))
+			s++;
+		s++;
+	}
+	return (s);
+}
+
+static void del(void *mem, size_t garbage)
+{
+	(void) garbage;
+	free(mem);
+}
+
+void p(t_list *elem)
+{
+	ft_printf("%s\n", elem->content);
+}
+
+char **path_clever_split(char *s)
+{
+	char *slash;
+	char *component;
+	t_list *l; 
+	char **res;
+	int len;
+
+	l = NULL;
+	while (*(slash = next_unquoted_slash(s)))
+	{
+		*slash = '\0';
+		component = ft_strdup(s);
+		ft_lstadd_data_back(&l, component, 0);
+		*slash = '/';
+		s = slash + 1;
+	}
+	ft_lstadd_data_back(&l, ft_strdup(s), 0);
+	res = clever_list_to_array(l, &len);
+	ft_lstdel(&l, del);
+	//ft_printf("%s\n", res[0]);
+	return (res);
 }

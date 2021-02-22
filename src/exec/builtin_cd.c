@@ -25,19 +25,19 @@ static int	change_wd(char *where, int flag_p, t_env env)
 
 	pwd = ft_getenv(env, "PWD");
 	if (!pwd && !(getcwd(wd, PATH_MAX)))
-		return (0);
+		return (1);
 	if (chdir(where) == -1)
 	{
 		ft_fprintf(2, "cd: Cannot change directory to %s\n", where);
-		return (0);
+		return (1);
 	}
 	ft_setenv(env, "OLDPWD", ft_strdup(pwd));
 	if (!getcwd(wd, PATH_MAX))
-		return (0);
+		return (1);
 	ft_setenv(env, "PWD", flag_p ? ft_strdup(wd) : where);
 	if (flag_p)
 		free(where);
-	return (1);
+	return (0);
 }
 
 static int	cd_minus(t_env env)
@@ -50,13 +50,13 @@ static int	cd_minus(t_env env)
 	{
 		free(pwd);
 		ft_fprintf(2, "%s", "cd: OLDPWD is unset\n");
-		return (0);
+		return (1);
 	}
 	if (chdir(oldpwd) == -1)
 	{
 		free(pwd);
 		ft_fprintf(2, "cd: Cannot change directory to %s\n", oldpwd);
-		return (0);
+		return (1);
 	}
 	ft_printf("%s\n", oldpwd);
 	ft_setenv(env, "PWD", ft_strdup(oldpwd));
@@ -64,7 +64,7 @@ static int	cd_minus(t_env env)
 		ft_setenv(env, "OLDPWD", pwd);
 	else
 		ft_unsetenv(env, "OLDPWD");
-	return (1);
+	return (0);
 }
 
 static char	*curpath_to_canonic(char **curpath, t_env env)
@@ -111,7 +111,7 @@ int			builtin_cd(char **args, t_env env, int subshell)
 	int			tmp;
 
 	if (subshell)
-		return (1);
+		return (0);
 	args = parse_cd_args(args, &flag_p);
 	if (*args && !ft_strcmp(args[0], "-"))
 		return (cd_minus(env));
@@ -121,8 +121,8 @@ int			builtin_cd(char **args, t_env env, int subshell)
 		return (change_wd(curpath, flag_p, env));
 	canonic_path = curpath_to_canonic(&curpath, env);
 	if (!canonic_path)
-		return (0);
-	if (!(tmp = change_wd(canonic_path, flag_p, env)))
+		return (1);
+	if ((tmp = change_wd(canonic_path, flag_p, env)))
 		free(canonic_path);
 	return (tmp);
 }

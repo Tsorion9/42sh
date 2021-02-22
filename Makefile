@@ -195,6 +195,7 @@ CEXEC = builtin_21shopt.c \
 		is_path_was_changed.c \
 		is_hash_empty.c \
 		insert_command_to_hash.c \
+		pipeline_pathname_expansion.c
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \
@@ -217,7 +218,9 @@ CEXPANSIONS = tilde_expansion.c \
 				expansions_misc.c \
 				pattern_quote_removal.c \
 				pathname_expansion.c \
-				path_clever_split.c
+				path_clever_split.c \
+				remove_prefix.c \
+				remove_suffix.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))

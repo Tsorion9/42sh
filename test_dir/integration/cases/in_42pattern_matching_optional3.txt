@@ -1,0 +1,21 @@
+rm -rf garbage; mkdir garbage; cd garbage; mkdir garbage1; cd garbage1
+
+touch ".bc" "abc" "bbc" "cbc" "-bc" '!bc' "+bc" ",bc" "0bc" "1bc"
+
+echo [^ab]*
+
+echo [+--]*
+
+echo [--1]*
+
+echo [a-a]bc
+
+rm * .*; ls -A
+touch aa bb cc 11 22 33
+echo **
+
+echo [!a-z]
+
+echo [4-z][A-b]
+
+cd ../../ ; rm -r garbage
