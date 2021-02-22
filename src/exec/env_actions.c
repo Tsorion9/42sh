@@ -36,6 +36,24 @@ void			ft_unsetenv(t_env env, char *name)
 	del_key((t_ptree *)env, name);
 }
 
+int arr_len(char **arr)
+{
+	int i;
+
+	i = 0;
+	while (arr[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+static int is_greater_1(void *a, void *b)
+{
+	return (ft_strcmp((char *)a, (char *)b));
+
+}
+
 /*
 ** memory_ok - can be null
 ** optional_prefix - can be null
@@ -47,6 +65,7 @@ void			print_env(t_env env, int *memory_ok, char *optional_prefix)
 
 	(void)memory_ok;
 	arr = to_array(env, memory_ok);
+	qsort_void_ptr((void **)arr, arr_len(arr), is_greater_1);
 	start = arr;
 	while (*arr)
 	{
