@@ -35,6 +35,12 @@ static int handle_export_arg(char *arg)
 		ft_setenv(env, key, ft_strdup(equal + 1));
 		free(key);
 	}
+	else
+	{
+		value = ft_getenv(env, arg);
+		if (value)
+			ft_setenv(export_env, arg, ft_strdup(value));
+	}
 	return (EXIT_SUCCESS);
 }
 
