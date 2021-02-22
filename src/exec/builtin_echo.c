@@ -37,6 +37,8 @@ int				print_echo_output(char *args)
 			else
 			{
 				ft_putchar(args[i]);
+				if (!args[i + 1])
+					return (EXIT_SUCCESS);
 				ft_putchar(args[i + 1]);
 			}
 			i += 2;
