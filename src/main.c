@@ -6,9 +6,13 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 11:42:26 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/10 09:23:42 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/22 15:35:00 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#define _GNU_SOURCE             /* See feature_test_macros(7) */
+#include <fcntl.h>              /* Obtain O_* constant definitions */
+#include <unistd.h>
 
 #include <unistd.h>
 #include <signal.h>
@@ -26,6 +30,7 @@ t_env env;
 t_env export_env;
 int interactive_shell;
 int last_cmd_status;
+int paths_pipefd[2];
 
 static void set_toplevel_shell_signal(void)
 {
@@ -75,19 +80,39 @@ static void read_from_file(char *filename)
 
 int main(int argc, char **argv, char **envr)
 {
-    t_complete_cmd *complete_cmd = NULL;
-
+    t_complete_cmd	*complete_cmd = NULL;
+	char			*path;
+	char			*key;
+	
+	path = NULL;
+	key = NULL;
 	if (argc > 1)
 	{
 		read_from_file(argv[1]);
 	}
 	interactive_shell = isatty(STDIN_FILENO);
 	init_shell(envr);
+	pipe(paths_pipefd);
+	fcntl(paths_pipefd[0], O_NONBLOCK);
 	while (1)
 	{
 		complete_cmd = parser(NULL);
 		set_canon_input_mode(1);
 		exec_complete_cmd(complete_cmd);
+		get_next_line(paths_pipefd[0], &path);
+		while (path)
+		{
+			// get_next_line(paths_pipefd[i], &path);
+			key = ft_strcut(path, ':');
+			insert_hash(key, ft_strchr(path, ':') + 1);
+			if (key)
+				free(key);
+			key = NULL;
+			// ft_printf("%s\n", path);
+			free(path);
+			path = NULL;
+			get_next_line(paths_pipefd[0], &path);
+		}
 		set_canon_input_mode(0);
 	}
     reset_exit(0);

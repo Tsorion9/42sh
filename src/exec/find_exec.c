@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:27 by anton             #+#    #+#             */
-/*   Updated: 2021/02/13 12:29:37 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/22 14:11:48 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "find_path.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+
+extern int paths_pipefd[2];
 
 /*
 ** Add path to executable as argv[0]
@@ -66,6 +68,8 @@ int				find_exec(char **args, t_env env)
 	if (!*args)
 		return (-1);
 	progname = find_path(args[0], env);
+	if (progname)
+		ft_fprintf(paths_pipefd[1], "%s:%s\n", args[0], progname);
 	if (!progname)
 	{
 		ft_fprintf(2, "%s: command not found\n", args[0]);

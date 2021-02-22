@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/19 07:52:08 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/22 14:25:49 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int		builtin_hash(char **args, t_env envs, int subshell)
 	{
 		static_hash_action(del);
 		static_hash_action(init);
+		args++;
 	}	
 	return (check_hash_params(args));
 }

@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 09:28:31 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/19 07:47:04 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/22 14:12:59 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void			insert_command_value(char **path_dirs,
 		free(str);
 }
 
-void			insert_command_to_hash(char *name_key, char *command_value)
+void			insert_command_to_hash(char *key, char *value)
 {
 	t_hash			*hash;
 	char			*env_path;
@@ -54,5 +54,5 @@ void			insert_command_to_hash(char *name_key, char *command_value)
 		hash->copy_path = path_dirs;
 		return ;
 	}
-	insert_command_value(path_dirs, name_key, command_value);
+	insert_command_value(path_dirs, key, value);
 }

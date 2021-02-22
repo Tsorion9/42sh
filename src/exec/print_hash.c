@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 07:31:00 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/10 08:53:52 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/22 14:22:02 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ void			print_all_hash(void)
 	t_hash			*hash;
 	t_hashtable		*table;
 	int				i;
-	int				j;
 
 	if ((hash = static_hash_action(get)) == NULL
 		|| hash->hd == NULL)
 		return ;
 	i = 0;
-	j = 0;
 	while (i < HASH_SIZE)
 	{
 		table = hash->hd->hashtable[i];
@@ -43,8 +41,7 @@ void			print_all_hash(void)
 		{
 			while (table)
 			{
-				j++;
-				ft_printf("%d\t\t%s\n", j, table->value);
+				ft_printf("%s\t\t%s\n", table->key, table->value);
 				table = table->next;
 			}
 		}

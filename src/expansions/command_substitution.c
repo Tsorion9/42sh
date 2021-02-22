@@ -4,15 +4,6 @@
 #include "parser.h"
 #include "exec.h"
 
-/*
-** Content size is neeeded only for libft compatability
-*/
-
-static void				del_simple(void *content, size_t content_size)
-{
-	free(content);
-}
-
 static char				*concat_and_free(t_list **l, unsigned int total_len)
 {
 	char			*c;
@@ -32,7 +23,7 @@ static char				*concat_and_free(t_list **l, unsigned int total_len)
 	return (c);
 }
 
-static char				*read_from_pipe(int fd)
+char				*read_from_pipe(int fd)
 {
 	static char		buf[1002];
 	t_list			*l;
