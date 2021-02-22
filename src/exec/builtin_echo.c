@@ -68,7 +68,7 @@ int				cycle_echo_print(char **args, int n_flag, int E_flag)
 			ft_putchar(' ');
 		args++;
 	}
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int				check_echo_flags_and_print(char **args)
