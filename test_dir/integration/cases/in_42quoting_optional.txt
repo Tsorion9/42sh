@@ -10,7 +10,7 @@ baz" | cat -e
 
 l\
 s \
--at
+-a
 
 echo abc \| cat -e
 abc | cat -e
