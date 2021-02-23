@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:27 by anton             #+#    #+#             */
-/*   Updated: 2021/02/22 18:21:36 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/23 13:26:16 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "find_path.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include "limits.h"
 
 extern int paths_pipefd[2];
 

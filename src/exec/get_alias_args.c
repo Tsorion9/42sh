@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:41:48 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/11 22:08:19 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/23 13:57:08 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,20 @@ int			create_key(char *key, void (*invalid_print)(char *arg))
 	return (EXIT_SUCCESS);
 }
 
-void		create_value(char *key)
-{
-	int		i;
+// void		create_value(char *key)
+// {
+// 	int		i;
 
-	i = 0;
-	while (key[i])
-	{
-		if (key[i] == '\'' || key[i] == '"' ||
-			(key[i] == '\\' && key[i + 1] != '\\'))
-			delete_symbol_in_str(key, i);
-		else
-			i++;
-	}
-}
+// 	i = 0;
+// 	while (key[i])
+// 	{
+// 		if (key[i] == '\'' || key[i] == '"' ||
+// 			(key[i] == '\\' && key[i + 1] != '\\'))
+// 			delete_symbol_in_str(key, i);
+// 		else
+// 			i++;
+// 	}
+// }
 
 int			get_key_and_value(char ***mas_args, char *args, int *i,
 				void (*invalid_print)(char *arg))
@@ -65,7 +65,7 @@ int			get_key_and_value(char ***mas_args, char *args, int *i,
 		(*mas_args)[(*i) + 2] = ft_strdup("''");
 	if (create_key((*mas_args)[(*i)], invalid_print) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	create_value((*mas_args)[(*i) + 2]);
+	// create_value((*mas_args)[(*i) + 2]);
 	(*i) += 3;
 	return (EXIT_SUCCESS);
 }
