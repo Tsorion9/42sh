@@ -50,7 +50,7 @@ int				is_shellspec(char c, t_lexer_state *token)
 		return (FUNC_SUCCESS);
 	if (!(token->flags & DOLLAR_STATE) && ft_strchr("()", c) != NULL)
 		return (FUNC_SUCCESS);
-	if (token->head == NULL && (token->flags & DOLLAR_STATE))
+	if (token->brace_buf == NULL && (token->flags & DOLLAR_STATE))
 		token->flags &= (token->flags ^ DOLLAR_STATE);
 	return (FUNC_FAIL);
 }
@@ -71,15 +71,19 @@ void			identify_candidates(t_lexer_state *token)
 {
 	if (CURRENT_CHAR == '\0')
 		token->tk_type = WORD;
-	else if (CURRENT_CHAR == '{')
+	else if (CURRENT_CHAR == '{' && (token->flags & QUOTE_STATE) == 0)
 	{
 		push(token, '}');
+		if (token->flags & DQUOTE_STATE)
+			token->brace_buf->quoted = 1;
 		lexer_change_state(token, &lexer_state_word);
 	}
-	else if (CURRENT_CHAR == '(')
+	else if (CURRENT_CHAR == '(' && (token->flags & DQUOTE_STATE) == 0)
 	{
 		token->flags |= DOLLAR_STATE;
 		push(token, ')');
+		if (token->flags & DQUOTE_STATE)
+			token->brace_buf->quoted = 1;
 		if (token->value[token->str_index + 1] == '(')
 			lexer_change_state(token, &identify_candidates);
 		else
@@ -87,6 +91,14 @@ void			identify_candidates(t_lexer_state *token)
 	}
 	else
 		lexer_state_word(token);
+}
+
+static void 	lexer_state_quotes(t_lexer_state *token)
+{
+	if (CURRENT_CHAR == '$')
+		lexer_change_state(token, identify_candidates);
+	else
+		lexer_change_state(token, lexer_state_word);
 }
 
 void			lexer_state_word(t_lexer_state *token)
@@ -102,7 +114,7 @@ void			lexer_state_word(t_lexer_state *token)
 		lexer_change_state(token, &lexer_state_word);
 	else if (((token->flags & QUOTE_STATE) || (token->flags & DQUOTE_STATE))
 			&& CURRENT_CHAR != '\0')
-		lexer_change_state(token, &lexer_state_word);
+		lexer_state_quotes(token);
 	else if ((token->flags & ISOPEN_STATE)
 		&& (CURRENT_CHAR == '\0' || CURRENT_CHAR == '\n'))
 		lexer_unclosed_state(token);

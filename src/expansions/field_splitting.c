@@ -122,6 +122,11 @@ t_word_list		*field_splitting_list(const char *source)
 	fields = field_splitting(source);
 	if (fields == NULL)
 		return (NULL);
+	if (fields && !fields[0])
+	{
+		del_array(fields);
+		return (NULL);
+	}
 	i = 0;
 	list = create_word_node(fields[0]);
 	list->need_quote_rm = 0;

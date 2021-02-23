@@ -6,6 +6,7 @@
 typedef struct	s_queue
 {
     char				brace;
+    int 				quoted;
     struct s_queue		*next;
 }				t_queue;
 
@@ -43,7 +44,7 @@ typedef struct	s_toke
     char				*value;
     size_t				str_index;
     int					flags;
-    t_queue				*head;
+    t_queue				*brace_buf;
 }				t_lexer_state;
 
 typedef struct	s_token
