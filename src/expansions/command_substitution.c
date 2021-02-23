@@ -53,7 +53,6 @@ void					command_substitution(char **s, int word_state)
 	if (!cmd)
 	{
 		ft_fprintf(2, "%s\n", E_CMD_BAD_SUBSTITUTION);
-		expasnion_status(EXPANSION_FAIL);
 		return ;
 	}
 	pipe(pipefd);
@@ -62,7 +61,8 @@ void					command_substitution(char **s, int word_state)
 	{
 		close_wrapper(pipefd[1]);
 		free(*s);
-		free(tmp);
+//		free(tmp);
+		free_lexer_state(&g_token);
 		*s = read_from_pipe(pipefd[0]);
 		clean_complete_command(&cmd);
 		close_wrapper(pipefd[0]);
@@ -77,6 +77,12 @@ void					command_substitution(char **s, int word_state)
 		close_wrapper(pipefd[1]);
 		interactive_shell = 0;
 		exec_complete_cmd(cmd);
+		while ((tmp != NULL && *tmp != '\0'))
+		{
+			cmd = parser(&tmp);
+			print_complete_command(cmd);
+			exec_complete_cmd(cmd);
+		}
 		exit(0);
 	}
 	if (!(word_state & IN_DQUOTE_STATE) && !(word_state & IN_QUOTE_STATE))
