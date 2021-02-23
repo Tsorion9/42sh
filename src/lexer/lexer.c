@@ -19,10 +19,10 @@ void			free_lexer_state(t_lexer_state *token)
 {
 	if (token->value)
 		free(token->value);
-	if (token->head != NULL)
-		free_quequ_lexer(&token->head);
+	if (token->brace_buf != NULL)
+		free_quequ_lexer(&token->brace_buf);
 	token->value = NULL;
-	token->head = NULL;
+	token->brace_buf = NULL;
 	token->tk_len = 0;
 	token->str_index = 0;
 	token->flags = 0;
