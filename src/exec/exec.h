@@ -1,8 +1,9 @@
 #ifndef EXEC_H
 # define EXEC_H
 
-# define IGNORE_STREAM		-2
-# define E_AMBIGUOUS_REDIR	"ambiguous redirect"
+# define IGNORE_STREAM			-2
+# define E_AMBIGUOUS_REDIR		"ambiguous redirect"
+# define E_COMMAND_NOT_FOUND	"42sh: %s: command not found\n"
 
 # include "lexer.h"
 # include "parser.h"
