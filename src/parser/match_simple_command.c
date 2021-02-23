@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 21:42:16 by jsance            #+#    #+#             */
-/*   Updated: 2021/02/22 11:24:03 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/24 00:38:57 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,52 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 	char		*value;
 	char		*key;
 	t_deque		*tokbuf;
+	t_deque		*queue;
+	int			i;
 
+	i = 0;
 	tokbuf = NULL;
 	if (token->tk_type == WORD && !token->do_not_expand_alias)
 	{
-		value = search_alias(token->value);
+		value = search_alias_1(token->value);
+		// ft_printf("value: %s\n", value);
 		if (value)
 		{
 			key = ft_strdup(token->value);
-			gett(g_parser_input_str, tokbuf_g, &tokbuf);
-			erase_tokbuf(&tokbuf);
-			tokbuf = deque_copy(search_tokbuf(key));
-			deque_apply_inplace(tokbuf, &set_do_not_expand);
-			flush_tokbuf(tokbuf_g, &tokbuf);
+			if ((tokbuf = check_tokbuf(key, value)))
+			{
+				while (ft_strcmp(key, value) && (tokbuf = check_tokbuf(key, value)))
+				{
+					// ft_printf("value: %s\n", value);
+					// gett(g_parser_input_str, tokbuf_g, &tokbuf);
+					// erase_tokbuf(&tokbuf);
+					// tokbuf = deque_copy(search_tokbuf(key));
+					// write(1, "2", 1);
+					// if (tokbuf == NULL)
+					// 	return ;
+					
+					// if (i)
+					// {
+						t_token *del = pop_front(*tokbuf_g);
+						free(del->value);
+						free(del);
+					// }
+					t_deque *copy = deque_copy(tokbuf);
+					value = ft_strdup(copy->first->token->value);
+					deque_apply_inplace(copy, &set_do_not_expand);
+					flush_tokbuf(tokbuf_g, &copy);
+					i++;
+				}
+			}
+			else if (!tokbuf)
+			{
+				tokbuf = deque_copy(search_tokbuf(key));
+				deque_apply_inplace(tokbuf, &set_do_not_expand);
+				t_token *del = pop_front(*tokbuf_g);
+				free(del->value);
+				free(del);
+				flush_tokbuf(tokbuf_g, &tokbuf);
+			}
 			free(key);
 			free(value);
 		}

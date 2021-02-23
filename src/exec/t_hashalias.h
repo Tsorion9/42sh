@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/23 18:34:37 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/24 00:28:25 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ int						check_valid_flag(char *arg, void (*print)(char *arg));
 */
 
 char					*search_alias(char *key);
+char					*search_alias_1(char *key);
+t_deque					*check_tokbuf(char *key, char *value);
+t_hashtable				*get_hashtable_by_key(char *key, char *value);
+
+// void		upgrade_tokbuf(char *key, char *value);
 
 /*
 ** API for BUILTIN UNALIAS
