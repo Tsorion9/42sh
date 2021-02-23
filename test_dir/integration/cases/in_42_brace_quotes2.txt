@@ -1,0 +1,19 @@
+${${
+some_word
+}
+}
+
+"${"${
+inside not quoted
+}
+inside quoted
+"}"
+
+"${${
+this close brace
+}
+"
+this not
+}
+this close brace
+"}"
