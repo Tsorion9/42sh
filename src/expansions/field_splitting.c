@@ -69,7 +69,7 @@ static void		fill_fields(char ***fields, const char *src, char *s_ifs,
 	int		idx;
 
 	size = count_fields(src, s_ifs, d_ifs);
-	*fields = (char**)ft_memalloc(8 * (size + 1));
+	*fields = (char**)ft_memalloc(sizeof(char*) * (size + 1));
 	i = 0;
 	idx = 0;
 	while (src[i])
