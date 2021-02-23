@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 12:42:37 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/15 07:26:35 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/23 19:43:23 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int			builtin_unalias(char **args, t_env env, int subshell)
 	(void)env;
 	(void)subshell;
 	if (*args == NULL)
+	{
 		ft_putstr("unalias: not enough arguments\n");
+		return (EXIT_SUCCESS);
+	}
 	if (!ft_strcmp(*args, "-a"))
 	{
 		while (*args && !ft_strcmp(*args, "-a"))

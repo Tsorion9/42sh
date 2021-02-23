@@ -7,12 +7,12 @@ alias hello=
 hello
 alias hello
 
-alias sub='(echo abc|'
-sub cat -e)
+echo "alias sub='(echo abc|' sub cat -e)"
 
 alias rd='ls DOESTNOEXIST 2>>err'
 rd; rd; rd
 cat err
+rm err
 
 alias aa='echo hello' bb='echo world'
 aa; bb

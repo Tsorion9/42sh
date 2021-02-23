@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 18:48:59 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/07 11:20:34 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/24 00:28:21 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_hashdata				*init_t_hashdata(void);
 int						insert_hash_value(char *key, char *value,
 							t_hashdata *hd);
 char					*search_hash_data(char *key, t_hashdata *hd);
+char					*search_hash_data_1(char *key, t_hashdata *hd);
 void					delete_t_hashdata(t_hashdata **hd);
 int						delete_t_hashtable(char *key, t_hashdata **hd);
 void					delete_hash_table_element(t_hashtable **table);
