@@ -57,13 +57,16 @@ void	clean_and_or(t_andor_list **and_or)
 void	clean_complete_command(t_complete_cmd **complete_cmd)
 {
 	t_complete_cmd	*delete;
+	t_complete_cmd	*start;
 
-	while (*complete_cmd != NULL)
+	start = *complete_cmd;
+	while (start != NULL)
 	{
-		clean_and_or(&(*complete_cmd)->and_or);
-		delete = *complete_cmd;
-		*complete_cmd = (*complete_cmd)->next;
+		clean_and_or(&start->and_or);
+		delete = start;
+		start = start->next;
 		free(delete);
 		delete = NULL;
 	}
+	*complete_cmd = NULL;
 }

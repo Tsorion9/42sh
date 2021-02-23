@@ -1,0 +1,11 @@
+${
+not close brace
+\}
+this close
+}
+
+"${
+not close
+\}
+this close
+}"

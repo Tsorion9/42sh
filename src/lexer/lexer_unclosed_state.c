@@ -19,7 +19,7 @@ static char		get_quote(t_lexer_state *token)
 		return ('\'');
 	else if (token->flags & DQUOTE_STATE)
 		return ('"');
-	return (token->head->brace);
+	return (token->brace_buf->brace);
 }
 
 void			lexer_unclosed_state(t_lexer_state *token)

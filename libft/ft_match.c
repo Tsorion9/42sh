@@ -1,6 +1,6 @@
 #include "libft.h"
 
-char *find_closing_bracket(char *s)
+static char *find_closing_bracket(char *s)
 {
 	while (*s)
 	{
@@ -11,7 +11,7 @@ char *find_closing_bracket(char *s)
 	return (s);
 }
 
-void fill_subrange(char **start, char symbols[256])
+static void fill_subrange(char **start, char symbols[256])
 {
 	char min;
 	char max;
@@ -36,7 +36,7 @@ void fill_subrange(char **start, char symbols[256])
 /*
 ** Return whether we should negate the range
 */
-int find_range(char *pattern, char *closing_bracket, char symbols[256])
+static int find_range(char *pattern, char *closing_bracket, char symbols[256])
 {
 	int negate_result;
 
@@ -66,7 +66,7 @@ int find_range(char *pattern, char *closing_bracket, char symbols[256])
 	return (negate_result);
 }
 
-void negate(char arr[256])
+static void negate(char arr[256])
 {
 	int i;
 
