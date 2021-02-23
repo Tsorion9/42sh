@@ -53,6 +53,7 @@ int			get_cursor_position(void)
 	char	*ptr_buf;
 
 	i = 0;
+	ft_memset(buf, 0, sizeof(buf));
 	write(STDERR_FILENO, "\e[6n", 4);
 	parse_cur_pos(buf);
 	while (buf[i])
