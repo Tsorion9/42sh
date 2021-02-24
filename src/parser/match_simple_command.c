@@ -31,7 +31,7 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 	char		*value;
 	char		*key;
 	t_deque		*tokbuf;
-	t_deque		*queue;
+	t_deque		*tail;
 	int			i;
 
 	i = 0;
@@ -45,28 +45,28 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 			key = ft_strdup(token->value);
 			if ((tokbuf = check_tokbuf(key, value)))
 			{
+				tail = deque_copy(search_tokbuf(token->value));
+				t_token *del = pop_front(tail);
+				free(del->value);
+				free(del);
 				while (ft_strcmp(key, value) && (tokbuf = check_tokbuf(key, value)))
 				{
-					// ft_printf("value: %s\n", value);
-					// gett(g_parser_input_str, tokbuf_g, &tokbuf);
-					// erase_tokbuf(&tokbuf);
-					// tokbuf = deque_copy(search_tokbuf(key));
-					// write(1, "2", 1);
-					// if (tokbuf == NULL)
-					// 	return ;
-					
-					// if (i)
-					// {
-						t_token *del = pop_front(*tokbuf_g);
-						free(del->value);
-						free(del);
-					// }
+					t_token *del = pop_front(*tokbuf_g);
+					free(del->value);
+					free(del);
 					t_deque *copy = deque_copy(tokbuf);
+					ft_strdel(&value);
 					value = ft_strdup(copy->first->token->value);
 					deque_apply_inplace(copy, &set_do_not_expand);
 					flush_tokbuf(tokbuf_g, &copy);
 					i++;
 				}
+				while (tail && tail->first && tail->last)
+				{
+					t_token *tail_token = pop_front(tail);
+					push_back(tokbuf_g, tail_token);
+				}
+				erase_tokbuf(&tail);
 			}
 			else if (!tokbuf)
 			{

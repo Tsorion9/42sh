@@ -59,7 +59,7 @@ char		*get_token_str(t_tokens type)
 		return ("{");
 	else if (type == RBRACE)
 		return ("}");
-	else if (type == SIGNAL || type == TOKEN_CTRL_C)
+	else if (type == TOKEN_CTRL_C)
 		return ("SIGNAL");
 	else
 		return (single_tk_str(type));
