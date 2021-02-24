@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_tree.c                                       :+:      :+:    :+:   */
+/*   tokens_string.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 17:41:47 by nriker            #+#    #+#             */
-/*   Updated: 2020/10/06 22:00:10 by jsance           ###   ########.fr       */
+/*   Updated: 2021/02/24 21:27:28 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char		*get_token_str(t_tokens type)
 		return ("{");
 	else if (type == RBRACE)
 		return ("}");
-	else if (type == SIGNAL || type == TOKEN_CTRL_C)
+	else if (type == TOKEN_CTRL_C)
 		return ("SIGNAL");
 	else
 		return (single_tk_str(type));

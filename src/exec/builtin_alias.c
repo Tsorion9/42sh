@@ -6,37 +6,11 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 11:34:50 by anton             #+#    #+#             */
-/*   Updated: 2021/02/23 21:11:14 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/24 21:17:39 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_hashalias.h"
-
-// void		check_previous_keys(char *key, char* value)
-// {
-// 	t_hashalias		*hash_alias;
-// 	t_hashtable		*table;
-// 	int				i;
-
-// 	if ((hash_alias = static_hashalias_action(get)) == NULL
-// 		|| hash_alias->hd == NULL)
-// 		return ;
-// 	i = 0;
-// 	while (i < HASH_SIZE)
-// 	{
-// 		table = hash_alias->hd->hashtable[i];
-// 		if (table)
-// 		{
-// 			while (table)
-// 			{
-// 				if (!ft_strcmp(table->value, key))
-// 					insert_alias(table->key, value);
-// 				table = table->next;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// }
 
 void		check_alias(char *arg)
 {
@@ -53,43 +27,6 @@ void		check_alias(char *arg)
 	}
 }
 
-// void		upgrade_tokbuf(char *key, char *value)
-// {
-// 	t_hashalias		*hash_alias;
-// 	t_hashtable		*table;
-// 	t_hashtable		*remember_me;
-// 	int				i;
-
-// 	if ((hash_alias = static_hashalias_action(get)) == NULL
-// 		|| hash_alias->hd == NULL)
-// 		return ;
-// 	i = 0;
-// 	remember_me = get_hashtable_by_key(key, value);
-// 	while (i < HASH_SIZE)
-// 	{
-// 		table = hash_alias->hd->hashtable[i];
-// 		if (table)
-// 		{
-// 			while (table)
-// 			{
-// 				if (!ft_strcmp(table->key, value))
-// 				{
-// 					if (table->tokbuf_value)
-// 					{
-// 						erase_tokbuf(&(remember_me->tokbuf_value));
-// 						remember_me->tokbuf_value = deque_copy(table->tokbuf_value);
-// 					}
-// 					return ;
-// 				}
-// 				// if (!ft_strcmp(table->value, key))
-// 				// 	insert_alias(table->key, value);
-// 				table = table->next;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// }
-
 void		builtin_alias_cycle_args(char **mas_args)
 {
 	int		i;
@@ -103,8 +40,6 @@ void		builtin_alias_cycle_args(char **mas_args)
 		else if (mas_args[i] && !ft_strcmp(mas_args[i + 1], "="))
 		{
 			insert_alias(mas_args[i], mas_args[i + 2]);
-			// upgrade_tokbuf(mas_args[i], mas_args[i + 2]);
-			// check_previous_keys(mas_args[i], mas_args[i + 2]);
 			i += 3;
 		}
 	}
