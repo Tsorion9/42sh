@@ -6,12 +6,13 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/22 19:32:09 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/24 21:35:47 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environment.h"
 #include "t_hash.h"
+#include "find_path.h"
 #include "find_path.h"
 
 void	invalid_hash_option(char *arg)
@@ -51,6 +52,13 @@ int			check_flag_r(char ***args, void (*invalid_print)(char *arg))
 	return (check_valid_flag_hash(**args, invalid_print));
 }
 
+char	*find_com_in_path(char *command)
+{
+	char	*com_path;
+
+	com_path = find_path(command);
+}
+
 int		check_hash_params(char **args)
 {
 	int		i;
@@ -61,11 +69,15 @@ int		check_hash_params(char **args)
 	{
 		if ((str = search_hash(args[i])) == NULL)
 		{
-			ft_fprintf(STDERR_FILENO, "42sh: hash: %s: not found\n", args[i]);
-			return (EXIT_SUCCESS);
+			if ((str = find_path(args[i])))
+				insert_hash(args[i], str);
+			else
+			{
+				ft_fprintf(STDERR_FILENO, "42sh: hash: no such command: %s\n", args[i]);
+				return (EXIT_FAILURE);
+			}
 		}
-		else
-			free(str);
+		free(str);
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -79,7 +91,7 @@ int		builtin_hash(char **args, t_env envs, int subshell)
 
 	(void)env;
 	(void)subshell;
-	if (is_hash_empty() == EXIT_SUCCESS)
+	if (!*args && is_hash_empty() == EXIT_SUCCESS)
 	{
 		ft_fprintf(STDERR_FILENO, "hash: hash table empty\n");
 		return (EXIT_SUCCESS);
@@ -91,6 +103,6 @@ int		builtin_hash(char **args, t_env envs, int subshell)
 		return (EXIT_SUCCESS);
 	}
 	if (check_flag_r(&args, invalid_hash_option) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	return (check_hash_params(args));
 }
