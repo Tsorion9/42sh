@@ -13,6 +13,8 @@
 #include "parser.h"
 #include "t_hashalias.h"
 
+int g_alias;
+
 t_simple_cmd	*init_simple_cmd(void)
 {
 	t_simple_cmd *fresh;
@@ -49,6 +51,7 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 				free(del);
 				deque_apply_inplace(tokbuf, &set_do_not_expand);
 				flush_tokbuf(tokbuf_g, &tokbuf);
+				g_alias = 1;
 			}
 		}
 		// ft_printf("value: %s\n", value);
@@ -79,6 +82,7 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 					push_back(tokbuf_g, tail_token);
 				}
 				erase_tokbuf(&tail);
+				g_alias = 1;
 			}
 			else if (!tokbuf)
 			{
@@ -88,6 +92,7 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 				free(del->value);
 				free(del);
 				flush_tokbuf(tokbuf_g, &tokbuf);
+				g_alias = 1;
 			}
 			free(key);
 			free(value);
@@ -114,6 +119,8 @@ int				match_simple_command(t_simple_cmd **simple_cmd,
 	tokbuf_l = NULL;
 	*simple_cmd = init_simple_cmd();
 	check_alias(&token, tokbuf_g, &tokbuf_l);
+	if (g_alias)
+		return (PARSER_ERROR);
 	if (token->tk_type == WORD || token->tk_type == IO_NUMBER
 		|| is_redirect(token->tk_type))
 	{

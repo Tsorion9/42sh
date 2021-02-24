@@ -60,18 +60,30 @@ t_complete_cmd			*parser(char **s)
 	g_parser_input_str = s;
 	complete_cmd = NULL;
 	tokbuf_l = NULL;
-	while (gett(g_parser_input_str, &tokbuf_g, &tokbuf_l)->tk_type == NEWLINE)
-		erase_tokbuf(&tokbuf_l);
-	ungett(&tokbuf_g, &tokbuf_l);
-	if (gett(g_parser_input_str, &tokbuf_g, &tokbuf_l)->tk_type == TOKEN_END)
+	while (1)
 	{
-		if (s)
-			return (complete_cmd);
-		reset_exit(0);
+		while (gett(g_parser_input_str, &tokbuf_g, &tokbuf_l)->tk_type == NEWLINE)
+			erase_tokbuf(&tokbuf_l);
+		ungett(&tokbuf_g, &tokbuf_l);
+
+		if (gett(g_parser_input_str, &tokbuf_g, &tokbuf_l)->tk_type == TOKEN_END)
+		{
+			if (s)
+				return (complete_cmd);
+			reset_exit(0);
+		}
+		ungett(&tokbuf_g, &tokbuf_l);
+		if (match_complete_command(&complete_cmd, &tokbuf_g) != PARSER_SUCCES)
+		{
+			if (!g_alias)
+				return (handle_parser_fail(&complete_cmd, &tokbuf_g, &tokbuf_l));
+			clean_complete_command(&complete_cmd);
+			g_alias = 0;
+		}
+		else
+			break ;
 	}
-	ungett(&tokbuf_g, &tokbuf_l);
-	if (match_complete_command(&complete_cmd, &tokbuf_g) != PARSER_SUCCES)
-		return (handle_parser_fail(&complete_cmd, &tokbuf_g, &tokbuf_l));
+
 	handle_heredoc_if_parser_success(&complete_cmd);
 	if (s)
 		erase_tokbuf(&tokbuf_g);

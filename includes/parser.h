@@ -13,6 +13,7 @@
 # define IS_NEED_DEFAULT_FD	200
 
 extern char **g_parser_input_str;
+extern int	g_alias;
 
 int		match_complete_command(t_complete_cmd **command, t_deque **tokbuf_g);
 int		match_and_or(t_andor_list **and_or, t_deque **tokbuf_g);
