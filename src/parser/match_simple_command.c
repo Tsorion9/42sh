@@ -39,6 +39,18 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 	if (token->tk_type == WORD && !token->do_not_expand_alias)
 	{
 		value = search_alias_1(token->value);
+		if (value == NULL)
+		{
+			tokbuf = deque_copy(search_tokbuf(token->value));
+			if (tokbuf)
+			{
+				t_token *del = pop_front(*tokbuf_g);
+				free(del->value);
+				free(del);
+				deque_apply_inplace(tokbuf, &set_do_not_expand);
+				flush_tokbuf(tokbuf_g, &tokbuf);
+			}
+		}
 		// ft_printf("value: %s\n", value);
 		if (value)
 		{
