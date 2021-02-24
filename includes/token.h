@@ -28,7 +28,6 @@ typedef enum	e_tokens
     PIPE,
     SEMICOL,
     NEWLINE,
-    SIGNAL,// Пока не используется
     LBRACE,
     RBRACE,
     LBRACKET,
