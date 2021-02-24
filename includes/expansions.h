@@ -66,7 +66,7 @@ void		length_expansion(char **src_word, int word_state);
 void		parameter_expansion(char **src_word, int word_state);
 void		var_expansion(char **src_word, size_t *i, int skeep_char,
 					int word_state);
-char		**pathname_expansion(const char *word);
+char		**pathname_expansion(char *word);
 t_word_list	*pathname_expansion_list(const char *word);
 
 

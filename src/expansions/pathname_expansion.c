@@ -143,7 +143,7 @@ static void print_array(char **arr, int len)
 ** Return malloced 2d dimensional array of words
 */
 
-char **pathname_expansion(const char *word)
+char		**pathname_expansion(char *word)
 {
 	char **path_components;
 	char **res;
