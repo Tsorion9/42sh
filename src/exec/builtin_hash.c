@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/24 21:35:47 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/24 23:15:53 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,6 @@ int			check_flag_r(char ***args, void (*invalid_print)(char *arg))
 	return (check_valid_flag_hash(**args, invalid_print));
 }
 
-char	*find_com_in_path(char *command)
-{
-	char	*com_path;
-
-	com_path = find_path(command);
-}
-
 int		check_hash_params(char **args)
 {
 	int		i;
@@ -72,10 +65,7 @@ int		check_hash_params(char **args)
 			if ((str = find_path(args[i])))
 				insert_hash(args[i], str);
 			else
-			{
-				ft_fprintf(STDERR_FILENO, "42sh: hash: no such command: %s\n", args[i]);
-				return (EXIT_FAILURE);
-			}
+				ft_fprintf(STDERR_FILENO, "42sh: hash: %s: not found\n", args[i]);
 		}
 		free(str);
 		i++;
