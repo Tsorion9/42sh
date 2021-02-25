@@ -6,13 +6,12 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/24 23:15:53 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/24 23:30:52 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environment.h"
 #include "t_hash.h"
-#include "find_path.h"
 #include "find_path.h"
 
 void	invalid_hash_option(char *arg)
@@ -83,7 +82,7 @@ int		builtin_hash(char **args, t_env envs, int subshell)
 	(void)subshell;
 	if (!*args && is_hash_empty() == EXIT_SUCCESS)
 	{
-		ft_fprintf(STDERR_FILENO, "hash: hash table empty\n");
+		ft_printf("hash: hash table empty\n");
 		return (EXIT_SUCCESS);
 	}
 	if (!*args && is_hash_empty())
