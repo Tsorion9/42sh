@@ -194,7 +194,11 @@ CEXEC = builtin_21shopt.c \
 		is_path_was_changed.c \
 		is_hash_empty.c \
 		insert_command_to_hash.c \
-		pipeline_pathname_expansion.c
+		pipeline_pathname_expansion.c \
+		set_null_meet_alias.c \
+		set_do_not_expand.c \
+		delete_first_token.c \
+		substitute_alias_tools.c \
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \

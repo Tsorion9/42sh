@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 21:42:16 by jsance            #+#    #+#             */
-/*   Updated: 2021/02/26 22:14:09 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/27 00:18:42 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,119 +23,18 @@ t_simple_cmd	*init_simple_cmd(void)
 	return (fresh);
 }
 
-void			set_do_not_expand(t_token **token)
-{
-	(*token)->do_not_expand_alias = 1;
-}
-
-void			set_null_meet_alias(void)
-{
-	t_hashalias		*alias;
-	t_hashtable		*table;
-	int				i;
-
-	i = 0;
-	if ((alias = static_hashalias_action(get)) == NULL
-		|| alias->hd == NULL)
-		return ;
-	while (i < HASH_SIZE)
-	{
-		table = alias->hd->hashtable[i];
-		if (table)
-		{
-			while (table)
-			{
-				table->meet_alias = 0;
-				table = table->next;
-			}
-		}
-		i++;
-	}
-}
-
-void			delete_first_token(t_deque **tokbuf_g)
-{
-	t_token *del;
-
-	del = pop_front(*tokbuf_g);
-	free(del->value);
-	free(del);
-}
-
 void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 {
 	char		*value;
-	char		*key;
-	t_deque		*tokbuf;
-	t_deque		*tail;
-	t_hashdata	*check_table;
-	t_hashtable	*table;
-	int			i;
 
-	i = 0;
-	tokbuf = NULL;
 	if (token->tk_type == WORD && !token->do_not_expand_alias)
 	{
 		value = search_alias_1(token->value);
 		if (value == NULL)
+			value_of_token_is_null(token, tokbuf_g);
+		else
 		{
-			tokbuf = deque_copy(search_tokbuf(token->value));
-			if (tokbuf)
-			{
-				delete_first_token(tokbuf_g);
-				// t_token *del = pop_front(*tokbuf_g);
-				// free(del->value);
-				// free(del);
-				deque_apply_inplace(tokbuf, &set_do_not_expand);
-				flush_tokbuf(tokbuf_g, &tokbuf);
-				g_alias = 1;
-			}
-		}
-		if (value)
-		{
-			key = ft_strdup(token->value);
-			if ((table = check_tokbuf(key, value)))
-			{
-				tail = deque_copy(search_tokbuf(token->value));
-				delete_first_token(&tail);
-				// t_token *del = pop_front(tail);
-				// free(del->value);
-				// free(del);
-				while (ft_strcmp(key, value) && (table = check_tokbuf(key, value))
-						&& !table->meet_alias)
-				{
-					tokbuf = table->tokbuf_value;
-					table->meet_alias = 1;
-					t_token *del = pop_front(*tokbuf_g);
-					free(del->value);
-					free(del);
-					t_deque *copy = deque_copy(tokbuf);
-					ft_strdel(&value);
-					value = ft_strdup(copy->first->token->value);
-					deque_apply_inplace(copy, &set_do_not_expand);
-					flush_tokbuf(tokbuf_g, &copy);
-					i++;
-				}
-				while (tail && tail->first && tail->last)
-				{
-					t_token *tail_token = pop_front(tail);
-					push_back(tokbuf_g, tail_token);
-				}
-				erase_tokbuf(&tail);
-				g_alias = 1;
-			}
-			else if (!table)
-			{
-				tokbuf = deque_copy(search_tokbuf(key));
-				deque_apply_inplace(tokbuf, &set_do_not_expand);
-				delete_first_token(tokbuf_g);
-				// t_token *del = pop_front(*tokbuf_g);
-				// free(del->value);
-				// free(del);
-				flush_tokbuf(tokbuf_g, &tokbuf);
-				g_alias = 1;
-			}
-			free(key);
+			value_of_token_is_not_null(token, tokbuf_g);
 			free(value);
 			set_null_meet_alias();
 		}
