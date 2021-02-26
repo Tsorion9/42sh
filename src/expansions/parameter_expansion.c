@@ -143,10 +143,11 @@ static void	perform_parameter_expansion(char **src_word, int word_state,
 	char	*var_value;
 
 	parameter = ft_strsub(*src_word, 0, (size_t)(sep - *src_word));
-	if (*parameter == '\0')
+	if (*parameter == '\0' || !is_valid_var_name(parameter))
 	{
 		ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
 		expasnion_status(EXPANSION_FAIL);
+		ft_strdel(&parameter);
 		return ;
 	}
 	var_value = ft_getenv(env, parameter);
@@ -201,7 +202,7 @@ void		parameter_expansion(char **src_word, int word_state)
 	if (sep)
 		perform_parameter_expansion(src_word, word_state, sep);
 	else
-		var_expansion(src_word, &i, 0, word_state);
+		brace_var_expansion(src_word, &i, 0, word_state);
 	if (expasnion_status(GET_STATUS) == EXPANSION_SUCCESS
 		&& !(word_state & IN_QUOTE_STATE) && !(word_state & IN_DQUOTE_STATE))
 		expasnion_status(NEED_FIELD_SPLIT);
