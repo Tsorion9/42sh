@@ -66,6 +66,8 @@ void		length_expansion(char **src_word, int word_state);
 void		parameter_expansion(char **src_word, int word_state);
 void		var_expansion(char **src_word, size_t *i, int skeep_char,
 					int word_state);
+void		brace_var_expansion(char **src_word, size_t *i, int skeep_char,
+					int word_state);
 char		**pathname_expansion(char *word);
 t_word_list	*pathname_expansion_list(const char *word);
 
@@ -97,6 +99,8 @@ void		skip_ifs_chars(const char *s, size_t *i,
 int			is_ifs_char(char c, const char *ifs);
 size_t		find_closing_quote(char *data);
 int			is_valid_var_char(char c);
+int			is_valid_var_name(char *s);
+int			is_contain_any_spec(char *s);
 
 
 #endif

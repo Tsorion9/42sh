@@ -19,6 +19,21 @@ int	is_valid_var_char(char c)
 	return (INVALID_VAR_CHAR);
 }
 
+int is_valid_var_name(char *s)
+{
+	int i;
+
+	i = -1;
+	while (s[++i])
+	{
+		if (i == 0 && ft_isdigit(s[i]))
+			return (0);
+		if (!is_valid_var_char(s[i]) && !ft_isdigit(s[i]))
+			return (0);
+	}
+	return (1);
+}
+
 int	expasnion_status(int status)
 {
 	static int	g_status;
