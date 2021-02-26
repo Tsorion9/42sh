@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/24 23:30:52 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/27 00:22:15 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,7 @@ int		check_hash_params(char **args)
 
 int		builtin_hash(char **args, t_env envs, int subshell)
 {
-	t_hash			*hash;
-	t_hashtable		*table;
-	t_hashtable		*table_copy;
-
-	(void)env;
+	(void)envs;
 	(void)subshell;
 	if (!*args && is_hash_empty() == EXIT_SUCCESS)
 	{
