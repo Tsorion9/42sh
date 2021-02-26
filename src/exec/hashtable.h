@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 18:48:59 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/24 00:28:21 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/26 21:31:56 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 typedef struct			s_hashtable
 {
+	int					meet_alias;
 	char				*key;
 	char				*value;
 	t_deque				*tokbuf_value;

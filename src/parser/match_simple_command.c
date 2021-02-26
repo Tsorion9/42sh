@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 21:42:16 by jsance            #+#    #+#             */
-/*   Updated: 2021/02/24 00:38:57 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/26 22:14:09 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,48 @@ void			set_do_not_expand(t_token **token)
 	(*token)->do_not_expand_alias = 1;
 }
 
+void			set_null_meet_alias(void)
+{
+	t_hashalias		*alias;
+	t_hashtable		*table;
+	int				i;
+
+	i = 0;
+	if ((alias = static_hashalias_action(get)) == NULL
+		|| alias->hd == NULL)
+		return ;
+	while (i < HASH_SIZE)
+	{
+		table = alias->hd->hashtable[i];
+		if (table)
+		{
+			while (table)
+			{
+				table->meet_alias = 0;
+				table = table->next;
+			}
+		}
+		i++;
+	}
+}
+
+void			delete_first_token(t_deque **tokbuf_g)
+{
+	t_token *del;
+
+	del = pop_front(*tokbuf_g);
+	free(del->value);
+	free(del);
+}
+
 void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 {
 	char		*value;
 	char		*key;
 	t_deque		*tokbuf;
 	t_deque		*tail;
+	t_hashdata	*check_table;
+	t_hashtable	*table;
 	int			i;
 
 	i = 0;
@@ -46,26 +82,30 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 			tokbuf = deque_copy(search_tokbuf(token->value));
 			if (tokbuf)
 			{
-				t_token *del = pop_front(*tokbuf_g);
-				free(del->value);
-				free(del);
+				delete_first_token(tokbuf_g);
+				// t_token *del = pop_front(*tokbuf_g);
+				// free(del->value);
+				// free(del);
 				deque_apply_inplace(tokbuf, &set_do_not_expand);
 				flush_tokbuf(tokbuf_g, &tokbuf);
 				g_alias = 1;
 			}
 		}
-		// ft_printf("value: %s\n", value);
 		if (value)
 		{
 			key = ft_strdup(token->value);
-			if ((tokbuf = check_tokbuf(key, value)))
+			if ((table = check_tokbuf(key, value)))
 			{
 				tail = deque_copy(search_tokbuf(token->value));
-				t_token *del = pop_front(tail);
-				free(del->value);
-				free(del);
-				while (ft_strcmp(key, value) && (tokbuf = check_tokbuf(key, value)))
+				delete_first_token(&tail);
+				// t_token *del = pop_front(tail);
+				// free(del->value);
+				// free(del);
+				while (ft_strcmp(key, value) && (table = check_tokbuf(key, value))
+						&& !table->meet_alias)
 				{
+					tokbuf = table->tokbuf_value;
+					table->meet_alias = 1;
 					t_token *del = pop_front(*tokbuf_g);
 					free(del->value);
 					free(del);
@@ -84,18 +124,20 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 				erase_tokbuf(&tail);
 				g_alias = 1;
 			}
-			else if (!tokbuf)
+			else if (!table)
 			{
 				tokbuf = deque_copy(search_tokbuf(key));
 				deque_apply_inplace(tokbuf, &set_do_not_expand);
-				t_token *del = pop_front(*tokbuf_g);
-				free(del->value);
-				free(del);
+				delete_first_token(tokbuf_g);
+				// t_token *del = pop_front(*tokbuf_g);
+				// free(del->value);
+				// free(del);
 				flush_tokbuf(tokbuf_g, &tokbuf);
 				g_alias = 1;
 			}
 			free(key);
 			free(value);
+			set_null_meet_alias();
 		}
 	}
 }
