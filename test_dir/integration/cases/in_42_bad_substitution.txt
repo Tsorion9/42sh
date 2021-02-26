@@ -1,0 +1,9 @@
+echo "${"invalidcase"}"
+
+echo ${${a}}
+
+echo ${$asdf:-asdf}
+
+echo ${"invalidname"}
+
+echo ${dontexist:-+someword}
