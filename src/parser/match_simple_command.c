@@ -13,8 +13,6 @@
 #include "parser.h"
 #include "t_hashalias.h"
 
-int g_alias;
-
 t_simple_cmd	*init_simple_cmd(void)
 {
 	t_simple_cmd *fresh;
@@ -60,8 +58,6 @@ int				match_simple_command(t_simple_cmd **simple_cmd,
 	tokbuf_l = NULL;
 	*simple_cmd = init_simple_cmd();
 	check_alias(&token, tokbuf_g, &tokbuf_l);
-	if (g_alias)
-		return (PARSER_ERROR);
 	if (token->tk_type == WORD || token->tk_type == IO_NUMBER
 		|| is_redirect(token->tk_type))
 	{

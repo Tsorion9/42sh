@@ -24,8 +24,7 @@ void			check_tail(t_deque *tail, t_deque **tokbuf_g)
 	erase_tokbuf(&tail);
 }
 
-void			table_is_not_null(char *key, char **value, t_token *token,
-									t_deque **tokbuf_g)
+void			table_is_not_null(char *key, char **value, t_deque **tokbuf_g)
 {
 	t_deque		*tail;
 	t_hashtable	*table;
@@ -48,7 +47,6 @@ void			table_is_not_null(char *key, char **value, t_token *token,
 		flush_tokbuf(tokbuf_g, &copy);
 	}
 	check_tail(tail, tokbuf_g);
-	g_alias = 1;
 }
 
 void			table_is_null(char *key, t_deque **tokbuf_g)
@@ -59,7 +57,6 @@ void			table_is_null(char *key, t_deque **tokbuf_g)
 	deque_apply_inplace(tokbuf, &set_do_not_expand);
 	delete_first_token(tokbuf_g);
 	flush_tokbuf(tokbuf_g, &tokbuf);
-	g_alias = 1;
 }
 
 void			value_of_token_is_null(t_token *token, t_deque **tokbuf_g)
@@ -72,7 +69,6 @@ void			value_of_token_is_null(t_token *token, t_deque **tokbuf_g)
 		delete_first_token(tokbuf_g);
 		deque_apply_inplace(tokbuf, &set_do_not_expand);
 		flush_tokbuf(tokbuf_g, &tokbuf);
-		g_alias = 1;
 	}
 }
 
@@ -81,15 +77,12 @@ void			value_of_token_is_not_null(t_token *token, t_deque **tokbuf_g)
 	char		*key;
 	char		*value;
 	t_hashtable	*table;
-	t_deque		*tail;
-	t_deque		*tokbuf;
 
-	tokbuf = NULL;
 	value = search_alias_1(token->value);
 	key = ft_strdup(token->value);
 	if ((table = check_tokbuf(key, value)))
 	{
-		table_is_not_null(key, &value, token, tokbuf_g);
+		table_is_not_null(key, &value, tokbuf_g);
 	}
 	else if (!table)
 		table_is_null(key, tokbuf_g);
