@@ -59,11 +59,13 @@ int			match_command(t_command **command, t_deque **tokbuf_g)
 	set_command_type(command, tokbuf_g, &tokbuf_l);
 	if ((*command)->cmd_type == SUBSHELL)
 	{
+		return (PARSER_ERROR);
 		if (match_subshell(&(*command)->subshell, tokbuf_g) != PARSER_SUCCES)
 			return (PARSER_ERROR);
 	}
 	else if ((*command)->cmd_type == BRACE_GROUP)
 	{
+		return (PARSER_ERROR);
 		if (match_brace_group(&(*command)->brace_group, tokbuf_g) != 1)
 			return (PARSER_ERROR);
 	}

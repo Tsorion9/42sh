@@ -15,6 +15,8 @@
 
 void	clean_subshell(t_subshell **subshell)
 {
+	if (!*subshell)
+		return ;
 	clean_compound_list(&(*subshell)->compound_list);
 	clean_redirects(&(*subshell)->redirects);
 	free(*subshell);
@@ -23,6 +25,8 @@ void	clean_subshell(t_subshell **subshell)
 
 void	clean_brace_group(t_brace_group **brace_group)
 {
+	if (!*brace_group)
+		return ;
 	clean_compound_list(&(*brace_group)->compound_list);
 	clean_redirects(&(*brace_group)->redirects);
 	free(*brace_group);
