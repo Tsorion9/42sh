@@ -84,7 +84,7 @@ int main(int argc, char **argv, char **envr)
 	char			*path;
 	char			*key;
 	int				flags;
-	
+
 	path = NULL;
 	key = NULL;
 	if (argc > 1)

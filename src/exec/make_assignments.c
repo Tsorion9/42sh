@@ -7,7 +7,7 @@ void make_assignment(char *as_wrd, int do_export)
 
 	equal = ft_strchr(as_wrd, '=');
 	*equal = 0;
-	ft_setenv(do_export ? export_env : env, 
+	ft_setenv(do_export ? export_env : env,
 			(tmp = ft_strdup(as_wrd)), ft_strdup(equal + 1));
 	free(tmp);
 }

@@ -30,7 +30,7 @@ static void	up_down_arrow_sup(void)
 
 /*! \fn save_user_in_history
  *  \b Компонента  \b : readline \n
- *  \b Назначение  \b : Устанавливает строку с историей равной 
+ *  \b Назначение  \b : Устанавливает строку с историей равной
  *  глобальной строке user_in \n
  */
 void		save_user_in_history(void)

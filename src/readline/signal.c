@@ -60,6 +60,6 @@ void	processing_sigwinch(int signal_code)
 	(void)signal_code;
 	rp(NULL)->ws_col = ret_winsize(0);
 	rp(NULL)->ws_row = ret_winsize(1);
-	inverse_search_index(rp(NULL)->cur_pos, rp(NULL)->index, 
+	inverse_search_index(rp(NULL)->cur_pos, rp(NULL)->index,
 	rp(NULL)->prompt_len);
 }

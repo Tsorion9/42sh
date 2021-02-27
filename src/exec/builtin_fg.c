@@ -37,7 +37,7 @@ int			builtin_fg(char **args, t_env env, int subshell)
 	}
 	else
 	{
-		if ((str_status = killed(j))) 
+		if ((str_status = killed(j)))
 		{
 			ft_printf("[%d] %-26s %s\n",
 				j->jobid,

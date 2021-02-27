@@ -33,7 +33,7 @@ int			builtin_bg(char **args, t_env env, int subshell)
 			if (error == AMBIGOUS_JOB)
 				ft_fprintf(STDERR_FILENO, "Ambigous job: %s\n", *args);
 		}
-		else 
+		else
 		{
 			kill(j->pgid, SIGCONT);
 			j->state = BACKGROUND;

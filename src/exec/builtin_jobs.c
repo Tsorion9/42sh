@@ -26,7 +26,7 @@ static void remove_done_jobs(void)
 	l = jobs;
 	while (l)
 	{
-		if(((t_job *)l->content)->state == DONE) 
+		if(((t_job *)l->content)->state == DONE)
 		{
 			remove_job(((t_job *)(l->content))->pgid);
 			l = jobs;
@@ -117,7 +117,7 @@ int			builtin_jobs(char **args, t_env env, int subshell)
 
 	(void)env;
 	(void)subshell;
-	if (!top_level_shell) 
+	if (!top_level_shell)
 	{
 		return (1);
 	}

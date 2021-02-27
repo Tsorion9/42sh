@@ -77,7 +77,7 @@ char **path_clever_split(char *s)
 {
 	char *slash;
 	char *component;
-	t_list *l; 
+	t_list *l;
 	char **res;
 	int len;
 

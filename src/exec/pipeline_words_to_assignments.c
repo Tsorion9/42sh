@@ -13,7 +13,7 @@ static void words_to_assignments(t_simple_cmd *cmd)
 	current = cmd->words;
 	cmd->assignments = NULL;
 	while (current) {
-		if (!looks_like_assignment_word(current->word)) { 
+		if (!looks_like_assignment_word(current->word)) {
 			cmd->words = current;
 			break;
 		}

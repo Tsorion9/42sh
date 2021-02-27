@@ -22,7 +22,7 @@
  *  по истории
  *  \param[in] found строка найдена/не найдена
  */
-static void	history_search_print(const t_history_search *history_search, const char *user_in, 
+static void	history_search_print(const t_history_search *history_search, const char *user_in,
 	const int *cur_pos, int found)
 {
 	int		new_cur_pos[2];
@@ -114,7 +114,7 @@ static void exit_history_search(t_history_search *history_search)
 {
 	int	new_cur_pos[2];
 	int	prev_cur_pos[2];
-	
+
 	ft_memcpy(prev_cur_pos, rp(NULL)->cur_pos, sizeof(prev_cur_pos));
 	tc_save_cursor_pos();
 	clear_all_line(1);
@@ -159,7 +159,7 @@ void		history_search_start(long c)
 	size_t				prev_index;
 
 	found = 1;
-	if (c == LEFT_ARROW || c == RIGHT_ARROW || c == UP_ARROW || c == DOWN_ARROW || 
+	if (c == LEFT_ARROW || c == RIGHT_ARROW || c == UP_ARROW || c == DOWN_ARROW ||
 	c == '\n' || c == CTRL_E || c == UP_ARROW || c == DOWN_ARROW)
 	{
 		exit_history_search(t_history_search);

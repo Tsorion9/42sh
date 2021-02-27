@@ -49,8 +49,8 @@ static void update_status(int pipeline_status, int *status, t_type_andor last_op
 */
 static int need_exec_pipeline(int status, t_type_andor last_op)
 {
-	if (last_op == ANDOR_NONE || 
-		(last_op == ANDOR_AND && status == 0) || 
+	if (last_op == ANDOR_NONE ||
+		(last_op == ANDOR_AND && status == 0) ||
 		(last_op == ANDOR_OR && status != 0))
 	{
 		return (1);
@@ -91,7 +91,7 @@ int exec_complete_cmd(t_complete_cmd *cmd)
 	status = 0;
 	while (cmd)
 	{
-		if (cmd->separator_op == OP_BG) 
+		if (cmd->separator_op == OP_BG)
 		{
 			create_jobshell(cmd);
 		}

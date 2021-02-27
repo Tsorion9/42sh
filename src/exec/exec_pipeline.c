@@ -49,8 +49,8 @@ int wait_fg_job(pid_t job)
 	j->status = status;
 	if (WIFSTOPPED(status))
 	{
-		/* 
-		** We have a SIGTSTP-ed jobshell here 
+		/*
+		** We have a SIGTSTP-ed jobshell here
 		** It cannot perform any job control in this state.
 		*/
 		//fprintf(stderr, "Sending SIGCONT\n");

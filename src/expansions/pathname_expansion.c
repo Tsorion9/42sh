@@ -90,7 +90,7 @@ static void match_files(t_list **matches, char **path_components, char *current_
 {
 	t_list *new_matches;
 	t_list *current;
-	
+
 	if (!path_components[0]) {
 		ft_lstadd_data(matches, ft_strdup(current_path), 0);
 		return ;
@@ -100,7 +100,7 @@ static void match_files(t_list **matches, char **path_components, char *current_
 		return ;
 	}
 	current = new_matches;
-	while (current) 
+	while (current)
 	{
 		match_files(matches, path_components + 1, (char *)current->content);
 		current = current->next;

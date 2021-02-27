@@ -1,6 +1,6 @@
 #include "jobshell.h"
 
-/* 
+/*
 ** top-level shell is the only one who does job control
 ** if top_level_shell==0, we are in job shell
 ** all our children must stay in same group
@@ -27,7 +27,7 @@ void set_jobshell_signal(void)
 	}
 	/* If SIG_IGN process will be silently destroyed and not turned to zombie*/
 	signal(SIGCHLD, SIG_DFL); /* We wait, parent does job control */
-	signal(SIGTSTP, SIG_DFL); /* 
+	signal(SIGTSTP, SIG_DFL); /*
 								 Jobshell is stopped and top-level shell
 								 recieves SIGCHLD and sends SIGCONT
 								*/

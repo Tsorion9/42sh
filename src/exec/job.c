@@ -5,7 +5,7 @@ t_list *jobs;
 
 int next_priority(void)
 {
-	static int priority;	
+	static int priority;
 
 	priority++;
 	return (priority);
@@ -118,7 +118,7 @@ void remove_job(int pgid)
 
 char *job_state_tostr(t_job_state s)
 {
-	if (s == FG || s == BACKGROUND) 
+	if (s == FG || s == BACKGROUND)
 	{
 		return (ft_strdup("Running"));
 	}
