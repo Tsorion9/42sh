@@ -10,10 +10,10 @@
 # include "t_builtin.h"
 # include "expansions.h"
 
-extern int top_level_shell;
-extern int async_notify_bg;
-extern int interactive_shell;
-extern int last_cmd_status;
+extern int g_top_level_shell;
+extern int g_async_notify_bg;
+extern int g_interactive_shell;
+extern int g_last_cmd_status;
 
 void set_jobshell_signal(void);
 void sigchld_handler(int n);

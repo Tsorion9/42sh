@@ -91,7 +91,7 @@ int			builtin_unset(char **args, t_env env_deprecated, int subshell)
 	while (*args)
 	{
 		ft_unsetenv(env, *args);
-		ft_unsetenv(export_env, *args);
+		ft_unsetenv(g_export_env, *args);
 		args++;
 	}
 	return (1);

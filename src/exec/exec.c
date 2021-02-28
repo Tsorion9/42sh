@@ -27,7 +27,7 @@ int status_to_exitcode(int pipeline_status)
 */
 static void update_status(int pipeline_status, int *status, t_type_andor last_op)
 {
-	last_cmd_status = status_to_exitcode(pipeline_status);
+	g_last_cmd_status = status_to_exitcode(pipeline_status);
 	//printf("%d: pipeline_status=%d, transformed to last_cmd_status=%d\n", getpid(), pipeline_status, last_cmd_status);
 	fflush(NULL);
 	if (last_op == ANDOR_NONE)

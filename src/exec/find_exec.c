@@ -18,7 +18,7 @@
 #include <sys/wait.h>
 #include "limits.h"
 
-extern int paths_pipefd[2];
+extern int g_paths_pipefd[2];
 
 /*
 ** Add path to executable as argv[0]
@@ -76,7 +76,7 @@ int				find_exec(char **args, t_env env)
 		ft_strcat(buf, ":");
 		ft_strcat(buf, progname);
 		ft_strcat(buf, "\n");
-		write(paths_pipefd[1], buf, ft_strlen(buf));
+		write(g_paths_pipefd[1], buf, ft_strlen(buf));
 	}
 	if (!progname)
 	{

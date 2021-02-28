@@ -17,7 +17,7 @@ static int exec_pipeline_job(t_pipeline *pipeline)
 	int first_iter = 1;
 
 	if (!pipeline)
-		exit(last_cmd_status);
+		exit(g_last_cmd_status);
 	fd[0] = IGNORE_STREAM;
 	while (pipeline && pipeline->command)
 	{
@@ -65,11 +65,11 @@ int wait_fg_job(pid_t job)
 		remove_job(job);
 	}
 
-	if ((j = find_job(job)) && interactive_shell)
+	if ((j = find_job(job)) && g_interactive_shell)
 	{
 		tcgetattr(STDIN_FILENO, &(j->tmodes));
 	}
-	if (interactive_shell)
+	if (g_interactive_shell)
 	{
 		/* Put top-level shell to foreground*/
 		tcsetpgrp(STDIN_FILENO, getpid());
@@ -229,13 +229,13 @@ int exec_pipeline(t_pipeline *pipeline)
 	pipeline_quote_removal(pipeline);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));
-	if (!top_level_shell)
+	if (!g_top_level_shell)
 		return (exec_pipeline_job(pipeline));
 	job = fork();
 	if (job) /* Top-level shell */
 	{
 		add_job(job, 0, get_pipeline_str(pipeline));
-		if (interactive_shell)
+		if (g_interactive_shell)
 		{
 			setpgid(job, job);
 			tcsetpgrp(STDIN_FILENO, job);
@@ -244,13 +244,13 @@ int exec_pipeline(t_pipeline *pipeline)
 	}
 	else /* Job shell */
 	{
-		if (interactive_shell)
+		if (g_interactive_shell)
 		{
 			setpgid(getpid(), getpid());
 			tcsetpgrp(STDIN_FILENO, getpid()); /* We are foreground */
 			set_jobshell_signal();
 		}
-		top_level_shell = 0;
+		g_top_level_shell = 0;
 		exit(exec_pipeline_job(pipeline));
 	}
 }

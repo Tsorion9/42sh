@@ -26,14 +26,14 @@
 #include "t_hash.h"
 
 t_env env;
-t_env export_env;
-int interactive_shell;
-int last_cmd_status;
-int paths_pipefd[2];
+t_env g_export_env;
+int g_interactive_shell;
+int g_last_cmd_status;
+int g_paths_pipefd[2];
 
 static void	set_toplevel_shell_signal(void)
 {
-	if (!interactive_shell)
+	if (!g_interactive_shell)
 		return ;
 	signal(SIGTTIN, SIG_IGN);
 	signal(SIGTTOU, SIG_IGN);
@@ -45,7 +45,7 @@ static void	set_toplevel_shell_signal(void)
 
 static void	init_readline(void)
 {
-	if (!interactive_shell)
+	if (!g_interactive_shell)
 		return ;
 	init_terminal();
 	init_prompt();
@@ -57,7 +57,7 @@ static void	init_shell(char **envr)
 {
 	set_toplevel_shell_signal();
 	env = init_env(envr);
-	export_env = copy_env(env);
+	g_export_env = copy_env(env);
 	static_hashalias_action(init);
 	static_hash_action(init);
 	init_readline();
@@ -84,7 +84,7 @@ static void	insert_paths_to_hash(void)
 
 	path = NULL;
 	key = NULL;
-	get_next_line(paths_pipefd[0], &path);
+	get_next_line(g_paths_pipefd[0], &path);
 	while (path)
 	{
 		key = ft_strcut(path, ':');
@@ -96,7 +96,7 @@ static void	insert_paths_to_hash(void)
 		key = NULL;
 		free(path);
 		path = NULL;
-		get_next_line(paths_pipefd[0], &path);
+		get_next_line(g_paths_pipefd[0], &path);
 	}
 }
 
@@ -108,11 +108,11 @@ int			main(int argc, char **argv, char **envr)
 	complete_cmd = NULL;
 	if (argc > 1)
 		read_from_file(argv[1]);
-	interactive_shell = isatty(STDIN_FILENO);
+	g_interactive_shell = isatty(STDIN_FILENO);
 	init_shell(envr);
-	pipe(paths_pipefd);
-	flags = fcntl(paths_pipefd[0], F_GETFL, 0);
-	fcntl(paths_pipefd[0], F_SETFL, flags | O_NONBLOCK);
+	pipe(g_paths_pipefd);
+	flags = fcntl(g_paths_pipefd[0], F_GETFL, 0);
+	fcntl(g_paths_pipefd[0], F_SETFL, flags | O_NONBLOCK);
 	while (1)
 	{
 		complete_cmd = parser(NULL);

@@ -31,7 +31,7 @@ static int	handle_export_arg(char *arg)
 			ft_fprintf(STDERR_FILENO, "42sh: export: bad arg'%s': \n", arg);
 			return (EXIT_FAILURE);
 		}
-		ft_setenv(export_env, key, ft_strdup(equal + 1));
+		ft_setenv(g_export_env, key, ft_strdup(equal + 1));
 		ft_setenv(env, key, ft_strdup(equal + 1));
 		free(key);
 	}
@@ -39,7 +39,7 @@ static int	handle_export_arg(char *arg)
 	{
 		value = ft_getenv(env, arg);
 		if (value)
-			ft_setenv(export_env, arg, ft_strdup(value));
+			ft_setenv(g_export_env, arg, ft_strdup(value));
 	}
 	return (EXIT_SUCCESS);
 }
@@ -58,7 +58,7 @@ int			builtin_export(char **args, t_env env_deprecated, int subshell)
 	status = 0;
 	if (!args || !args[0] || !ft_strcmp(args[0], "-p"))
 	{
-		print_env(export_env, &status, "export ");
+		print_env(g_export_env, &status, "export ");
 		return (EXIT_SUCCESS);
 	}
 	status = EXIT_SUCCESS;

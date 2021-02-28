@@ -117,7 +117,7 @@ int			builtin_jobs(char **args, t_env env, int subshell)
 
 	(void)env;
 	(void)subshell;
-	if (!top_level_shell)
+	if (!g_top_level_shell)
 	{
 		return (1);
 	}

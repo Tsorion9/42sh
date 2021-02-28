@@ -58,7 +58,7 @@ static void		child_actions(int *pipefd, t_complete_cmd *cmd, char *tmp)
 	close_wrapper(pipefd[0]);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close_wrapper(pipefd[1]);
-	interactive_shell = 0;
+	g_interactive_shell = 0;
 	exec_complete_cmd(cmd);
 	while ((tmp != NULL && *tmp != '\0'))
 	{
