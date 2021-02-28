@@ -19,7 +19,7 @@ int	is_valid_var_char(char c)
 	return (INVALID_VAR_CHAR);
 }
 
-int is_valid_var_name(char *s)
+int	is_valid_var_name(char *s)
 {
 	int i;
 

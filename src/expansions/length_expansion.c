@@ -12,7 +12,7 @@
 
 #include "expansions.h"
 
-int	is_contain_any_spec(char *s)
+int			is_contain_any_spec(char *s)
 {
 	int	i;
 
