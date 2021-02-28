@@ -93,7 +93,7 @@ void			identify_candidates(t_lexer_state *token)
 		lexer_state_word(token);
 }
 
-static void 	lexer_state_quotes(t_lexer_state *token)
+static void		lexer_state_quotes(t_lexer_state *token)
 {
 	if (CURRENT_CHAR == '$')
 		lexer_change_state(token, identify_candidates);
@@ -124,14 +124,4 @@ void			lexer_state_word(t_lexer_state *token)
 		lexer_change_state(token, &lexer_state_word);
 	else
 		token->tk_type = WORD;
-}
-
-void			lexer_state_ionum(t_lexer_state *token)
-{
-	if (ft_isdigit(CURRENT_CHAR))
-		lexer_change_state(token, &lexer_state_ionum);
-	else if (CURRENT_CHAR == '>' || CURRENT_CHAR == '<')
-		token->tk_type = IO_NUMBER;
-	else
-		lexer_state_word(token);
 }
