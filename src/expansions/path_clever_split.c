@@ -11,50 +11,26 @@
 /* ************************************************************************** */
 
 #include "expansions.h"
-char		**list_to_array(t_list *l, int *len);
-char		**clever_list_to_array(t_list *l, int *len);
 
-char		**list_to_array(t_list *l, int *len)
+static void	q_state(int *state, char c)
 {
-	char	**arr;
-	char	**ret;
-
-	if (!(arr = ft_memalloc(sizeof(char *) * (ft_lstlen(l) + 1))))
-		return (NULL);
-	*len = 0;
-	ret = arr;
-	while (l)
-	{
-		(*len)++;
-		*arr = ft_strdup((char *)l->content);
-		l = l->next;
-		arr++;
-	}
-	return (ret);
+	if (*state == 0)
+		*state = c;
+	else if (*state == c)
+		*state = 0;
 }
 
-static char *next_unquoted_slash(char *s)
+static char	*next_unquoted_slash(char *s)
 {
-	int state = 0;
+	int		state;
 
+	state = 0;
 	while (*s)
 	{
 		if (*s == '/' && state == 0)
 			break ;
-		if (*s == '\'')
-		{
-			if (state == 0)
-				state = '\'';
-			else if (state == '\'')
-				state = 0;
-		}
-		else if (*s == '"' && state == 0)
-		{
-			if (state == 0)
-				state = '"';
-			else if (state == '"')
-				state = 0;
-		}
+		if (*s == '\'' || *s == '"')
+			q_state(&state, *s);
 		else if (*s == '\\' && state == 0 && *(s + 1))
 			s++;
 		s++;
@@ -62,24 +38,13 @@ static char *next_unquoted_slash(char *s)
 	return (s);
 }
 
-static void del(void *mem, size_t garbage)
+char		**path_clever_split(char *s)
 {
-	(void) garbage;
-	free(mem);
-}
-
-void p(t_list *elem)
-{
-	ft_printf("%s\n", elem->content);
-}
-
-char **path_clever_split(char *s)
-{
-	char *slash;
-	char *component;
-	t_list *l;
-	char **res;
-	int len;
+	char	*slash;
+	char	*component;
+	t_list	*l;
+	char	**res;
+	int		len;
 
 	l = NULL;
 	while (*(slash = next_unquoted_slash(s)))
@@ -92,7 +57,6 @@ char **path_clever_split(char *s)
 	}
 	ft_lstadd_data_back(&l, ft_strdup(s), 0);
 	res = clever_list_to_array(l, &len);
-	ft_lstdel(&l, del);
-	//ft_printf("%s\n", res[0]);
+	ft_lstdel(&l, del_list);
 	return (res);
 }

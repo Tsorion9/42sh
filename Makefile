@@ -81,7 +81,9 @@ CLEXER =    lexer.c \
 			lexer_state_word.c \
 			lexer_state_braces.c \
 			lexer_state_brackets.c \
+			lexer_state_ionum.c \
 			lexer_unclosed_state.c \
+			lexer_set_flags.c \
 			tokens_string.c \
 			retrieve_token.c
 
@@ -223,7 +225,10 @@ CEXPANSIONS = tilde_expansion.c \
 				pathname_expansion.c \
 				path_clever_split.c \
 				remove_prefix.c \
-				remove_suffix.c
+				remove_suffix.c \
+				pathname_misc.c \
+				match_files.c \
+				clever_list_to_array.c
 
 
 READLINE = $(patsubst %,src/readline/%,$(CREADLINE))
