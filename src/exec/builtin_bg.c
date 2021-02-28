@@ -4,9 +4,9 @@
 
 int			builtin_bg(char **args, t_env env, int subshell)
 {
-	int error;
-	t_job *j;
-	int any_errors;
+	int		error;
+	t_job	*j;
+	int		any_errors;
 
 	(void)env;
 	(void)subshell;
