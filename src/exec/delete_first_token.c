@@ -16,6 +16,8 @@ void			delete_first_token(t_deque **tokbuf_g)
 {
 	t_token *del;
 
+	if (!*tokbuf_g)
+		return ;
 	del = pop_front(*tokbuf_g);
 	free(del->value);
 	free(del);

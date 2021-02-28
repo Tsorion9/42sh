@@ -40,27 +40,28 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 	t_deque		*tokbuf_l;
 	t_deque		*tokbuf_fresh;
 	int			k;
+	t_token		*tmp;
 
 	k = 1;
 	data = NULL;
 	tokbuf_fresh = NULL;
 	// while (k)
 	// {
-		if (token->tk_type == WORD && !token->do_not_expand_alias)
+		tmp = pop_front(*tokbuf_g);
+		if (tmp->tk_type == WORD && !tmp->do_not_expand_alias)
 		{
-			value = search_alias_1(token->value);
+			value = search_alias_1(tmp->value);
 			if (value == NULL)
-				value_of_token_is_null(token, &tokbuf_fresh);
+				value_of_token_is_null(tmp, &tokbuf_fresh);
 			else
 			{
-				value_of_token_is_not_null(token, &tokbuf_fresh);
+				value_of_token_is_not_null(tmp, &tokbuf_fresh);
 				free(value);
 				set_null_meet_alias();
 			}
 		}
-		deque_apply(tokbuf_fresh, print_tokbuf);
-		flush_tokbuf_back(tokbuf_fresh, tokbuf_g);
-		// erase_tokbuf(tokbuf_g);
+//		deque_apply(tokbuf_fresh, print_tokbuf);
+		flush_tokbuf_back(&tokbuf_fresh, *tokbuf_g);
 		*tokbuf_g = tokbuf_fresh;
 	// 	data = search_alias_hash_element(token->value);
 	// 	if (!data || !data->expand_next_alias)

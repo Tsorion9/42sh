@@ -52,7 +52,7 @@ void			table_is_null(char *key, t_deque **tokbuf_g)
 	tokbuf = deque_copy(search_tokbuf(key));
 	deque_apply_inplace(tokbuf, &set_do_not_expand);
 	// delete_first_token(tokbuf_g);
-	flush_tokbuf_back(tokbuf_g, &tokbuf);
+	flush_tokbuf_back(tokbuf_g, tokbuf);
 }
 
 void			value_of_token_is_null(t_token *token, t_deque **tokbuf_g)
@@ -64,8 +64,10 @@ void			value_of_token_is_null(t_token *token, t_deque **tokbuf_g)
 	{
 		// delete_first_token(tokbuf_g);
 		deque_apply_inplace(tokbuf, &set_do_not_expand);
-		flush_tokbuf_back(tokbuf_g, &tokbuf);
+		flush_tokbuf_back(tokbuf_g, tokbuf);
 	}
+	else
+		push_back(tokbuf_g, token);
 }
 
 void			value_of_token_is_not_null(t_token *token, t_deque **tokbuf_g)
