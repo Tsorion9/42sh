@@ -13,23 +13,6 @@
 #include "expansions.h"
 #include "environment.h"
 
-// TODO Возможно, стоит вынести в библиотеку
-static char	*ft_strchr_any(char *s, char *search)
-{
-	int		i;
-	char	*res;
-
-	i = 0;
-	while (search[i])
-	{
-		res = ft_strchr(s, search[i]);
-		if (res)
-			return (res);
-		i++;
-	}
-	return (NULL);
-}
-
 /*
 ** '-' == использовать значнение word после расширения
 ** '?' == выводит сообщение об ошибке, если значение unset/null
@@ -48,7 +31,6 @@ static char	*ft_strchr_any(char *s, char *search)
 
 static void	var_not_null(char **src_word, char **sep, char *param)
 {
-	int		longest;
 	char	c;
 	char	*word;
 	char	*param_value;
@@ -57,30 +39,13 @@ static void	var_not_null(char **src_word, char **sep, char *param)
 	c = **sep;
 	word = ft_strdup(*sep + 1);
 	param_value = ft_getenv(env, param);
-	longest = 0;
 	i = 0;
 	if (c == '-' || c == '=' || c == '?')
 		replace_value(src_word, param_value, &i, ft_strlen(*src_word));
 	else if (c == '#')
-	{
-		if (*(*sep + 1) == '#')
-		{
-			longest = 1;
-			ft_strdel(&word);
-			word = ft_strdup(*sep + 2);
-		}
-		remove_prefix(src_word, &word, param_value, longest);
-	}
+		prepare_remove_prefix(src_word, &word, param_value, sep);
 	else if (c == '%')
-	{
-		if (*(*sep + 1) == '%')
-		{
-			longest = 1;
-			ft_strdel(&word);
-			word = ft_strdup(*sep + 2);
-		}
-		remove_suffix(src_word, &word, param_value, longest);
-	}
+		prepare_remove_suffix(src_word, &word, param_value, sep);
 	else
 	{
 		ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);
@@ -134,9 +99,7 @@ static void	var_unset_or_empty(char **src_word, char **sep, char *param,
 	}
 }
 
-// TODO word_state is unused now
-static void	perform_parameter_expansion(char **src_word, int word_state,
-													char *sep)
+static void	perform_parameter_expansion(char **src_word, char *sep)
 {
 	char	*parameter;
 	int		have_colon;
@@ -190,8 +153,7 @@ static char	*search_separator(char *start, const char *search)
 ** src_word == parameter( [:][=+-?] | (#[#] | %[%]) )word
 ** word_state is used to check quote states
 */
-// TODO Добавить проверку, если parameter в состоянии кавычек(дада '\' тоже
-//  считается состоянием кавычек), то выводить bad substitution
+
 void		parameter_expansion(char **src_word, int word_state)
 {
 	size_t	i;
@@ -200,7 +162,7 @@ void		parameter_expansion(char **src_word, int word_state)
 	i = 0;
 	sep = search_separator(*src_word, ":-=?+%#");
 	if (sep)
-		perform_parameter_expansion(src_word, word_state, sep);
+		perform_parameter_expansion(src_word, sep);
 	else
 		brace_var_expansion(src_word, &i, 0, word_state);
 	if (expasnion_status(GET_STATUS) == EXPANSION_SUCCESS

@@ -1,11 +1,11 @@
 #include "inc21sh.h"
-#include  "t_builtin.h"
+#include "t_builtin.h"
 #include "job.h"
 
 /*
 ** Return status message
 */
-char *killed(t_job *j)
+char		*killed(t_job *j)
 {
 	int status;
 
@@ -26,7 +26,6 @@ int			builtin_fg(char **args, t_env env, int subshell)
 	(void)env;
 	(void)subshell;
 	error = -1;
-
 	j = find_job_by_pattern(*args ? *args : "%%", &error);
 	if (!j)
 	{

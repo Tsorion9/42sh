@@ -15,7 +15,7 @@
 #include "environment.h"
 #include "libft.h"
 
-static int handle_export_arg(char *arg)
+static int	handle_export_arg(char *arg)
 {
 	char	*equal;
 	char	*value;
@@ -28,7 +28,7 @@ static int handle_export_arg(char *arg)
 		if (ft_isdigit(*key))
 		{
 			free(key);
-			ft_fprintf(STDERR_FILENO, "42sh: export: '%s': not a valid identifier\n", arg);
+			ft_fprintf(STDERR_FILENO, "42sh: export: bad arg'%s': \n", arg);
 			return (EXIT_FAILURE);
 		}
 		ft_setenv(export_env, key, ft_strdup(equal + 1));

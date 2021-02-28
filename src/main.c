@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _GNU_SOURCE             /* See feature_test_macros(7) */
-#include <fcntl.h>              /* Obtain O_* constant definitions */
+#include <fcntl.h>
 #include <unistd.h>
 
 #include <unistd.h>
@@ -32,7 +31,7 @@ int interactive_shell;
 int last_cmd_status;
 int paths_pipefd[2];
 
-static void set_toplevel_shell_signal(void)
+static void	set_toplevel_shell_signal(void)
 {
 	if (!interactive_shell)
 		return ;
@@ -44,17 +43,17 @@ static void set_toplevel_shell_signal(void)
 	signal(SIGTSTP, SIG_IGN);
 }
 
-static void init_readline(void)
+static void	init_readline(void)
 {
 	if (!interactive_shell)
 		return ;
 	init_terminal();
 	init_prompt();
-    rp(init_rp());
+	rp(init_rp());
 	load_on_file_history(rp(NULL)->history);
 }
 
-static void init_shell(char **envr)
+static void	init_shell(char **envr)
 {
 	set_toplevel_shell_signal();
 	env = init_env(envr);
@@ -64,7 +63,7 @@ static void init_shell(char **envr)
 	init_readline();
 }
 
-static void read_from_file(char *filename)
+static void	read_from_file(char *filename)
 {
 	int fd;
 
@@ -78,19 +77,37 @@ static void read_from_file(char *filename)
 	close_wrapper(fd);
 }
 
-int main(int argc, char **argv, char **envr)
+static void	insert_paths_to_hash(void)
 {
-    t_complete_cmd	*complete_cmd = NULL;
 	char			*path;
 	char			*key;
-	int				flags;
 
 	path = NULL;
 	key = NULL;
-	if (argc > 1)
+	get_next_line(paths_pipefd[0], &path);
+	while (path)
 	{
-		read_from_file(argv[1]);
+		key = ft_strcut(path, ':');
+		if (key)
+		{
+			insert_command_to_hash(key, ft_strchr(path, ':') + 1);
+			free(key);
+		}
+		key = NULL;
+		free(path);
+		path = NULL;
+		get_next_line(paths_pipefd[0], &path);
 	}
+}
+
+int			main(int argc, char **argv, char **envr)
+{
+	t_complete_cmd	*complete_cmd;
+	int				flags;
+
+	complete_cmd = NULL;
+	if (argc > 1)
+		read_from_file(argv[1]);
 	interactive_shell = isatty(STDIN_FILENO);
 	init_shell(envr);
 	pipe(paths_pipefd);
@@ -101,21 +118,8 @@ int main(int argc, char **argv, char **envr)
 		complete_cmd = parser(NULL);
 		set_canon_input_mode(1);
 		exec_complete_cmd(complete_cmd);
-		get_next_line(paths_pipefd[0], &path);
-		while (path)
-		{
-			key = ft_strcut(path, ':');
-			if (key)
-			{
-				insert_command_to_hash(key, ft_strchr(path, ':') + 1);
-				free(key);
-			}
-			key = NULL;
-			free(path);
-			path = NULL;
-			get_next_line(paths_pipefd[0], &path);
-		}
+		insert_paths_to_hash();
 		set_canon_input_mode(0);
 	}
-    reset_exit(0);
+	reset_exit(0);
 }

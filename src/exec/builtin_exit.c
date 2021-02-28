@@ -42,7 +42,6 @@ static int	check_exit_status(char *status)
 
 int	builtin_exit(char **args, t_env env, int subshell)
 {
-
 	(void)env;
 	(void)subshell;
 	if (args[0] != NULL && args[1] == NULL)
@@ -50,7 +49,7 @@ int	builtin_exit(char **args, t_env env, int subshell)
 		if (check_exit_status(args[0]) == FUNC_SUCCESS)
 			reset_exit(args[0] ? ft_atoi(args[0]) : 0);
 		ft_fprintf(STDERR_FILENO, "42sh: exit: %s: %s",
-			 args[0], E_NUMERIC_ARG_REQUIRED);
+				args[0], E_NUMERIC_ARG_REQUIRED);
 		reset_exit(255);
 	}
 	else if (args[0] != NULL && args[1] != NULL)

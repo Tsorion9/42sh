@@ -69,7 +69,7 @@ void		var_expansion(char **src_word, size_t *i, int skeep_char,
 void		brace_var_expansion(char **src_word, size_t *i, int skeep_char,
 					int word_state);
 char		**pathname_expansion(char *word);
-t_word_list	*pathname_expansion_list(const char *word);
+t_word_list	*pathname_expansion_list(char *word);
 
 
 /*
@@ -86,8 +86,12 @@ void		assign_default_values(char **src_word, char **word,
 							char *param, int have_colon);
 void		remove_prefix(char **src_word, char **word, char *param_value,
 							int longest);
-void			remove_suffix(char **src_word, char **word, char *param_value,
+void		prepare_remove_prefix(char **src_word, char **word,
+							char *param_value, char **sep);
+void		remove_suffix(char **src_word, char **word, char *param_value,
 							int longest);
+void		prepare_remove_suffix(char **src_word, char **word,
+							char *param_value, char **sep);
 
 /*
 ** Misc
@@ -101,6 +105,11 @@ size_t		find_closing_quote(char *data);
 int			is_valid_var_char(char c);
 int			is_valid_var_name(char *s);
 int			is_contain_any_spec(char *s);
+void		match_files(t_list **matches, char **path_components,
+							char *current_path);
+void		del_list(void *mem, size_t garbage);
+int			is_greater(void *a, void *b);
+char		**clever_list_to_array(t_list *l, int *len);
 
 
 #endif

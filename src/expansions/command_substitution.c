@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_substitution.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/28 15:02:15 by jsance            #+#    #+#             */
+/*   Updated: 2021/02/28 15:02:16 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <stdio.h>
 #include "expansions.h"
 #include "parser.h"
 #include "exec.h"
 
-static char				*concat_and_free(t_list **l, unsigned int total_len)
+static char		*concat_and_free(t_list **l, unsigned int total_len)
 {
 	char			*c;
 	size_t			i;
@@ -23,7 +35,7 @@ static char				*concat_and_free(t_list **l, unsigned int total_len)
 	return (c);
 }
 
-char				*read_from_pipe(int fd)
+char			*read_from_pipe(int fd)
 {
 	static char		buf[1002];
 	t_list			*l;
@@ -41,7 +53,34 @@ char				*read_from_pipe(int fd)
 	return (concat_and_free(&l, total_len));
 }
 
-void					command_substitution(char **s, int word_state)
+static void		child_actions(int *pipefd, t_complete_cmd *cmd, char *tmp)
+{
+	close_wrapper(pipefd[0]);
+	dup2(pipefd[1], STDOUT_FILENO);
+	close_wrapper(pipefd[1]);
+	interactive_shell = 0;
+	exec_complete_cmd(cmd);
+	while ((tmp != NULL && *tmp != '\0'))
+	{
+		cmd = parser(&tmp);
+		if (cmd == NULL)
+			break ;
+		exec_complete_cmd(cmd);
+	}
+	exit(0);
+}
+
+static void		parrent_actions(int *pipefd, char **s, t_complete_cmd **cmd)
+{
+	close_wrapper(pipefd[1]);
+	free(*s);
+	free_lexer_state(&g_token);
+	*s = read_from_pipe(pipefd[0]);
+	clean_complete_command(cmd);
+	close_wrapper(pipefd[0]);
+}
+
+void			command_substitution(char **s, int word_state)
 {
 	t_complete_cmd	*cmd;
 	char			*tmp;
@@ -50,7 +89,6 @@ void					command_substitution(char **s, int word_state)
 
 	tmp = ft_strdup(*s);
 	cmd = parser(&tmp);
-//	print_complete_command(cmd);
 	if (!cmd)
 	{
 		ft_fprintf(2, "%s\n", E_CMD_BAD_SUBSTITUTION);
@@ -59,33 +97,10 @@ void					command_substitution(char **s, int word_state)
 	}
 	pipe(pipefd);
 	child = fork();
-	if (child) /* Parent */
-	{
-		close_wrapper(pipefd[1]);
-		free(*s);
-		free_lexer_state(&g_token);
-		*s = read_from_pipe(pipefd[0]);
-		clean_complete_command(&cmd);
-		close_wrapper(pipefd[0]);
-	}
-	else /* Child */
-	{
-		//sleep(1);
-		close_wrapper(pipefd[0]);
-		//close_wrapper(STDIN_FILENO);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close_wrapper(pipefd[1]);
-		interactive_shell = 0;
-		exec_complete_cmd(cmd);
-		while ((tmp != NULL && *tmp != '\0'))
-		{
-			cmd = parser(&tmp);
-			if (cmd == NULL)
-				break ;
-			exec_complete_cmd(cmd);
-		}
-		exit(0);
-	}
+	if (child)
+		parrent_actions(pipefd, s, &cmd);
+	else
+		child_actions(pipefd, cmd, tmp);
 	if (!(word_state & IN_DQUOTE_STATE) && !(word_state & IN_QUOTE_STATE))
 		expasnion_status(NEED_FIELD_SPLIT);
 }

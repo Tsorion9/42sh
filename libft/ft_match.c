@@ -1,17 +1,17 @@
 #include "libft.h"
 
-static char *find_closing_bracket(char *s)
+static char		*find_closing_bracket(char *s)
 {
 	while (*s)
 	{
 		if (*s == ']')
-			break;
+			break ;
 		s++;
 	}
 	return (s);
 }
 
-static void fill_subrange(char **start, char symbols[256])
+static void		fill_subrange(char **start, char symbols[256])
 {
 	char min;
 	char max;
@@ -24,7 +24,7 @@ static void fill_subrange(char **start, char symbols[256])
 		return ;
 	}
 	min = **start > *(*start + 2) ? *(*start + 2) : **start;
-	max =  **start < *(*start + 2) ? *(*start + 2) : **start;
+	max = **start < *(*start + 2) ? *(*start + 2) : **start;
 	while (min <= max)
 	{
 		symbols[(int)min] = 1;
@@ -33,15 +33,21 @@ static void fill_subrange(char **start, char symbols[256])
 	*start += 3;
 }
 
+static void			init_local_variables(char symbols[256], int *negate_result)
+{
+	memset(symbols, 0, 256);
+	*negate_result = 0;
+}
+
 /*
 ** Return whether we should negate the range
 */
-static int find_range(char *pattern, char *closing_bracket, char symbols[256])
+static int			find_range(char *pattern, char *closing_bracket,
+		char symbols[256])
 {
 	int negate_result;
 
-	memset(symbols, 0, 256);
-	negate_result = 0;
+	init_local_variables(symbols, &negate_result);
 	if (!*closing_bracket)
 	{
 		symbols[(int)'['] = 1;
@@ -57,7 +63,7 @@ static int find_range(char *pattern, char *closing_bracket, char symbols[256])
 	{
 		if (*(pattern + 1) == '-')
 			fill_subrange(&pattern, symbols);
-		else 
+		else
 		{
 			symbols[(int)*pattern] = 1;
 			pattern++;
@@ -66,7 +72,7 @@ static int find_range(char *pattern, char *closing_bracket, char symbols[256])
 	return (negate_result);
 }
 
-static void negate(char arr[256])
+static void			negate(char arr[256])
 {
 	int i;
 
@@ -79,55 +85,25 @@ static void negate(char arr[256])
 }
 
 /*
-void print_arr(char symbols[256])
-{
-	int i;
-
-	i = 0;
-	while (i < 256)
-	{
-		if (symbols[i])
-			printf("%c", i);
-		i++;
-	}
-}
-
-void print_range(char *string, char *closing_bracket, char symbols[256])
-{
-	if (!*closing_bracket)
-		return ;
-	while (string <= closing_bracket)
-	{
-		printf("%c", *string);
-		string++;
-	}
-	printf(" -> ");
-	print_arr(symbols);
-	printf("\n");
-}
-*/
-
-/*
 ** Pattern starts with [
 ** in case of no closed ], match exactly [
 ** [asd] - any of a, s, d
 ** [^asd] - not a,s,d
 ** [a-zA-Z] - any of a-z or A-Z
 */
-int range_match(char *string, char *pattern)
+int					range_match(char *string, char *pattern)
 {
-	char *closing_bracket;
-	static char symbols[256];
+	char		*closing_bracket;
+	static char	symbols[256];
 
 	closing_bracket = find_closing_bracket(pattern);
 	if (find_range(pattern, closing_bracket, symbols) == 1)
 	{
 		negate(symbols);
-	} 
-	//DEBUG
-	//print_range(pattern, closing_bracket, symbols);
+	}
 	if (symbols[(int)*string])
-		return (ft_match(string + 1, *closing_bracket ? closing_bracket + 1 : pattern + 1));
+		return (ft_match(string + 1,
+				*closing_bracket ? closing_bracket + 1 : pattern + 1));
 	return (0);
 }
 
@@ -141,14 +117,14 @@ int range_match(char *string, char *pattern)
 **
 ** Warning: quoting not supported!!
 */
-int ft_match(char *string, char *pattern)
+int					ft_match(char *string, char *pattern)
 {
 	if (!*string && !*pattern)
 		return (1);
 	if (*pattern == '*')
-		return (ft_match(string, pattern + 1) || 
+		return (ft_match(string, pattern + 1) ||
 				(*string ? ft_match(string + 1, pattern) : 0));
-	else if (*pattern == '?') 
+	else if (*pattern == '?')
 		return (*string ? ft_match(string + 1, pattern + 1) : 0);
 	else if (*pattern == '[')
 		return (range_match(string, pattern));

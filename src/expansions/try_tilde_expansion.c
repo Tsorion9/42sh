@@ -18,7 +18,7 @@
 ** 			"someword"more
 ** Возвращает индекс закрывающей кавычки
 */
-// TODO Возможно стоит вынести в либу
+
 size_t		find_closing_quote(char *data)
 {
 	char	quote;

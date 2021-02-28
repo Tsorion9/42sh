@@ -1,12 +1,12 @@
-#include  "t_builtin.h"
+#include "t_builtin.h"
 #include "job.h"
 #include <signal.h>
 
 int			builtin_bg(char **args, t_env env, int subshell)
 {
-	int error;
-	t_job *j;
-	int any_errors;
+	int		error;
+	t_job	*j;
+	int		any_errors;
 
 	(void)env;
 	(void)subshell;
@@ -41,7 +41,6 @@ int			builtin_bg(char **args, t_env env, int subshell)
 			ft_printf("%s\n", j->cmdline);
 		}
 		args++;
-
 	}
 	return (any_errors);
 }
