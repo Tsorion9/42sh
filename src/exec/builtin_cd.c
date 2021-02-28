@@ -37,8 +37,7 @@ static int	change_wd(char *where, int flag_p, t_env env)
 		return (1);
 	ft_setenv(env, "PWD", flag_p ? ft_strdup(wd) : ft_strdup(where));
 	ft_setenv(export_env, "PWD", flag_p ? ft_strdup(wd) : ft_strdup(where));
-	if (!flag_p)
-		free(where);
+	free(where);
 	return (0);
 }
 
