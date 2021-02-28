@@ -1,11 +1,11 @@
 #include "inc21sh.h"
-#include  "t_builtin.h"
+#include "t_builtin.h"
 #include "job.h"
 
 /*
 ** Return status message
 */
-char *killed(t_job *j)
+char		*killed(t_job *j)
 {
 	int status;
 
