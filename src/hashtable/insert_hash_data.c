@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:33:31 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/13 13:19:15 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/28 11:02:16 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ t_hashtable				*new_hash_table_element(char *key, char *value)
 		return (NULL);
 	}
 	s = ft_strdup(value);
+	if (!ft_isprint(value[ft_strlen(value) - 1])
+		|| value[ft_strlen(value) - 1] == ' ')
+		new->expand_next_alias = 1;
 	new->tokbuf_value = split_word_into_queue_tokens(s);
 	free(s);
 	return (new);

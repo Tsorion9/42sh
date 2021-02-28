@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 18:48:59 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/26 21:31:56 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/28 11:37:03 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct			s_hashtable
 	char				*key;
 	char				*value;
 	t_deque				*tokbuf_value;
+	int					expand_next_alias;
 	struct s_hashtable	*next;
 }						t_hashtable;
 
@@ -55,6 +56,7 @@ int						insert_hash_value(char *key, char *value,
 							t_hashdata *hd);
 char					*search_hash_data(char *key, t_hashdata *hd);
 char					*search_hash_data_1(char *key, t_hashdata *hd);
+t_hashtable				*search_hash_element(char *key, t_hashdata *hd);
 void					delete_t_hashdata(t_hashdata **hd);
 int						delete_t_hashtable(char *key, t_hashdata **hd);
 void					delete_hash_table_element(t_hashtable **table);

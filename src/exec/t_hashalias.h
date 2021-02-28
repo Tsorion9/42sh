@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:40:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/27 00:21:04 by nriker           ###   ########.fr       */
+/*   Updated: 2021/02/28 16:10:02 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@ int						check_valid_flag(char *arg, void (*print)(char *arg));
 void					set_null_meet_alias(void);
 
 /*
-** API FOR JSANCE
+** API FOR ALIAS
 ** search_alias - get value (don't forget to free string)
 ** of alias or NULL if alias is't exist
 */
 
 char					*search_alias(char *key);
 char					*search_alias_1(char *key);
+t_hashtable				*search_alias_hash_element(char *key);
 t_hashtable				*check_tokbuf(char *key, char *value);
 t_hashtable				*get_hashtable_by_key(char *key, char *value);
 void					set_do_not_expand(t_token **token);
@@ -73,6 +74,7 @@ void					value_of_token_is_not_null(t_token *token,
 							t_deque **tokbuf_g);
 void					value_of_token_is_null(t_token *token,
 							t_deque **tokbuf_g);
+void					flush_tokbuf_back(t_deque **tokbuf_g, t_deque *tokbuf);
 
 // void		upgrade_tokbuf(char *key, char *value);
 
