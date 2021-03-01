@@ -55,7 +55,7 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 		{
 			value = search_alias_1(tmp->value);
 			if (value == NULL)
-				value_of_token_is_null(tmp, &tokbuf_fresh);
+				non_string_alias(tmp, &tokbuf_fresh);
 			else
 			{
 				first_alias_tokbuf = deque_copy(search_tokbuf(tmp->value));
@@ -65,12 +65,16 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 				value_of_token_is_not_null(tmp, &tokbuf_fresh);
 				free(value);
 				set_null_meet_alias();
+				free(tmp->value);
+				free(tmp);
 			}
+			flush_tokbuf_back(&tokbuf_fresh, first_alias_tokbuf);
+			flush_tokbuf_back(&tokbuf_fresh, *tokbuf_g);
+			*tokbuf_g = tokbuf_fresh;
 		}
+		else
+			push_front(tokbuf_g, tmp);
 //		deque_apply(tokbuf_fresh, print_tokbuf);
-		flush_tokbuf_back(&tokbuf_fresh, first_alias_tokbuf);
-		flush_tokbuf_back(&tokbuf_fresh, *tokbuf_g);
-		*tokbuf_g = tokbuf_fresh;
 	// 	data = search_alias_hash_element(token->value);
 	// 	if (!data || !data->expand_next_alias)
 	// 		break ;

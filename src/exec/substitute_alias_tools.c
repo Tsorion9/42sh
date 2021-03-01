@@ -12,16 +12,16 @@
 
 #include "t_hashalias.h"
 
-void			flush_tokbuf_back(t_deque **tokbuf_g, t_deque *tokbuf)
+void			flush_tokbuf_back(t_deque **destination, t_deque *src)
 {
 	t_token *tail_token;
 
-	while (tokbuf && tokbuf->first && tokbuf->last)
+	while (src && src->first && src->last)
 	{
-		tail_token = pop_front(tokbuf);
-		push_back(tokbuf_g, tail_token);
+		tail_token = pop_front(src);
+		push_back(destination, tail_token);
 	}
-	erase_tokbuf(&tokbuf);
+	erase_tokbuf(&src);
 }
 
 void			table_is_not_null(char *key, char **value, t_deque **tokbuf_g)
@@ -55,19 +55,19 @@ void			table_is_null(char *key, t_deque **tokbuf_g)
 	flush_tokbuf_back(tokbuf_g, tokbuf);
 }
 
-void			value_of_token_is_null(t_token *token, t_deque **tokbuf_g)
+void			non_string_alias(t_token *token, t_deque **tokbuf_fresh)
 {
 	t_deque		*tokbuf;
 
 	tokbuf = deque_copy(search_tokbuf(token->value));
 	if (tokbuf)
 	{
-		// delete_first_token(tokbuf_g);
+		// delete_first_token(tokbuf_fresh);
 		deque_apply_inplace(tokbuf, &set_do_not_expand);
-		flush_tokbuf_back(tokbuf_g, tokbuf);
+		flush_tokbuf_back(tokbuf_fresh, tokbuf);
 	}
 	else
-		push_back(tokbuf_g, token);
+		push_back(tokbuf_fresh, token);
 }
 
 void			value_of_token_is_not_null(t_token *token, t_deque **tokbuf_g)
