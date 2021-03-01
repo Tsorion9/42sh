@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/27 00:22:15 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/01 23:14:20 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int			check_valid_flag_hash(char *arg, void (*print)(char *arg))
 	i = 0;
 	if (arg == NULL)
 		return (EXIT_SUCCESS);
-	while (arg[i] == '\\')
-		i++;
 	if (arg[i] == '-')
 	{
 		print(arg);
