@@ -40,8 +40,9 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 	t_deque		*tokbuf_l;
 	t_deque		*first_alias_tokbuf;
 	t_deque		*tokbuf_fresh;
-	int			k;
+	int			need_expand_alias;
 	int			j;
+	int			not_empty_links;
 	t_token		*tmp;
 	t_token		*del;
 
@@ -49,48 +50,68 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 	data = NULL;
 	tokbuf_fresh = NULL;
 	first_alias_tokbuf = NULL;
-	// while (k)
-	// {
+	not_empty_links = 0;
+	 while (need_expand_alias)
+	 {
 		tmp = pop_front(*tokbuf_g);
 		if (tmp->tk_type == WORD && !tmp->do_not_expand_alias)
 		{
+			// 1-й токен из значения алиаса
 			value = search_alias_1(tmp->value, &j);
+			// TODO Remove this if, it's unused, need remove j
 			if (!value && j) {
 				free(tmp->value);
 				free(tmp);
 				return ;
 			}
+			// Нет алиаса или токен не имеет строкового представления
 			if (value == NULL)
+			{
+				// Если нет строкового представления токена, то добавляет в
+				// tokbuf_fresh буфер токенов значения алиаса
+				// Иначе кладем токен в tokbuf_fresh, значит это не алиас
 				non_string_alias(tmp, &tokbuf_fresh);
+			}
 			else
 			{
+				// Есть строковое представление токена
+				// Сохраняем буфер значения первого алиаса, без первого токена
 				first_alias_tokbuf = deque_copy(search_tokbuf(tmp->value));
 				del = pop_front(first_alias_tokbuf);
 				free(del->value);
 				free(del);
-				value_of_token_is_not_null(tmp, &tokbuf_fresh);
+				// заполняем связки
+				value_of_token_is_not_null(tmp, &tokbuf_fresh, &not_empty_links);
 				free(value);
+				// Защита от зацикливания
 				set_null_meet_alias();
+				// Чистка памяти
 				free(tmp->value);
 				free(tmp);
 			}
-			flush_tokbuf_back(&tokbuf_fresh, first_alias_tokbuf);
+			// Кладем буфер первого алиаса в tokbuf_fresh
+			if (not_empty_links)
+				flush_tokbuf_back(&tokbuf_fresh, first_alias_tokbuf);
+			else
+				erase_tokbuf(&first_alias_tokbuf);
+			// Кладем остаток токенов глобального буфера в tokbuf_fresh
 			flush_tokbuf_back(&tokbuf_fresh, *tokbuf_g);
+			// Устанавливаем в глобальный буфер tokbuf_fresh
 			*tokbuf_g = tokbuf_fresh;
 		}
 		else
 			push_front(tokbuf_g, tmp);
 //		deque_apply(tokbuf_fresh, print_tokbuf);
-	// 	data = search_alias_hash_element(token->value);
-	// 	if (!data || !data->expand_next_alias)
-	// 		break ;
-	// 	tokbuf_l = NULL;
-	// 	token = gett(g_parser_input_str, tokbuf_g, &tokbuf_l);
-	// 	// data = search_alias_hash_element(token->value);
-	// 	if (search_alias_hash_element(token->value))
-	// 		k = search_alias_hash_element(token->value)->expand_next_alias;
+	 	data = search_alias_hash_element(token->value);
+	 	if (!data || !data->expand_next_alias)
+	 		break ;
+	 	tokbuf_l = NULL;
+	 	token = gett(g_parser_input_str, tokbuf_g, &tokbuf_l);
+		data = search_alias_hash_element(token->value);
+	 	if (search_alias_hash_element(token->value))
+			need_expand_alias = search_alias_hash_element(token->value)->expand_next_alias;
 		
-	// }
+	 }
 }
 
 static void		check_alias(t_token **token, t_deque **tokbuf_g,

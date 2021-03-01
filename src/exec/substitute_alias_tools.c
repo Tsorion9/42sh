@@ -72,7 +72,8 @@ void			non_string_alias(t_token *token, t_deque **tokbuf_fresh)
 		push_back(tokbuf_fresh, token);
 }
 
-void			value_of_token_is_not_null(t_token *token, t_deque **tokbuf_g)
+void			value_of_token_is_not_null(t_token *token, t_deque **tokbuf_g,
+								  int *not_empty_links)
 {
 	char		*key;
 	char		*value;
@@ -84,6 +85,7 @@ void			value_of_token_is_not_null(t_token *token, t_deque **tokbuf_g)
 	if ((table = check_tokbuf(key, value)))
 	{
 		table_is_not_null(key, &value, tokbuf_g);
+		*not_empty_links = 1;
 	}
 	else if (!table)
 		table_is_null(key, tokbuf_g);
