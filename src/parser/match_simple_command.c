@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 21:42:16 by jsance            #+#    #+#             */
-/*   Updated: 2021/02/28 16:10:35 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/01 19:54:37 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,16 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 	char		*value;
 	t_hashtable	*data;
 	t_deque		*tokbuf_l;
+	t_deque		*first_alias_tokbuf;
 	t_deque		*tokbuf_fresh;
 	int			k;
 	t_token		*tmp;
+	t_token		*del;
 
 	k = 1;
 	data = NULL;
 	tokbuf_fresh = NULL;
+	first_alias_tokbuf = NULL;
 	// while (k)
 	// {
 		tmp = pop_front(*tokbuf_g);
@@ -55,12 +58,17 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 				value_of_token_is_null(tmp, &tokbuf_fresh);
 			else
 			{
+				first_alias_tokbuf = deque_copy(search_tokbuf(tmp->value));
+				del = pop_front(first_alias_tokbuf);
+				free(del->value);
+				free(del);
 				value_of_token_is_not_null(tmp, &tokbuf_fresh);
 				free(value);
 				set_null_meet_alias();
 			}
 		}
 //		deque_apply(tokbuf_fresh, print_tokbuf);
+		flush_tokbuf_back(&tokbuf_fresh, first_alias_tokbuf);
 		flush_tokbuf_back(&tokbuf_fresh, *tokbuf_g);
 		*tokbuf_g = tokbuf_fresh;
 	// 	data = search_alias_hash_element(token->value);
