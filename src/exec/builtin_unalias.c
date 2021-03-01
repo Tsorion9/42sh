@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 12:42:37 by nriker            #+#    #+#             */
-/*   Updated: 2021/03/01 23:00:25 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/01 23:08:55 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int			check_valid_flag_unalias(char *arg, void (*print)(char *arg))
 	i = 0;
 	if (arg == NULL)
 		return (EXIT_SUCCESS);
-	while (arg[i] == '\\')
-		i++;
 	if (arg[i] == '-')
 	{
 		print(arg);
