@@ -9,7 +9,7 @@ void print_words(t_word_list *words)
 	printf("\e[0;34m%21s = ", "words");
 	while (tmp)
 	{
-		printf((tmp->next) ? "%s " : "%s", tmp->word);
+		printf((tmp->next) ? "'%s' " : "'%s'", tmp->word);
 		tmp = tmp->next;
 	}
 	printf("\n");
