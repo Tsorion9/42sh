@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 07:37:50 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/09 23:16:27 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/02 00:59:13 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		check_type_input(char *args, t_env env)
 {
 	if (check_in_alias(args) == EXIT_SUCCESS ||
 		check_in_builtins(args) == EXIT_SUCCESS ||
+		check_in_hash(args) == EXIT_SUCCESS ||
 		check_in_path(args, env) == EXIT_SUCCESS)
 		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);

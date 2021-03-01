@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:12:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/22 23:50:13 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/02 01:00:26 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,19 @@ int		check_in_builtins(char *args)
 		!ft_strcmp(args, "type") || !ft_strcmp(args, "hash"))
 	{
 		ft_printf("%s is a shell builtin\n", args);
+		return (EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
+}
+
+int		check_in_hash(char *args)
+{
+	char	*value;
+
+	if ((value = search_hash(args)))
+	{
+		ft_printf("%s is hashed (%s)\n", args, value);
+		free(value);
 		return (EXIT_SUCCESS);
 	}
 	return (EXIT_FAILURE);
