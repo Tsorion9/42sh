@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_actions.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:19 by anton             #+#    #+#             */
-/*   Updated: 2020/12/16 20:42:00 by jsance           ###   ########.fr       */
+/*   Updated: 2021/03/01 21:40:09 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,7 @@ t_env			copy_env(t_env env)
 	return ((t_env)copy_ptree((t_ptree *)env));
 }
 
-/*
-** Name should be freed later by caller
-*/
-
-int				ft_setenv(t_env env, char *name, char *value)
-{
-	return (insert_value((t_ptree *)env, name, value));
-}
-
-void			ft_unsetenv(t_env env, char *name)
-{
-	del_key((t_ptree *)env, name);
-}
-
-int arr_len(char **arr)
+int				arr_len(char **arr)
 {
 	int i;
 
@@ -48,16 +34,16 @@ int arr_len(char **arr)
 	return (i);
 }
 
-static int is_greater_1(void *a, void *b)
+static int		is_greater_1(void *a, void *b)
 {
 	return (ft_strcmp((char *)a, (char *)b));
-
 }
 
 /*
 ** memory_ok - can be null
 ** optional_prefix - can be null
 */
+
 void			print_env(t_env env, int *memory_ok, char *optional_prefix)
 {
 	char	**arr;
@@ -69,7 +55,7 @@ void			print_env(t_env env, int *memory_ok, char *optional_prefix)
 	start = arr;
 	while (*arr)
 	{
-		ft_printf("%s%s\n", optional_prefix ? optional_prefix : "" ,*arr);
+		ft_printf("%s%s\n", optional_prefix ? optional_prefix : "", *arr);
 		arr++;
 	}
 	del_array(start);

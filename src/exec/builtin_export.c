@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 14:52:20 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/15 00:09:03 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/01 21:33:56 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	handle_export_arg(char *arg)
 ** export -p
 ** export name[=word]...
 */
+
 int			builtin_export(char **args, t_env env_deprecated, int subshell)
 {
 	int status;
