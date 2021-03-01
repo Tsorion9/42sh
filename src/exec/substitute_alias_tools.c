@@ -65,6 +65,8 @@ void			non_string_alias(t_token *token, t_deque **tokbuf_fresh)
 		// delete_first_token(tokbuf_fresh);
 		deque_apply_inplace(tokbuf, &set_do_not_expand);
 		flush_tokbuf_back(tokbuf_fresh, tokbuf);
+		free(token->value);
+		free(token);
 	}
 	else
 		push_back(tokbuf_fresh, token);
@@ -75,8 +77,9 @@ void			value_of_token_is_not_null(t_token *token, t_deque **tokbuf_g)
 	char		*key;
 	char		*value;
 	t_hashtable	*table;
+	int			j;
 
-	value = search_alias_1(token->value);
+	value = search_alias_1(token->value, &j);
 	key = ft_strdup(token->value);
 	if ((table = check_tokbuf(key, value)))
 	{

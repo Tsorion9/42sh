@@ -20,6 +20,7 @@ static t_token	*copy_token(t_token *token)
 	fresh->value = ft_strdup(token->value);
 	fresh->do_not_expand_alias = token->do_not_expand_alias;
 	fresh->tk_type = token->tk_type;
+	fresh->empty_alias = token->empty_alias;
 	return (fresh);
 }
 

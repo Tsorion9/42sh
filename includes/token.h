@@ -51,6 +51,7 @@ typedef struct	s_token
     char				*value;
     int 				do_not_expand_alias;
     t_tokens			tk_type;
+	int					empty_alias;
 }				t_token;
 
 #endif

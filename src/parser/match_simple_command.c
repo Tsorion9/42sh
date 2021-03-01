@@ -41,6 +41,7 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 	t_deque		*first_alias_tokbuf;
 	t_deque		*tokbuf_fresh;
 	int			k;
+	int			j;
 	t_token		*tmp;
 	t_token		*del;
 
@@ -53,7 +54,12 @@ void			substitute_alias(t_token *token, t_deque **tokbuf_g)
 		tmp = pop_front(*tokbuf_g);
 		if (tmp->tk_type == WORD && !tmp->do_not_expand_alias)
 		{
-			value = search_alias_1(tmp->value);
+			value = search_alias_1(tmp->value, &j);
+			if (!value && j) {
+				free(tmp->value);
+				free(tmp);
+				return ;
+			}
 			if (value == NULL)
 				non_string_alias(tmp, &tokbuf_fresh);
 			else

@@ -33,8 +33,17 @@ t_deque		*split_word_into_queue_tokens(char *word)
 	t_token	*token;
 	char	*s;
 
-	s = ft_strdup(word);
 	deque = NULL;
+	if (!word || !*word)
+	{
+		token = ft_memalloc(sizeof(t_token));
+		token->value = ft_strdup("");
+		token->empty_alias = 1;
+		token->tk_type = WORD;
+		push_back(&deque, token);
+		return (deque);
+	}
+	s = ft_strdup(word);
 	while (s != NULL)
 	{
 		if (consist_only_blanks(s))

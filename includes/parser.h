@@ -74,6 +74,7 @@ int		return_err_and_flush_tokens(t_deque **tokbuf_g, t_deque **tokbuf_l);
 
 t_complete_cmd	*parser(char **s);
 t_word_list		*create_word_node(char *word);
+t_word_list		*create_word_node_and_save_alias_info(t_token *token);
 t_deque			*split_word_into_queue_tokens(char *word);
 
 /*

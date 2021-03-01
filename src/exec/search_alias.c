@@ -90,13 +90,20 @@ t_hashtable				*search_alias_hash_element(char *key)
 	return (search_hash_element(key, hash_alias->hd));
 }
 
-char					*search_alias_1(char *key)
+char					*search_alias_1(char *key, int *a)
 {
 	t_hashalias		*hash_alias;
 	char			*second_value;
+	char		*b;
 
 	if ((hash_alias = static_hashalias_action(get)) == NULL)
 		return (NULL);
+	*a=0;
+	if ((b = search_hash_data(key, hash_alias->hd)))
+	{
+		*a=1;
+		free(b);
+	}
 	return (search_hash_data_1(key, hash_alias->hd));
 }
 
