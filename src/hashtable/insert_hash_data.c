@@ -34,8 +34,8 @@ t_hashtable				*new_hash_table_element(char *key, char *value)
 		return (NULL);
 	}
 	s = ft_strdup(value);
-	if (!ft_isprint(value[ft_strlen(value) - 1])
-		|| value[ft_strlen(value) - 1] == ' ')
+	if (!ft_isprint(value[*value ? ft_strlen(value) - 1 : *value])
+		|| value[*value ? ft_strlen(value) - 1 : *value] == ' ')
 		new->expand_next_alias = 1;
 	new->tokbuf_value = split_word_into_queue_tokens(s);
 	free(s);
