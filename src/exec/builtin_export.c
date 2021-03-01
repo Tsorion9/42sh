@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/10 14:52:20 by nriker            #+#    #+#             */
-/*   Updated: 2021/03/01 21:33:56 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/01 23:14:28 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,27 @@
 #include "t_export.h"
 #include "environment.h"
 #include "libft.h"
+
+void		invalid_export_option(char *arg)
+{
+	ft_fprintf(STDERR_FILENO, "42sh: export: %s: invalid option\n", arg);
+	ft_fprintf(STDERR_FILENO, "export: usage: export [-p] [name ... ]\n");
+}
+
+int			check_valid_flag_export(char *arg, void (*print)(char *arg))
+{
+	int		i;
+
+	i = 0;
+	if (arg == NULL)
+		return (EXIT_SUCCESS);
+	if (arg[i] == '-')
+	{
+		print(arg);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
 
 static int	handle_export_arg(char *arg)
 {
@@ -56,12 +77,13 @@ int			builtin_export(char **args, t_env env_deprecated, int subshell)
 
 	(void)subshell;
 	(void)env_deprecated;
-	status = 0;
 	if (!args || !args[0] || !ft_strcmp(args[0], "-p"))
 	{
 		print_env(g_export_env, &status, "export ");
 		return (EXIT_SUCCESS);
 	}
+	if (check_valid_flag_export(*args, invalid_export_option) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	status = EXIT_SUCCESS;
 	i = 0;
 	while (args[i])
