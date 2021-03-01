@@ -50,7 +50,9 @@ char					*search_hash_data_1(char *key, t_hashdata *hd)
 				break ;
 			table = table->next;
 		}
-	if (table == NULL)
+	if (!table || !table->tokbuf_value || !table->tokbuf_value->first ||
+			!table->tokbuf_value->first->token ||
+			!table->tokbuf_value->first->token->value)
 		return (NULL);
 	return (ft_strdup(table->tokbuf_value->first->token->value));
 }
