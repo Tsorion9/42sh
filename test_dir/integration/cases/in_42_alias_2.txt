@@ -1,0 +1,5 @@
+alias a='q b c' q='ls ' b='| ' c='cat'
+a
+
+alias a='q b c' q='ls ' b=';; ' c='cat'
+a

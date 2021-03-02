@@ -19,9 +19,15 @@ void			flush_tokbuf_back(t_deque **destination, t_deque *src)
 	while (src && src->first && src->last)
 	{
 		tail_token = pop_front(src);
+		if (!tail_token)
+		{
+			free(src);
+			src = NULL;
+			return ;
+		}
 		push_back(destination, tail_token);
 	}
-	erase_tokbuf(&src);
+	free(src);
 }
 
 void			table_is_not_null(char *key, char **value, t_deque **tokbuf_g)

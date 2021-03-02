@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "alias.h"
 
 t_word_list	*create_word_node(char *word)
 {
@@ -51,6 +52,7 @@ int			match_cmd_word(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 
 	redirects = (*simple_cmd)->redirects;
 	tokbuf_l = NULL;
+	alias_substitution(tokbuf_g);
 	token = gett(g_parser_input_str, tokbuf_g, &tokbuf_l);
 	if (token->tk_type == WORD)
 	{

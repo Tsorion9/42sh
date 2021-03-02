@@ -127,7 +127,8 @@ CPARSER =   clean_commands.c \
 			is_redirect.c \
 			add_word_to_list.c \
 			clean_grammar_linebreaks.c \
-			set_instruction.c
+			set_instruction.c \
+			alias_substitution.c
 
 CEXEC = builtin_21shopt.c \
 		builtin_bg.c \

@@ -1,0 +1,8 @@
+alias s='echo b ' c=d
+s c
+
+alias a='b c' b=d d=q q=ls
+a
+
+alias a='b c ' b=d d=q q=ls
+a b

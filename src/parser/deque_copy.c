@@ -12,7 +12,14 @@
 
 #include "parser.h"
 
-static t_token	*copy_token(t_token *token)
+void	destroy_token(t_token **token)
+{
+	free((*token)->value);
+	free(*token);
+	*token = NULL;
+}
+
+t_token	*copy_token(t_token *token)
 {
 	t_token	*fresh;
 
