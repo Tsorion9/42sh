@@ -53,6 +53,9 @@ int						hash_api_change_data(t_hashtable **ht, char *value)
 			return (EXIT_FAILURE);
 		erase_tokbuf(&(*ht)->tokbuf_value);
 		s = ft_strdup((*ht)->value);
+		if (!ft_isprint(value[*value ? ft_strlen(value) - 1 : *value])
+			|| value[*value ? ft_strlen(value) - 1 : *value] == ' ')
+			(*ht)->expand_next_alias = 1;
 		(*ht)->tokbuf_value = split_word_into_queue_tokens(s);
 		free(s);
 	}
