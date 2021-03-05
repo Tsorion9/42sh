@@ -44,6 +44,11 @@ t_deque		*split_word_into_queue_tokens(char *word)
 		return (deque);
 	}
 	s = ft_strdup(word);
+	if (consist_only_blanks(s))
+	{
+		ft_strdel(&s);
+		return (NULL);
+	}
 	while (s != NULL)
 	{
 		if (consist_only_blanks(s))
