@@ -87,5 +87,6 @@ void	flush_tokbuf(t_deque **tokbuf_g, t_deque **tokbubf_l);
 void	syntax_error(t_token *token);
 t_token	*copy_token(t_token *token);
 void	destroy_token(t_token **token);
+void	del_token(t_token *token);
 
 #endif
