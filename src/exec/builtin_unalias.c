@@ -6,11 +6,32 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 12:42:37 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/23 19:43:23 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/01 23:08:55 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_hashalias.h"
+
+void		invalid_unalias_option(char *arg)
+{
+	ft_fprintf(STDERR_FILENO, "42sh: unalias: %s: invalid option\n", arg);
+	ft_fprintf(STDERR_FILENO, "unalias: usage: unalias [-a] [name ... ]\n");
+}
+
+int			check_valid_flag_unalias(char *arg, void (*print)(char *arg))
+{
+	int		i;
+
+	i = 0;
+	if (arg == NULL)
+		return (EXIT_SUCCESS);
+	if (arg[i] == '-')
+	{
+		print(arg);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
 
 void		delete_all_aliases(void)
 {
@@ -39,6 +60,23 @@ void		delete_all_aliases(void)
 	}
 }
 
+int			unalias_cycle_params(char **args)
+{
+	int				status;
+
+	status = EXIT_SUCCESS;
+	while (*args)
+	{
+		if ((delete_alias(*args)) == EXIT_FAILURE)
+		{
+			ft_printf("unalias: no such hash table element: %s\n", *args);
+			status = EXIT_FAILURE;
+		}
+		args++;
+	}
+	return (status);
+}
+
 int			builtin_unalias(char **args, t_env env, int subshell)
 {
 	t_hashalias		*alias;
@@ -54,15 +92,10 @@ int			builtin_unalias(char **args, t_env env, int subshell)
 	}
 	if (!ft_strcmp(*args, "-a"))
 	{
-		while (*args && !ft_strcmp(*args, "-a"))
-			args++;
 		delete_all_aliases();
+		return (EXIT_SUCCESS);
 	}
-	while (*args)
-	{
-		if ((delete_alias(*args)) == EXIT_FAILURE)
-			ft_printf("unalias: no such hash table element: %s\n", *args);
-		args++;
-	}
-	return (EXIT_SUCCESS);
+	if (check_valid_flag_unalias(*args, invalid_unalias_option) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (unalias_cycle_params(args));
 }

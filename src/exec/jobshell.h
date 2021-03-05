@@ -5,9 +5,9 @@
 #include "parser.h"
 #include "exec.h"
 
-extern int top_level_shell;
-extern int job_control_enabled;
-extern int async_notify_bg;
+extern int g_top_level_shell;
+extern int g_job_control_enabled;
+extern int g_async_notify_bg;
 
 void set_jobshell_signal(void);
 void create_jobshell(t_complete_cmd *cmd);

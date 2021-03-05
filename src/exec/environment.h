@@ -36,6 +36,6 @@ void			print_env(t_env env, int *memory_ok, char *optional_prefix);
 char			*ft_getenv(t_env env, char *name);
 
 extern t_env env;
-extern t_env export_env;
+extern t_env g_export_env;
 
 #endif

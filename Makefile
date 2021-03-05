@@ -144,6 +144,7 @@ CEXEC = builtin_21shopt.c \
 		canonicize_utils.c \
 		del_array.c \
 		env_actions.c \
+		ft_setenv.c \
 		env_related_builtins.c \
 		exec.c \
 		exec_pipeline.c \

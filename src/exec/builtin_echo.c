@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:18 by anton             #+#    #+#             */
-/*   Updated: 2021/02/15 06:17:57 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/01 21:13:18 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,23 @@
 ** Implmented only -n flag which suppresses \n
 */
 
+int				check_echo_e_params(char *args, int i)
+{
+	if (args[i + 1] == 't')
+		ft_putchar('\t');
+	else if (args[i + 1] == 'n')
+		ft_putchar('\n');
+	else if (args[i + 1] == 'c')
+		return (EXIT_FAILURE);
+	else
+	{
+		ft_putchar(args[i]);
+		if (!args[i + 1])
+			return (EXIT_SUCCESS);
+		ft_putchar(args[i + 1]);
+	}
+}
+
 int				print_echo_output(char *args)
 {
 	int		i;
@@ -28,19 +45,8 @@ int				print_echo_output(char *args)
 	{
 		if (args[i] == '\\')
 		{
-			if (args[i + 1] == 't')
-				ft_putchar('\t');
-			else if (args[i + 1] == 'n')
-				ft_putchar('\n');
-			else if (args[i + 1] == 'c')
+			if (check_echo_e_params(args, i) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
-			else
-			{
-				ft_putchar(args[i]);
-				if (!args[i + 1])
-					return (EXIT_SUCCESS);
-				ft_putchar(args[i + 1]);
-			}
 			i += 2;
 		}
 		else
@@ -49,7 +55,7 @@ int				print_echo_output(char *args)
 	return (EXIT_SUCCESS);
 }
 
-int				cycle_echo_print(char **args, int n_flag, int E_flag)
+int				cycle_echo_print(char **args, int n_flag, int e_flag)
 {
 	int	status;
 
@@ -62,11 +68,10 @@ int				cycle_echo_print(char **args, int n_flag, int E_flag)
 	}
 	while (*args)
 	{
-		if (E_flag)
-			ft_putstr(*args);
+		if (e_flag && print_echo_output(*args) == EXIT_FAILURE)
+			return (EXIT_SUCCESS);
 		else
-			if (print_echo_output(*args) == EXIT_FAILURE)
-				return (EXIT_SUCCESS);
+			ft_putstr(*args);
 		if (!n_flag)
 			status |= (-1 == ft_putchar(!*(args + 1) ? '\n' : ' '));
 		else if (*(args + 1))
@@ -83,12 +88,12 @@ int				check_echo_flags_and_print(char **args)
 	int		i;
 	int		n_flag;
 	int		e_flag;
-	int		E_flag;
+	int		upper_e_flag;
 
 	i = 0;
 	n_flag = 0;
 	e_flag = 0;
-	E_flag = 0;
+	upper_e_flag = 0;
 	while (args[i])
 	{
 		if (!ft_strcmp(args[i], "-n"))
@@ -96,7 +101,7 @@ int				check_echo_flags_and_print(char **args)
 		else if (!ft_strcmp(args[i], "-e"))
 			e_flag = 1;
 		else if (!ft_strcmp(args[i], "-E"))
-			E_flag = 1;
+			upper_e_flag = 1;
 		else
 			break ;
 		i++;

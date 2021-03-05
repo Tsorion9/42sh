@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   static_hash_action.c                               :+:      :+:    :+:   */
+/*   ft_setenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/10 06:45:56 by nriker            #+#    #+#             */
-/*   Updated: 2021/03/01 21:57:58 by nriker           ###   ########.fr       */
+/*   Created: 2021/03/01 21:36:10 by nriker            #+#    #+#             */
+/*   Updated: 2021/03/01 21:38:47 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_hash.h"
+#include "environment.h"
 
-t_hash			*static_hash_action(int action)
+/*
+** Name should be freed later by caller
+*/
+
+int				ft_setenv(t_env env, char *name, char *value)
 {
-	static t_hash	*hash;
+	return (insert_value((t_ptree *)env, name, value));
+}
 
-	if (action == init)
-	{
-		if ((hash = init_t_hash()) == NULL)
-			return (NULL);
-		hash->copy_path = ft_strsplit(ft_getenv(env, "PATH"), ':');
-		return (hash);
-	}
-	else if (action == get)
-		return (hash);
-	else if (action == del)
-	{
-		delete_t_hash();
-		hash = (NULL);
-	}
-	return (NULL);
+void			ft_unsetenv(t_env env, char *name)
+{
+	del_key((t_ptree *)env, name);
 }

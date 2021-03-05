@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 00:01:25 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/18 22:52:46 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/01 21:49:53 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 # include "hashtable.h"
 # include "t_hashalias.h"
 
-typedef struct			s_hash
+typedef struct	s_hash
 {
-	t_hashdata			*hd;
-	char				**copy_path;
-}						t_hash;
+	t_hashdata	*hd;
+	char		**copy_path;
+}				t_hash;
 
 t_hash			*static_hash_action(int action);
 t_hash			*init_t_hash(void);
 void			delete_t_hash(void);
-void			insert_command_to_hash(char *name_key, char *command_path_value);
+void			insert_command_to_hash(char *key, char *value);
 void			insert_hash(char *key, char *value);
 void			insert_hash_path(char **path);
 void			print_hash(char *key);

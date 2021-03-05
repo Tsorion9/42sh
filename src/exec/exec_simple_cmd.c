@@ -90,7 +90,7 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 				del_array(args);
 				return (-1);
 			}
-			status = find_exec(args, export_env);
+			status = find_exec(args, g_export_env);
 		}
 		del_array(args);
 	}

@@ -21,7 +21,7 @@ void		reset_exit(int status)
 	if (isatty(0))
 	{
 		/* TODO: (this can be called from parser)
-		if (top_level_shell && ft_lstlen(jobs) && !notified)
+		if (g_top_level_shell && ft_lstlen(jobs) && !notified)
 		{
 			ft_printf("There are stopped or running jobs\n");
 			notified = 1;

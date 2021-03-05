@@ -22,7 +22,7 @@ void	last_cmd_status_expansion(char **src_word, size_t *i, size_t len)
 {
 	char	*s_status;
 
-	s_status = ft_itoa(last_cmd_status);
+	s_status = ft_itoa(g_last_cmd_status);
 	replace_value(src_word, s_status, i, len);
 	free(s_status);
 }

@@ -8,7 +8,7 @@ char *line_42sh(char *prompt)
 	char	*line;
 	int		status;
 
-	if (interactive_shell)
+	if (g_interactive_shell)
 		return (readline(prompt));
 	status = get_next_line_wrapper(STDIN_FILENO, &line);
 	if (status == -1)
