@@ -52,6 +52,7 @@ int						hash_api_change_data(t_hashtable **ht, char *value)
 		if (!((*ht)->value = ft_strdup(value)))
 			return (EXIT_FAILURE);
 		erase_tokbuf(&(*ht)->tokbuf_value);
+		free((*ht)->tokbuf_value);
 		s = ft_strdup((*ht)->value);
 		if (!ft_isprint(value[*value ? ft_strlen(value) - 1 : *value])
 			|| value[*value ? ft_strlen(value) - 1 : *value] == ' ')
