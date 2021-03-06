@@ -27,11 +27,19 @@ static void	move_job_to_fg(t_job *j)
 	wait_fg_job(j->pgid);
 }
 
+static void	handle_error(int error, char *name)
+{
+	if (error == NO_JOB)
+		ft_fprintf(2, "No such job: %s\n", name ? name : "%%");
+	if (error == AMBIGOUS_JOB)
+		ft_fprintf(2, "Ambigous job: %s\n", name ? name : "%%");
+}
+
 int			builtin_fg(char **args, t_env env, int subshell)
 {
-	t_job *j;
-	int error;
-	char *str_status;
+	t_job	*j;
+	int		error;
+	char	*str_status;
 
 	(void)env;
 	(void)subshell;
@@ -39,10 +47,7 @@ int			builtin_fg(char **args, t_env env, int subshell)
 	j = find_job_by_pattern(*args ? *args : "%%", &error);
 	if (!j)
 	{
-		if (error == NO_JOB)
-			ft_fprintf(2, "No such job: %s\n", *args ? *args : "%%");
-		if (error == AMBIGOUS_JOB)
-			ft_fprintf(2, "Ambigous job: %s\n", *args ? *args : "%%");
+		handle_error(error, *args);
 	}
 	else
 	{

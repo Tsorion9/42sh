@@ -35,7 +35,7 @@ static int file_redirection(t_redirect *redirect, int flags, int mode)
 	if (redir->splitted_filename && redir->splitted_filename->next)
 	{
 		ft_fprintf(STDERR_FILENO, "%s: %s: %s\n",
-				   "42sh", redirect->redirector->filename, E_AMBIGUOUS_REDIR);
+			"42sh", redirect->redirector->filename, E_AMBIGUOUS_REDIR);
 		return (1);
 	}
 	fd = open(redirect->redirector->filename, flags, mode);
@@ -50,11 +50,12 @@ static int file_redirection(t_redirect *redirect, int flags, int mode)
 	return (0);
 }
 
-static int try_duplicate_fd(t_redirect *redirect)
+static int	try_duplicate_fd(t_redirect *redirect)
 {
 	int status;
 
-	status = dup2(ft_atoi(redirect->redirector->filename), redirect->redirector->fd);
+	status = dup2(ft_atoi(redirect->redirector->filename),
+			redirect->redirector->fd);
 	if (status == -1)
 	{
 		ft_fprintf(STDERR_FILENO, "42sh: %d: Bad file descriptor\n",
@@ -69,7 +70,6 @@ static int try_duplicate_fd(t_redirect *redirect)
 	{
 		status = read(redirect->redirector->fd, &status, 0);
 	}
-
 	if (status == -1)
 	{
 		ft_fprintf(STDERR_FILENO, "42sh: %d: Bad file descriptor\n",
@@ -78,7 +78,7 @@ static int try_duplicate_fd(t_redirect *redirect)
 	return (status);
 }
 
-int make_redirection(t_redirect *redirect)
+int	make_redirection(t_redirect *redirect)
 {
 	int status;
 
@@ -88,7 +88,8 @@ int make_redirection(t_redirect *redirect)
 	else if (redirect->instruction == OUTPUT_DIRECTION)
 		status = file_redirection(redirect, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	else if (redirect->instruction == DOUBLE_OUTPUT_DIRECTION)
-		status = file_redirection(redirect, O_WRONLY | O_CREAT | O_APPEND, 0666);
+		status = file_redirection(redirect, O_WRONLY | O_CREAT | O_APPEND,
+				0666);
 	else if (redirect->instruction == DOUBLE_INPUT_DERECTION)
 		status = make_heredoc_redirection(redirect);
 	if (redirect->instruction == DUPLICAT_OUTPUT ||

@@ -39,7 +39,7 @@ int			builtin_bg(char **args, t_env env, int subshell)
 	(void)subshell;
 	any_errors = 0;
 	if (!*args)
-		bg_noargs(&any_errors);	
+		bg_noargs(&any_errors);
 	while (*args)
 	{
 		j = find_job_by_pattern(*args, &error);

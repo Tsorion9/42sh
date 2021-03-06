@@ -7,7 +7,7 @@
 ** return NULL if SIGINT arrived
 */
 
-char *read_heredoc_value(char *delimiter, int *heredoc_sigin)
+char	*read_heredoc_value(char *delimiter, int *heredoc_sigin)
 {
 	char 				*value;
 	char 				*line;

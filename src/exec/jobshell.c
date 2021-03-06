@@ -22,15 +22,11 @@ void set_jobshell_signal(void)
 {
 	if (g_interactive_shell)
 	{
-		signal(SIGINT, SIG_IGN); /* In case of come child handles */
-		signal(SIGTERM, SIG_IGN); /* In case of come child handles */
+		signal(SIGINT, SIG_IGN);
+		signal(SIGTERM, SIG_IGN);
 	}
-	/* If SIG_IGN process will be silently destroyed and not turned to zombie*/
-	signal(SIGCHLD, SIG_DFL); /* We wait, parent does job control */
-	signal(SIGTSTP, SIG_DFL); /*
-								 Jobshell is stopped and top-level shell
-								 recieves SIGCHLD and sends SIGCONT
-								*/
+	signal(SIGCHLD, SIG_DFL);
+	signal(SIGTSTP, SIG_DFL);
 }
 
 void create_jobshell(t_complete_cmd *cmd)
@@ -39,13 +35,13 @@ void create_jobshell(t_complete_cmd *cmd)
 	int				status;
 
 	job = fork();
-	if (job) /* top-level shell */
+	if (job)
 	{
 		if (g_interactive_shell)
 			setpgid(job, job);
 		add_job(job, 1, andor_to_str(cmd->and_or));
 	}
-	else	 /* job shell */
+	else
 	{
 		if (g_interactive_shell)
 			setpgid(getpid(), getpid());

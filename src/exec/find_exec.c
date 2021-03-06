@@ -60,26 +60,30 @@ static int		no_exec_rights(char *progname)
 	return (-1);
 }
 
+static void		write_to_hashpipe(char *name, char *path)
+{
+	char	buf[PATH_MAX];
+
+	ft_strcpy(buf, name);
+	ft_strcat(buf, ":");
+	ft_strcat(buf, path);
+	ft_strcat(buf, "\n");
+	write(g_paths_pipefd[1], buf, ft_strlen(buf));
+}
+
 int				find_exec(char **args, t_env env)
 {
 	char	**child_env;
 	char	*progname;
 	int		memory_ok;
-	char	buf[PATH_MAX];
 
 	if (!*args)
 		return (-1);
-    progname = search_hash(args[0]);
-    if (!progname)
-	    progname = find_path(args[0]);
+	progname = search_hash(args[0]);
+	if (!progname)
+		progname = find_path(args[0]);
 	if (progname  && (ft_strlen(args[0]) + ft_strlen(progname) + 3 < PATH_MAX))
-	{
-		ft_strcpy(buf, args[0]);
-		ft_strcat(buf, ":");
-		ft_strcat(buf, progname);
-		ft_strcat(buf, "\n");
-		write(g_paths_pipefd[1], buf, ft_strlen(buf));
-	}
+			write_to_hashpipe(args[0], progname);
 	if (!progname)
 	{
 		ft_fprintf(2, E_COMMAND_NOT_FOUND, args[0]);

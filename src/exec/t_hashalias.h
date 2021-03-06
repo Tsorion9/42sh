@@ -64,7 +64,6 @@ void					set_null_meet_alias(void);
 */
 
 char					*search_alias(char *key);
-char					*search_alias_1(char *key, int *SomeNewParam);
 t_hashtable				*search_alias_hash_element(char *key);
 t_hashtable				*check_tokbuf(char *key, char *value);
 t_hashtable				*get_hashtable_by_key(char *key, char *value);

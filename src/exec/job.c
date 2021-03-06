@@ -3,17 +3,17 @@
 
 t_list *jobs;
 
-int next_priority(void)
+int	next_priority(void)
 {
-	static int priority;
+	static int	priority;
 
 	priority++;
 	return (priority);
 }
 
-void update_job_priority(pid_t j)
+void	update_job_priority(pid_t j)
 {
-	t_job *job;
+	t_job	*job;
 
 	job = find_job(j);
 	if (job)
@@ -25,10 +25,10 @@ void update_job_priority(pid_t j)
 /*
 ** Set numbers of maximum and second maximum priority
 */
-void biggest_priorities(int *max, int *second_max)
+void	biggest_priorities(int *max, int *second_max)
 {
-	t_job *j;
-	t_list *l;
+	t_job	*j;
+	t_list	*l;
 
 	*max = -1;
 	*second_max = -1;
@@ -56,10 +56,10 @@ void biggest_priorities(int *max, int *second_max)
 ** Create new job if not exists
 ** Add PID to list of pids if job exists
 */
-void add_job(int pgid, int background, char *cmd_line)
+void	add_job(int pgid, int background, char *cmd_line)
 {
-	t_job *new;
-	static int id;
+	t_job		*new;
+	static int	id;
 
 	new = ft_memalloc(sizeof(t_job));
 	new->pgid = pgid;
@@ -75,38 +75,33 @@ void add_job(int pgid, int background, char *cmd_line)
 	ft_lstadd_data(&jobs, new, 0);
 }
 
-void destroy_job(void *j, size_t content_size)
+void	destroy_job(void *j, size_t content_size)
 {
 	(void)content_size;
 	free(((t_job *)j)->cmdline);
 	free((t_job *)j);
 }
 
-void remove_job(int pgid)
+void	remove_job(int pgid)
 {
-	t_job *delete_me;
-	t_list *prev;
-	t_list *tmp;
+	t_job	*delete_me;
+	t_list	*prev;
+	t_list	*tmp;
 
 	delete_me = find_job(pgid);
-
-	if (delete_me == jobs->content) /* Del first */
+	if (delete_me == jobs->content)
 	{
 		prev = jobs;
 		jobs = jobs->next;
 		ft_lstdelone(&prev, destroy_job);
 	}
-
 	prev = jobs;
 	while (prev)
 	{
 		if (prev->next && (prev->next->content == delete_me))
-		{
 			break ;
-		}
 		prev = prev->next;
 	}
-
 	if (delete_me && prev)
 	{
 		tmp = prev->next;
@@ -119,9 +114,7 @@ void remove_job(int pgid)
 char *job_state_tostr(t_job_state s)
 {
 	if (s == FG || s == BACKGROUND)
-	{
 		return (ft_strdup("Running"));
-	}
 	if (s == STOPPED)
 		return (ft_strdup("Stopped"));
 	return (ft_strdup("Done"));
@@ -138,9 +131,7 @@ t_job *find_job(pid_t pgid)
 	while (l)
 	{
 		if (((t_job *)l->content)->pgid == pgid)
-		{
 			return (((t_job *)l->content));
-		}
 		l = l->next;
 	}
 	return (NULL);

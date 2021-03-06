@@ -11,11 +11,12 @@
 
 static int exec_pipeline_job(t_pipeline *pipeline)
 {
-	int fd[2];
-	int read_fd;
-	pid_t last_child;
-	int first_iter = 1;
+	int		fd[2];
+	int		read_fd;
+	pid_t	last_child;
+	int		first_iter;
 
+	first_iter = 1;
 	if (!pipeline)
 		exit(g_last_cmd_status);
 	fd[0] = IGNORE_STREAM;
@@ -27,7 +28,8 @@ static int exec_pipeline_job(t_pipeline *pipeline)
 		{
 			pipe(fd);
 		}
-		last_child = make_child(pipeline->command, read_fd, fd[1], fd[0], first_iter);
+		last_child = make_child(pipeline->command, read_fd,
+				fd[1], fd[0], first_iter);
 		first_iter = 0;
 		pipeline = pipeline->next;
 	}
@@ -39,39 +41,23 @@ static int exec_pipeline_job(t_pipeline *pipeline)
 */
 int wait_fg_job(pid_t job)
 {
-	int status;
-	t_job *j;
+	int		status;
+	t_job	*j;
 
 	waitpid(job, &status, WUNTRACED);
-
 	j = find_job(job);
 	j->state = job_status_to_state(status);
 	j->status = status;
 	if (WIFSTOPPED(status))
-	{
-		/*
-		** We have a SIGTSTP-ed jobshell here
-		** It cannot perform any job control in this state.
-		*/
-		//fprintf(stderr, "Sending SIGCONT\n");
 		kill(j->pgid, SIGCONT);
-	}
 	if (j->state != DONE)
-	{
 		j->priority = next_priority();
-	}
 	if (j->state == DONE)
-	{
 		remove_job(job);
-	}
-
 	if ((j = find_job(job)) && g_interactive_shell)
-	{
 		tcgetattr(STDIN_FILENO, &(j->tmodes));
-	}
 	if (g_interactive_shell)
 	{
-		/* Put top-level shell to foreground*/
 		tcsetpgrp(STDIN_FILENO, getpid());
 		set_shell_input_mode();
 	}
@@ -232,7 +218,7 @@ int exec_pipeline(t_pipeline *pipeline)
 	if (!g_top_level_shell)
 		return (exec_pipeline_job(pipeline));
 	job = fork();
-	if (job) /* Top-level shell */
+	if (job)
 	{
 		add_job(job, 0, get_pipeline_str(pipeline));
 		if (g_interactive_shell)
@@ -240,14 +226,14 @@ int exec_pipeline(t_pipeline *pipeline)
 			setpgid(job, job);
 			tcsetpgrp(STDIN_FILENO, job);
 		}
-		return (wait_fg_job(job)); /* Job is in foreground */
+		return (wait_fg_job(job));
 	}
-	else /* Job shell */
+	else
 	{
 		if (g_interactive_shell)
 		{
 			setpgid(getpid(), getpid());
-			tcsetpgrp(STDIN_FILENO, getpid()); /* We are foreground */
+			tcsetpgrp(STDIN_FILENO, getpid());
 			set_jobshell_signal();
 		}
 		g_top_level_shell = 0;

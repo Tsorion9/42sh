@@ -22,6 +22,6 @@ t_hash			*init_t_hash(void)
 	hash->hd = init_t_hashdata();
 	hash->copy_path = NULL;
 	if (hash->hd == NULL)
-		return NULL;
+		return (NULL);
 	return (hash);
 }

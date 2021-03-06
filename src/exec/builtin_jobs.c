@@ -19,7 +19,7 @@ static char	*figure_out_priority(t_job *j)
 	return (" ");
 }
 
-static void remove_done_jobs(void)
+static void	remove_done_jobs(void)
 {
 	t_list	*l;
 
@@ -61,7 +61,7 @@ static void	print_single_job(t_job *j, int flag_p, int flag_l)
 	}
 	else
 		ft_printf("[%d]%s %-26s %s\n", j->jobid, figure_out_priority(j),
-					str_status,	j->cmdline);
+					str_status, j->cmdline);
 	free(str_status);
 }
 
