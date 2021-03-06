@@ -13,6 +13,7 @@
 #include "environment.h"
 #include "t_hash.h"
 #include "find_path.h"
+#include "t_type.h"
 
 void	invalid_hash_option(char *arg)
 {
@@ -52,18 +53,22 @@ int			check_flag_r(char ***args, void (*invalid_print)(char *arg))
 int		check_hash_params(char **args)
 {
 	int		i;
+	int		builtin;
 	char	*str;
 
 	i = 0;
+	builtin = 0;
 	while (args[i])
 	{
 		if ((str = search_hash(args[i])) == NULL)
 		{
-			if ((str = find_path(args[i])))
+			if ((str = find_path(args[i])) && (builtin = check_in_builtins(args[i])))
 				insert_hash(args[i], str);
-			else
-				ft_fprintf(STDERR_FILENO, "42sh: hash: %s: not found\n", args[i]);
+			else if (builtin)
+				ft_fprintf(2, "42sh: hash: %s: not found\n", args[i]);
 		}
+		else
+			delete_hash(args[i]);
 		free(str);
 		i++;
 	}
