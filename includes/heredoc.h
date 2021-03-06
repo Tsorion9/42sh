@@ -14,8 +14,17 @@ typedef struct	s_heredoc
 	struct s_heredoc	*next;
 }				t_heredoc;
 
-void			heredoc_action(int action, char *del, char **address_value, int *heredoc_sigint);
-void			clean_all_heardoc(t_heredoc **heredoc);
+void			heredoc_action(int action, char *del, char **address_value,
+							int *heredoc_sigint);
 int				contain_quote(const char *s);
+char			*read_heredoc_value(char *delimiter, int *heredoc_sigin);
+
+/*
+** Clean routines
+*/
+
+void			clean_all_heredoc(t_heredoc **heredoc);
+void			delete_heredoc(t_heredoc **heredoc);
+
 
 #endif
