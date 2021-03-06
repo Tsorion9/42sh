@@ -57,6 +57,8 @@ int						hash_api_change_data(t_hashtable **ht, char *value)
 		if (!ft_isprint(value[*value ? ft_strlen(value) - 1 : *value])
 			|| value[*value ? ft_strlen(value) - 1 : *value] == ' ')
 			(*ht)->expand_next_alias = 1;
+		else
+			(*ht)->expand_next_alias = 0;
 		(*ht)->tokbuf_value = split_word_into_queue_tokens(s);
 		free(s);
 	}
