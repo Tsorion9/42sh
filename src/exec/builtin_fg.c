@@ -5,7 +5,7 @@
 /*
 ** Return status message
 */
-char		*killed(t_job *j)
+static char	*killed(t_job *j)
 {
 	int status;
 
@@ -15,6 +15,16 @@ char		*killed(t_job *j)
 	if (j->state == DONE)
 		return (job_status_tostr(status));
 	return (NULL);
+}
+
+static void	move_job_to_fg(t_job *j)
+{
+	ft_printf("%s\n", j->cmdline);
+	tcsetattr(STDIN_FILENO, TCSANOW, &(j->tmodes));
+	tcsetpgrp(STDIN_FILENO, j->pgid);
+	kill(-(j->pgid), SIGCONT);
+	j->state = FG;
+	wait_fg_job(j->pgid);
 }
 
 int			builtin_fg(char **args, t_env env, int subshell)
@@ -30,27 +40,19 @@ int			builtin_fg(char **args, t_env env, int subshell)
 	if (!j)
 	{
 		if (error == NO_JOB)
-			ft_fprintf(STDERR_FILENO, "No such job: %s\n", *args ? *args : "%%");
+			ft_fprintf(2, "No such job: %s\n", *args ? *args : "%%");
 		if (error == AMBIGOUS_JOB)
-			ft_fprintf(STDERR_FILENO, "Ambigous job: %s\n", *args ? *args : "%%");
+			ft_fprintf(2, "Ambigous job: %s\n", *args ? *args : "%%");
 	}
 	else
 	{
 		if ((str_status = killed(j)))
 		{
-			ft_printf("[%d] %-26s %s\n",
-				j->jobid,
-				str_status,
-				j->cmdline);
+			ft_printf("[%d] %-26s %s\n", j->jobid, str_status, j->cmdline);
 			free(str_status);
 			return (0);
 		}
-		ft_printf("%s\n", j->cmdline);
-		tcsetattr(STDIN_FILENO, TCSANOW, &(j->tmodes));
-		tcsetpgrp(STDIN_FILENO, j->pgid);
-		kill(-(j->pgid), SIGCONT);
-		j->state = FG;
-		wait_fg_job(j->pgid);
+		move_job_to_fg(j);
 	}
 	return (error + 1);
 }

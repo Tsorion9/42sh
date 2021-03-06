@@ -12,37 +12,36 @@
 
 #include "t_builtin.h"
 
+t_builtin_and_name	builtins[] = {
+	{.name = "echo", .function = builtin_echo},
+	{.name = "cd", .function = builtin_cd},
+	{.name = "getenv", .function = builtin_getenv},
+	{.name = "set", .function = builtin_set},
+	{.name = "unset", .function = builtin_unset},
+	{.name = "exit", .function = builtin_exit},
+	{.name = "alias", .function = builtin_alias},
+	{.name = "unalias", .function = builtin_unalias},
+	{.name = "jobs", .function = builtin_jobs},
+	{.name = "bg", .function = builtin_bg},
+	{.name = "fg", .function = builtin_fg},
+	{.name = "export", .function = builtin_export},
+	{.name = "type", .function = builtin_type},
+	{.name = "hash", .function = builtin_hash},
+	{.name = NULL, .function = NULL}
+};
+
 t_builtin	get_builtin(char *name)
 {
+	int	i;
+
 	if (!name)
 		return (NULL);
-	if (!ft_strcmp(name, "echo"))
-		return (&builtin_echo);
-	if (!ft_strcmp(name, "cd"))
-		return (&builtin_cd);
-	if (!ft_strcmp(name, "set"))
-		return (&builtin_set);
-	if (!ft_strcmp(name, "unset"))
-		return (&builtin_unset);
-	if (!ft_strcmp(name, "exit"))
-		return (&builtin_exit);
-	if (!ft_strcmp(name, "21shopt"))
-		return (&builtin_21shopt);
-	if (!ft_strcmp(name, "alias"))
-		return (&builtin_alias);
-	if (!ft_strcmp(name, "unalias"))
-		return (&builtin_unalias);
-	if (!ft_strcmp(name, "jobs"))
-		return (&builtin_jobs);
-	if (!ft_strcmp(name, "bg"))
-		return (&builtin_bg);
-	if (!ft_strcmp(name, "fg"))
-		return (&builtin_fg);
-	if (!ft_strcmp(name, "export"))
-		return (&builtin_export);
-	if (!ft_strcmp(name, "type"))
-		return (&builtin_type);
-	if (!ft_strcmp(name, "hash"))
-		return (&builtin_hash);
+	i = 0;
+	while (builtins[i].name)
+	{
+		if (!ft_strcmp(builtins[i].name, name))
+			return (builtins[i].function);
+		i++;
+	}
 	return (NULL);
 }

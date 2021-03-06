@@ -3,7 +3,7 @@
 #include "parser.h"
 #include "libft.h"
 
-static int tmp_lstlen(t_word_list *w)
+static int	tmp_lstlen(t_word_list *w)
 {
 	int l;
 
@@ -19,7 +19,7 @@ static int tmp_lstlen(t_word_list *w)
 /*
 ** Translate list to array
 */
-static char **collect_argwords(t_word_list *words)
+static char	**collect_argwords(t_word_list *words)
 {
 	int		l;
 	char	**res;
@@ -36,14 +36,14 @@ static char **collect_argwords(t_word_list *words)
 	return (res);
 }
 
-static void save_descriptors(int *save_fd)
+static void	save_descriptors(int *save_fd)
 {
 	save_fd[0] = dup(STDIN_FILENO);
 	save_fd[1] = dup(STDOUT_FILENO);
 	save_fd[2] = dup(STDERR_FILENO);
 }
 
-static void restore_descriptors(int *save_fd)
+static void	restore_descriptors(int *save_fd)
 {
 	dup2(save_fd[0], STDIN_FILENO);
 	dup2(save_fd[1], STDOUT_FILENO);
@@ -53,17 +53,17 @@ static void restore_descriptors(int *save_fd)
 	close_wrapper(save_fd[2]);
 }
 
-
-int exec_simple_cmd(t_simple_cmd *cmd)
+int			exec_simple_cmd(t_simple_cmd *cmd)
 {
-	t_word_list *words;
-	char **args;
-	int save_fd[3];
-	t_builtin builtin;
-	int status = 0;
+	t_word_list	*words;
+	char		**args;
+	int			save_fd[3];
+	t_builtin	builtin;
+	int			status;
 
+	status = 0;
 	save_descriptors(save_fd);
-	make_assignments(cmd, cmd->words != NULL); /* If no words, do not export */
+	make_assignments(cmd, cmd->words != NULL);
 	if ((words = cmd->words))
 	{
 		args = collect_argwords(words);

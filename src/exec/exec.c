@@ -9,7 +9,7 @@
 #include "job.h"
 #include "jobshell.h"
 
-int status_to_exitcode(int pipeline_status)
+int			status_to_exitcode(int pipeline_status)
 {
 	if (WIFEXITED(pipeline_status))
 		return (WEXITSTATUS(pipeline_status));
@@ -25,14 +25,14 @@ int status_to_exitcode(int pipeline_status)
 ** FALSE = 1
 ** unlike C language, weird shell stuff
 */
-static void update_status(int pipeline_status, int *status, t_type_andor last_op)
+static void	update_status(int pipeline_status, int *status,
+		t_type_andor last_op)
 {
 	g_last_cmd_status = status_to_exitcode(pipeline_status);
-	//printf("%d: pipeline_status=%d, transformed to last_cmd_status=%d\n", getpid(), pipeline_status, last_cmd_status);
 	fflush(NULL);
 	if (last_op == ANDOR_NONE)
 	{
-		*status = pipeline_status; /* First step */
+		*status = pipeline_status;
 	}
 	else if (last_op == ANDOR_OR)
 	{
@@ -47,7 +47,7 @@ static void update_status(int pipeline_status, int *status, t_type_andor last_op
 /*
 ** Return 1 in case of continue
 */
-static int need_exec_pipeline(int status, t_type_andor last_op)
+static int	need_exec_pipeline(int status, t_type_andor last_op)
 {
 	if (last_op == ANDOR_NONE ||
 		(last_op == ANDOR_AND && status == 0) ||
@@ -61,7 +61,7 @@ static int need_exec_pipeline(int status, t_type_andor last_op)
 /*
 ** Used in jobshell.c
 */
-void exec_andor_list(t_andor_list *list, int *status)
+void		exec_andor_list(t_andor_list *list, int *status)
 {
 	int				pipeline_status;
 	t_type_andor	last_op;

@@ -2,7 +2,7 @@
 #include "environment.h"
 #include "job.h"
 
-static char *figure_out_priority(t_job *j)
+static char	*figure_out_priority(t_job *j)
 {
 	int		max;
 	int		second_max;
@@ -26,7 +26,7 @@ static void remove_done_jobs(void)
 	l = jobs;
 	while (l)
 	{
-		if(((t_job *)l->content)->state == DONE)
+		if (((t_job *)l->content)->state == DONE)
 		{
 			remove_job(((t_job *)(l->content))->pgid);
 			l = jobs;
@@ -36,21 +36,18 @@ static void remove_done_jobs(void)
 	}
 }
 
-static void print_single_job(t_job *j, int flag_p, int flag_l)
+static void	print_single_job(t_job *j, int flag_p, int flag_l)
 {
 	int		status;
 	char	*str_status;
 
-	if (waitpid(j->pgid, &status,  WNOHANG | WUNTRACED) > 0) /* Job state changed */
+	if (waitpid(j->pgid, &status,  WNOHANG | WUNTRACED) > 0)
 	{
 		update_job_state(j->pgid, job_status_to_state(status), status);
 		str_status = job_status_tostr(j->status);
 	}
 	else
-	{
 		str_status = job_state_tostr(j->state);
-	}
-
 	if (flag_p)
 	{
 		ft_printf("%d\n", j->pgid);
@@ -59,19 +56,12 @@ static void print_single_job(t_job *j, int flag_p, int flag_l)
 	}
 	if (flag_l)
 	{
-		ft_printf("[%d]%s %6d %-26s %s\n",
-					j->jobid,
-					figure_out_priority(j),
-					j->pgid,
-					str_status,
-					j->cmdline);
+		ft_printf("[%d]%s %6d %-26s %s\n", j->jobid, figure_out_priority(j),
+					j->pgid, str_status, j->cmdline);
 	}
 	else
-		ft_printf("[%d]%s %-26s %s\n",
-					j->jobid,
-					figure_out_priority(j),
-					str_status,
-					j->cmdline);
+		ft_printf("[%d]%s %-26s %s\n", j->jobid, figure_out_priority(j),
+					str_status,	j->cmdline);
 	free(str_status);
 }
 
@@ -89,10 +79,10 @@ static void	print_job_table(int flag_l, int flag_p)
 	}
 }
 
-static void print_matching_jobs(char **args, int flag_l, int flag_p)
+static void	print_matching_jobs(char **args, int flag_l, int flag_p)
 {
-	t_job *j;
-	int error;
+	t_job	*j;
+	int		error;
 
 	while (*args)
 	{
@@ -118,10 +108,7 @@ int			builtin_jobs(char **args, t_env env, int subshell)
 	(void)env;
 	(void)subshell;
 	if (!g_top_level_shell)
-	{
 		return (1);
-	}
-
 	flag_l = 0;
 	flag_p = 0;
 	if (*args && !ft_strcmp(args[0], "-l"))
@@ -134,7 +121,6 @@ int			builtin_jobs(char **args, t_env env, int subshell)
 		flag_p = 1;
 		args++;
 	}
-
 	if (!args[0])
 		print_job_table(flag_l, flag_p);
 	else

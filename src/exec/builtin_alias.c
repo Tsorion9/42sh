@@ -78,7 +78,8 @@ int			builtin_alias(char **args, t_env env, int subshell)
 		print_all_aliases();
 	else
 	{
-		if ((check_flag_p(&args, print_all_aliases, invalid_alias_option) == EXIT_FAILURE)
+		if ((check_flag_p(&args, print_all_aliases,
+						invalid_alias_option) == EXIT_FAILURE)
 			|| ((mas_args = get_alias_args(args, invalid_alias_name)) == NULL)
 			|| (builtin_alias_cycle_args(mas_args) == EXIT_FAILURE))
 			return (EXIT_FAILURE);
