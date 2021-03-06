@@ -21,6 +21,6 @@ t_hashalias				*init_t_hashalias(void)
 		return (NULL);
 	hashalias->hd = init_t_hashdata();
 	if (hashalias->hd == NULL)
-		return NULL;
+		return (NULL);
 	return (hashalias);
 }

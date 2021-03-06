@@ -1,9 +1,9 @@
 #ifndef JOBSHELL_H
 # define JOBSHELL_H
 
-#include "job.h"
-#include "parser.h"
-#include "exec.h"
+# include "job.h"
+# include "parser.h"
+# include "exec.h"
 
 extern int g_top_level_shell;
 extern int g_job_control_enabled;

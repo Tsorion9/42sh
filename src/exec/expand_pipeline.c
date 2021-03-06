@@ -15,7 +15,7 @@ static int	expand_filename(t_redirect **redirect)
 	return (status);
 }
 
-static int 	expand_simple_command(t_simple_cmd *simple_cmd)
+static int	expand_simple_command(t_simple_cmd *simple_cmd)
 {
 	t_word_list	*words;
 	int			status_words;

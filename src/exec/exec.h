@@ -39,7 +39,8 @@ t_word_list	*get_tail(t_word_list *list);
 int only_assignments(t_pipeline *pipeline);
 int is_single_builtin(t_pipeline *pipeline);
 int exec_single_builtin(t_pipeline *pipeline);
-pid_t	make_child(t_command *cmd, int read_fd, int write_fd, int another_read_fd, int need_close);
+pid_t	make_child(t_command *cmd, int read_fd, int write_fd,
+		int another_read_fd, int need_close);
 int wait_all_children(pid_t last_child);
 
 int exec_simple_cmd(t_simple_cmd *cmd);

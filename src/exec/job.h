@@ -1,8 +1,8 @@
 #ifndef JOB_H
 # define JOB_H
 
-#include <sys/types.h>
-#include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # include "libft.h"
 # include "readline.h"
@@ -12,7 +12,7 @@
 
 # define COREDUMP_EXIT_STATUS 139
 
-typedef enum e_job_state
+typedef enum	e_job_state
 {
 	FG,
 	BACKGROUND,

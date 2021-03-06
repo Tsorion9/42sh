@@ -13,7 +13,6 @@
 #include "environment.h"
 #include "readline.h"
 
-
 int			builtin_getenv(char **args, t_env env_deprecated, int subshell)
 {
 	char	*c;
