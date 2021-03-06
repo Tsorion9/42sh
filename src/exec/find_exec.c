@@ -69,7 +69,9 @@ int				find_exec(char **args, t_env env)
 
 	if (!*args)
 		return (-1);
-	progname = find_path(args[0]);
+    progname = search_hash(args[0]);
+    if (!progname)
+	    progname = find_path(args[0]);
 	if (progname  && (ft_strlen(args[0]) + ft_strlen(progname) + 3 < PATH_MAX))
 	{
 		ft_strcpy(buf, args[0]);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "environment.h"
+#include "t_hash.h"
 
 /*
 ** Name should be freed later by caller
@@ -18,6 +19,11 @@
 
 int				ft_setenv(t_env env, char *name, char *value)
 {
+	if (!ft_strcmp("PATH", name))
+	{
+		delete_t_hash();
+		static_hash_action(init);
+	}
 	return (insert_value((t_ptree *)env, name, value));
 }
 
