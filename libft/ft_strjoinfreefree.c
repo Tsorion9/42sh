@@ -14,21 +14,21 @@
 
 char	*ft_strjoinfreefree(char *s1, char *s2)
 {
-    char *str;
+	char *str;
 
-    if (s1 == NULL && s2 == NULL)
-        return (NULL);
-    if ((str = ft_strnew(ft_strlen(s1) + ft_strlen(s2))) == NULL)
-        return (NULL);
-    if (s1 == NULL)
-        return (ft_strcpy(str, s2));
-    if (s2 == NULL)
-        return (ft_strcpy(str, s1));
-    ft_strcpy(str, s1);
-    ft_strcat(str, s2);
-    if (s1)
-        free(s1);
-    if (s2)
-        free(s2);
-    return (str);
+	if (s1 == NULL && s2 == NULL)
+	    return (NULL);
+	if ((str = ft_strnew(ft_strlen(s1) + ft_strlen(s2))) == NULL)
+	    return (NULL);
+	if (s1 == NULL)
+	    return (ft_strcpy(str, s2));
+	if (s2 == NULL)
+	    return (ft_strcpy(str, s1));
+	ft_strcpy(str, s1);
+	ft_strcat(str, s2);
+	if (s1)
+	    free(s1);
+	if (s2)
+	    free(s2);
+	return (str);
 }
