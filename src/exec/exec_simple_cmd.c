@@ -78,7 +78,6 @@ int exec_simple_cmd(t_simple_cmd *cmd)
 			}
 			status = builtin(args + 1, env, 0);
 		}
-
 		else
 		{
 			close_wrapper(save_fd[0]);
