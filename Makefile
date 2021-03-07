@@ -70,6 +70,9 @@ CHASH = hash_function.c \
 		search_hash_data.c
 
 CHEREDOC = heredoc_routine.c \
+			clean_heredoc_routines.c \
+			contain_quote.c \
+			read_heredoc_value.c
 
 CLEXER =    lexer.c \
 			lexer_misk.c \

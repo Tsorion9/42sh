@@ -13,7 +13,7 @@
 #include "parser.h"
 #include "lexer.h"
 
-static int	consist_only_blanks(char *s)
+static int		consist_only_blanks(char *s)
 {
 	int i;
 
@@ -27,7 +27,21 @@ static int	consist_only_blanks(char *s)
 	return (FUNC_SUCCESS);
 }
 
-t_deque		*split_word_into_queue_tokens(char *word)
+static t_deque	*create_deque_with_empty_token(void)
+{
+	t_token *token;
+	t_deque	*deque;
+
+	deque = NULL;
+	token = ft_memalloc(sizeof(t_token));
+	token->value = ft_strdup("");
+	token->empty_alias = 1;
+	token->tk_type = WORD;
+	push_back(&deque, token);
+	return (deque);
+}
+
+t_deque			*split_word_into_queue_tokens(char *word)
 {
 	t_deque	*deque;
 	t_token	*token;
@@ -35,14 +49,7 @@ t_deque		*split_word_into_queue_tokens(char *word)
 
 	deque = NULL;
 	if (!word || !*word)
-	{
-		token = ft_memalloc(sizeof(t_token));
-		token->value = ft_strdup("");
-		token->empty_alias = 1;
-		token->tk_type = WORD;
-		push_back(&deque, token);
-		return (deque);
-	}
+		return (create_deque_with_empty_token());
 	s = ft_strdup(word);
 	if (consist_only_blanks(s))
 	{
@@ -58,7 +65,6 @@ t_deque		*split_word_into_queue_tokens(char *word)
 		}
 		token = lexer(&s);
 		push_back(&deque, token);
-		// deque_del(str, NULL);
 	}
 	return (deque);
 }

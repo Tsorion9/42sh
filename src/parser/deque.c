@@ -41,25 +41,21 @@ void			push_back(t_deque **d, t_token *new)
 	{
 		*d = ft_memalloc(sizeof(t_deque));
 		if (!*d)
-			// return (NULL);
 			return ;
 		(*d)->first = NULL;
 		(*d)->last = NULL;
 	}
 	if (!(lst = lst2_new(new)))
-		// return (NULL);
 		return ;
 	if (!(*d)->last)
 	{
 		(*d)->first = lst;
 		(*d)->last = (*d)->first;
-		// return (*d);
 		return ;
 	}
 	(*d)->last->next = lst;
 	lst->prev = (*d)->last;
 	(*d)->last = lst;
-	// return (*d);
 }
 
 /*

@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alias.h                                            :+:      :+:    :+:   */
+/*   clean_heredoc_routines.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/06 21:34:41 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/06 21:35:51 by jsance           ###   ########.fr       */
+/*   Created: 2021/03/06 15:19:45 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/06 15:19:46 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ALIAS_H
-# define ALIAS_H
+#include "heredoc.h"
+#include "libft.h"
 
-# include "deque.h"
+void		clean_all_heredoc(t_heredoc **heredoc)
+{
+	t_heredoc *tmp;
 
-void		alias_substitution(t_deque **tokbuf_g);
-t_deque		*substitute_token(t_token *token, int *need_expand_next_token);
+	tmp = *heredoc;
+	while (tmp)
+	{
+		ft_strdel(tmp->value);
+		free(tmp->delimiter);
+		tmp = tmp->next;
+		free(*heredoc);
+		*heredoc = tmp;
+	}
+}
 
-#endif
+void		delete_heredoc(t_heredoc **heredoc)
+{
+	if ((*heredoc)->delimiter)
+		ft_strdel(&(*heredoc)->delimiter);
+	free(*heredoc);
+	*heredoc = NULL;
+}

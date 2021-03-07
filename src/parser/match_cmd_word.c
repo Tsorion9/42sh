@@ -25,7 +25,7 @@ t_word_list	*create_word_node(char *word)
 	return (fresh);
 }
 
-t_word_list *create_word_node_and_save_alias_info(t_token *token)
+t_word_list	*create_word_node_and_save_alias_info(t_token *token)
 {
 	t_word_list	*fresh;
 
@@ -38,6 +38,7 @@ t_word_list *create_word_node_and_save_alias_info(t_token *token)
 	fresh->need_quote_rm = 1;
 	return (fresh);
 }
+
 /*
 ** cmd_prefix [WORD [cmd_suffix]?]? | WORD [cmd_suffix]?
 ** Если префикса нет, то WORD является обязательной лексемой
