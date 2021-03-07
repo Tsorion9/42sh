@@ -13,7 +13,7 @@
 #ifndef COMMAND_STRUCTS_H
 # define COMMAND_STRUCTS_H
 
-#include "libft.h"
+# include "libft.h"
 
 typedef enum	e_command_type
 {
@@ -54,16 +54,16 @@ typedef enum	e_instruction
 
 typedef struct	s_word_list
 {
-	int 				need_quote_rm;
-	int 				need_field_split;
+	int					need_quote_rm;
+	int					need_field_split;
 	char				*word;
 	struct s_word_list	*next;
 }				t_word_list;
 
 typedef struct	s_redirector
 {
-	int 				need_quote_rm;
-	int 				need_field_split;
+	int					need_quote_rm;
+	int					need_field_split;
 	int					fd;
 	char				*filename;
 	t_word_list			*splitted_filename;

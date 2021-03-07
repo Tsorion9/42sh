@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 15:10:21 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/07 15:10:22 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TOKEN_H
 # define TOKEN_H
 
@@ -6,7 +18,7 @@
 typedef struct	s_queue
 {
 	char				brace;
-	int 				quoted;
+	int					quoted;
 	struct s_queue		*next;
 }				t_queue;
 
@@ -49,7 +61,7 @@ typedef struct	s_toke
 typedef struct	s_token
 {
 	char				*value;
-	int 				do_not_expand_alias;
+	int					do_not_expand_alias;
 	t_tokens			tk_type;
 	int					empty_alias;
 }				t_token;

@@ -71,7 +71,6 @@ void		brace_var_expansion(char **src_word, size_t *i, int skeep_char,
 char		**pathname_expansion(char *word);
 t_word_list	*pathname_expansion_list(char *word);
 
-
 /*
 ** Parameter expansion special formats
 */
@@ -110,6 +109,5 @@ void		match_files(t_list **matches, char **path_components,
 void		del_list(void *mem, size_t garbage);
 int			is_greater(void *a, void *b);
 char		**clever_list_to_array(t_list *l, int *len);
-
 
 #endif

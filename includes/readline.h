@@ -32,11 +32,10 @@
 # define HISTORY_SEARCH_STR_NOT_FOUND_BEFORE "(failed reverse-i-search)`"
 # define HISTORY_SEARCH_STR_AFTER "': "
 
-# define TRUE 1                                                                                                                                               
-# define FALSE 0                                                                
-	                                                                            
-# define GETCURSORPOS "\e[6n"
+# define TRUE 1
+# define FALSE 0
 
+# define GETCURSORPOS "\e[6n"
 
 /*
 ** Error codes
