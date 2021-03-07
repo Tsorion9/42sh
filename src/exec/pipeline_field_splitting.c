@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline_pathname_expansion.c                      :+:      :+:    :+:   */
+/*   pipeline_field_splitting.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/07 16:16:58 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/07 16:16:59 by jsance           ###   ########.fr       */
+/*   Created: 2021/03/07 15:34:40 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/07 15:34:41 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
-#include "expansions.h"
 
-void		fields_not_null(t_word_list **fields, t_word_list *words,
-							t_word_list **head, t_word_list **tail)
+static void	redirect_field_splitting(t_redirect **redirect)
 {
-	save_list_attributes(words, fields);
+	char			*file;
+	t_redirector	*redirector;
+
+	if ((*redirect) != NULL && (*redirect)->redirector)
+	{
+		redirector = (*redirect)->redirector;
+		file = redirector->filename;
+		if (redirector->need_field_split)
+			redirector->splitted_filename = field_splitting_list(file);
+	}
+}
+
+static void	words_need_field_split(t_word_list **fields, t_word_list *words,
+									t_word_list **head, t_word_list **tail)
+{
+	*fields = field_splitting_list(words->word);
 	if (*head == NULL)
 	{
 		*head = *fields;
@@ -30,25 +43,23 @@ void		fields_not_null(t_word_list **fields, t_word_list *words,
 	}
 }
 
-void		fields_empty(t_word_list *words,
-						t_word_list **head,
-						t_word_list **tail)
+static void	words_dont_need_field_split(t_word_list *words,
+										t_word_list **head,
+										t_word_list **tail)
 {
 	if (*head == NULL)
 	{
 		*head = create_word_node(words->word);
-		save_list_attributes(words, head);
 		*tail = *head;
 	}
 	else
 	{
 		(*tail)->next = create_word_node(words->word);
-		save_list_attributes(words, &(*tail)->next);
 		*tail = (*tail)->next;
 	}
 }
 
-static void	simple_cmd_pathname_expansion(t_simple_cmd **simple_cmd)
+static void	apply_field_splitting_simple_cmd(t_simple_cmd **simple_cmd)
 {
 	t_word_list *words;
 	t_word_list *tail;
@@ -58,21 +69,20 @@ static void	simple_cmd_pathname_expansion(t_simple_cmd **simple_cmd)
 	words = (*simple_cmd)->words;
 	tail = NULL;
 	head = NULL;
-	redirect_pathname_expansion(&(*simple_cmd)->redirects);
+	redirect_field_splitting(&(*simple_cmd)->redirects);
 	while (words)
 	{
-		fields = pathname_expansion_list(words->word);
-		if (fields != NULL)
-			fields_not_null(&fields, words, &head, &tail);
+		if (words->need_field_split)
+			words_need_field_split(&fields, words, &head, &tail);
 		else
-			fields_empty(words, &head, &tail);
+			words_dont_need_field_split(words, &head, &tail);
 		words = words->next;
 	}
 	clean_words(&(*simple_cmd)->words);
 	(*simple_cmd)->words = head;
 }
 
-void		pipeline_pathname_expansion(t_pipeline *pipeline)
+void		pipeline_field_splitting(t_pipeline *pipeline)
 {
 	t_pipeline *tmp;
 
@@ -80,7 +90,7 @@ void		pipeline_pathname_expansion(t_pipeline *pipeline)
 	while (tmp)
 	{
 		if (tmp->command->cmd_type == SIMPLE_CMD)
-			simple_cmd_pathname_expansion(&tmp->command->simple_cmd);
+			apply_field_splitting_simple_cmd(&tmp->command->simple_cmd);
 		tmp = tmp->next;
 	}
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_pipeline.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 15:22:17 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/07 15:22:18 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -9,7 +21,7 @@
 #include "expand_pipeline.h"
 #include "pipeline_words_to_assignments.h"
 
-static int exec_pipeline_job(t_pipeline *pipeline)
+static int	exec_pipeline_job(t_pipeline *pipeline)
 {
 	int		fd[2];
 	int		read_fd;
@@ -39,7 +51,8 @@ static int exec_pipeline_job(t_pipeline *pipeline)
 /*
 ** Wait for foreground job, from top_level_shell
 */
-int wait_fg_job(pid_t job)
+
+int	wait_fg_job(pid_t job)
 {
 	int		status;
 	t_job	*j;
@@ -64,146 +77,7 @@ int wait_fg_job(pid_t job)
 	return (status);
 }
 
-// TODO Используется не только здесь(pipeline_pathname_expansion) вынести
-// TODO в отдельный файл
-t_word_list *get_tail(t_word_list *list)
-{
-	t_word_list *tmp;
-
-	if (list == NULL)
-		return (NULL);
-	tmp = list;
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
-static void	redirect_field_splitting(t_redirect **redirect)
-{
-	char			*file;
-	t_redirector	*redirector;
-
-	if ((*redirect) != NULL && (*redirect)->redirector)
-	{
-		redirector = (*redirect)->redirector;
-		file = redirector->filename;
-		if (redirector->need_field_split)
-			redirector->splitted_filename = field_splitting_list(file);
-	}
-}
-
-static void	apply_field_splitting_simple_cmd(t_simple_cmd **simple_cmd)
-{
-	t_word_list *words;
-	t_word_list *tail;
-	t_word_list *head;
-	t_word_list *fields;
-
-	words = (*simple_cmd)->words;
-	tail = NULL;
-	head = NULL;
-	redirect_field_splitting(&(*simple_cmd)->redirects);
-	while (words)
-	{
-		if (words->need_field_split)
-		{
-			fields = field_splitting_list(words->word);
-			if (head == NULL)
-			{
-				head = fields;
-				tail = get_tail(fields);
-			}
-			else
-			{
-				tail->next = fields;
-				if (fields != NULL)
-					tail = get_tail(fields);
-			}
-		}
-		else
-		{
-			if (head == NULL)
-			{
-				head = create_word_node(words->word);
-				tail = head;
-			}
-			else
-			{
-				tail->next = create_word_node(words->word);
-				tail = tail->next;
-			}
-		}
-		words = words->next;
-	}
-	clean_words(&(*simple_cmd)->words);
-	(*simple_cmd)->words = head;
-}
-
-static void apply_field_splitting(t_command *command)
-{
-	if (command->cmd_type == SIMPLE_CMD)
-		apply_field_splitting_simple_cmd(&command->simple_cmd);
-}
-
-void		pipeline_field_splitting(t_pipeline *pipeline)
-{
-	t_pipeline *tmp;
-
-	tmp = pipeline;
-	while (tmp)
-	{
-		apply_field_splitting(pipeline->command);
-		tmp = tmp->next;
-	}
-}
-
-static void	quote_removal_filename(t_redirect **redirect)
-{
-	if (*redirect && (*redirect)->redirector->need_quote_rm)
-		quote_removal(&((*redirect)->redirector->filename));
-}
-
-void	simple_command_quote_removal(t_simple_cmd *cmd)
-{
-	t_word_list *words;
-	t_word_list *assign;
-
-	words = cmd->words;
-	assign = cmd->assignments;
-	quote_removal_filename(&cmd->redirects);
-	while (words)
-	{
-		if (words->need_quote_rm)
-			quote_removal(&words->word);
-		words = words->next;
-	}
-	while (assign)
-	{
-		if (assign->need_quote_rm)
-			quote_removal(&assign->word);
-		assign = assign->next;
-	}
-}
-
-static void	command_quote_removal(t_command *command)
-{
-	if (command->cmd_type == SIMPLE_CMD)
-		simple_command_quote_removal(command->simple_cmd);
-}
-
-static void pipeline_quote_removal(t_pipeline *pipeline)
-{
-	t_pipeline *tmp;
-
-	tmp = pipeline;
-	while (tmp)
-	{
-		command_quote_removal(tmp->command);
-		tmp = tmp->next;
-	}
-}
-
-int exec_pipeline(t_pipeline *pipeline)
+int	exec_pipeline(t_pipeline *pipeline)
 {
 	pid_t job;
 

@@ -109,5 +109,10 @@ void		match_files(t_list **matches, char **path_components,
 void		del_list(void *mem, size_t garbage);
 int			is_greater(void *a, void *b);
 char		**clever_list_to_array(t_list *l, int *len);
+void		fields_not_null(t_word_list **fields, t_word_list *words,
+							t_word_list **head, t_word_list **tail);
+void		fields_empty(t_word_list *words,
+							t_word_list **head,
+							t_word_list **tail);
 
 #endif

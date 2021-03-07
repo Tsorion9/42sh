@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   job.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 15:18:22 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/07 15:18:23 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "job.h"
 
 t_list *jobs;
 
-int	next_priority(void)
+int		next_priority(void)
 {
 	static int	priority;
 
@@ -25,6 +37,7 @@ void	update_job_priority(pid_t j)
 /*
 ** Set numbers of maximum and second maximum priority
 */
+
 void	biggest_priorities(int *max, int *second_max)
 {
 	t_job	*j;
@@ -56,6 +69,7 @@ void	biggest_priorities(int *max, int *second_max)
 ** Create new job if not exists
 ** Add PID to list of pids if job exists
 */
+
 void	add_job(int pgid, int background, char *cmd_line)
 {
 	t_job		*new;
@@ -111,7 +125,7 @@ void	remove_job(int pgid)
 	}
 }
 
-char *job_state_tostr(t_job_state s)
+char	*job_state_tostr(t_job_state s)
 {
 	if (s == FG || s == BACKGROUND)
 		return (ft_strdup("Running"));
@@ -123,7 +137,8 @@ char *job_state_tostr(t_job_state s)
 /*
 ** Find by pgid
 */
-t_job *find_job(pid_t pgid)
+
+t_job	*find_job(pid_t pgid)
 {
 	t_list	*l;
 
@@ -152,9 +167,9 @@ t_job_state	job_status_to_state(int status)
 	return (FG);
 }
 
-void update_job_state(pid_t job, t_job_state new_state, int status)
+void	update_job_state(pid_t job, t_job_state new_state, int status)
 {
-	t_job *j;
+	t_job	*j;
 
 	j = find_job(job);
 	if (j)
@@ -164,10 +179,10 @@ void update_job_state(pid_t job, t_job_state new_state, int status)
 	}
 }
 
-char *job_status_tostr(int status)
+char	*job_status_tostr(int status)
 {
-	char *tmp;
-	char *res;
+	char	*tmp;
+	char	*res;
 
 	if (WIFCONTINUED(status))
 		return (ft_strdup("Running"));
@@ -199,7 +214,7 @@ char *job_status_tostr(int status)
 	return (ft_strdup("Unknown status"));
 }
 
-static int only_digits(char *s)
+static int	only_digits(char *s)
 {
 	if (!*s)
 		return (0);
@@ -210,7 +225,7 @@ static int only_digits(char *s)
 	return (!(*s));
 }
 
-static int match(t_job *j, char *pattern)
+static int	match(t_job *j, char *pattern)
 {
 	int max;
 	int second_max;
@@ -242,12 +257,12 @@ static int match(t_job *j, char *pattern)
 **
 ** In case of success return  job
 ** Error codes: NO_JOB, AMBIGOUS_JOB
-**
 */
-t_job *find_job_by_pattern(char *pattern, int *error)
+
+t_job		*find_job_by_pattern(char *pattern, int *error)
 {
-	t_job *result;
-	t_list *current;
+	t_job	*result;
+	t_list	*current;
 
 	result = NULL;
 	current = jobs;

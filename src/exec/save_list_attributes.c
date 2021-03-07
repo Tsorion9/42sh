@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   only_assignments.c                                 :+:      :+:    :+:   */
+/*   save_list_attributes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/07 15:17:30 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/07 15:17:31 by jsance           ###   ########.fr       */
+/*   Created: 2021/03/07 16:13:46 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/07 16:13:47 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "command_structs.h"
 
-int	only_assignments(t_pipeline *pipeline)
+/*
+** Just save attributes from source list to destination list
+*/
+
+void	save_list_attributes(t_word_list *src, t_word_list **dest)
 {
-	if (pipeline->next)
+	t_word_list	*tmp;
+
+	tmp = *dest;
+	while (tmp)
 	{
-		return (0);
+		tmp->need_quote_rm = src->need_quote_rm;
+		tmp->need_field_split = src->need_field_split;
+		tmp = tmp->next;
 	}
-	if (pipeline->command->cmd_type == SIMPLE_CMD)
-	{
-		if (pipeline->command->simple_cmd->words)
-		{
-			return (0);
-		}
-	}
-	return (1);
 }

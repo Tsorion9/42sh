@@ -206,6 +206,11 @@ CEXEC = builtin_21shopt.c \
 		set_do_not_expand.c \
 		delete_first_token.c \
 		substitute_alias_tools.c \
+		get_tail.c \
+		pipeline_quote_removal.c \
+		pipeline_field_splitting.c \
+		save_list_attributes.c \
+		redirect_pathname_expansion.c
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \

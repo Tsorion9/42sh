@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   only_assignments.c                                 :+:      :+:    :+:   */
+/*   get_tail.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/07 15:17:30 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/07 15:17:31 by jsance           ###   ########.fr       */
+/*   Created: 2021/03/07 15:24:30 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/07 15:24:31 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "command_structs.h"
 
-int	only_assignments(t_pipeline *pipeline)
+t_word_list	*get_tail(t_word_list *list)
 {
-	if (pipeline->next)
-	{
-		return (0);
-	}
-	if (pipeline->command->cmd_type == SIMPLE_CMD)
-	{
-		if (pipeline->command->simple_cmd->words)
-		{
-			return (0);
-		}
-	}
-	return (1);
+	t_word_list *tmp;
+
+	if (list == NULL)
+		return (NULL);
+	tmp = list;
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
 }

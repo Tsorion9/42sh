@@ -1,13 +1,23 @@
-#include <sys/types.h>
-#include <sys/stat.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_redirection.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 15:16:10 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/07 15:16:11 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <unistd.h>
 #include "exec.h"
 
-static int make_heredoc_redirection(t_redirect *redirect)
+static int	make_heredoc_redirection(t_redirect *redirect)
 {
-	int pipefd[2];
-	pid_t child;
+	int		pipefd[2];
+	pid_t	child;
 
 	pipe(pipefd);
 	dup2(pipefd[0], redirect->redirector->fd);
@@ -26,7 +36,7 @@ static int make_heredoc_redirection(t_redirect *redirect)
 	}
 }
 
-static int file_redirection(t_redirect *redirect, int flags, int mode)
+static int	file_redirection(t_redirect *redirect, int flags, int mode)
 {
 	int				fd;
 	t_redirector	*redir;
@@ -78,7 +88,7 @@ static int	try_duplicate_fd(t_redirect *redirect)
 	return (status);
 }
 
-int	make_redirection(t_redirect *redirect)
+int			make_redirection(t_redirect *redirect)
 {
 	int status;
 
