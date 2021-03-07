@@ -113,7 +113,7 @@ int					ft_isnumber(char *str);
 void				del_simple(void *content, size_t content_size);
 void				*ft_memdup(void *c, size_t n);
 
-void			qsort_void_ptr(void **arr, int len,\
+void				qsort_void_ptr(void **arr, int len,\
 		int (*is_greater)(void *, void *));
 
 /*
@@ -182,7 +182,8 @@ t_list				*ptree_to_kvpairs(t_ptree *tree);
 
 void				*xmalloc(size_t n);
 
-int ft_match(char *string, char *pattern);
-int ft_clever_match(char *string, char *pattern, char *not_quoted);
+int					ft_match(char *string, char *pattern);
+int					ft_clever_match(char *string, char *pattern,
+								char *not_quoted);
 
 #endif
