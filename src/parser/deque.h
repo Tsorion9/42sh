@@ -34,9 +34,9 @@ typedef struct	s_deque
 void			*push_front(t_deque **d, t_token *new);
 void			push_back(t_deque **d, t_token *new);
 void			*pop_front(t_deque *d);
-t_token 		*pop_back(t_deque *d);
+t_token			*pop_back(t_deque *d);
 void			deque_del(t_deque **d, void (*del)(t_token *));
-t_token         *deque_n_th(t_deque *deque, int number);
+t_token			*deque_n_th(t_deque *deque, int number);
 t_deque			*deque_copy(t_deque *source);
 
 void			deque_apply(t_deque *d, void (*f)(t_token *));

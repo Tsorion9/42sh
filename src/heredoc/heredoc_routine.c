@@ -1,60 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_routine.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 15:17:25 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/06 15:17:26 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "heredoc.h"
-#include "readline.h"
 #include "environment.h"
 #include "expansions.h"
-
-/*
-** return NULL if SIGINT arrived
-*/
-
-char	*read_heredoc_value(char *delimiter, int *heredoc_sigin)
-{
-	char 				*value;
-	char 				*line;
-
-	value = NULL;
-	while (1)
-	{
-		line = line_42sh(ft_getenv(env, "PS2"));
-		if (line == NULL)
-		{
-			*heredoc_sigin = 1;
-			free(value);
-			return (NULL);
-		}
-		if (!*line && !isatty(STDIN_FILENO))
-			ft_fprintf(STDERR_FILENO, "%s\n", HEREDOC_WARNING);
-		if (ft_strequ(line, delimiter) || !*line)
-		{
-			ft_strdel(&line);
-			line = ft_strnew(0);
-			if (value == NULL)
-				value = line;
-			else
-				value = ft_strjoinfreefree(value, line);
-			break ;
-		}
-		if (value == NULL)
-			value = line;
-		else
-			value = ft_strjoinfreefree(value, line);
-	}
-	return (value);
-}
-
-int		contain_quote(const char *s)
-{
-	int i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '\'' || s[i] == '"' || s[i] == '\\')
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 /*
 ** address_value is field address *heredoc_value of s_redirect structure
@@ -73,7 +31,8 @@ t_heredoc	*create_heredoc(char *delimiter, char **address_value)
 	return (fresh);
 }
 
-void		add_heredoc_node(t_heredoc **heredocs, char *delimiter, char **address_val)
+void		add_heredoc_node(t_heredoc **heredocs, char *delimiter,
+							char **address_val)
 {
 	t_heredoc			*tmp;
 
@@ -82,57 +41,17 @@ void		add_heredoc_node(t_heredoc **heredocs, char *delimiter, char **address_val
 		*heredocs = create_heredoc(delimiter, address_val);
 		return ;
 	}
-	tmp	= *heredocs;
+	tmp = *heredocs;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = create_heredoc(delimiter, address_val);
 }
 
-/*
-** DEBUG ONLY
-*/
-void 		print_list_doc(t_heredoc *heredoc)
-{
-	t_heredoc *tmp;
-
-	tmp = heredoc;
-	while (tmp)
-	{
-		ft_printf("delimiter = %svalue = %s\n", tmp->delimiter, tmp->value);
-		tmp	= tmp->next;
-	}
-	ft_printf("------------\n");
-}
-
-void 		clean_all_heardoc(t_heredoc **heredoc)
-{
-	t_heredoc *tmp;
-
-	tmp = *heredoc;
-	while (tmp)
-	{
-		ft_strdel(tmp->value);
-		free(tmp->delimiter);
-		tmp = tmp->next;
-		free(*heredoc);
-		*heredoc = tmp;
-	}
-}
-
-void		delete_heredoc(t_heredoc **heredoc)
-{
-	if ((*heredoc)->delimiter)
-		ft_strdel(&(*heredoc)->delimiter);
-	free(*heredoc);
-	*heredoc = NULL;
-}
-
-void 		fill_heredoc_values(t_heredoc **heredocs_head, int *heredoc_sigint)
+void		fill_heredoc_values(t_heredoc **heredocs_head, int *heredoc_sigint)
 {
 	t_heredoc		*tmp;
 
 	tmp = *heredocs_head;
-
 	while (tmp)
 	{
 		*(tmp->value) = read_heredoc_value(tmp->delimiter, heredoc_sigint);
@@ -149,9 +68,9 @@ void 		fill_heredoc_values(t_heredoc **heredocs_head, int *heredoc_sigint)
 ** char *del is heredoc delimiter
 ** action used to identify action
 */
-// TODO clean routine CLEAN_HEREDOC
+
 void		heredoc_action(int action, char *del, char **address_value,
-					 int *heredoc_sigint)
+							int *heredoc_sigint)
 {
 	static t_heredoc	*heredocs;
 
@@ -160,6 +79,5 @@ void		heredoc_action(int action, char *del, char **address_value,
 	else if (action == ADD_VALUE)
 		fill_heredoc_values(&heredocs, heredoc_sigint);
 	if (heredoc_sigint != NULL && *heredoc_sigint)
-		clean_all_heardoc(&heredocs);
-//	print_list_doc(heredocs);
+		clean_all_heredoc(&heredocs);
 }

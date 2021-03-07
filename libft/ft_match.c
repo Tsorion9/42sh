@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_match.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 14:51:21 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/07 14:51:22 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static char		*find_closing_bracket(char *s)
@@ -42,6 +54,7 @@ static void			init_local_variables(char symbols[256], int *negate_result)
 /*
 ** Return whether we should negate the range
 */
+
 static int			find_range(char *pattern, char *closing_bracket,
 		char symbols[256])
 {
@@ -91,6 +104,7 @@ static void			negate(char arr[256])
 ** [^asd] - not a,s,d
 ** [a-zA-Z] - any of a-z or A-Z
 */
+
 int					range_match(char *string, char *pattern)
 {
 	char		*closing_bracket;
@@ -102,8 +116,10 @@ int					range_match(char *string, char *pattern)
 		negate(symbols);
 	}
 	if (symbols[(int)*string])
+	{
 		return (ft_match(string + 1,
 				*closing_bracket ? closing_bracket + 1 : pattern + 1));
+	}
 	return (0);
 }
 
@@ -117,6 +133,7 @@ int					range_match(char *string, char *pattern)
 **
 ** Warning: quoting not supported!!
 */
+
 int					ft_match(char *string, char *pattern)
 {
 	if (!*string && !*pattern)

@@ -43,12 +43,11 @@ int		ft_lstadd_data_back(t_list **lst, void *content, size_t content_size)
 {
 	t_list	*new;
 
-	(void) content_size;
+	(void)content_size;
 	new = ft_lstnew_inplace(content, content_size);
 	ft_lstadd_back(lst, new);
 	return (1);
 }
-
 
 int		ft_lstadd_data(t_list **lst, void *content, size_t content_size)
 {

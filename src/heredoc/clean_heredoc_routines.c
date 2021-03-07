@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strfirststr.c                                   :+:      :+:    :+:   */
+/*   clean_heredoc_routines.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/07 14:49:19 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/07 14:49:20 by jsance           ###   ########.fr       */
+/*   Created: 2021/03/06 15:19:45 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/06 15:19:46 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "heredoc.h"
 #include "libft.h"
 
-int			ft_strfirststr(const char *haystack, const char *needle)
+void		clean_all_heredoc(t_heredoc **heredoc)
 {
-	size_t	i;
+	t_heredoc *tmp;
 
-	i = 0;
-	while (needle[i] != '\0' && haystack[i] != '\0')
+	tmp = *heredoc;
+	while (tmp)
 	{
-		if (haystack[i] != needle[i])
-			return (0);
-		i++;
+		ft_strdel(tmp->value);
+		free(tmp->delimiter);
+		tmp = tmp->next;
+		free(*heredoc);
+		*heredoc = tmp;
 	}
-	if (needle[i] != '\0')
-		return (0);
-	return (1);
+}
+
+void		delete_heredoc(t_heredoc **heredoc)
+{
+	if ((*heredoc)->delimiter)
+		ft_strdel(&(*heredoc)->delimiter);
+	free(*heredoc);
+	*heredoc = NULL;
 }

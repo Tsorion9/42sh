@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_clever_match.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/07 14:55:57 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/07 14:55:58 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 char		*find_closing_bracket(char *s, char *not_quoted)
@@ -51,6 +63,7 @@ static void		increment_2(char **pattern, char **not_quoted)
 /*
 ** Return whether we should negate the range
 */
+
 int				find_range(char *pattern, char *closing_bracket,
 		char symbols[256], char *not_quoted)
 {
@@ -100,6 +113,7 @@ void				negate(char arr[256])
 ** [^asd] - not a,s,d
 ** [a-zA-Z] - any of a-z or A-Z
 */
+
 static int			range_match(char *string, char *pattern, char *not_quoted)
 {
 	char		*closing_bracket;
@@ -111,11 +125,13 @@ static int			range_match(char *string, char *pattern, char *not_quoted)
 		negate(symbols);
 	}
 	if (symbols[(int)*string])
+	{
 		return (ft_clever_match(string + 1,
 				*closing_bracket ? closing_bracket + 1 : pattern + 1,
 				*closing_bracket ?
 				not_quoted + (closing_bracket - pattern) + 1 :
 				not_quoted + 1));
+	}
 	return (0);
 }
 
@@ -133,6 +149,7 @@ static int			range_match(char *string, char *pattern, char *not_quoted)
 ** and not_quoted[i] == 'n', special meaning of pattern[i]
 ** is discarded
 */
+
 int					ft_clever_match(char *string, char *pattern,
 		char *not_quoted)
 {
@@ -151,4 +168,3 @@ int					ft_clever_match(char *string, char *pattern,
 		return (0);
 	return (ft_clever_match(string + 1, pattern + 1, not_quoted + 1));
 }
-
