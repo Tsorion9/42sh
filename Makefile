@@ -31,7 +31,9 @@ CREADLINE = add_symbol.c \
 			t_str.c \
 			line_42sh.c \
 			up_down_arrow.c \
-			ft_putint.c
+			ft_putint.c \
+			history_search_func.c \
+			set_history_search.c
 
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c

@@ -179,6 +179,19 @@ typedef struct			s_rp
 	int					competitions_raws;
 }						t_rp;
 
+void					history_search_sup(t_history *history_ptr,
+						size_t *index, size_t search_index, int *found);
+void					hs_delete_symbol(t_history_search *t_history_search,
+						int *cur_pos, int *found);
+void					hs_add_symbol(t_history_search *t_history_search,
+						int *cur_pos, int *found, long c);
+void					hs_search_new_history(size_t *prev_index,
+						t_history_search *t_history_search,
+						int *cur_pos, int *found);
+void					hs_search_index(int *cur_pos, size_t index,
+						size_t len, int found);
+int						history_search(int *cur_pos, size_t *index,
+						const char *history_str);
 void					reset_exit(int status);
 void					free_rp(void);
 void					back_to_start_history_rp(void);
@@ -191,7 +204,7 @@ void					move_cursor(long c);
 void					delete_symbol(void);
 void					add_symbol(char c);
 void					readline_putstr(const char *s, int *cur_pos,
-							size_t prompt_len);
+						size_t prompt_len);
 void					alt_left_right(long c);
 void					delete_last_word(void);
 void					wordmove_cursor(long c);
