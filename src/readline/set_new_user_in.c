@@ -1,12 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_new_user_in.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mphobos <mphobos@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/08 10:17:45 by mphobos           #+#    #+#             */
+/*   Updated: 2021/03/08 10:17:47 by mphobos          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "readline.h"
 
-void	reset_exit(int status);
-
-/*! \fn set_new_user_in
- *  \b Компонента  \b : readline \n
- *  \b Назначение  \b : Записывает в глобальную строку user_in строку str \n
- *  \param[in] str строка для записи в user_in
- */
 void	set_new_user_in(const char *str)
 {
 	size_t len;

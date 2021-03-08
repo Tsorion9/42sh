@@ -12,8 +12,6 @@
 
 #include "readline.h"
 
-void		reset_exit(int status);
-
 t_rp		*rp(t_rp *change_rp)
 {
 	static t_rp	*rp;
