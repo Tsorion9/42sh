@@ -12,10 +12,6 @@
 
 #include "readline.h"
 
-/*
-** Перемещает курсор на одну позицию влево.
-*/
-
 static void	move_cursor_left(void)
 {
 	int	prev_cur_pos[2];
@@ -25,14 +21,11 @@ static void	move_cursor_left(void)
 	if (rp(NULL)->index > 0)
 	{
 		rp(NULL)->index--;
-		inverse_search_index(rp(NULL)->cur_pos, rp(NULL)->index, rp(NULL)->prompt_len);
+		inverse_search_index(rp(NULL)->cur_pos, rp(NULL)->index,
+		rp(NULL)->prompt_len);
 		move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
 	}
 }
-
-/*
-** Перемещает курсор на одну позицию вправо.
-*/
 
 static void	move_cursor_right(void)
 {
@@ -52,10 +45,6 @@ static void	move_cursor_right(void)
 	if (rp(NULL)->index < rp(NULL)->len)
 		rp(NULL)->index++;
 }
-
-/*
-** Перемещает курсор на одну позицию.
-*/
 
 void		move_cursor(long c)
 {

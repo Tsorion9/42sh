@@ -22,7 +22,8 @@ static void	move_cursor_up(void)
 	if (rp(NULL)->cur_pos[1] == 1)
 		return ;
 	rp(NULL)->cur_pos[1]--;
-	last_cur_pos_in_line = search_last_cur_pos_in_line(rp(NULL)->cur_pos[1]) + 1;
+	last_cur_pos_in_line =\
+	search_last_cur_pos_in_line(rp(NULL)->cur_pos[1]) + 1;
 	if (rp(NULL)->cur_pos[0] > last_cur_pos_in_line)
 		rp(NULL)->cur_pos[0] = last_cur_pos_in_line;
 	if (rp(NULL)->cur_pos[1] == 1 && \
@@ -44,7 +45,8 @@ static void	move_cursor_down(void)
 	if (n == rp(NULL)->cur_pos[1])
 		return ;
 	rp(NULL)->cur_pos[1]++;
-	last_cur_pos_in_line = search_last_cur_pos_in_line(rp(NULL)->cur_pos[1]) + 1;
+	last_cur_pos_in_line =\
+	search_last_cur_pos_in_line(rp(NULL)->cur_pos[1]) + 1;
 	if (rp(NULL)->cur_pos[0] > last_cur_pos_in_line)
 		rp(NULL)->cur_pos[0] = last_cur_pos_in_line;
 	move_cursor_to_new_position(prev_cur_pos, rp(NULL)->cur_pos);
