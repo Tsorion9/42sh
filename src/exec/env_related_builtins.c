@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:21 by anton             #+#    #+#             */
-/*   Updated: 2021/02/15 00:24:25 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/08 08:15:35 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int			builtin_getenv(char **args, t_env env_deprecated, int subshell)
 static int handle_set_arg(char *arg)
 {
 	char	*equal;
-	char	*value;
 	char	*key;
 
 	key = NULL;
@@ -66,6 +65,7 @@ int			builtin_set(char **args, t_env env_deprecated, int subshell)
 
 	status = 0;
 	(void)subshell;
+	(void)env_deprecated;
 	if (!*args)
 	{
 		print_env(env, &status, "");

@@ -6,18 +6,18 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 07:37:50 by nriker            #+#    #+#             */
-/*   Updated: 2021/03/02 00:59:13 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/08 08:12:22 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_type.h"
 
-int		check_type_input(char *args, t_env env)
+int		check_type_input(char *args)
 {
 	if (check_in_alias(args) == EXIT_SUCCESS ||
 		check_in_builtins(args) == EXIT_SUCCESS ||
 		check_in_hash(args) == EXIT_SUCCESS ||
-		check_in_path(args, env) == EXIT_SUCCESS)
+		check_in_path(args) == EXIT_SUCCESS)
 		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);
 }
@@ -38,7 +38,7 @@ int		builtin_type(char **args, t_env envw, int subshell)
 	}
 	while (args[i])
 	{
-		if (check_type_input(args[i], env) == EXIT_FAILURE)
+		if (check_type_input(args[i]) == EXIT_FAILURE)
 			invalid_type_name(args[i]);
 		i++;
 	}
