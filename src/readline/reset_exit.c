@@ -16,19 +16,8 @@
 
 void		reset_exit(int status)
 {
-	/* static int notified; */
-
 	if (isatty(0))
 	{
-		/* TODO: (this can be called from parser)
-		if (g_top_level_shell && ft_lstlen(jobs) && !notified)
-		{
-			ft_printf("There are stopped or running jobs\n");
-			notified = 1;
-			return ;
-		}
-		*/
-
 		reset_input_mode();
 		back_to_start_history_rp();
 		save_in_file_history(rp(NULL)->history);

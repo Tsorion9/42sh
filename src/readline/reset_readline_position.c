@@ -12,8 +12,6 @@
 
 #include "readline.h"
 
-void		reset_exit(int status);
-
 void		back_to_start_history_rp(void)
 {
 	if (rp(NULL)->history)
