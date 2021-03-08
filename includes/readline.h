@@ -179,6 +179,7 @@ typedef struct			s_rp
 	int					competitions_raws;
 }						t_rp;
 
+void					reset_exit(int status);
 void					free_rp(void);
 void					back_to_start_history_rp(void);
 void					home_end(long c);

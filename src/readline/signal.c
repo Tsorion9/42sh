@@ -13,7 +13,7 @@
 #include "inc21sh.h"
 #include "gayprompt.h"
 
-int			ret_winsize(int a)
+int		ret_winsize(int a)
 {
 	struct winsize	w;
 
@@ -23,14 +23,6 @@ int			ret_winsize(int a)
 	return (w.ws_row);
 }
 
-/*! \fn set_sigint
- *  \b Компонента  \b : readline \n
- *  \b Назначение  \b : Установка сигнала SIGINT c
- *  завершением системных функций \n
- *  \param[in] sigint_handler функция-обработчик сигнала
- */
- /* TODO На маках нет SA_NOMASK, но есть SA_NODEFER \
-  TODO Сделать кроссплатформенной */
 void	set_sigint(void (*sigint_handler)(int))
 {
 	struct sigaction	sigint_action;
@@ -40,8 +32,7 @@ void	set_sigint(void (*sigint_handler)(int))
 		sigint_action.sa_handler = sigint_handler;
 	else
 		sigint_action.sa_handler = SIG_IGN;
-//	sigint_action.sa_flags = SA_NOMASK;
-	sigint_action.sa_flags = SA_NODEFER; // Работает на маке
+	sigint_action.sa_flags = SA_NODEFER;
 	sigaction(SIGINT, &sigint_action, NULL);
 }
 
@@ -50,7 +41,6 @@ void	processing_sigint(int signal_code)
 	(void)signal_code;
 	if (rp(NULL)->in_read)
 	{
-		/* TODO Если потребуется, то заполнить, иначе - оставить пустой */
 	}
 	return ;
 }
