@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 00:01:25 by nriker            #+#    #+#             */
-/*   Updated: 2021/03/01 21:49:53 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/08 10:08:36 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ int				delete_hash(char *key);
 void			delete_path(void);
 int				is_hash_empty(void);
 int				is_path_was_changed(char **copy_path, char **path);
+int				check_hash_flags(char ***args,
+					void (*invalid_print)(char *arg));
 
 #endif

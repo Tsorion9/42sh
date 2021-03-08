@@ -203,6 +203,7 @@ CEXEC = builtin_21shopt.c \
 		delete_path.c \
 		is_path_was_changed.c \
 		is_hash_empty.c \
+		check_hash_flags.c \
 		insert_command_to_hash.c \
 		pipeline_pathname_expansion.c \
 		set_null_meet_alias.c \
