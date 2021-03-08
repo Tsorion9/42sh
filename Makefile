@@ -30,7 +30,8 @@ CREADLINE = add_symbol.c \
 			termcap_api.c \
 			t_str.c \
 			line_42sh.c \
-			up_down_arrow.c
+			up_down_arrow.c \
+			ft_putint.c
 
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c

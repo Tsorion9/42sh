@@ -27,11 +27,6 @@ int				set_shell_input_mode(void)
 	return (1);
 }
 
-int				ft_putint(int c)
-{
-	return (write(STDERR_FILENO, &c, 1));
-}
-
 struct termios	*set_input_mode(int param)
 {
 	struct termios			new_settings;
