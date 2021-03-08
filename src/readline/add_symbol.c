@@ -44,7 +44,8 @@ void	add_symbol(char c)
 	add_symbol_in_str(rp(NULL)->user_in, c, rp(NULL)->index);
 	rp(NULL)->len++;
 	tc_clear_till_end();
-	readline_putstr(rp(NULL)->user_in + rp(NULL)->index, cur_pos, rp(NULL)->prompt_len);
+	readline_putstr(rp(NULL)->user_in + rp(NULL)->index,
+	cur_pos, rp(NULL)->prompt_len);
 	move_cursor_to_new_position(cur_pos, rp(NULL)->cur_pos);
 	move_cursor(RIGHT_ARROW);
 }

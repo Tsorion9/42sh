@@ -12,10 +12,7 @@
 
 #include "readline.h"
 
-/*
-** Чистит все строки, введенные пользователем.
-*/
-void		clear_all_line(size_t prompt_len)
+void	clear_all_line(size_t prompt_len)
 {
 	if (!prompt_len)
 		return ;

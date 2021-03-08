@@ -61,8 +61,6 @@ void		com_api_move_curs_to_end_line(void)
 
 	trp = rp(NULL);
 	i = search_index(trp->cur_pos, trp->prompt_len);
-
-
 	trp->prev_pos_curs = i;
 	if (trp->user_in == NULL)
 		return ;
