@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 07:43:49 by nriker            #+#    #+#             */
-/*   Updated: 2021/02/22 18:18:38 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/08 08:08:08 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int				compare_arrays(char **copy_path, char **path)
 {
 	int		i;
-	int		k;
 
 	i = 0;
 	if (copy_path == NULL || path == NULL)

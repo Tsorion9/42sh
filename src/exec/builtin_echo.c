@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 01:48:18 by anton             #+#    #+#             */
-/*   Updated: 2021/03/01 21:13:18 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/08 08:09:14 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int				check_echo_e_params(char *args, int i)
 			return (EXIT_SUCCESS);
 		ft_putchar(args[i + 1]);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int				print_echo_output(char *args)

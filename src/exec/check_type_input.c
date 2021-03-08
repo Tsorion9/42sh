@@ -6,13 +6,13 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:12:12 by nriker            #+#    #+#             */
-/*   Updated: 2021/03/02 01:00:26 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/08 08:10:45 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_type.h"
 
-int		check_in_path(char *args, t_env env)
+int		check_in_path(char *args)
 {
 	char	*path;
 
