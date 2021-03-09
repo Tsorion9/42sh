@@ -154,7 +154,6 @@ CEXEC = builtin_21shopt.c \
 		env_related_builtins.c \
 		exec.c \
 		exec_pipeline.c \
-		expansions.c \
 		find_exec.c \
 		find_path.c \
 		ft_getenv.c \
