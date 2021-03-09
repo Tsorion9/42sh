@@ -19,7 +19,7 @@ void			delete_t_hash(void)
 	if ((hash = static_hash_action(get)) == NULL)
 		return ;
 	if (hash->hd != NULL)
-	    delete_t_hashdata((&(hash->hd)));
+		delete_t_hashdata((&(hash->hd)));
 	if (hash->copy_path != NULL)
 		del_array(hash->copy_path);
 	free(hash);

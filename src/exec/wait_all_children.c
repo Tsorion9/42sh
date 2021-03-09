@@ -1,13 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wait_all_children.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/09 20:51:54 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/09 20:51:55 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <signal.h>
-#include <sys/types.h>
 #include <sys/wait.h>
-#include <signal.h>
 
 /*
 ** Return exit status of last child
 */
-int wait_all_children(pid_t last_child)
+
+int	wait_all_children(pid_t last_child)
 {
 	pid_t	finished;
 	int		last_child_status;

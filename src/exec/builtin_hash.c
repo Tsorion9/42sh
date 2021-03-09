@@ -33,7 +33,8 @@ int		check_hash_params(char **args)
 			if ((str = find_path(args[i])))
 				insert_hash(args[i], str);
 			else
-				ft_fprintf(STDERR_FILENO, "42sh: hash: %s: not found\n", args[i]);
+				ft_fprintf(STDERR_FILENO, "42sh: hash: %s: not found\n",
+																	args[i]);
 		}
 		else
 			print_hash(args[i]);

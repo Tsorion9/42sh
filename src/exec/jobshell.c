@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   jobshell.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/09 20:49:42 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/09 20:49:43 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "jobshell.h"
 
 /*
@@ -18,7 +30,7 @@ int g_job_control_enabled;
 */
 int g_async_notify_bg;
 
-void set_jobshell_signal(void)
+void	set_jobshell_signal(void)
 {
 	if (g_interactive_shell)
 	{
@@ -29,7 +41,7 @@ void set_jobshell_signal(void)
 	signal(SIGTSTP, SIG_DFL);
 }
 
-void create_jobshell(t_complete_cmd *cmd)
+void	create_jobshell(t_complete_cmd *cmd)
 {
 	pid_t			job;
 	int				status;

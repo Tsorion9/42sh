@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_flag_p.c                                      :+:      :+:    :+:   */
+/*   parse_alias_args.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/09 01:36:41 by nriker            #+#    #+#             */
-/*   Updated: 2021/01/10 22:30:32 by nriker           ###   ########.fr       */
+/*   Created: 2021/03/09 20:56:36 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/09 20:56:37 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int			check_valid_flag(char *arg, void (*print)(char *arg))
 	return (EXIT_SUCCESS);
 }
 
-int			check_flag_p(char ***args, void	(*print)(void),
+int			check_flag_p(char ***args, void (*print)(void),
 				void (*invalid_print)(char *arg))
 {
 	if (**args != NULL && !ft_strcmp(**args, "-p"))

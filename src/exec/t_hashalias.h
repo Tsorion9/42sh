@@ -72,10 +72,8 @@ void					delete_first_token(t_deque **tokbuf_g);
 void					value_of_token_is_not_null(t_token *token,
 							t_deque **tokbuf_g, int *not_empty_links);
 void					non_string_alias(t_token *token,
-										 t_deque **tokbuf_fresh);
+							t_deque **tokbuf_fresh);
 void					flush_tokbuf_back(t_deque **destination, t_deque *src);
-
-// void		upgrade_tokbuf(char *key, char *value);
 
 /*
 ** API for BUILTIN UNALIAS

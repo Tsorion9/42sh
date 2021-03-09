@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_pipeline.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/09 20:58:26 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/09 20:58:27 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansions.h"
-#include "parser.h"
 
 static int	expand_filename(t_redirect **redirect)
 {
@@ -44,7 +55,7 @@ static int	expand_simple_command(t_simple_cmd *simple_cmd)
 	return (EXPANSION_SUCCESS);
 }
 
-static int 	expand_command(t_command *cmd)
+static int	expand_command(t_command *cmd)
 {
 	if (cmd->cmd_type == SIMPLE_CMD)
 	{
@@ -54,7 +65,7 @@ static int 	expand_command(t_command *cmd)
 	return (EXPANSION_SUCCESS);
 }
 
-int 	expand_pipeline(t_pipeline *pipeline)
+int			expand_pipeline(t_pipeline *pipeline)
 {
 	while (pipeline)
 	{

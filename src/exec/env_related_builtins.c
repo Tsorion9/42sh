@@ -43,7 +43,7 @@ int			builtin_getenv(char **args, t_env env_deprecated, int subshell)
 ** Bash also does not tolerate ':', but we do
 */
 
-static int handle_set_arg(char *arg)
+static int	handle_set_arg(char *arg)
 {
 	char	*equal;
 	char	*key;

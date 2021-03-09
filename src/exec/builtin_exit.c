@@ -40,7 +40,7 @@ static int	check_exit_status(char *status)
 ** return 1 if error occurred, else 0 - success
 */
 
-int	builtin_exit(char **args, t_env env, int subshell)
+int			builtin_exit(char **args, t_env env, int subshell)
 {
 	(void)env;
 	(void)subshell;

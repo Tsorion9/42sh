@@ -1,12 +1,20 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/09 21:01:54 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/09 21:01:55 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>// TODO удалить
 
 #include "libft.h"
-#include "lexer.h"
 #include "parser.h"
 #include "exec.h"
-#include "job.h"
 #include "jobshell.h"
 
 int			status_to_exitcode(int pipeline_status)
@@ -25,6 +33,7 @@ int			status_to_exitcode(int pipeline_status)
 ** FALSE = 1
 ** unlike C language, weird shell stuff
 */
+
 static void	update_status(int pipeline_status, int *status,
 		t_type_andor last_op)
 {
@@ -47,6 +56,7 @@ static void	update_status(int pipeline_status, int *status,
 /*
 ** Return 1 in case of continue
 */
+
 static int	need_exec_pipeline(int status, t_type_andor last_op)
 {
 	if (last_op == ANDOR_NONE ||
@@ -61,6 +71,7 @@ static int	need_exec_pipeline(int status, t_type_andor last_op)
 /*
 ** Used in jobshell.c
 */
+
 void		exec_andor_list(t_andor_list *list, int *status)
 {
 	int				pipeline_status;
@@ -82,7 +93,8 @@ void		exec_andor_list(t_andor_list *list, int *status)
 /*
 ** Return exit status
 */
-int exec_complete_cmd(t_complete_cmd *cmd)
+
+int			exec_complete_cmd(t_complete_cmd *cmd)
 {
 	int				status;
 	t_complete_cmd	*save_start;

@@ -82,8 +82,8 @@ int				find_exec(char **args, t_env env)
 	progname = search_hash(args[0]);
 	if (!progname)
 		progname = find_path(args[0]);
-	if (progname  && (ft_strlen(args[0]) + ft_strlen(progname) + 3 < PATH_MAX))
-			write_to_hashpipe(args[0], progname);
+	if (progname && (ft_strlen(args[0]) + ft_strlen(progname) + 3 < PATH_MAX))
+		write_to_hashpipe(args[0], progname);
 	if (!progname)
 	{
 		ft_fprintf(2, E_COMMAND_NOT_FOUND, args[0]);

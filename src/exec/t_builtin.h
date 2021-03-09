@@ -17,21 +17,21 @@
 
 typedef	int	(*t_builtin)(char **args, t_env env, int subhell);
 
-int			builtin_echo(char **args, t_env env, int subshell);
-int			builtin_cd(char **args, t_env env, int subshell);
-int			builtin_getenv(char **args, t_env env, int subshell);
-int			builtin_set(char **args, t_env env, int subshell);
-int			builtin_unset(char **args, t_env env, int subshell);
-int			builtin_exit(char **args, t_env env, int subshell);
-int			builtin_alias(char **args, t_env env, int subshell);
-int			builtin_unalias(char **args, t_env env, int subshell);
-int			builtin_jobs(char **args, t_env env, int subshell);
-int			builtin_bg(char **args, t_env env, int subshell);
-int			builtin_fg(char **args, t_env env, int subshell);
-int			builtin_export(char **args, t_env env, int subshell);
-int			builtin_fc(char **args, int subshell);
-int			builtin_type(char **args, t_env env, int subshell);
-int			builtin_hash(char **args, t_env env, int subshell);
+int				builtin_echo(char **args, t_env env, int subshell);
+int				builtin_cd(char **args, t_env env, int subshell);
+int				builtin_getenv(char **args, t_env env, int subshell);
+int				builtin_set(char **args, t_env env, int subshell);
+int				builtin_unset(char **args, t_env env, int subshell);
+int				builtin_exit(char **args, t_env env, int subshell);
+int				builtin_alias(char **args, t_env env, int subshell);
+int				builtin_unalias(char **args, t_env env, int subshell);
+int				builtin_jobs(char **args, t_env env, int subshell);
+int				builtin_bg(char **args, t_env env, int subshell);
+int				builtin_fg(char **args, t_env env, int subshell);
+int				builtin_export(char **args, t_env env, int subshell);
+int				builtin_fc(char **args, int subshell);
+int				builtin_type(char **args, t_env env, int subshell);
+int				builtin_hash(char **args, t_env env, int subshell);
 
 typedef struct	s_builtin_and_name
 {
@@ -39,7 +39,7 @@ typedef struct	s_builtin_and_name
 	t_builtin	function;
 }				t_builtin_and_name;
 
-t_builtin	get_builtin(char *name);
+t_builtin		get_builtin(char *name);
 
 extern t_builtin_and_name	builtins[];
 

@@ -19,6 +19,6 @@ void					delete_t_hashalias(void)
 	if ((hash_alias = static_hashalias_action(get)) == NULL)
 		return ;
 	if (hash_alias->hd != NULL)
-	    delete_t_hashdata((&(hash_alias->hd)));
+		delete_t_hashdata((&(hash_alias->hd)));
 	free(hash_alias);
 }

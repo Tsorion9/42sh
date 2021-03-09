@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_jobs.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/09 21:10:18 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/09 21:10:19 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exec.h"
 #include "environment.h"
 #include "job.h"
@@ -41,7 +53,7 @@ static void	print_single_job(t_job *j, int flag_p, int flag_l)
 	int		status;
 	char	*str_status;
 
-	if (waitpid(j->pgid, &status,  WNOHANG | WUNTRACED) > 0)
+	if (waitpid(j->pgid, &status, WNOHANG | WUNTRACED) > 0)
 	{
 		update_job_state(j->pgid, job_status_to_state(status), status);
 		str_status = job_status_tostr(j->status);

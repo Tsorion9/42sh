@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_simple_cmd.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/09 21:09:26 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/09 21:09:27 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "find_exec.h"
 #include "exec.h"
 #include "parser.h"
@@ -19,6 +31,7 @@ static int	tmp_lstlen(t_word_list *w)
 /*
 ** Translate list to array
 */
+
 static char	**collect_argwords(t_word_list *words)
 {
 	int		l;
