@@ -21,7 +21,7 @@ void	make_assignment(char *as_wrd, int do_export)
 	*equal = 0;
 	if (!do_export)
 	{
-		ft_setenv(env, (tmp = ft_strdup(as_wrd)), ft_strdup(equal + 1));
+		ft_setenv(g_env, (tmp = ft_strdup(as_wrd)), ft_strdup(equal + 1));
 		if (ft_getenv(g_export_env, as_wrd))
 		{
 			free(tmp);

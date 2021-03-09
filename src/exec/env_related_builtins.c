@@ -27,7 +27,7 @@ int			builtin_getenv(char **args, t_env env_deprecated, int subshell)
 	}
 	while (*args)
 	{
-		c = ft_getenv(env, args[0]);
+		c = ft_getenv(g_env, args[0]);
 		if (!c)
 			ft_printf("No such variable in env: %s\n", args[0]);
 		else
@@ -52,7 +52,7 @@ static int	handle_set_arg(char *arg)
 	if ((equal = ft_strchr(arg, '=')))
 	{
 		key = ft_strcut(arg, '=');
-		ft_setenv(env, key, ft_strdup(equal + 1));
+		ft_setenv(g_env, key, ft_strdup(equal + 1));
 		free(key);
 	}
 	return (EXIT_SUCCESS);
@@ -68,7 +68,7 @@ int			builtin_set(char **args, t_env env_deprecated, int subshell)
 	(void)env_deprecated;
 	if (!*args)
 	{
-		print_env(env, &status, "");
+		print_env(g_env, &status, "");
 		return (EXIT_SUCCESS);
 	}
 	status = EXIT_SUCCESS;
@@ -89,7 +89,7 @@ int			builtin_unset(char **args, t_env env_deprecated, int subshell)
 		return (1);
 	while (*args)
 	{
-		ft_unsetenv(env, *args);
+		ft_unsetenv(g_env, *args);
 		ft_unsetenv(g_export_env, *args);
 		args++;
 	}

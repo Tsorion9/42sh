@@ -25,7 +25,7 @@
 #include "t_export.h"
 #include "t_hash.h"
 
-t_env env;
+t_env g_env;
 t_env g_export_env;
 int g_interactive_shell;
 int g_last_cmd_status;
@@ -56,8 +56,8 @@ static void	init_readline(void)
 static void	init_shell(char **envr)
 {
 	set_toplevel_shell_signal();
-	env = init_env(envr);
-	g_export_env = copy_env(env);
+	g_env = init_env(envr);
+	g_export_env = copy_env(g_env);
 	static_hashalias_action(init);
 	static_hash_action(init);
 	init_readline();

@@ -35,13 +35,13 @@ static void	remove_done_jobs(void)
 {
 	t_list	*l;
 
-	l = jobs;
+	l = g_jobs;
 	while (l)
 	{
 		if (((t_job *)l->content)->state == DONE)
 		{
 			remove_job(((t_job *)(l->content))->pgid);
-			l = jobs;
+			l = g_jobs;
 			continue ;
 		}
 		l = l->next;
@@ -82,7 +82,7 @@ static void	print_job_table(int flag_l, int flag_p)
 	t_list	*l;
 	t_job	*j;
 
-	l = jobs;
+	l = g_jobs;
 	while (l)
 	{
 		j = (t_job *)(l->content);

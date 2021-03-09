@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>// TODO удалить
-
 #include "libft.h"
 #include "parser.h"
 #include "exec.h"
@@ -38,7 +36,6 @@ static void	update_status(int pipeline_status, int *status,
 		t_type_andor last_op)
 {
 	g_last_cmd_status = status_to_exitcode(pipeline_status);
-	fflush(NULL);
 	if (last_op == ANDOR_NONE)
 	{
 		*status = pipeline_status;

@@ -21,7 +21,7 @@ void			insert_command_to_hash(char *key, char *value)
 	if ((hash = static_hash_action(get)) == NULL
 		|| hash->hd == NULL)
 		return ;
-	path_dirs = ft_strsplit(ft_getenv(env, "PATH"), ':');
+	path_dirs = ft_strsplit(ft_getenv(g_env, "PATH"), ':');
 	if (is_path_was_changed(hash->copy_path, path_dirs) == EXIT_SUCCESS)
 	{
 		static_hash_action(del);

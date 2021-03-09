@@ -42,7 +42,7 @@ static char		**get_paths(void)
 	char	*p;
 	char	**path;
 
-	p = ft_getenv(env, "PATH");
+	p = ft_getenv(g_env, "PATH");
 	if (!p)
 		return (NULL);
 	path = ft_strsplit(p, ':');

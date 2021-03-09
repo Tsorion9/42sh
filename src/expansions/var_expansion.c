@@ -31,7 +31,7 @@ void	brace_var_expansion(char **src_word, size_t *i, int skeep_char,
 							|| (j != 0 && ft_isdigit((*src_word)[j]))))
 		j++;
 	var_name = ft_strsub(*src_word, *i + skeep_char, j - *i - skeep_char);
-	var_value = ft_getenv(env, var_name);
+	var_value = ft_getenv(g_env, var_name);
 	replace_value(src_word, var_value, i, j - *i);
 	free(var_name);
 	if (!(word_state & IN_DQUOTE_STATE) && !(word_state & IN_QUOTE_STATE))
@@ -54,7 +54,7 @@ void	var_expansion(char **src_word, size_t *i, int skeep_char,
 								|| (j != 0 && ft_isdigit((*src_word)[j]))))
 		j++;
 	var_name = ft_strsub(*src_word, *i + skeep_char, j - *i - skeep_char);
-	var_value = ft_getenv(env, var_name);
+	var_value = ft_getenv(g_env, var_name);
 	replace_value(src_word, var_value, i, j - *i);
 	free(var_name);
 	if (!(word_state & IN_DQUOTE_STATE) && !(word_state & IN_QUOTE_STATE))

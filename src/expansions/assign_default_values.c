@@ -24,11 +24,11 @@ void	assign_default_values(char **src_word, char **word,
 	char	*param_value;
 
 	i = 0;
-	param_value = ft_getenv(env, param);
+	param_value = ft_getenv(g_env, param);
 	if (param_value == NULL || (have_colon && param_value == NULL))
 	{
 		word_expansion(word);
-		ft_setenv(env, param, *word);
+		ft_setenv(g_env, param, *word);
 		replace_value(src_word, *word, &i, ft_strlen(*src_word));
 	}
 	else

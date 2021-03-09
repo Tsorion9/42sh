@@ -22,7 +22,7 @@ void	indicate_error_if_null_or_unset(char **src_word, char **word,
 {
 	char	*param_value;
 
-	param_value = ft_getenv(env, param);
+	param_value = ft_getenv(g_env, param);
 	if (param_value != NULL && *param_value == '\0' && !have_colon)
 	{
 		free(*src_word);

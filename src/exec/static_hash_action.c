@@ -20,7 +20,7 @@ t_hash			*static_hash_action(int action)
 	{
 		if ((hash = init_t_hash()) == NULL)
 			return (NULL);
-		hash->copy_path = ft_strsplit(ft_getenv(env, "PATH"), ':');
+		hash->copy_path = ft_strsplit(ft_getenv(g_env, "PATH"), ':');
 		return (hash);
 	}
 	else if (action == get)

@@ -78,12 +78,12 @@ static int	handle_export_arg(char *arg)
 	{
 		key = ft_strcut(arg, '=');
 		ft_setenv(g_export_env, key, ft_strdup(equal + 1));
-		ft_setenv(env, key, ft_strdup(equal + 1));
+		ft_setenv(g_env, key, ft_strdup(equal + 1));
 		free(key);
 	}
 	else
 	{
-		value = ft_getenv(env, arg);
+		value = ft_getenv(g_env, arg);
 		if (value)
 			ft_setenv(g_export_env, arg, ft_strdup(value));
 		else

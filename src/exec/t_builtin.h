@@ -41,6 +41,6 @@ typedef struct	s_builtin_and_name
 
 t_builtin		get_builtin(char *name);
 
-extern t_builtin_and_name	builtins[];
+extern t_builtin_and_name	g_builtins[];
 
 #endif

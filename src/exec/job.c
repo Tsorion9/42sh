@@ -13,7 +13,7 @@
 #include "libft.h"
 #include "job.h"
 
-t_list *jobs;
+t_list *g_jobs;
 
 int		next_priority(void)
 {
@@ -45,19 +45,19 @@ void	biggest_priorities(int *max, int *second_max)
 
 	*max = -1;
 	*second_max = -1;
-	l = jobs;
+	l = g_jobs;
 	while (l)
 	{
 		j = (t_job *)(l->content);
 		if (j->priority > *max)
 		{
-			if (ft_lstlen(jobs) > 1)
+			if (ft_lstlen(g_jobs) > 1)
 			{
 				*second_max = *max;
 			}
 			*max = j->priority;
 		}
-		else if (j->priority > *second_max && ft_lstlen(jobs) > 1)
+		else if (j->priority > *second_max && ft_lstlen(g_jobs) > 1)
 		{
 			*second_max = j->priority;
 		}
@@ -86,7 +86,7 @@ void	add_job(int pgid, int background, char *cmd_line)
 	{
 		new->priority = next_priority();
 	}
-	ft_lstadd_data(&jobs, new, 0);
+	ft_lstadd_data(&g_jobs, new, 0);
 }
 
 void	destroy_job(void *j, size_t content_size)
@@ -103,13 +103,13 @@ void	remove_job(int pgid)
 	t_list	*tmp;
 
 	delete_me = find_job(pgid);
-	if (delete_me == jobs->content)
+	if (delete_me == g_jobs->content)
 	{
-		prev = jobs;
-		jobs = jobs->next;
+		prev = g_jobs;
+		g_jobs = g_jobs->next;
 		ft_lstdelone(&prev, destroy_job);
 	}
-	prev = jobs;
+	prev = g_jobs;
 	while (prev)
 	{
 		if (prev->next && (prev->next->content == delete_me))
@@ -142,7 +142,7 @@ t_job	*find_job(pid_t pgid)
 {
 	t_list	*l;
 
-	l = jobs;
+	l = g_jobs;
 	while (l)
 	{
 		if (((t_job *)l->content)->pgid == pgid)
@@ -179,6 +179,12 @@ void	update_job_state(pid_t job, t_job_state new_state, int status)
 	}
 }
 
+static void	init_locals(char **a, char **b)
+{
+	*a = NULL;
+	*b = NULL;
+}
+
 char	*job_status_tostr(int status)
 {
 	char	*tmp;
@@ -188,30 +194,24 @@ char	*job_status_tostr(int status)
 		return (ft_strdup("Running"));
 	if (WCOREDUMP(status))
 		return (ft_strdup("Core dumped"));
+	init_locals(&tmp, &res);
 	if (WIFEXITED(status))
 	{
-		if (WEXITSTATUS(status) == 0)
-			return (ft_strdup("Done"));
 		tmp = ft_itoa(WEXITSTATUS(status));
 		res = ft_strjoin("Done:", tmp);
-		free(tmp);
-		return (res);
 	}
 	if (WIFSIGNALED(status))
 	{
 		tmp = ft_itoa(WTERMSIG(status));
 		res = ft_strjoin("Terminated by signal:", tmp);
-		free(tmp);
-		return (res);
 	}
 	if (WIFSTOPPED(status))
 	{
 		tmp = ft_itoa(WSTOPSIG(status));
 		res = ft_strjoin("Stopped by signal:", tmp);
-		free(tmp);
-		return (res);
 	}
-	return (ft_strdup("Unknown status"));
+	free(tmp);
+	return (res ? res : ft_strdup("Unknown status"));
 }
 
 static int	only_digits(char *s)
@@ -265,7 +265,7 @@ t_job		*find_job_by_pattern(char *pattern, int *error)
 	t_list	*current;
 
 	result = NULL;
-	current = jobs;
+	current = g_jobs;
 	*error = NO_JOB;
 	while (current)
 	{

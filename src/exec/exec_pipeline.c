@@ -77,31 +77,41 @@ int	wait_fg_job(pid_t job)
 	return (status);
 }
 
-int	exec_pipeline(t_pipeline *pipeline)
+static int	pipeline_word_exp(t_pipeline *pipeline)
 {
-	pid_t job;
-
 	if (expand_pipeline(pipeline) == EXPANSION_FAIL)
 		return (1);
 	pipeline_words_to_assignments(pipeline);
 	pipeline_field_splitting(pipeline);
 	pipeline_pathname_expansion(pipeline);
 	pipeline_quote_removal(pipeline);
+	return (0);
+}
+
+static int	pipeline_parent_actions(t_pipeline *pipeline, pid_t job)
+{
+	add_job(job, 0, get_pipeline_str(pipeline));
+	if (g_interactive_shell)
+	{
+		setpgid(job, job);
+		tcsetpgrp(STDIN_FILENO, job);
+	}
+	return (wait_fg_job(job));
+}
+
+int	exec_pipeline(t_pipeline *pipeline)
+{
+	pid_t job;
+
+	if (pipeline_word_exp(pipeline))
+		return (1);
 	if (is_single_builtin(pipeline) || only_assignments(pipeline))
 		return (exec_single_builtin(pipeline));
 	if (!g_top_level_shell)
 		return (exec_pipeline_job(pipeline));
 	job = fork();
 	if (job)
-	{
-		add_job(job, 0, get_pipeline_str(pipeline));
-		if (g_interactive_shell)
-		{
-			setpgid(job, job);
-			tcsetpgrp(STDIN_FILENO, job);
-		}
-		return (wait_fg_job(job));
-	}
+		return (pipeline_parent_actions(pipeline, job));
 	else
 	{
 		if (g_interactive_shell)

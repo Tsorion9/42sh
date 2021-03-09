@@ -89,7 +89,7 @@ int			exec_simple_cmd(t_simple_cmd *cmd)
 				del_array(args);
 				return (-1);
 			}
-			status = builtin(args + 1, env, 0);
+			status = builtin(args + 1, g_env, 0);
 		}
 		else
 		{

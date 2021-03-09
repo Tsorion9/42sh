@@ -73,7 +73,7 @@ char		*find_path(char *name)
 
 	if (looks_like_path(name))
 		return (ft_strdup(name));
-	env_path = ft_getenv(env, "PATH");
+	env_path = ft_getenv(g_env, "PATH");
 	if (!env_path)
 		return (NULL);
 	return (find_executable(name, env_path));

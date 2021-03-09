@@ -20,7 +20,7 @@ static int	open_42sh_history(int mode)
 	char	*home_dir;
 	char	*file_path;
 
-	if (!(home_dir = ft_getenv(env, "HOME")))
+	if (!(home_dir = ft_getenv(g_env, "HOME")))
 		return (-1);
 	if (!(file_path = ft_strjoin(home_dir, "/.42sh_history")))
 		return (-1);

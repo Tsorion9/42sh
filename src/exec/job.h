@@ -53,7 +53,7 @@ typedef struct		s_job
 	int				status;
 }					t_job;
 
-extern t_list *jobs;
+extern t_list *g_jobs;
 
 char				*job_state_tostr(t_job_state s);
 char				*job_status_tostr(int status);

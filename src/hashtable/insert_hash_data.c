@@ -34,8 +34,9 @@ t_hashtable				*new_hash_table_element(char *key, char *value)
 		return (NULL);
 	}
 	s = ft_strdup(value);
-	if (!ft_isprint(value[*value ? ft_strlen(value) - 1 : *value])
-		|| value[*value ? ft_strlen(value) - 1 : *value] == ' ')
+	if (!ft_isprint(value[(size_t)*value ?
+				ft_strlen(value) - 1 : (size_t)*value])
+		|| value[(size_t)*value ? ft_strlen(value) - 1 : (size_t)*value] == ' ')
 		new->expand_next_alias = 1;
 	new->tokbuf_value = split_word_into_queue_tokens(s);
 	free(s);
@@ -54,8 +55,9 @@ int						hash_api_change_data(t_hashtable **ht, char *value)
 		erase_tokbuf(&(*ht)->tokbuf_value);
 		free((*ht)->tokbuf_value);
 		s = ft_strdup((*ht)->value);
-		if (!ft_isprint(value[*value ? ft_strlen(value) - 1 : *value])
-			|| value[*value ? ft_strlen(value) - 1 : *value] == ' ')
+		if (!ft_isprint(value[(size_t)*value ?
+					ft_strlen(value) - 1 : (size_t)*value])
+		|| value[(size_t)*value ? ft_strlen(value) - 1 : (size_t)*value] == ' ')
 			(*ht)->expand_next_alias = 1;
 		else
 			(*ht)->expand_next_alias = 0;

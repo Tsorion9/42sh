@@ -33,7 +33,6 @@ static int	expand_simple_command(t_simple_cmd *simple_cmd)
 	int			status_filename;
 
 	words = simple_cmd->words;
-	// TODO: Iterate over every redirection
 	status_filename = expand_filename(&simple_cmd->redirects);
 	if (status_filename == NEED_FIELD_SPLIT)
 	{

@@ -88,7 +88,7 @@ char		**get_alias_args(char **args, void (*invalid_print)(char *arg))
 			i++;
 		}
 		else if (ft_strlen(ft_strchr(*args, '=')) != ft_strlen(*args)
-			&& (get_key_and_value(&mas_args, *args, &i, invalid_print) == EXIT_FAILURE))
+			&& (get_key_and_value(&mas_args, *args, &i, invalid_print) == 1))
 		{
 			if (mas_args)
 				del_array(mas_args);

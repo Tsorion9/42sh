@@ -89,20 +89,16 @@ int				check_echo_flags_and_print(char **args)
 	int		i;
 	int		n_flag;
 	int		e_flag;
-	int		upper_e_flag;
 
 	i = 0;
 	n_flag = 0;
 	e_flag = 0;
-	upper_e_flag = 0;
 	while (args[i])
 	{
 		if (!ft_strcmp(args[i], "-n"))
 			n_flag = 1;
 		else if (!ft_strcmp(args[i], "-e"))
 			e_flag = 1;
-		else if (!ft_strcmp(args[i], "-E"))
-			upper_e_flag = 1;
 		else
 			break ;
 		i++;

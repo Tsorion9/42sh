@@ -99,7 +99,7 @@ char			**field_splitting(const char *source)
 
 	if (!source || *source == '\0')
 		return (NULL);
-	ifs = ft_getenv(env, "IFS");
+	ifs = ft_getenv(g_env, "IFS");
 	if (ifs == NULL)
 		ifs = " \t\n";
 	else if (*ifs == '\0')

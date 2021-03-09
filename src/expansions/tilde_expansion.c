@@ -71,7 +71,7 @@ int		get_user_home_path(char *login, char **home_path,
 
 	if (login[0] == '\0' || (login[0] == ':' && inside_assignment_word == 1))
 	{
-		*home_path = ft_getenv(env, "HOME");
+		*home_path = ft_getenv(g_env, "HOME");
 		if (*home_path == NULL)
 			return (FUNC_ERROR);
 	}

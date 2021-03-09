@@ -56,7 +56,7 @@ t_completion	*ret_possible_vars(void)
 
 	com_lst = NULL;
 	memory = 1;
-	if (!(new_env = to_array(env, &memory))
+	if (!(new_env = to_array(g_env, &memory))
 		|| ((mas_vars = env_api_get_mas_vars(new_env)) == NULL))
 		return (NULL);
 	if (memory == 1)

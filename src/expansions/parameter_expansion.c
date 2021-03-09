@@ -38,7 +38,7 @@ static void	var_not_null(char **src_word, char **sep, char *param)
 
 	c = **sep;
 	word = ft_strdup(*sep + 1);
-	param_value = ft_getenv(env, param);
+	param_value = ft_getenv(g_env, param);
 	i = 0;
 	if (c == '-' || c == '=' || c == '?')
 		replace_value(src_word, param_value, &i, ft_strlen(*src_word));
@@ -77,11 +77,12 @@ static void	var_unset_or_empty(char **src_word, char **sep, char *param,
 
 	word = ft_strdup(*sep + 1);
 	if (**sep == '-')
-		use_default_values(src_word, &word, ft_getenv(env, param), have_colon);
+		use_default_values(src_word, &word, ft_getenv(g_env, param),
+				have_colon);
 	else if (**sep == '?')
 		indicate_error_if_null_or_unset(src_word, &word, param, have_colon);
 	else if (**sep == '+')
-		use_alternative_value(src_word, &word, ft_getenv(env, param),
+		use_alternative_value(src_word, &word, ft_getenv(g_env, param),
 																have_colon);
 	else if (**sep == '=')
 		assign_default_values(src_word, &word, param, have_colon);
@@ -113,7 +114,7 @@ static void	perform_parameter_expansion(char **src_word, char *sep)
 		ft_strdel(&parameter);
 		return ;
 	}
-	var_value = ft_getenv(env, parameter);
+	var_value = ft_getenv(g_env, parameter);
 	if (*sep == ':')
 	{
 		sep++;

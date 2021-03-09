@@ -15,7 +15,7 @@
 
 void	init_prompt(void)
 {
-	ft_setenv(env, "PS1",\
+	ft_setenv(g_env, "PS1",\
 			ft_strdup("PiEcE_oF_s_HELL: "));
-	ft_setenv(env, "PS2", ft_strdup("8===D "));
+	ft_setenv(g_env, "PS2", ft_strdup("8===D "));
 }

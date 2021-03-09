@@ -12,7 +12,7 @@
 
 #include "t_builtin.h"
 
-t_builtin_and_name	builtins[] = {
+t_builtin_and_name	g_builtins[] = {
 	{.name = "echo", .function = builtin_echo},
 	{.name = "cd", .function = builtin_cd},
 	{.name = "getenv", .function = builtin_getenv},
@@ -37,10 +37,10 @@ t_builtin	get_builtin(char *name)
 	if (!name)
 		return (NULL);
 	i = 0;
-	while (builtins[i].name)
+	while (g_builtins[i].name)
 	{
-		if (!ft_strcmp(builtins[i].name, name))
-			return (builtins[i].function);
+		if (!ft_strcmp(g_builtins[i].name, name))
+			return (g_builtins[i].function);
 		i++;
 	}
 	return (NULL);

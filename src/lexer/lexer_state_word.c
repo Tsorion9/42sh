@@ -103,10 +103,7 @@ static void		lexer_state_quotes(t_lexer_state *token)
 
 void			lexer_state_word(t_lexer_state *token)
 {
-	char *input;
-
 	lexer_set_flags(token);
-	input = NULL;
 	if (CURRENT_CHAR == '\\' && (token->flags & QUOTE_STATE) == 0)
 		lexer_change_state(token, &lexer_state_word_esc);
 	else if (!is_shellspec(CURRENT_CHAR, token) && !ft_isblank(CURRENT_CHAR)
