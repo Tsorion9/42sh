@@ -1,0 +1,5 @@
+a=one
+b=two
+echo word > $a > $b
+ls
+rm one two
