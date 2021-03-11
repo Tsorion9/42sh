@@ -1,0 +1,6 @@
+a=hello
+cat << e << g
+$a
+e
+$a
+g
