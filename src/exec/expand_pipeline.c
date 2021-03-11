@@ -14,14 +14,22 @@
 
 static int	expand_filename(t_redirect **redirect)
 {
-	int	status;
+	int			status;
+	t_redirect	*tmp;
 
 	status = EXPANSION_SUCCESS;
+	tmp = *redirect;
 	if (*redirect != NULL)
 	{
-		status = word_expansion(&((*redirect)->redirector->filename));
-		if (status != EXPANSION_FAIL && (*redirect)->need_expand_heredoc)
-			status = word_expansion(&(*redirect)->heredoc_value);
+		while (tmp)
+		{
+			status = word_expansion(&(tmp->redirector->filename));
+			if (status == EXPANSION_FAIL)
+				return (status);
+			if (tmp->need_expand_heredoc)
+				status = word_expansion(&tmp->heredoc_value);
+			tmp = tmp->next;
+		}
 	}
 	return (status);
 }
