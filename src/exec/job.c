@@ -6,7 +6,7 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:18:22 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/07 15:18:23 by jsance           ###   ########.fr       */
+/*   Updated: 2021/03/12 01:00:45 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	init_locals(char **a, char **b)
 	*b = NULL;
 }
 
-char	*job_status_tostr(int status)
+char		*job_status_tostr(int status)
 {
 	char	*tmp;
 	char	*res;

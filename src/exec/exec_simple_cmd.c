@@ -6,7 +6,7 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 21:09:26 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/09 21:09:27 by jsance           ###   ########.fr       */
+/*   Updated: 2021/03/12 01:03:17 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ static void	restore_descriptors(int *save_fd)
 
 static void	close3(int save_fd[3])
 {
-		close_wrapper(save_fd[0]);
-		close_wrapper(save_fd[1]);
-		close_wrapper(save_fd[2]);
+	close_wrapper(save_fd[0]);
+	close_wrapper(save_fd[1]);
+	close_wrapper(save_fd[2]);
 }
 
 int			exec_simple_cmd(t_simple_cmd *cmd)

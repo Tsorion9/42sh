@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   job_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/12 00:58:51 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/12 00:59:36 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "job.h"
 
 /*
@@ -5,7 +17,7 @@
 ** Add PID to list of pids if job exists
 */
 
-void	add_job(int pgid, int background, char *cmd_line)
+void		add_job(int pgid, int background, char *cmd_line)
 {
 	t_job		*new;
 	static int	id;
@@ -24,7 +36,7 @@ void	add_job(int pgid, int background, char *cmd_line)
 	ft_lstadd_data(&g_jobs, new, 0);
 }
 
-char	*job_state_tostr(t_job_state s)
+char		*job_state_tostr(t_job_state s)
 {
 	if (s == FG || s == BACKGROUND)
 		return (ft_strdup("Running"));
@@ -37,7 +49,7 @@ char	*job_state_tostr(t_job_state s)
 ** Find by pgid
 */
 
-t_job	*find_job(pid_t pgid)
+t_job		*find_job(pid_t pgid)
 {
 	t_list	*l;
 
@@ -66,7 +78,7 @@ t_job_state	job_status_to_state(int status)
 	return (FG);
 }
 
-void	update_job_state(pid_t job, t_job_state new_state, int status)
+void		update_job_state(pid_t job, t_job_state new_state, int status)
 {
 	t_job	*j;
 

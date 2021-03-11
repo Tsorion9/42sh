@@ -6,7 +6,7 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:22:17 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/07 15:22:18 by jsance           ###   ########.fr       */
+/*   Updated: 2021/03/12 01:02:22 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	exec_pipeline_job(t_pipeline *pipeline)
 ** Wait for foreground job, from top_level_shell
 */
 
-int	wait_fg_job(pid_t job)
+int			wait_fg_job(pid_t job)
 {
 	int		status;
 	t_job	*j;
@@ -101,7 +101,7 @@ static int	pipeline_parent_actions(t_pipeline *pipeline, pid_t job)
 	return (wait_fg_job(job));
 }
 
-int	exec_pipeline(t_pipeline *pipeline)
+int			exec_pipeline(t_pipeline *pipeline)
 {
 	pid_t job;
 
