@@ -16,13 +16,19 @@ static void	redirect_field_splitting(t_redirect **redirect)
 {
 	char			*file;
 	t_redirector	*redirector;
+	t_redirect		*tmp;
 
 	if ((*redirect) != NULL && (*redirect)->redirector)
 	{
-		redirector = (*redirect)->redirector;
-		file = redirector->filename;
-		if (redirector->need_field_split)
-			redirector->splitted_filename = field_splitting_list(file);
+		tmp = *redirect;
+		while (tmp)
+		{
+			redirector = tmp->redirector;
+			file = redirector->filename;
+			if (redirector->need_field_split)
+				redirector->splitted_filename = field_splitting_list(file);
+			tmp = tmp->next;
+		}
 	}
 }
 

@@ -26,6 +26,11 @@ static int	expand_filename(t_redirect **redirect)
 			status = word_expansion(&(tmp->redirector->filename));
 			if (status == EXPANSION_FAIL)
 				return (status);
+			if (status == NEED_FIELD_SPLIT)
+			{
+				tmp->redirector->need_field_split = NEED_FIELD_SPLIT;
+				tmp->redirector->need_quote_rm = 0;
+			}
 			if (tmp->need_expand_heredoc)
 				status = word_expansion(&tmp->heredoc_value);
 			tmp = tmp->next;
@@ -42,11 +47,6 @@ static int	expand_simple_command(t_simple_cmd *simple_cmd)
 
 	words = simple_cmd->words;
 	status_filename = expand_filename(&simple_cmd->redirects);
-	if (status_filename == NEED_FIELD_SPLIT)
-	{
-		simple_cmd->redirects->redirector->need_field_split = NEED_FIELD_SPLIT;
-		simple_cmd->redirects->redirector->need_quote_rm = 0;
-	}
 	while (words)
 	{
 		status_words = word_expansion(&words->word);

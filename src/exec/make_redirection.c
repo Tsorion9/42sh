@@ -36,13 +36,27 @@ static int	make_heredoc_redirection(t_redirect *redirect)
 	}
 }
 
+static int	contain_ambiguous(t_redirect *redirect)
+{
+	t_redirect		*tmp;
+	t_redirector	*redir;
+
+	tmp = redirect;
+	while (tmp)
+	{
+		redir = tmp->redirector;
+		if (redir->splitted_filename && redir->splitted_filename->next)
+			return (FUNC_SUCCESS);
+		tmp = tmp->next;
+	}
+	return (FUNC_FAIL);
+}
+
 static int	file_redirection(t_redirect *redirect, int flags, int mode)
 {
 	int				fd;
-	t_redirector	*redir;
 
-	redir = redirect->redirector;
-	if (redir->splitted_filename && redir->splitted_filename->next)
+	if (contain_ambiguous(redirect))
 	{
 		ft_fprintf(STDERR_FILENO, "%s: %s: %s\n",
 			"42sh", redirect->redirector->filename, E_AMBIGUOUS_REDIR);
