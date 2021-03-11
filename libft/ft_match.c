@@ -6,14 +6,14 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:51:21 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/07 14:51:22 by jsance           ###   ########.fr       */
+/*   Updated: 2021/03/12 01:05:32 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "clever_match_misc.h"
 
-static char		*find_closing_bracket(char *s)
+static char			*find_closing_bracket(char *s)
 {
 	while (*s)
 	{
@@ -24,7 +24,7 @@ static char		*find_closing_bracket(char *s)
 	return (s);
 }
 
-static void		fill_subrange(char **start, char symbols[256])
+static void			fill_subrange(char **start, char symbols[256])
 {
 	char min;
 	char max;

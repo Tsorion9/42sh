@@ -6,14 +6,14 @@
 /*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:55:57 by jsance            #+#    #+#             */
-/*   Updated: 2021/03/07 14:55:58 by jsance           ###   ########.fr       */
+/*   Updated: 2021/03/12 01:07:10 by jsance           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "clever_match_misc.h"
 
-char		*find_closing_bracket(char *s, char *not_quoted)
+char			*find_closing_bracket(char *s, char *not_quoted)
 {
 	while (*s)
 	{
@@ -25,7 +25,8 @@ char		*find_closing_bracket(char *s, char *not_quoted)
 	return (s);
 }
 
-void		fill_subrange(char **start, char symbols[256], char **not_quoted)
+void			fill_subrange(char **start, char symbols[256],
+										char **not_quoted)
 {
 	char min;
 	char max;
@@ -91,7 +92,7 @@ int				find_range(char *pattern, char *closing_bracket,
 ** [a-zA-Z] - any of a-z or A-Z
 */
 
-static int			range_match(char *string, char *pattern, char *not_quoted)
+static int		range_match(char *string, char *pattern, char *not_quoted)
 {
 	char		*closing_bracket;
 	static char	symbols[256];
@@ -127,7 +128,7 @@ static int			range_match(char *string, char *pattern, char *not_quoted)
 ** is discarded
 */
 
-int					ft_clever_match(char *string, char *pattern,
+int				ft_clever_match(char *string, char *pattern,
 		char *not_quoted)
 {
 	if (!*string && !*pattern)
