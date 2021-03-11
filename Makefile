@@ -153,6 +153,8 @@ CEXEC = builtin_21shopt.c \
 		ft_setenv.c \
 		env_related_builtins.c \
 		exec.c \
+		remove_done_jobs.c \
+		job_utils.c \
 		exec_pipeline.c \
 		find_exec.c \
 		find_path.c \
@@ -162,6 +164,7 @@ CEXEC = builtin_21shopt.c \
 		init_env.c \
 		is_a_directory.c \
 		job.c \
+		job_priority.c \
 		parse_cd_args.c \
 		to_array.c \
 		builtin_alias.c \
@@ -213,6 +216,7 @@ CEXEC = builtin_21shopt.c \
 		pipeline_quote_removal.c \
 		pipeline_field_splitting.c \
 		save_list_attributes.c \
+		wordlistlen.c \
 		redirect_pathname_expansion.c
 
 CEXPANSIONS = tilde_expansion.c \
@@ -254,7 +258,7 @@ EXEC =	$(patsubst %,src/exec/%,$(CEXEC))
 HEREDOC = $(patsubst %,src/heredoc/%,$(CHEREDOC))
 EXPANSIONS = $(patsubst %,src/expansions/%,$(CEXPANSIONS))
 
-SRC = src/main.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEXER) $(PARSER) $(EXEC) $(HASH) $(HEREDOC) $(EXPANSIONS)
+SRC = src/main.c src/init_shell.c $(READLINE) $(CURSORMANIPULATION) $(COMPLETION) $(LEXER) $(PARSER) $(EXEC) $(HASH) $(HEREDOC) $(EXPANSIONS)
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

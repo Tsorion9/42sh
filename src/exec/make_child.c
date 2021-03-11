@@ -48,7 +48,7 @@ void	parent_actions(int read_fd, int write_fd)
 	}
 }
 
-pid_t	make_child(t_command *cmd, int read_fd, int write_fd,
+pid_t	make_child(t_command *cmd, int rw_fd[2],
 		int another_read_fd, int need_close)
 {
 	pid_t	child;
@@ -58,11 +58,11 @@ pid_t	make_child(t_command *cmd, int read_fd, int write_fd,
 	{
 		if (need_close)
 			close_wrapper(another_read_fd);
-		child_actions(cmd, read_fd, write_fd);
+		child_actions(cmd, rw_fd[0], rw_fd[1]);
 	}
 	else
 	{
-		parent_actions(read_fd, write_fd);
+		parent_actions(rw_fd[0], rw_fd[1]);
 	}
 	return (child);
 }

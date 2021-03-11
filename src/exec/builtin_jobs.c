@@ -31,23 +31,6 @@ static char	*figure_out_priority(t_job *j)
 	return (" ");
 }
 
-static void	remove_done_jobs(void)
-{
-	t_list	*l;
-
-	l = g_jobs;
-	while (l)
-	{
-		if (((t_job *)l->content)->state == DONE)
-		{
-			remove_job(((t_job *)(l->content))->pgid);
-			l = g_jobs;
-			continue ;
-		}
-		l = l->next;
-	}
-}
-
 static void	print_single_job(t_job *j, int flag_p, int flag_l)
 {
 	int		status;

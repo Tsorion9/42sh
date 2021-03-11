@@ -68,5 +68,11 @@ void				update_job_priority(pid_t j);
 void				biggest_priorities(int *max, int *second_max);
 
 t_job				*find_job_by_pattern(char *pattern, int *error);
+void				remove_done_jobs(void);
+void				destroy_job(void *j, size_t content_size);
+void				remove_job(int pgid);
+void				biggest_priorities(int *max, int *second_max);
+void				update_job_priority(pid_t j);
+int					next_priority(void);
 
 #endif

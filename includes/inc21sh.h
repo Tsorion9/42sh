@@ -46,6 +46,9 @@ void					*del_array(char **env);
 
 void					reset_exit(int status);
 
+void					set_toplevel_shell_signal(void);
 void					init_prompt(void);
+void					init_readline(void);
+void					init_shell(char **envr);
 
 #endif

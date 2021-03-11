@@ -12,8 +12,6 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-
-#include <unistd.h>
 #include <signal.h>
 #include "lexer.h"
 #include "parser.h"
@@ -30,38 +28,6 @@ t_env g_export_env;
 int g_interactive_shell;
 int g_last_cmd_status;
 int g_paths_pipefd[2];
-
-static void	set_toplevel_shell_signal(void)
-{
-	if (!g_interactive_shell)
-		return ;
-	signal(SIGTTIN, SIG_IGN);
-	signal(SIGTTOU, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
-	set_sigint(processing_sigint);
-	signal(SIGWINCH, processing_sigwinch);
-	signal(SIGTSTP, SIG_IGN);
-}
-
-static void	init_readline(void)
-{
-	if (!g_interactive_shell)
-		return ;
-	init_terminal();
-	init_prompt();
-	rp(init_rp());
-	load_on_file_history(rp(NULL)->history);
-}
-
-static void	init_shell(char **envr)
-{
-	set_toplevel_shell_signal();
-	g_env = init_env(envr);
-	g_export_env = copy_env(g_env);
-	static_hashalias_action(init);
-	static_hash_action(init);
-	init_readline();
-}
 
 static void	read_from_file(char *filename)
 {

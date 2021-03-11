@@ -24,6 +24,7 @@
 static int	exec_pipeline_job(t_pipeline *pipeline)
 {
 	int		fd[2];
+	int		rw_fd[2];
 	int		read_fd;
 	pid_t	last_child;
 	int		first_iter;
@@ -40,8 +41,9 @@ static int	exec_pipeline_job(t_pipeline *pipeline)
 		{
 			pipe(fd);
 		}
-		last_child = make_child(pipeline->command, read_fd,
-				fd[1], fd[0], first_iter);
+		rw_fd[0] = read_fd;
+		rw_fd[1] = fd[1];
+		last_child = make_child(pipeline->command, rw_fd, fd[0], first_iter);
 		first_iter = 0;
 		pipeline = pipeline->next;
 	}

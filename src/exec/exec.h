@@ -54,8 +54,8 @@ t_word_list	*get_tail(t_word_list *list);
 int			only_assignments(t_pipeline *pipeline);
 int			is_single_builtin(t_pipeline *pipeline);
 int			exec_single_builtin(t_pipeline *pipeline);
-pid_t		make_child(t_command *cmd, int read_fd, int write_fd,
-				int another_read_fd, int need_close);
+pid_t		make_child(t_command *cmd, int rw_fd[2],
+		int another_read_fd, int need_close);
 int			wait_all_children(pid_t last_child);
 
 int			exec_simple_cmd(t_simple_cmd *cmd);
@@ -69,5 +69,6 @@ int			make_redirection(t_redirect *redirect);
 int			close_wrapper(int fd);
 
 void		save_list_attributes(t_word_list *src, t_word_list **dest);
+int			wordlistlen(t_word_list *w);
 
 #endif

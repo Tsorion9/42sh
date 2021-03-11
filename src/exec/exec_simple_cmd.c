@@ -15,19 +15,6 @@
 #include "parser.h"
 #include "libft.h"
 
-static int	tmp_lstlen(t_word_list *w)
-{
-	int l;
-
-	l = 0;
-	while (w)
-	{
-		w = w->next;
-		l++;
-	}
-	return (l);
-}
-
 /*
 ** Translate list to array
 */
@@ -39,7 +26,7 @@ static char	**collect_argwords(t_word_list *words)
 	int		i;
 
 	i = 0;
-	l = tmp_lstlen(words);
+	l = wordlistlen(words);
 	res = ft_memalloc(sizeof(char *) * (l + 1));
 	while (words && words->word)
 	{
@@ -66,15 +53,22 @@ static void	restore_descriptors(int *save_fd)
 	close_wrapper(save_fd[2]);
 }
 
+static void	close3(int save_fd[3])
+{
+		close_wrapper(save_fd[0]);
+		close_wrapper(save_fd[1]);
+		close_wrapper(save_fd[2]);
+}
+
 int			exec_simple_cmd(t_simple_cmd *cmd)
 {
 	t_word_list	*words;
 	char		**args;
 	int			save_fd[3];
 	t_builtin	builtin;
-	int			status;
+	int			stat;
 
-	status = 0;
+	stat = 0;
 	save_descriptors(save_fd);
 	make_assignments(cmd, cmd->words != NULL);
 	if ((words = cmd->words))
@@ -82,30 +76,14 @@ int			exec_simple_cmd(t_simple_cmd *cmd)
 		args = collect_argwords(words);
 		builtin = get_builtin(words->word);
 		if (builtin)
-		{
-			if (make_redirections(cmd) != 0)
-			{
-				restore_descriptors(save_fd);
-				del_array(args);
-				return (-1);
-			}
-			status = builtin(args + 1, g_env, 0);
-		}
+			stat = !make_redirections(cmd) ? builtin(args + 1, g_env, 0) : -1;
 		else
 		{
-			close_wrapper(save_fd[0]);
-			close_wrapper(save_fd[1]);
-			close_wrapper(save_fd[2]);
-			if (make_redirections(cmd) != 0)
-			{
-				restore_descriptors(save_fd);
-				del_array(args);
-				return (-1);
-			}
-			status = find_exec(args, g_export_env);
+			close3(save_fd);
+			stat = !make_redirections(cmd) ? find_exec(args, g_export_env) : -1;
 		}
 		del_array(args);
 	}
 	restore_descriptors(save_fd);
-	return (status);
+	return (stat);
 }

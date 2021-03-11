@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "clever_match_misc.h"
 
 char		*find_closing_bracket(char *s, char *not_quoted)
 {
@@ -48,18 +49,6 @@ void		fill_subrange(char **start, char symbols[256], char **not_quoted)
 	*not_quoted += 3;
 }
 
-static void		init_local_variables(char symbols[256], int *negate_result)
-{
-	memset(symbols, 0, 256);
-	*negate_result = 0;
-}
-
-static void		increment_2(char **pattern, char **not_quoted)
-{
-	(*pattern)++;
-	(*not_quoted)++;
-}
-
 /*
 ** Return whether we should negate the range
 */
@@ -92,18 +81,6 @@ int				find_range(char *pattern, char *closing_bracket,
 		}
 	}
 	return (negate_result);
-}
-
-void				negate(char arr[256])
-{
-	int i;
-
-	i = 0;
-	while (i < 256)
-	{
-		arr[i] = !(arr[i]);
-		i++;
-	}
 }
 
 /*
