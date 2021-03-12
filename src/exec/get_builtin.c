@@ -27,6 +27,7 @@ t_builtin_and_name	g_builtins[] = {
 	{.name = "export", .function = builtin_export},
 	{.name = "type", .function = builtin_type},
 	{.name = "hash", .function = builtin_hash},
+	{.name = "fc", .function = builtin_fc},
 	{.name = NULL, .function = NULL}
 };
 

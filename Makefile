@@ -218,7 +218,9 @@ CEXEC = builtin_21shopt.c \
 		pipeline_field_splitting.c \
 		save_list_attributes.c \
 		wordlistlen.c \
-		redirect_pathname_expansion.c
+		redirect_pathname_expansion.c \
+        builtin_fc.c \
+        parse_fc.c
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \
