@@ -17,7 +17,6 @@ static void	quote_removal_filename(t_redirect **redirect)
 	t_redirect	*tmp;
 
 	tmp = *redirect;
-
 	while (tmp && tmp->redirector->need_quote_rm)
 	{
 		quote_removal(&(tmp->redirector->filename));
