@@ -30,6 +30,30 @@ static int		starts_from_root(const char *word)
 	return (res);
 }
 
+static char		**single_point(void)
+{
+	char **arr;
+
+	arr = ft_memalloc(sizeof(char *) * 2);
+	*arr = ft_strdup(".");
+	*(arr + 1) = NULL;
+	return (arr);
+}
+
+static int		is_single_point(char *word)
+{
+	char	*unquoted;
+	int		ret;
+
+	ret = 0;
+	unquoted = ft_strdup(word);
+	quote_removal(&unquoted);
+	if (!ft_strcmp(unquoted, "."))
+		ret = 1;
+	free(unquoted);
+	return (ret);
+}
+
 /*
 ** Return malloced 2d dimensional array of words
 */
@@ -44,6 +68,11 @@ char			**pathname_expansion(char *word)
 
 	matches = NULL;
 	path_components = path_clever_split(word);
+	if (is_single_point(word))
+	{
+		del_array(path_components);
+		return (single_point());
+	}
 	if (path_components && !path_components[0])
 	{
 		del_array(path_components);
