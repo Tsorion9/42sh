@@ -20,7 +20,7 @@ static void	history_search_print(const t_history_search *history_search,
 	int		new_cur_pos[2];
 	char	*history_search_before;
 
-	if (!(history_search && user_in && history_search->str))
+	if (!(history_search && user_in))
 		return ;
 	ft_memcpy(new_cur_pos, cur_pos, sizeof(new_cur_pos));
 	clear_all_line(1);
