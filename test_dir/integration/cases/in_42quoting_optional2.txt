@@ -1,2 +1,5 @@
 echo word > '"b"'
 rm '"b"'
+
+echo word > '"b"' > "doesntexist"
+rm '"b"' doesntexist
