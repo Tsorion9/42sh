@@ -11,12 +11,13 @@ int	exec_string(char *s)
 {
 	char			*tmp;
 	t_complete_cmd	*cmd;
+	int				code;
 
-	tmp = ft_strdup(*s);
+	tmp = ft_strdup(s);
 	while (tmp)
 	{
 		cmd = parser(&tmp);
-		code = exec_cmd(cmd);
+		code = exec_complete_cmd(cmd);
 	}
 	return (code);
 }
