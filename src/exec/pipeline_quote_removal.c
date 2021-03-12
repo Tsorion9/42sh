@@ -14,8 +14,15 @@
 
 static void	quote_removal_filename(t_redirect **redirect)
 {
-	if (*redirect && (*redirect)->redirector->need_quote_rm)
-		quote_removal(&((*redirect)->redirector->filename));
+	t_redirect	*tmp;
+
+	tmp = *redirect;
+
+	while (tmp && tmp->redirector->need_quote_rm)
+	{
+		quote_removal(&(tmp->redirector->filename));
+		tmp = tmp->next;
+	}
 }
 
 static void	simple_command_quote_removal(t_simple_cmd *cmd)
