@@ -32,6 +32,7 @@ void		sigchld_handler(int n);
 
 int			exec_pipeline(t_pipeline *pipeline);
 int			exec_complete_cmd(t_complete_cmd *cmd);
+int			exec_string(char *s);
 
 /*
 ** Pipeline functions

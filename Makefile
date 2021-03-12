@@ -153,6 +153,7 @@ CEXEC = builtin_21shopt.c \
 		ft_setenv.c \
 		env_related_builtins.c \
 		exec.c \
+		exec_string.c \
 		remove_done_jobs.c \
 		job_utils.c \
 		exec_pipeline.c \
