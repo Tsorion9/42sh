@@ -26,7 +26,7 @@ static void	while_loop(t_word_list **fields, t_word_list *tmp,
 	}
 }
 
-void		redirect_pathname_expansion(t_redirect **redirect)
+static void	redirect_pathname_expansion(t_redirect **redirect)
 {
 	t_redirector	*redirector;
 	t_word_list		*tmp;
@@ -52,5 +52,14 @@ void		redirect_pathname_expansion(t_redirect **redirect)
 		else
 			redirector->splitted_filename = pathname_expansion_list(
 					redirector->filename);
+	}
+}
+
+void		redirects_pathname_expansion(t_redirect *redirect)
+{
+	while (redirect)
+	{
+		redirect_pathname_expansion(&redirect);
+		redirect = redirect->next;
 	}
 }

@@ -58,7 +58,7 @@ static void	simple_cmd_pathname_expansion(t_simple_cmd **simple_cmd)
 	words = (*simple_cmd)->words;
 	tail = NULL;
 	head = NULL;
-	redirect_pathname_expansion(&(*simple_cmd)->redirects);
+	redirects_pathname_expansion((*simple_cmd)->redirects);
 	while (words)
 	{
 		fields = pathname_expansion_list(words->word);

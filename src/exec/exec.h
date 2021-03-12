@@ -38,12 +38,12 @@ int			exec_complete_cmd(t_complete_cmd *cmd);
 */
 
 void		pipeline_pathname_expansion(t_pipeline *pipeline);
-void		redirect_pathname_expansion(t_redirect **redirect);
+void		redirects_pathname_expansion(t_redirect *redirect);
 void		pipeline_quote_removal(t_pipeline *pipeline);
 void		pipeline_field_splitting(t_pipeline *pipeline);
 
 /*
-** Misk
+** Misc
 */
 
 t_word_list	*get_tail(t_word_list *list);

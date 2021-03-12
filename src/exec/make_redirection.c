@@ -62,7 +62,10 @@ static int	file_redirection(t_redirect *redirect, int flags, int mode)
 			"42sh", redirect->redirector->filename, E_AMBIGUOUS_REDIR);
 		return (1);
 	}
-	fd = open(redirect->redirector->filename, flags, mode);
+	if (redirect->redirector && redirect->redirector->splitted_filename)
+		fd = open(redirect->redirector->splitted_filename->word, flags, mode);
+	else
+		fd = open(redirect->redirector->filename, flags, mode);
 	if (fd == -1)
 	{
 		ft_fprintf(STDERR_FILENO, "%s %s\n",

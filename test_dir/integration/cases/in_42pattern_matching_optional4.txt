@@ -1,0 +1,9 @@
+rm -rf garbage; mkdir garbage; cd garbage; mkdir garbage1; cd garbage1
+
+touch one two
+echo word > on? > tw?
+rm one two
+echo word > on? > tw?
+rm on\? tw\?
+
+cd ../../ ; rm -r garbage
