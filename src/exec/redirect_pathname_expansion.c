@@ -26,6 +26,13 @@ static void	while_loop(t_word_list **fields, t_word_list *tmp,
 	}
 }
 
+static void	expand_filename(t_redirector *redirector)
+{
+	redirector->splitted_filename = pathname_expansion_list(
+			redirector->filename);
+	word_list_set_dont_quote_rm(redirector->splitted_filename);
+}
+
 static void	redirect_pathname_expansion(t_redirect **redirect)
 {
 	t_redirector	*redirector;
@@ -50,8 +57,7 @@ static void	redirect_pathname_expansion(t_redirect **redirect)
 			(*redirect)->redirector->splitted_filename = head;
 		}
 		else
-			redirector->splitted_filename = pathname_expansion_list(
-					redirector->filename);
+			expand_filename(redirector);
 	}
 }
 

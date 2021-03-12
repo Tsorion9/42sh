@@ -48,6 +48,15 @@ void		fields_empty(t_word_list *words,
 	}
 }
 
+void		word_list_set_dont_quote_rm(t_word_list *word)
+{
+	while (word)
+	{
+		word->need_quote_rm = 0;
+		word = word->next;
+	}
+}
+
 static void	simple_cmd_pathname_expansion(t_simple_cmd **simple_cmd)
 {
 	t_word_list *words;
@@ -63,7 +72,11 @@ static void	simple_cmd_pathname_expansion(t_simple_cmd **simple_cmd)
 	{
 		fields = pathname_expansion_list(words->word);
 		if (fields != NULL)
+		{
+			words->need_quote_rm = 0;
+			word_list_set_dont_quote_rm(fields);
 			fields_not_null(&fields, words, &head, &tail);
+		}
 		else
 			fields_empty(words, &head, &tail);
 		words = words->next;

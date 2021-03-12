@@ -70,5 +70,6 @@ int			close_wrapper(int fd);
 
 void		save_list_attributes(t_word_list *src, t_word_list **dest);
 int			wordlistlen(t_word_list *w);
+void		word_list_set_dont_quote_rm(t_word_list *word);
 
 #endif
