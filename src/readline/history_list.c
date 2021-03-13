@@ -26,12 +26,27 @@ t_history	*create_history(char *str, size_t len)
 	return (history);
 }
 
+void		delete_history(t_history *history)
+{
+	t_history *tmp;
+
+	if (!history)
+		return ;
+	tmp = history;
+	if (tmp->prev)
+		tmp->prev->next = tmp->next;
+	if (history->next)
+		tmp->next->prev = tmp->prev;
+	free(tmp->str);
+	free(tmp);
+}
+
 void		add_to_start_history(t_history *history, char *str, size_t len)
 {
 	t_history	*new_history;
 	char		*tmp;
 
-	tmp =  next_unquoted_char(str, '!');
+	tmp = next_unquoted_char(str, '!');
 	while (history->prev)
 		history = history->prev;
 	if (ft_strcmp(str, "") == 0

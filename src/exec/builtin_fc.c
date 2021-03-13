@@ -2,19 +2,25 @@
 #include "builtin_fc.h"
 #include "exec.h"
 
-void				init_fc_options(t_fc_options *options)
+static void			init_fc_options(t_fc_options *options)
 {
-	t_history	*history;
-
 	options->flags = 0;
 	options->first = 0;
 	options->last = 0;
 	ft_memset(options->editor, 0, FC_MAX_EDITOR_NAME_SIZE);
 	if (ft_strlen(FC_DEFAULT_EDITOR) <= FC_MAX_EDITOR_NAME_SIZE)
 		ft_strcpy(options->editor, FC_DEFAULT_EDITOR);
+}
+
+static void			init_fc_history(t_fc_options *options)
+{
+	t_history	*history;
+
 	history = rp(NULL)->history;
 	while (history && history->prev)
 		history = history->prev;
+	if ((options->flags & FC_FLAG_S) && history && history->next)
+		delete_history(history->next);
 	options->number_of_history = 0;
 	while (history && history->next)
 	{
@@ -42,6 +48,10 @@ static void			convert_operands_to_pisitive_history_number(t_fc_options *options)
 		if (options->last < 1)
 			options->last = 1;
 	}
+	if (!options->first)
+		options->first = -1;
+	if (!options->last)
+		options->last = -1;
 }
 
 static t_history	*get_history(t_fc_options *options, int history_number)
@@ -49,7 +59,7 @@ static t_history	*get_history(t_fc_options *options, int history_number)
 	t_history *history;
 
 	history = options->history_first;
-	while (history->prev->prev && history_number)
+	while (history && history->prev && history->prev->prev && history_number > 1)
 	{
 		history = history->prev;
 		history_number--;
@@ -106,9 +116,9 @@ int					exec_fc_s(t_fc_options *options)
     int         status;
 
 	if (!(options->first))
-		options->first = FC_OPERAND_FIRST_DEFAULT_VALUE;
+		options->first = -1;
 	if (!(options->last))
-		options->last = options->number_of_history;
+		options->last = options->first;
 	convert_operands_to_pisitive_history_number(options);
 	first = options->first;
 	last = options->last;
@@ -133,6 +143,8 @@ int					exec_fc_s(t_fc_options *options)
 			history = history->prev;
 		}
 	}
+	ft_printf("%s\n", history->str);
+    status = exec_string(history->str);
     return (status);
 }
 
@@ -146,6 +158,9 @@ int					builtin_fc(char **args, t_env env, int subshell)
 	error_code = FC_NO_ERROR;
 	init_fc_options(&options);
 	args = parse_fc_flags_and_editor(&options, args, &error_code);
+	init_fc_history(&options);
+	if (!options.number_of_history)
+		return (error_code);
 	if (error_code != FC_NO_ERROR)
 		return (error_code);
 	if (!fc_flags_valid(&options))
