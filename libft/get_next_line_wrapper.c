@@ -19,6 +19,7 @@ int		get_next_line_wrapper(const int fd, char **line)
 	int		status;
 
 	*line = NULL;
+	line_1 = NULL;
 	status = get_next_line(fd, &line_1);
 	if (!status)
 		line_1 = ft_strdup("");
