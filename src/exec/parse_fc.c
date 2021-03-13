@@ -49,8 +49,7 @@ void		parse_fc_operands(t_fc_options *options, char **args, int *error_code)
 {
 	if (!(*args))
 	{
-		if (options->flags & FC_FLAG_E)
-			*error_code = FC_USAGE_ERROR;
+		return ;
 	}
 	else
 	{
