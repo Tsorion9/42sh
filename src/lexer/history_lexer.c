@@ -4,15 +4,20 @@
 static int	history_digit(char *s)
 {
 	int	i;
+	int	flag;
 
 	i = 0;
+	flag = 0;
 	if (s[i] == '-')
 		i++;
 	while (ft_isdigit(s[i]))
+	{
+		flag = 1;
 		i++;
-	if (s[i - 1] == '-')
+	}
+	if (!flag)
 		return (0);
-	return (--i);
+	return (i);
 }
 
 static int word_history(char *s)
@@ -22,7 +27,7 @@ static int word_history(char *s)
 	i = 0;
 	while (is_valid_var_char(s[i]))
 		i++;
-	return (--i);
+	return (i);
 }
 
 /*
@@ -61,11 +66,11 @@ void		history_lexer(char **s)
 			cur++;
 		else
 		{
-			substr = ft_strsub(cur, 0, end);
+			substr = ft_strsub(cur, 0, end + 1);
 			expanded = search_history_subtitution(substr);
 			if (expanded == NULL)
 			{
-				ft_fprintf(STDERR_FILENO, "%s %s", E_EVENT_NOT_FOUND, substr);
+				ft_fprintf(STDERR_FILENO, "%s %s\n", E_EVENT_NOT_FOUND, substr);
 				ft_strdel(&substr);
 				break ;
 			}

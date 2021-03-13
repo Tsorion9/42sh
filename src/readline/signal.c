@@ -39,9 +39,6 @@ void	set_sigint(void (*sigint_handler)(int))
 void	processing_sigint(int signal_code)
 {
 	(void)signal_code;
-	if (rp(NULL)->in_read)
-	{
-	}
 	return ;
 }
 
