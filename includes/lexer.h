@@ -29,6 +29,7 @@
 # define FUNC_ERROR			-1
 # define FUNC_FAIL			0
 # define FUNC_SUCCESS		1
+// TODO refactor this
 # define TOKEN_CHAR			g_token.value[g_token.str_index]
 # define CURRENT_CHAR		token->value[token->str_index]
 # define TOKEN_TYPE			(*token_lst)->type
@@ -67,6 +68,7 @@ void			lexer_state_braces(t_lexer_state *token);
 void			lexer_state_brackets(t_lexer_state *token);
 void			lexer_unclosed_state(t_lexer_state *token);
 t_token			*lexer(char **value);
+void			history_lexer(char **s);
 
 /*
 ** Misk functions for lexer routine

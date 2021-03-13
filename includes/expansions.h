@@ -28,8 +28,9 @@
 # define IN_DQUOTE_STATE		(1 << 0)
 # define IN_QUOTE_STATE			(1 << 1)
 # define E_BAD_SUBSTITUTION		"42sh: bad substitution: "
-# define E_CMD_BAD_SUBSTITUTION		"42sh: bad command substitution"
+# define E_CMD_BAD_SUBSTITUTION	"42sh: bad command substitution"
 # define E_PARAM_NULL_OR_UNSET	"parameter null or unset"
+# define E_EVENT_NOT_FOUND		"42sh: event not found:"
 
 int			tilde_expansion(char **s, size_t *i, int inside_assignment_word);
 int			word_expansion(char **source_word);
@@ -114,5 +115,6 @@ void		fields_not_null(t_word_list **fields, t_word_list *words,
 void		fields_empty(t_word_list *words,
 							t_word_list **head,
 							t_word_list **tail);
+char		*next_unquoted_char(char *s, char c);
 
 #endif

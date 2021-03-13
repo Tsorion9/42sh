@@ -74,7 +74,6 @@ char		*search_history_subtitution(char *str)
 	int			history_number;
 	int			number_of_history;
 
-	minus = 0;
 	history = rp(NULL)->history;
 	init_number_of_history(&number_of_history);
 	if (!str)
@@ -85,10 +84,10 @@ char		*search_history_subtitution(char *str)
 	{
 		history_number = ft_atoi(str + 1);
 		if (history_number >= HISTSIZE || history_number <= HISTSIZE * (-1))
-			return (NULL)
+			return (NULL);
 	}
 	else
-		return (search_str_in_history(arg));
+		return (search_str_in_history(str));
 	history_number = convert_history_number(history_number, number_of_history);
 	return (search_history_str(history_number));
 }

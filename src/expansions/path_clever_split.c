@@ -20,14 +20,19 @@ static void	q_state(int *state, char c)
 		*state = 0;
 }
 
-static char	*next_unquoted_slash(char *s)
+/*
+** Return pointer to first occurrences 'c' character
+** If can't find char return pointer to end of string
+*/
+
+char		*next_unquoted_char(char *s, char c)
 {
 	int		state;
 
 	state = 0;
 	while (*s)
 	{
-		if (*s == '/' && state == 0)
+		if (*s == c && state == 0)
 			break ;
 		if (*s == '\'' || *s == '"')
 			q_state(&state, *s);
@@ -47,7 +52,7 @@ char		**path_clever_split(char *s)
 	int		len;
 
 	l = NULL;
-	while (*(slash = next_unquoted_slash(s)))
+	while (*(slash = next_unquoted_char(s, '/')))
 	{
 		*slash = '\0';
 		component = ft_strdup(s);

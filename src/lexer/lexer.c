@@ -48,6 +48,8 @@ t_token			*lexer_scanner(t_lexer_state *token)
 	if (token->value == NULL)
 	{
 		token->value = line_42sh(get_prompt(PS1));
+		if (isatty(STDIN_FILENO))
+			history_lexer(&token->value);
 		if (token->value == NULL)
 			return (return_token_and_clean_state(token, TOKEN_CTRL_C));
 		if (token->value && !*(token->value))

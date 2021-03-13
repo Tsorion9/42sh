@@ -33,7 +33,8 @@ CREADLINE = add_symbol.c \
 			up_down_arrow.c \
 			ft_putint.c \
 			history_search_func.c \
-			set_history_search.c
+			set_history_search.c \
+			search_history_subtitution.c
 
 
 CCURSORMANIPULATION = alt_left_right.c move_cursor.c wordmove_cursor.c
@@ -91,7 +92,8 @@ CLEXER =    lexer.c \
 			lexer_unclosed_state.c \
 			lexer_set_flags.c \
 			tokens_string.c \
-			retrieve_token.c
+			retrieve_token.c \
+			history_lexer.c
 
 CPARSER =   clean_commands.c \
 			clean_compound_list.c \
