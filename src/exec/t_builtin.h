@@ -29,7 +29,7 @@ int				builtin_jobs(char **args, t_env env, int subshell);
 int				builtin_bg(char **args, t_env env, int subshell);
 int				builtin_fg(char **args, t_env env, int subshell);
 int				builtin_export(char **args, t_env env, int subshell);
-int				builtin_fc(char **args, int subshell);
+int				builtin_fc(char **args, t_env env, int subshell);
 int				builtin_type(char **args, t_env env, int subshell);
 int				builtin_hash(char **args, t_env env, int subshell);
 

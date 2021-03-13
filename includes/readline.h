@@ -179,6 +179,7 @@ typedef struct			s_rp
 	int					competitions_raws;
 }						t_rp;
 
+char                    *search_history_subtitution(char *n);
 void					history_search_sup(t_history *history_ptr,
 						size_t *index, size_t search_index, int *found);
 void					hs_delete_symbol(t_history_search *t_history_search,

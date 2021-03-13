@@ -220,7 +220,8 @@ CEXEC = builtin_21shopt.c \
 		wordlistlen.c \
 		redirect_pathname_expansion.c \
         builtin_fc.c \
-        parse_fc.c
+        parse_fc.c \
+        valid_fc.c
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \

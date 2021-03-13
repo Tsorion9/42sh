@@ -1,5 +1,6 @@
-#include "builtin_fc.h"
 #include "environment.h"
+#include "builtin_fc.h"
+#include "exec.h"
 
 void				init_fc_options(t_fc_options *options)
 {
@@ -12,10 +13,10 @@ void				init_fc_options(t_fc_options *options)
 	if (ft_strlen(FC_DEFAULT_EDITOR) <= FC_MAX_EDITOR_NAME_SIZE)
 		ft_strcpy(options->editor, FC_DEFAULT_EDITOR);
 	history = rp(NULL)->history;
-	while (history->prev->prev)
+	while (history && history->prev)
 		history = history->prev;
 	options->number_of_history = 0;
-	while (history->next->next)
+	while (history && history->next)
 	{
 		history = history->next;
 		options->number_of_history++;
@@ -97,11 +98,50 @@ int					exec_fc_l(t_fc_options *options)
 	return (1);
 }
 
-int					builtin_fc(char **args, int subshell)
+int					exec_fc_s(t_fc_options *options)
+{
+	t_history	*history;
+	int			first;
+	int			last;
+    int         status;
+
+	if (!(options->first))
+		options->first = FC_OPERAND_FIRST_DEFAULT_VALUE;
+	if (!(options->last))
+		options->last = options->number_of_history;
+	convert_operands_to_pisitive_history_number(options);
+	first = options->first;
+	last = options->last;
+	if (options->flags & FC_FLAG_R)
+	{
+		first = options->last;
+		last = options->first;
+	}
+	history = get_history(options, first);
+	while (first != last)
+	{
+		ft_printf("%s\n", history->str);
+        status = exec_string(history->str);
+		if (first > last)
+		{
+			first--;
+			history = history->next;
+		}
+		else
+		{
+			first++;
+			history = history->prev;
+		}
+	}
+    return (status);
+}
+
+int					builtin_fc(char **args, t_env env, int subshell)
 {
 	t_fc_options	options;
 	int				error_code;
 
+    (void)env;
 	(void)subshell;
 	error_code = FC_NO_ERROR;
 	init_fc_options(&options);
@@ -115,5 +155,7 @@ int					builtin_fc(char **args, int subshell)
 		return (error_code);
 	if (options.flags & FC_FLAG_L)
 		exec_fc_l(&options);
+	else if (options.flags & FC_FLAG_S)
+		exec_fc_s(&options);
 	return (error_code);
 }
