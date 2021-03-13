@@ -14,9 +14,10 @@
 
 void			lexer_state_ionum(t_lexer_state *token)
 {
-	if (ft_isdigit(CURRENT_CHAR))
+	if (ft_isdigit(token->value[token->str_index]))
 		lexer_change_state(token, &lexer_state_ionum);
-	else if (CURRENT_CHAR == '>' || CURRENT_CHAR == '<')
+	else if (token->value[token->str_index] == '>'
+			|| token->value[token->str_index] == '<')
 		token->tk_type = IO_NUMBER;
 	else
 		lexer_state_word(token);

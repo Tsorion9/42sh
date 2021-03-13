@@ -19,7 +19,7 @@ void			lexer_state_and_if(t_lexer_state *token)
 
 void			lexer_state_bg(t_lexer_state *token)
 {
-	if (CURRENT_CHAR == '&')
+	if (token->value[token->str_index] == '&')
 		lexer_change_state(token, &lexer_state_and_if);
 	else
 		token->tk_type = BG;
@@ -32,7 +32,7 @@ void			lexer_state_orif(t_lexer_state *token)
 
 void			lexer_state_pipe(t_lexer_state *token)
 {
-	if (CURRENT_CHAR == '|')
+	if (token->value[token->str_index] == '|')
 		lexer_change_state(token, &lexer_state_orif);
 	else
 		token->tk_type = PIPE;

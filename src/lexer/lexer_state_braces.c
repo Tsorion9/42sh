@@ -40,7 +40,7 @@ void			lexer_state_braces(t_lexer_state *token)
 {
 	if (!ft_isdelimeterblank(token->value[token->str_index + 1]))
 		lexer_state_word(token);
-	else if (CURRENT_CHAR == '{')
+	else if (token->value[token->str_index] == '{')
 		lexer_change_state(token, &lexer_state_lbrace);
 	else
 		lexer_change_state(token, &lexer_state_rbrace);

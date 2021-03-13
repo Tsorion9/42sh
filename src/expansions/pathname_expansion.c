@@ -30,13 +30,14 @@ static int		starts_from_root(const char *word)
 	return (res);
 }
 
-static char		**single_point(void)
+static char		**single_point(char **path_components)
 {
 	char **arr;
 
 	arr = ft_memalloc(sizeof(char *) * 2);
 	*arr = ft_strdup(".");
 	*(arr + 1) = NULL;
+	del_array(path_components);
 	return (arr);
 }
 
@@ -69,10 +70,7 @@ char			**pathname_expansion(char *word)
 	matches = NULL;
 	path_components = path_clever_split(word);
 	if (is_single_point(word))
-	{
-		del_array(path_components);
-		return (single_point());
-	}
+		return (single_point(path_components));
 	if (path_components && !path_components[0])
 	{
 		del_array(path_components);

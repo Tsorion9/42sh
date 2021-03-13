@@ -24,9 +24,9 @@ void			lexer_state_lessand(t_lexer_state *token)
 
 void			lexer_state_less(t_lexer_state *token)
 {
-	if (CURRENT_CHAR == '<')
+	if (token->value[token->str_index] == '<')
 		lexer_change_state(token, &lexer_state_dless);
-	else if (CURRENT_CHAR == '&')
+	else if (token->value[token->str_index] == '&')
 		lexer_change_state(token, &lexer_state_lessand);
 	else
 		token->tk_type = LESS;

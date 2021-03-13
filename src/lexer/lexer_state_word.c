@@ -20,7 +20,7 @@ void			lexer_state_word_esc(t_lexer_state *token)
 	size_t	i;
 
 	input = NULL;
-	if (CURRENT_CHAR == '\n')
+	if (token->value[token->str_index] == '\n')
 	{
 		token->str_index--;
 		token->tk_len--;
@@ -36,7 +36,7 @@ void			lexer_state_word_esc(t_lexer_state *token)
 		free(input);
 		lexer_state_word(token);
 	}
-	else if (CURRENT_CHAR != '\0')
+	else if (token->value[token->str_index] != '\0')
 		lexer_change_state(token, &lexer_state_word);
 }
 
@@ -69,16 +69,18 @@ int				is_shellspec(char c, t_lexer_state *token)
 
 void			identify_candidates(t_lexer_state *token)
 {
-	if (CURRENT_CHAR == '\0')
+	if (token->value[token->str_index] == '\0')
 		token->tk_type = WORD;
-	else if (CURRENT_CHAR == '{' && (token->flags & QUOTE_STATE) == 0)
+	else if (token->value[token->str_index] == '{'
+			&& (token->flags & QUOTE_STATE) == 0)
 	{
 		push(token, '}');
 		if (token->flags & DQUOTE_STATE)
 			token->brace_buf->quoted = 1;
 		lexer_change_state(token, &lexer_state_word);
 	}
-	else if (CURRENT_CHAR == '(' && (token->flags & DQUOTE_STATE) == 0)
+	else if (token->value[token->str_index] == '('
+			&& (token->flags & DQUOTE_STATE) == 0)
 	{
 		token->flags |= DOLLAR_STATE;
 		push(token, ')');
@@ -95,7 +97,7 @@ void			identify_candidates(t_lexer_state *token)
 
 static void		lexer_state_quotes(t_lexer_state *token)
 {
-	if (CURRENT_CHAR == '$')
+	if (token->value[token->str_index] == '$')
 		lexer_change_state(token, identify_candidates);
 	else
 		lexer_change_state(token, lexer_state_word);
@@ -104,18 +106,23 @@ static void		lexer_state_quotes(t_lexer_state *token)
 void			lexer_state_word(t_lexer_state *token)
 {
 	lexer_set_flags(token);
-	if (CURRENT_CHAR == '\\' && (token->flags & QUOTE_STATE) == 0)
+	if (token->value[token->str_index] == '\\'
+		&& (token->flags & QUOTE_STATE) == 0)
 		lexer_change_state(token, &lexer_state_word_esc);
-	else if (!is_shellspec(CURRENT_CHAR, token) && !ft_isblank(CURRENT_CHAR)
-						&& CURRENT_CHAR != '\0' && CURRENT_CHAR != '$')
+	else if (!is_shellspec(token->value[token->str_index], token)
+		&& !ft_isblank(token->value[token->str_index])
+		&& token->value[token->str_index] != '\0'
+		&& token->value[token->str_index] != '$')
 		lexer_change_state(token, &lexer_state_word);
 	else if (((token->flags & QUOTE_STATE) || (token->flags & DQUOTE_STATE))
-			&& CURRENT_CHAR != '\0')
+			&& token->value[token->str_index] != '\0')
 		lexer_state_quotes(token);
 	else if ((token->flags & ISOPEN_STATE)
-		&& (CURRENT_CHAR == '\0' || CURRENT_CHAR == '\n'))
+		&& (token->value[token->str_index] == '\0'
+		|| token->value[token->str_index] == '\n'))
 		lexer_unclosed_state(token);
-	else if (CURRENT_CHAR == '$' && (token->flags & QUOTE_STATE) == 0)
+	else if (token->value[token->str_index] == '$'
+		&& (token->flags & QUOTE_STATE) == 0)
 		lexer_change_state(token, &identify_candidates);
 	else if ((token->flags & ISOPEN_STATE))
 		lexer_change_state(token, &lexer_state_word);

@@ -32,25 +32,25 @@ void			lexer_state_newline(t_lexer_state *token)
 
 void			lexer_state_start(t_lexer_state *token)
 {
-	if (CURRENT_CHAR == '|')
+	if (token->value[token->str_index] == '|')
 		lexer_change_state(token, &lexer_state_pipe);
-	else if (CURRENT_CHAR == '&')
+	else if (token->value[token->str_index] == '&')
 		lexer_change_state(token, &lexer_state_bg);
-	else if (CURRENT_CHAR == '>')
+	else if (token->value[token->str_index] == '>')
 		lexer_change_state(token, &lexer_state_great);
-	else if (CURRENT_CHAR == '<')
+	else if (token->value[token->str_index] == '<')
 		lexer_change_state(token, &lexer_state_less);
-	else if (CURRENT_CHAR == ';')
+	else if (token->value[token->str_index] == ';')
 		lexer_change_state(token, &lexer_state_semicol);
-	else if (ft_isbraces(CURRENT_CHAR))
+	else if (ft_isbraces(token->value[token->str_index]))
 		lexer_state_braces(token);
-	else if (ft_isbrackets(CURRENT_CHAR))
+	else if (ft_isbrackets(token->value[token->str_index]))
 		lexer_state_brackets(token);
-	else if (CURRENT_CHAR == '\\')
+	else if (token->value[token->str_index] == '\\')
 		lexer_change_state(token, &lexer_state_word_esc);
-	else if (CURRENT_CHAR == '\n')
+	else if (token->value[token->str_index] == '\n')
 		lexer_change_state(token, &lexer_state_newline);
-	else if (ft_isdigit(CURRENT_CHAR))
+	else if (ft_isdigit(token->value[token->str_index]))
 		lexer_change_state(token, &lexer_state_ionum);
 	else
 		lexer_state_word(token);
