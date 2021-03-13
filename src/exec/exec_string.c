@@ -19,7 +19,6 @@ int	exec_string(char *s)
 		cmd = parser(&tmp);
 		if (!cmd)
 		{
-			free(tmp);
 			return (-1);
 		}
 		code = exec_complete_cmd(cmd);
