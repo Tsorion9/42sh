@@ -1,9 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_fc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/14 01:48:43 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/14 01:48:44 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "environment.h"
 #include "builtin_fc.h"
 #include "exec.h"
 
-static void			init_fc_options(t_fc_options *options)
+static void	init_fc_options(t_fc_options *options, t_env env, int subshell)
 {
+	(void)env;
+	(void)subshell;
 	options->flags = 0;
 	options->first = 0;
 	options->last = 0;
@@ -12,7 +26,7 @@ static void			init_fc_options(t_fc_options *options)
 		ft_strcpy(options->editor, FC_DEFAULT_EDITOR);
 }
 
-static void			init_fc_history(t_fc_options *options)
+static void	init_fc_history(t_fc_options *options)
 {
 	t_history	*history;
 
@@ -30,7 +44,7 @@ static void			init_fc_history(t_fc_options *options)
 	options->history_first = history;
 }
 
-static void			convert_operands_to_pisitive_history_number(t_fc_options *options)
+void		convert_operands_to_pisitive_history_number(t_fc_options *options)
 {
 	if (options->first > options->number_of_history)
 		options->first = options->number_of_history;
@@ -54,12 +68,14 @@ static void			convert_operands_to_pisitive_history_number(t_fc_options *options)
 		options->last = -1;
 }
 
-static t_history	*get_history(t_fc_options *options, int history_number)
+t_history	*get_history(t_fc_options *options, int history_number)
 {
 	t_history *history;
 
 	history = options->history_first;
-	while (history && history->prev && history->prev->prev && history_number > 1)
+	while (history && history->prev
+					&& history->prev->prev
+					&& history_number > 1)
 	{
 		history = history->prev;
 		history_number--;
@@ -67,156 +83,15 @@ static t_history	*get_history(t_fc_options *options, int history_number)
 	return (history);
 }
 
-int					exec_fc_l(t_fc_options *options)
-{
-	t_history	*history;
-	int			first;
-	int			last;
-
-	if (!(options->first))
-		options->first = FC_OPERAND_FIRST_DEFAULT_VALUE;
-	if (!(options->last))
-		options->last = options->number_of_history;
-	convert_operands_to_pisitive_history_number(options);
-	first = options->first;
-	last = options->last;
-	if (options->flags & FC_FLAG_R)
-	{
-		first = options->last;
-		last = options->first;
-	}
-	history = get_history(options, first);
-	while (first != last)
-	{
-		if (!(options->flags & FC_FLAG_N))
-			ft_printf("%d\t ", first);
-		ft_printf("%s\n", history->str);
-		if (first > last)
-		{
-			first--;
-			history = history->next;
-		}
-		else
-		{
-			first++;
-			history = history->prev;
-		}
-	}
-	if (!(options->flags & FC_FLAG_N))
-		ft_printf("%d\t ", first);
-	ft_printf("%s\n", history->str);
-	return (1);
-}
-
-int					exec_fc_s(t_fc_options *options)
-{
-	t_history	*history;
-	int			first;
-	int			last;
-    int         status;
-
-	if (!(options->first))
-		options->first = -1;
-	if (!(options->last))
-		options->last = options->first;
-	convert_operands_to_pisitive_history_number(options);
-	first = options->first;
-	last = options->last;
-	if (options->flags & FC_FLAG_R)
-	{
-		first = options->last;
-		last = options->first;
-	}
-	history = get_history(options, first);
-	while (first != last)
-	{
-		ft_printf("%s\n", history->str);
-        status = exec_string(history->str);
-		if (first > last)
-		{
-			first--;
-			history = history->next;
-		}
-		else
-		{
-			first++;
-			history = history->prev;
-		}
-	}
-	ft_printf("%s\n", history->str);
-    status = exec_string(history->str);
-    return (status);
-}
-
-static int			exec_fc_e(t_fc_options *options)
-{
-	char		filename[20];
-	char		*pid;
-	char		*line;
-	char		*total;
-	int			fd;
-	int			first;
-	int			status;
-	t_history	*history;
-	char		*editor;
-
-	pid = ft_itoa(getpid());
-	ft_strcpy(filename, "/tmp/42sh_fc_");
-	ft_strcat(filename, pid);
-	ft_strdel(&pid);
-//	ft_printf("editor = %s\n", options->editor);
-	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666);
-	if (fd == -1)
-		return (-1);
-	if (!(options->first))
-		options->first = FC_OPERAND_FIRST_DEFAULT_VALUE;
-	if (!(options->last))
-		options->last = options->number_of_history;
-	convert_operands_to_pisitive_history_number(options);
-	history = get_history(options, options->first);
-	first = options->first;
-	// Fill file
-	while (first <= options->last)
-	{
-		ft_fprintf(fd, "%s\n", history->str);
-		if (first > options->last)
-			first--;
-		else
-			first++;
-		history = history->next;
-	}
-	// create editor
-	editor = ft_strjoin(options->editor, " ");
-	editor = ft_strjoinfreefree(editor, ft_strdup(filename));
-	exec_string(editor);
-	free(editor);
-	lseek(fd, 0, SEEK_SET);
-	// read from file
-	line = NULL;
-	total = ft_strnew(1);
-	while (get_next_line_wrapper(fd, &line) > 0)
-	{
-		total = ft_strjoinfreefree(total, line);
-		line = NULL;
-	}
-	free(line);
-	status = exec_string(total);
-	free(total);
-	close(fd);
-	return (status);
-}
-
-int					builtin_fc(char **args, t_env env, int subshell)
+int			builtin_fc(char **args, t_env env, int subshell)
 {
 	t_fc_options	options;
 	int				error_code;
 
-    (void)env;
-	(void)subshell;
 	if (!isatty(STDIN_FILENO))
 		return (FC_NO_ERROR);
 	error_code = FC_NO_ERROR;
-	init_fc_options(&options);
+	init_fc_options(&options, env, subshell);
 	args = parse_fc_flags_and_editor(&options, args, &error_code);
 	init_fc_history(&options);
 	if (!options.number_of_history)

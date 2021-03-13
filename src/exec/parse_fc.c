@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_fc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/14 01:52:22 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/14 01:52:23 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "builtin_fc.h"
 #include "readline.h"
@@ -45,7 +57,8 @@ static void	write_history_number_in_operand(int *operand, char *arg,
 	}
 }
 
-void		parse_fc_operands(t_fc_options *options, char **args, int *error_code)
+void		parse_fc_operands(t_fc_options *options, char **args,
+								int *error_code)
 {
 	if (!(*args))
 	{
@@ -57,7 +70,8 @@ void		parse_fc_operands(t_fc_options *options, char **args, int *error_code)
 		if (*error_code == FC_NO_ERROR)
 		{
 			args++;
-			write_history_number_in_operand(&(options->last), *args, error_code);
+			write_history_number_in_operand(&(options->last), *args,
+																error_code);
 		}
 	}
 }
@@ -97,7 +111,7 @@ char		**parse_fc_flags_and_editor(t_fc_options *options, char **args,
 		else if (!ft_strcmp(*args, "-n"))
 			options->flags |= FC_FLAG_N;
 		else
-			break;
+			break ;
 		if (*error_code == FC_NO_ERROR)
 			args++;
 	}

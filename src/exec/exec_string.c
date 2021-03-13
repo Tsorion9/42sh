@@ -1,5 +1,15 @@
-#include <unistd.h>
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_string.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/14 01:49:47 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/14 01:49:48 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansions.h"
 #include "parser.h"
 #include "exec.h"
@@ -29,7 +39,8 @@ static int	only_blanks(char *s)
 /*
 ** Execute all commands in string
 */
-int	exec_string(char *s)
+
+int			exec_string(char *s)
 {
 	char			*tmp;
 	t_complete_cmd	*cmd;

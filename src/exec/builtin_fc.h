@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_fc.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/14 01:48:00 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/14 01:48:01 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BUILTIN_FC_H
 # define BUILTIN_FC_H
 
@@ -36,5 +48,11 @@ char				**parse_fc_flags_and_editor(t_fc_options *options,
 void				parse_fc_operands(t_fc_options *options, char **args,
 	int *error_code);
 int					fc_flags_valid(const t_fc_options *options);
+void				convert_operands_to_pisitive_history_number(
+											t_fc_options *options);
+t_history			*get_history(t_fc_options *options, int history_number);
+int					exec_fc_s(t_fc_options *options);
+int					exec_fc_l(t_fc_options *options);
+int					exec_fc_e(t_fc_options *options);
 
 #endif
