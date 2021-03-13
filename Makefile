@@ -272,7 +272,7 @@ INCLUDE = includes
 PARSER_TMP_INC = src/parser
 LIB_INC = libft/includes
 INC_FLAGS = -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec
-FLAGS = -Wall -Wextra -g $(INC_FLAGS)
+FLAGS = -Wall -Wextra -Werror -g $(INC_FLAGS)
 LFLAGS = -L libft -lft -ltermcap 
 
 DEPENDENCIES = $(OBJ:.o=.d)
