@@ -17,6 +17,11 @@ int	exec_string(char *s)
 	while (tmp)
 	{
 		cmd = parser(&tmp);
+		if (!cmd)
+		{
+			free(tmp);
+			return (-1);
+		}
 		code = exec_complete_cmd(cmd);
 	}
 	return (code);
