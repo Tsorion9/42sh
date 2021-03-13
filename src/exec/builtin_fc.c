@@ -194,7 +194,10 @@ static int			exec_fc_e(t_fc_options *options)
 	line = NULL;
 	total = ft_strnew(1);
 	while (get_next_line_wrapper(fd, &line) > 0)
+	{
 		total = ft_strjoinfreefree(total, line);
+		line = NULL;
+	}
 	status = exec_string(total);
 	close(fd);
 	return (status);
