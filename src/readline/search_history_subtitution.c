@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   search_history_subtitution.c                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/14 02:36:54 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/14 02:36:55 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "readline.h"
 
@@ -18,7 +30,7 @@ static int	convert_history_number(int history_number, int number_of_history)
 	return (history_number);
 }
 
-static void init_number_of_history(int *number_of_history)
+static void	init_number_of_history(int *number_of_history)
 {
 	t_history	*history;
 
