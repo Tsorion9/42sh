@@ -21,14 +21,20 @@ char	*ft_strjoinfreefree(char *s1, char *s2)
 	if ((str = ft_strnew(ft_strlen(s1) + ft_strlen(s2))) == NULL)
 		return (NULL);
 	if (s1 == NULL)
-		return (ft_strcpy(str, s2));
+	{
+		ft_strcpy(str, s2);
+		free(s2);
+		return (str);
+	}
 	if (s2 == NULL)
-		return (ft_strcpy(str, s1));
+	{
+		ft_strcpy(str, s1);
+		free(s1);
+		return (str);
+	}
 	ft_strcpy(str, s1);
 	ft_strcat(str, s2);
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
+	free(s1);
+	free(s2);
 	return (str);
 }
