@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "readline.h"
+#include "expansions.h"
 
 t_history	*create_history(char *str, size_t len)
 {
@@ -28,10 +29,14 @@ t_history	*create_history(char *str, size_t len)
 void		add_to_start_history(t_history *history, char *str, size_t len)
 {
 	t_history	*new_history;
+	char		*tmp;
 
+	tmp =  next_unquoted_char(str, '!');
 	while (history->prev)
 		history = history->prev;
-	if (ft_strcmp(str, "") == 0 || str[0] == ' ')
+	if (ft_strcmp(str, "") == 0
+		|| str[0] == ' '
+		|| *tmp)
 		return ;
 	if (history->next)
 		if (ft_strcmp(str, history->next->str) == 0)
