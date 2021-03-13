@@ -19,7 +19,7 @@
 
 # define FC_MAX_EDITOR_NAME_SIZE 32
 # define FC_OPERAND_FIRST_DEFAULT_VALUE -16
-# define FC_DEFAULT_EDITOR "ed"
+# define FC_DEFAULT_EDITOR "vim"
 
 typedef struct		s_fc_options
 {

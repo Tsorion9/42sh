@@ -189,6 +189,7 @@ static int			exec_fc_e(t_fc_options *options)
 	editor = ft_strjoin(options->editor, " ");
 	editor = ft_strjoinfreefree(editor, ft_strdup(filename));
 	exec_string(editor);
+	free(editor);
 	lseek(fd, 0, SEEK_SET);
 	// read from file
 	line = NULL;
@@ -198,7 +199,9 @@ static int			exec_fc_e(t_fc_options *options)
 		total = ft_strjoinfreefree(total, line);
 		line = NULL;
 	}
+	free(line);
 	status = exec_string(total);
+	free(total);
 	close(fd);
 	return (status);
 }
@@ -229,7 +232,7 @@ int					builtin_fc(char **args, t_env env, int subshell)
 		return (exec_fc_l(&options));
 	else if (options.flags & FC_FLAG_S)
 		return (exec_fc_s(&options));
-	else if (options.flags & FC_FLAG_E)
+	else if (options.flags & FC_FLAG_E || !options.flags)
 		return (exec_fc_e(&options));
 	return (error_code);
 }
