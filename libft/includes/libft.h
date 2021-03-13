@@ -175,7 +175,7 @@ typedef	struct		s_key_value
 ** If no values are present on the tree and some keys (yes, this is possible),
 ** return single node of list with empty content.
 **
-** Return 0 in case of malloc errors.
+** Return 0 in case of xmalloc errors.
 */
 
 t_list				*ptree_to_kvpairs(t_ptree *tree);

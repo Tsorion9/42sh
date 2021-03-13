@@ -20,7 +20,7 @@ void					del_kvpair(t_key_value **kv)
 }
 
 /*
-** Return 0 in case of malloc errors
+** Return 0 in case of xmalloc errors
 */
 
 static int				add_kvpair(t_list **kvpairs, char *key, char *value)

@@ -24,7 +24,7 @@ static char		*concat_and_free(t_list **l, unsigned int total_len)
 	i = 0;
 	c = 0;
 	if (total_len + 1)
-		c = (char *)malloc(total_len + 1);
+		c = (char *)xmalloc(total_len + 1);
 	while (*l)
 	{
 		ft_memcpy(c + i, (const void *)(*l)->content, (*l)->content_size);

@@ -29,7 +29,7 @@ int			is_contain_any_spec(char *s)
 /*
 ** '{' #src_word '}'
 ** return NULL if error occured
-** else malloced string of len of var
+** else xmalloced string of len of var
 ** words_state used only for compatibility with @perform_expansion
 */
 

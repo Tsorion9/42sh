@@ -44,7 +44,7 @@ static void	word_expansion_loop(char **src_word, size_t i, int word_state,
 }
 
 /*
-** source_word malloced
+** source_word xmalloced
 */
 
 int			word_expansion(char **source_word)

@@ -32,7 +32,7 @@ t_token		*gett(char **s, t_deque **tokbuf_g, t_deque **tokbuf_l)
 		next = lexer(s);
 		if (s && save_s && !*s)
 		{
-			fresh = malloc(sizeof(t_token));
+			fresh = xmalloc(sizeof(t_token));
 			fresh->value = NULL;
 			fresh->tk_type = TOKEN_END;
 			push_back(tokbuf_l, next);

@@ -17,7 +17,7 @@ void	create_t_column(t_column **cl)
 	struct winsize	w;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-	if (!(*cl = (t_column*)malloc(sizeof(t_column))))
+	if (!(*cl = (t_column*)xmalloc(sizeof(t_column))))
 		return ;
 	(*cl)->col = w.ws_col;
 	(*cl)->row = w.ws_row;

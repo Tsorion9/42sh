@@ -17,7 +17,7 @@ char			**get_empty_mas_env(int size_mas_vars)
 {
 	char	**empty_mas_vars;
 
-	empty_mas_vars = (char**)malloc(sizeof(char*) * (size_mas_vars + 1));
+	empty_mas_vars = (char**)xmalloc(sizeof(char*) * (size_mas_vars + 1));
 	empty_mas_vars[size_mas_vars] = NULL;
 	return (empty_mas_vars);
 }
