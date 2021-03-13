@@ -3,7 +3,7 @@
 
 # include "readline.h"
 
-# define FC_NO_ERROR 1
+# define FC_NO_ERROR 0
 # define FC_EDITOR_NAME_ERROR 2
 # define FC_EDITOR_NAME_MISSING 3
 # define FC_USAGE_ERROR 4

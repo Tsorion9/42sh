@@ -148,6 +148,58 @@ int					exec_fc_s(t_fc_options *options)
     return (status);
 }
 
+static int			exec_fc_e(t_fc_options *options)
+{
+	char		filename[20];
+	char		*pid;
+	char		*line;
+	char		*total;
+	int			fd;
+	int			first;
+	int			status;
+	t_history	*history;
+	char		*editor;
+
+	pid = ft_itoa(getpid());
+	ft_strcpy(filename, "/tmp/42sh_fc_");
+	ft_strcat(filename, pid);
+	ft_strdel(&pid);
+//	ft_printf("editor = %s\n", options->editor);
+	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	if (fd == -1)
+		return (-1);
+	if (!(options->first))
+		options->first = FC_OPERAND_FIRST_DEFAULT_VALUE;
+	if (!(options->last))
+		options->last = options->number_of_history;
+	convert_operands_to_pisitive_history_number(options);
+	history = get_history(options, options->first);
+	first = options->first;
+	// Fill file
+	while (first <= options->last)
+	{
+		ft_fprintf(fd, "%s\n", history->str);
+		if (first > options->last)
+			first--;
+		else
+			first++;
+		history = history->next;
+	}
+	// create editor
+	editor = ft_strjoin(options->editor, " ");
+	editor = ft_strjoinfreefree(editor, ft_strdup(filename));
+	exec_string(editor);
+	lseek(fd, 0, SEEK_SET);
+	// read from file
+	line = NULL;
+	total = ft_strnew(1);
+	while (get_next_line_wrapper(fd, &line) > 0)
+		total = ft_strjoinfreefree(total, line);
+	status = exec_string(total);
+	close(fd);
+	return (status);
+}
+
 int					builtin_fc(char **args, t_env env, int subshell)
 {
 	t_fc_options	options;
@@ -155,6 +207,8 @@ int					builtin_fc(char **args, t_env env, int subshell)
 
     (void)env;
 	(void)subshell;
+	if (!isatty(STDIN_FILENO))
+		return (FC_NO_ERROR);
 	error_code = FC_NO_ERROR;
 	init_fc_options(&options);
 	args = parse_fc_flags_and_editor(&options, args, &error_code);
@@ -169,8 +223,10 @@ int					builtin_fc(char **args, t_env env, int subshell)
 	if (error_code != FC_NO_ERROR)
 		return (error_code);
 	if (options.flags & FC_FLAG_L)
-		exec_fc_l(&options);
+		return (exec_fc_l(&options));
 	else if (options.flags & FC_FLAG_S)
-		exec_fc_s(&options);
+		return (exec_fc_s(&options));
+	else if (options.flags & FC_FLAG_E)
+		return (exec_fc_e(&options));
 	return (error_code);
 }

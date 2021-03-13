@@ -66,8 +66,11 @@ void		parse_fc_operands(t_fc_options *options, char **args, int *error_code)
 static void	parse_editor(t_fc_options *options, char *editor_name,
 	int *error_code)
 {
-	if (editor_name)
+	if (!editor_name)
+	{
 		*error_code = FC_EDITOR_NAME_MISSING;
+		return ;
+	}
 	else if (ft_strlen(editor_name) >= FC_MAX_EDITOR_NAME_SIZE)
 		*error_code = FC_EDITOR_NAME_ERROR;
 	else
