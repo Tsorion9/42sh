@@ -55,7 +55,7 @@ t_token			*lexer_scanner(t_lexer_state *token)
 		if (token->value && !*(token->value))
 			return (return_token_and_clean_state(token, TOKEN_END));
 	}
-	while (ft_isblank(CURRENT_CHAR))
+	while (ft_isblank(token->value[token->str_index]))
 		(token->str_index)++;
 	lexer_state_start(token);
 	fresh = get_token_to_parser(token);

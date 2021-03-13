@@ -33,7 +33,7 @@ void			delete_token_from_str(t_lexer_state *token)
 	ft_strdel(&(token->value));
 	clean_token(token);
 	token->value = tmp;
-	if (CURRENT_CHAR == '\0')
+	if (token->value[token->str_index] == '\0')
 		ft_strdel(&(token->value));
 }
 

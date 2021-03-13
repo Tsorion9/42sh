@@ -31,7 +31,7 @@ static void		lexer_state_lbracket(t_lexer_state *token)
 
 void			lexer_state_brackets(t_lexer_state *token)
 {
-	if (CURRENT_CHAR == '(')
+	if (token->value[token->str_index] == '(')
 		lexer_change_state(token, &lexer_state_lbracket);
 	else
 		lexer_change_state(token, &lexer_state_rbracket);

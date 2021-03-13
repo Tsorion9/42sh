@@ -29,10 +29,6 @@
 # define FUNC_ERROR			-1
 # define FUNC_FAIL			0
 # define FUNC_SUCCESS		1
-// TODO refactor this
-# define TOKEN_CHAR			g_token.value[g_token.str_index]
-# define CURRENT_CHAR		token->value[token->str_index]
-# define TOKEN_TYPE			(*token_lst)->type
 # define HAS_SPECIAL		(1 << 0)
 # define QUOTE_STATE		(1 << 1)
 # define DQUOTE_STATE		(1 << 2)

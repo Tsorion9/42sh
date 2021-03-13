@@ -42,7 +42,7 @@ void			lexer_unclosed_state(t_lexer_state *token)
 		return ;
 	}
 	token->value = ft_strjoinfreefree(token->value, input);
-	if (CURRENT_CHAR == '\n')
+	if (token->value[token->str_index] == '\n')
 		lexer_change_state(token, &lexer_state_word);
 	else
 		lexer_state_word(token);

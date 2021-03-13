@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   history_lexer.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsance <jsance@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/13 17:15:54 by jsance            #+#    #+#             */
+/*   Updated: 2021/03/13 17:15:55 by jsance           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansions.h"
 #include "readline.h"
 
@@ -15,7 +27,7 @@ static int	history_digit(char *s)
 	return (--i);
 }
 
-static int word_history(char *s)
+static int	word_history(char *s)
 {
 	int i;
 
@@ -45,7 +57,7 @@ static int	get_end_of_expansion(char *cur)
 
 void		history_lexer(char **s)
 {
-	int 	end;
+	int		end;
 	char	*cur;
 	char	*substr;
 	char	*expanded;
