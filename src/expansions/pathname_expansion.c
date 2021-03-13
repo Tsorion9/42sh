@@ -56,7 +56,7 @@ static int		is_single_point(char *word)
 }
 
 /*
-** Return malloced 2d dimensional array of words
+** Return xmalloced 2d dimensional array of words
 */
 
 char			**pathname_expansion(char *word)

@@ -1,2 +1,0 @@
-src/exec/exec_simple_cmd.c:69  function exec_simple_cmd has 40 lines
-src/exec/make_child.c:51  make_child have 5 parameters

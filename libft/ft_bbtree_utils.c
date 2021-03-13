@@ -10,13 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "bbtree_utils.h"
 
 static t_bbtree_node	*new_node(void)
 {
 	t_bbtree_node	*new;
 
-	new = (t_bbtree_node *)malloc(sizeof(t_bbtree_node));
+	new = (t_bbtree_node *)xmalloc(sizeof(t_bbtree_node));
 	if (!new)
 		return (0);
 	new->zero = 0;

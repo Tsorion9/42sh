@@ -1,1 +1,0 @@
-src/readline/reset_exit.c:19 comment not well formatted

@@ -30,7 +30,7 @@ static void	join_pipeline(char **res_cmd, char **cmd_str, t_pipeline *next)
 }
 
 /*
-** Return malloc string representation of pipeline
+** Return xmalloc string representation of pipeline
 ** Input: ls >file 123>along arg1 arg2
 ** Output: ls arg1 arg2 0> file 123> along
 */

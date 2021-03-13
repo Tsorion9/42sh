@@ -36,7 +36,7 @@ char		**create_buf_for_column_print(t_completion *matches)
 	size = 0;
 	buf = NULL;
 	if (!(size = complections_list_len(matches))
-		|| !(buf = (char**)malloc(sizeof(char*) * (size + 1))))
+		|| !(buf = (char**)xmalloc(sizeof(char*) * (size + 1))))
 		return (NULL);
 	buf[size] = NULL;
 	while (matches)

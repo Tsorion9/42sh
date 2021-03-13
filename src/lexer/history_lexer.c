@@ -88,6 +88,8 @@ void		history_lexer(char **s)
 	int		end;
 	char	*cur;
 
+	if (!s || !*s)
+		return ;
 	cur = next_unquoted_char(*s, '!');
 	while (*cur)
 	{

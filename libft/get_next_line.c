@@ -18,10 +18,10 @@ static t_unread_buff	*new_buf(void)
 {
 	t_unread_buff	*buffer;
 
-	buffer = (t_unread_buff *)malloc(sizeof(t_unread_buff));
+	buffer = (t_unread_buff *)xmalloc(sizeof(t_unread_buff));
 	if (!buffer)
 		return (0);
-	buffer->data = (char *)malloc(BUFF_SIZE);
+	buffer->data = (char *)xmalloc(BUFF_SIZE);
 	if (!buffer->data)
 	{
 		free(buffer);
@@ -43,7 +43,7 @@ static char				*concat_and_free(t_list **l, unsigned int total_len)
 	i = 0;
 	c = 0;
 	if (total_len + 1)
-		c = (char *)malloc(total_len + 1);
+		c = (char *)xmalloc(total_len + 1);
 	if (!c)
 	{
 		errno = EOVERFLOW;

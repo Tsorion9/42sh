@@ -43,7 +43,7 @@ static void	remove_quote(char **str, size_t *i, size_t *rep, char **info)
 
 /*
 ** pattern string where need to delete 'quotes'
-** return (string malloced representation of characters 'y' and 'n')
+** return (string xmalloced representation of characters 'y' and 'n')
 */
 
 char		*pattern_quote_removal(char **pattern)
