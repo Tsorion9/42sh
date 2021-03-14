@@ -354,7 +354,7 @@ void					init_terminal(void);
 char					*get_prompt(int which);
 
 /*
-** Use instead of readilne!
+** Use instead of readline!
 */
 char					*line_42sh(char *prompt);
 
