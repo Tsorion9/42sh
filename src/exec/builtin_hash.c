@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/03/08 10:11:31 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/14 09:44:30 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int		check_hash_params(char **args)
 {
 	int		i;
 	char	*str;
+	int		status;
 
 	i = 0;
+	status = EXIT_SUCCESS;
 	while (args[i])
 	{
 		if ((str = search_hash(args[i])) == NULL)
@@ -35,13 +37,14 @@ int		check_hash_params(char **args)
 			else
 				ft_fprintf(STDERR_FILENO, "42sh: hash: %s: not found\n",
 																	args[i]);
+			status = EXIT_FAILURE;
 		}
 		else
 			print_hash(args[i]);
 		free(str);
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (status);
 }
 
 int		builtin_hash(char **args, t_env envs, int subshell)
