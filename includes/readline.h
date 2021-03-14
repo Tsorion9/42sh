@@ -180,15 +180,15 @@ typedef struct			s_rp
 }						t_rp;
 
 void					delete_history(t_history *history);
-char                    *search_history_subtitution(char *n);
+char					*search_history_subtitution(char *n);
 void					history_search_sup(t_history *history_ptr,
 						size_t *index, size_t search_index, int *found);
-void					hs_delete_symbol(t_history_search *t_history_search,
+void					hs_delete_symbol(t_history_search *history_search,
 						int *cur_pos, int *found);
-void					hs_add_symbol(t_history_search *t_history_search,
+void					hs_add_symbol(t_history_search *history_search,
 						int *cur_pos, int *found, long c);
 void					hs_search_new_history(size_t *prev_index,
-						t_history_search *t_history_search,
+						t_history_search *history_search,
 						int *cur_pos, int *found);
 void					hs_search_index(int *cur_pos, size_t index,
 						size_t len, int found);
@@ -342,7 +342,6 @@ int						check_big_list(int quantity_possibilities);
 void					get_size_of_columns(char **buf, t_column *cl);
 void					print_column(char **buf, t_column *cl);
 
-// TODO: change names
 void					processing_sigint(int signal_code);
 void					processing_sigwinch(int signal_code);
 void					set_sigint(void (*sigint_handler)(int));
