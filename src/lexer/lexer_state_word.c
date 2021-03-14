@@ -48,8 +48,6 @@ int				is_shellspec(char c, t_lexer_state *token)
 {
 	if (c == '\n' || (ft_strchr("|><;&", c) != NULL))
 		return (FUNC_SUCCESS);
-	if (!(token->flags & DOLLAR_STATE) && ft_strchr("()", c) != NULL)
-		return (FUNC_SUCCESS);
 	if (token->brace_buf == NULL && (token->flags & DOLLAR_STATE))
 		token->flags &= (token->flags ^ DOLLAR_STATE);
 	return (FUNC_FAIL);
