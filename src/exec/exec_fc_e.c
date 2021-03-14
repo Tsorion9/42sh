@@ -40,9 +40,8 @@ static void		init_start_data(t_fc_options *options, t_history **history,
 	*first = options->first;
 }
 
-static int		create_file(void)
+static int		create_file(char *filename)
 {
-	char		filename[20];
 	char		*pid;
 	int			fd;
 
@@ -84,7 +83,7 @@ int				exec_fc_e(t_fc_options *options)
 	t_history	*history;
 	char		*editor;
 
-	fd = create_file();
+	fd = create_file(filename);
 	if (fd == -1)
 		return (-1);
 	init_start_data(options, &history, &first);
