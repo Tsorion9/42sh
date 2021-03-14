@@ -6,25 +6,29 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 11:34:50 by anton             #+#    #+#             */
-/*   Updated: 2021/02/27 22:19:46 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/14 10:12:41 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_hashalias.h"
 
-void		check_alias(char *arg)
+int			check_alias(char *arg)
 {
 	char	*alias;
 
 	alias = NULL;
 	if ((alias = search_alias(arg)) == NULL)
+	{
 		ft_fprintf(STDERR_FILENO, "42sh: alias: %s: not found\n", arg);
+		return (EXIT_FAILURE);
+	}
 	else
 	{
 		free(alias);
 		alias = NULL;
 		print_alias(arg);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int			check_valid_alias_name(char *name)
@@ -46,13 +50,18 @@ int			check_valid_alias_name(char *name)
 int			builtin_alias_cycle_args(char **mas_args)
 {
 	int		i;
+	int		status;
 
 	i = 0;
+	status = EXIT_SUCCESS;
 	while (mas_args[i])
 	{
 		if (mas_args[i] && (mas_args[i + 1] == NULL
 			|| ft_strcmp(mas_args[i + 1], "=")))
-			check_alias(mas_args[i++]);
+		{
+			if (check_alias(mas_args[i++]) == EXIT_FAILURE)
+				status = EXIT_FAILURE;
+		}
 		else if (mas_args[i] && !ft_strcmp(mas_args[i + 1], "="))
 		{
 			if (check_valid_alias_name(mas_args[i]) == EXIT_FAILURE)
@@ -64,7 +73,7 @@ int			builtin_alias_cycle_args(char **mas_args)
 			i += 3;
 		}
 	}
-	return (EXIT_SUCCESS);
+	return (status);
 }
 
 int			builtin_alias(char **args, t_env env, int subshell)
