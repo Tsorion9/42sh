@@ -67,15 +67,11 @@ t_deque			*substitute_token(t_token *token, int *need_expand_next_token)
 
 	*need_expand_next_token = 0;
 	fresh = NULL;
-	ht = search_alias_hash_element(token->value);
-	if (ht)
-	{
-		ht->meet_alias = 1;
-		tokbuf_l = deque_copy(ht->tokbuf_value);
-		*need_expand_next_token = ht->expand_next_alias;
-	}
-	else
+	if (!(ht = search_alias_hash_element(token->value)))
 		return (create_tokbuf_from_token(token));
+	ht->meet_alias = 1;
+	tokbuf_l = deque_copy(ht->tokbuf_value);
+	*need_expand_next_token = ht->expand_next_alias;
 	substitute_token_loop(&fresh, &tokbuf_l);
 	free(tokbuf_l);
 	ht->meet_alias = 0;
@@ -109,6 +105,7 @@ void			alias_substitution(t_deque **tokbuf_g)
 		deque_del(&tokbuf_l, del_token);
 		tokbuf_l = NULL;
 	}
+	deque_apply_inplace(fresh, set_do_not_expand);
 	flush_tokbuf(tokbuf_g, &fresh);
 	free(fresh);
 	fresh = NULL;

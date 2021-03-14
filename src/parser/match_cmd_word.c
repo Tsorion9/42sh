@@ -39,6 +39,22 @@ t_word_list	*create_word_node_and_save_alias_info(t_token *token)
 	return (fresh);
 }
 
+static int	need_alias_substitution(t_deque **tokbuf_g)
+{
+	t_deque		*tokbuf_l;
+	t_token		*token;
+	int			res;
+
+	tokbuf_l = NULL;
+	token = gett(g_parser_input_str, tokbuf_g, &tokbuf_l);
+	if (token->do_not_expand_alias)
+		res = 0;
+	else
+		res = 1;
+	ungett(tokbuf_g, &tokbuf_l);
+	return (res);
+}
+
 /*
 ** cmd_prefix [WORD [cmd_suffix]?]? | WORD [cmd_suffix]?
 ** Если префикса нет, то WORD является обязательной лексемой
@@ -53,7 +69,8 @@ int			match_cmd_word(t_simple_cmd **simple_cmd, t_deque **tokbuf_g)
 
 	redirects = (*simple_cmd)->redirects;
 	tokbuf_l = NULL;
-	alias_substitution(tokbuf_g);
+	if (need_alias_substitution(tokbuf_g))
+		alias_substitution(tokbuf_g);
 	token = gett(g_parser_input_str, tokbuf_g, &tokbuf_l);
 	if (token->tk_type == WORD)
 	{
