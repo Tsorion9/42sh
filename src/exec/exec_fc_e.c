@@ -17,32 +17,37 @@
 static void		fill_file(int first, t_fc_options *options, int fd,
 							t_history *history)
 {
-	while (first <= options->last)
+	while (first != options->last)
 	{
 		ft_fprintf(fd, "%s\n", history->str);
 		if (first > options->last)
+		{
 			first--;
+			history = history->next;
+		}
 		else
+		{
 			first++;
-		history = history->next;
+			history = history->prev;
+		}
 	}
+	ft_fprintf(fd, "%s\n", history->str);
 }
 
 static void		init_start_data(t_fc_options *options, t_history **history,
 												int *first)
 {
 	if (!(options->first))
-		options->first = FC_OPERAND_FIRST_DEFAULT_VALUE;
+		options->first = -1;
 	if (!(options->last))
-		options->last = options->number_of_history;
+		options->last = options->first;
 	convert_operands_to_pisitive_history_number(options);
 	*history = get_history(options, options->first);
 	*first = options->first;
 }
 
-static int		create_file(void)
+static int		create_file(char *filename)
 {
-	char		filename[20];
 	char		*pid;
 	int			fd;
 
@@ -53,6 +58,8 @@ static int		create_file(void)
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0666);
 	if (fd == -1)
 		return (-1);
+	ft_fprintf(fd, "\n");
+	lseek(fd, 0, SEEK_SET);
 	return (fd);
 }
 
@@ -84,14 +91,19 @@ int				exec_fc_e(t_fc_options *options)
 	t_history	*history;
 	char		*editor;
 
-	fd = create_file();
+	fd = create_file(filename);
 	if (fd == -1)
 		return (-1);
 	init_start_data(options, &history, &first);
 	fill_file(first, options, fd, history);
 	editor = ft_strjoin(options->editor, " ");
 	editor = ft_strjoinfreefree(editor, ft_strdup(filename));
-	exec_string(editor);
+	if (exec_string(editor))
+	{
+		free(editor);
+		close(fd);
+		return (-1);
+	}
 	free(editor);
 	lseek(fd, 0, SEEK_SET);
 	return (exec_file_str(fd));

@@ -33,7 +33,8 @@ static void	init_fc_history(t_fc_options *options)
 	history = rp(NULL)->history;
 	while (history && history->prev)
 		history = history->prev;
-	if ((options->flags & FC_FLAG_S) && history && history->next)
+	if (((options->flags & FC_FLAG_S) || (options->flags & FC_FLAG_E) ||
+		!(options->flags)) && history && history->next)
 		delete_history(history->next);
 	options->number_of_history = 0;
 	while (history && history->next)
