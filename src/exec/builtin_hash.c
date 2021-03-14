@@ -6,7 +6,7 @@
 /*   By: nriker <nriker@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 23:41:13 by nriker            #+#    #+#             */
-/*   Updated: 2021/03/14 09:44:30 by nriker           ###   ########.fr       */
+/*   Updated: 2021/03/14 09:51:31 by nriker           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ int		check_hash_params(char **args)
 			if ((str = find_path(args[i])))
 				insert_hash(args[i], str);
 			else
-				ft_fprintf(STDERR_FILENO, "42sh: hash: %s: not found\n",
-																	args[i]);
-			status = EXIT_FAILURE;
+			{
+				ft_fprintf(2, "42sh: hash: %s: not found\n", args[i]);
+				status = EXIT_FAILURE;
+			}
 		}
 		else
 			print_hash(args[i]);
