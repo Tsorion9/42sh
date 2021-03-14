@@ -42,10 +42,6 @@ void			lexer_state_start(t_lexer_state *token)
 		lexer_change_state(token, &lexer_state_less);
 	else if (token->value[token->str_index] == ';')
 		lexer_change_state(token, &lexer_state_semicol);
-	else if (ft_isbraces(token->value[token->str_index]))
-		lexer_state_braces(token);
-	else if (ft_isbrackets(token->value[token->str_index]))
-		lexer_state_brackets(token);
 	else if (token->value[token->str_index] == '\\')
 		lexer_change_state(token, &lexer_state_word_esc);
 	else if (token->value[token->str_index] == '\n')
