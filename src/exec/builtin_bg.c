@@ -21,7 +21,7 @@ static void	bg_noargs(int *error)
 	j = find_job_by_pattern("%%", error);
 	if (j)
 	{
-		kill(j->pgid, SIGCONT);
+		kill(-j->pgid, SIGCONT);
 		j->state = BACKGROUND;
 		update_job_priority(j->pgid);
 		ft_printf("%s\n", j->cmdline);
@@ -59,7 +59,7 @@ int			builtin_bg(char **args, t_env env, int subshell)
 			handle_no_job_case(&any_errors, error, *args);
 		else
 		{
-			kill(j->pgid, SIGCONT);
+			kill(-j->pgid, SIGCONT);
 			j->state = BACKGROUND;
 			update_job_priority(j->pgid);
 			ft_printf("%s\n", j->cmdline);
