@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include "readline.h"
 #include "inc21sh.h"
 #include "environment.h"
@@ -17,6 +18,22 @@
 #include "t_hashalias.h"
 #include "t_export.h"
 #include "t_hash.h"
+#include "job.h"
+
+/*
+** This place should be considered a good one if we wish to implement
+** asyncronious job notifications (see set -m)
+*/
+void	sigchld_handler(int n __attribute__((unused)))
+{
+	pid_t	child;
+	int		status;
+
+	if ((child = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
+	{
+		update_job_state(child, job_status_to_state(status), status);
+	}
+}
 
 void	set_toplevel_shell_signal(void)
 {
@@ -27,6 +44,7 @@ void	set_toplevel_shell_signal(void)
 	signal(SIGTSTP, SIG_IGN);
 	set_sigint(processing_sigint);
 	signal(SIGWINCH, processing_sigwinch);
+	signal(SIGCHLD, sigchld_handler);
 	signal(SIGTSTP, SIG_IGN);
 }
 

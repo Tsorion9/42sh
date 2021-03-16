@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include "exec.h"
 
 /*
 ** Return exit status of last child
@@ -26,6 +27,8 @@ int	wait_all_children(pid_t last_child)
 
 	while ((finished = waitpid(-1, &status, WUNTRACED | WCONTINUED)) != -1)
 	{
+		if (WIFSTOPPED(status) && !g_top_level_shell)
+			kill(getpid(), SIGTSTP);
 		if (finished == last_child)
 			last_child_status = status;
 	}
