@@ -107,6 +107,7 @@ static void	perform_parameter_expansion(char **src_word, char *sep)
 	char	*var_value;
 
 	parameter = ft_strsub(*src_word, 0, (size_t)(sep - *src_word));
+	have_colon = 0;
 	if (*parameter == '\0' || !is_valid_var_name(parameter))
 	{
 		ft_fprintf(2, "%s%s\n", E_BAD_SUBSTITUTION, *src_word);

@@ -34,10 +34,7 @@ void	indicate_error_if_null_or_unset(char **src_word, char **word,
 			word_expansion(word);
 		ft_fprintf(STDERR_FILENO, "42sh: %s: %s\n", param,
 					(**word == '\0') ? E_PARAM_NULL_OR_UNSET : *word);
-		if (**word != '\0')
-			expasnion_status(EXPANSION_SUCCESS);
-		else
-			expasnion_status(EXPANSION_FAIL);
+		expasnion_status(EXPANSION_FAIL);
 	}
 	ft_strdel(word);
 }
