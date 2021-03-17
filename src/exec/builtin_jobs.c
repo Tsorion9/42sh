@@ -42,7 +42,7 @@ static void	print_single_job(t_job *j, int flag_p, int flag_l)
 		str_status = job_status_tostr(j->status);
 	}
 	else
-		str_status = job_state_tostr(j->state);
+		str_status = job_status_tostr(j->status);
 	if (flag_p)
 	{
 		ft_printf("%d\n", j->pgid);
