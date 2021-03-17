@@ -16,14 +16,14 @@
 #include "environment.h"
 #include "exec.h"
 #include "t_hashalias.h"
-#include "t_export.h"
 #include "t_hash.h"
 #include "job.h"
 
 /*
 ** This place should be considered a good one if we wish to implement
-** asyncronious job notifications (see set -m)
+** asynchronous job notifications (see set -m)
 */
+
 void	sigchld_handler(int n __attribute__((unused)))
 {
 	pid_t	child;
