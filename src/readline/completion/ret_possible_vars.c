@@ -20,7 +20,10 @@ char			*cut_uncut_remainder_word_dol(char *rem)
 
 	i = ft_strlen(rem) - 1;
 	if (i >= 0 && rem[i] == '$')
+	{
+		free(rem);
 		return (NULL);
+	}
 	while (i > 0 && rem[i] != '$')
 		i--;
 	if (!(new_word = ft_strnew(ft_strlen(rem) - i)))
@@ -37,7 +40,10 @@ char			*cut_uncut_remainder_word(char *rem)
 
 	i = ft_strlen(rem) - 1;
 	if (rem[i] == '{')
+	{
+		free(rem);
 		return (NULL);
+	}
 	while (i >= 0 && rem[i] != '{')
 		i--;
 	if (!(new_word = ft_strnew(ft_strlen(rem) - i)))

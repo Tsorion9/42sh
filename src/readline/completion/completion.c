@@ -22,6 +22,7 @@ int					complection_get_remainder_word(char **remainder_word)
 	if ((com_case = find_complection_pos(rp(NULL)->user_in, i))
 			== COM_VAR_WORD_BRACE)
 		return (0);
+	*remainder_word = NULL;
 	if ((*(remainder_word) = tab_cut_word(rp(NULL)->user_in, i))
 		&& com_case == COM_VAR)
 		*(remainder_word) = cut_uncut_remainder_word(*(remainder_word));
