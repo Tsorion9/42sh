@@ -24,11 +24,12 @@
 ** asynchronous job notifications (see set -m)
 */
 
-void	sigchld_handler(int n __attribute__((unused)))
+void	sigchld_handler(int n)
 {
 	pid_t	child;
 	int		status;
 
+	(void)n;
 	if ((child = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
 	{
 		update_job_state(child, job_status_to_state(status), status);
