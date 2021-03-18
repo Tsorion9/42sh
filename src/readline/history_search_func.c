@@ -33,10 +33,13 @@ void	hs_delete_symbol(t_history_search *history_search_s, int *cur_pos,
 void	hs_add_symbol(t_history_search *history_search_s, int *cur_pos,
 	int *found, long c)
 {
-	add_symbol_in_str(history_search_s->str, c, history_search_s->len);
-	history_search_s->len++;
-	*found = history_search(cur_pos, &(history_search_s->index),
-	history_search_s->str);
+    if (history_search_s->len < BUFFSIZE)
+    {
+        add_symbol_in_str(history_search_s->str, c, history_search_s->len);
+        history_search_s->len++;
+    }
+    *found = history_search(cur_pos, &(history_search_s->index),
+    history_search_s->str);
 }
 
 void	hs_search_new_history(size_t *prev_index,
