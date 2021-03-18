@@ -17,23 +17,13 @@
 static int	make_heredoc_redirection(t_redirect *redirect)
 {
 	int		pipefd[2];
-	pid_t	child;
 
 	pipe(pipefd);
 	dup2(pipefd[0], redirect->redirector->fd);
 	close_wrapper(pipefd[0]);
-	child = fork();
-	if (child)
-	{
-		close_wrapper(pipefd[1]);
-		return (0);
-	}
-	else
-	{
-		close_wrapper(redirect->redirector->fd);
-		ft_fprintf(pipefd[1], "%s", redirect->heredoc_value);
-		exit(0);
-	}
+	ft_fprintf(pipefd[1], "%s", redirect->heredoc_value);
+	close_wrapper(pipefd[1]);
+	return (0);
 }
 
 static int	contain_ambiguous(t_redirect *redirect)
