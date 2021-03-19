@@ -30,6 +30,12 @@ static void	init_start_data(t_fc_options *options, int *first, int *last)
 	}
 }
 
+static void	print_command(char *comm)
+{
+	ft_putstr_fd(comm, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+}
+
 int			exec_fc_s(t_fc_options *options)
 {
 	t_history	*history;
@@ -41,7 +47,7 @@ int			exec_fc_s(t_fc_options *options)
 	history = get_history(options, first);
 	while (first != last)
 	{
-		ft_printf("%s\n", history->str);
+		print_command(history->str);
 		status = exec_string(history->str);
 		if (first > last)
 		{
@@ -54,7 +60,7 @@ int			exec_fc_s(t_fc_options *options)
 			history = history->prev;
 		}
 	}
-	ft_printf("%s\n", history->str);
+	print_command(history->str);
 	status = exec_string(history->str);
 	return (status);
 }

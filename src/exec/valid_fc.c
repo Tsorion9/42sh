@@ -12,6 +12,13 @@
 
 #include "builtin_fc.h"
 
+static void	fc_print_usage_error(void)
+{
+	ft_putstr_fd("fc: usage: fc [-e ename] [-lnr] [first] [last] \
+		or fc -s [pat=rep] [command]", STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+}
+
 int			fc_flags_valid(const t_fc_options *options)
 {
 	int	is_valid;
@@ -34,5 +41,7 @@ int			fc_flags_valid(const t_fc_options *options)
 		if ((options->flags & FC_FLAG_S) != (options->flags & FC_SET_ALL_FLAGS))
 			is_valid = 0;
 	}
+	if (!is_valid)
+		fc_print_usage_error();
 	return (is_valid);
 }

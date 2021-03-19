@@ -93,25 +93,34 @@ static void	parse_editor(t_fc_options *options, char *editor_name,
 char		**parse_fc_flags_and_editor(t_fc_options *options, char **args,
 	int *error_code)
 {
+	size_t	i;
+
 	options->flags = 0;
-	while (*args && *error_code == FC_NO_ERROR)
+	while (*args && *error_code == FC_NO_ERROR && (*args)[0] == '-' &&
+		!ft_isnumber(*args))
 	{
-		if (!ft_strcmp(*args, "-e"))
+		i = 1;
+		while ((*args)[i] && *error_code == FC_NO_ERROR)
 		{
-			options->flags |= FC_FLAG_E;
-			args++;
-			parse_editor(options, *args, error_code);
+			if ((*args)[i] == 'e')
+			{
+				options->flags |= FC_FLAG_E;
+				args++;
+				parse_editor(options, *args, error_code);
+				break ;
+			}
+			else if ((*args)[i] == 'r')
+				options->flags |= FC_FLAG_R;
+			else if ((*args)[i] == 'l')
+				options->flags |= FC_FLAG_L;
+			else if ((*args)[i] == 's')
+				options->flags |= FC_FLAG_S;
+			else if ((*args)[i] == 'n')
+				options->flags |= FC_FLAG_N;
+			else
+				*error_code = FC_USAGE_ERROR;
+			i++;
 		}
-		else if (!ft_strcmp(*args, "-r"))
-			options->flags |= FC_FLAG_R;
-		else if (!ft_strcmp(*args, "-l"))
-			options->flags |= FC_FLAG_L;
-		else if (!ft_strcmp(*args, "-s"))
-			options->flags |= FC_FLAG_S;
-		else if (!ft_strcmp(*args, "-n"))
-			options->flags |= FC_FLAG_N;
-		else
-			break ;
 		if (*error_code == FC_NO_ERROR)
 			args++;
 	}
