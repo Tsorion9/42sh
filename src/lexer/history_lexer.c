@@ -65,6 +65,7 @@ static int	substitute_history_value(char **cur, int end, char **s)
 	char	*substr;
 	char	*expanded;
 	size_t	i;
+	size_t	s_len;
 
 	i = ft_strlen(*s) - ft_strlen(*cur);
 	substr = ft_strsub(*cur, 0, end + 1);
@@ -77,6 +78,9 @@ static int	substitute_history_value(char **cur, int end, char **s)
 	}
 	else
 		replace_value(s, expanded, &i, end + 1);
+	s_len = ft_strlen(*s);
+	if (s_len)
+		add_to_start_history_lexer(rp(NULL)->history, *s, s_len);
 	*cur = next_unquoted_char(*s, '!');
 	ft_strdel(&expanded);
 	ft_strdel(&substr);
@@ -87,7 +91,9 @@ void		history_lexer(char **s)
 {
 	int		end;
 	char	*cur;
+    int     status;
 
+    status = EXPANSION_SUCCESS;
 	if (!s || !*s)
 		return ;
 	cur = next_unquoted_char(*s, '!');
@@ -97,6 +103,11 @@ void		history_lexer(char **s)
 		if (end == 0)
 			cur++;
 		else
-			substitute_history_value(&cur, end, s);
+			status = substitute_history_value(&cur, end, s);
+        if (status == EXPANSION_FAIL)
+        {
+            ft_strdel(s);
+            return ;
+        }
 	}
 }

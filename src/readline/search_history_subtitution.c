@@ -100,7 +100,9 @@ char		*search_history_subtitution(char *str)
 	else if (ft_isnumber(str + 1))
 	{
 		history_number = ft_atoi(str + 1);
-		if (history_number >= HISTSIZE || history_number <= HISTSIZE * (-1))
+		if (history_number > number_of_history ||
+            history_number < number_of_history * (-1) ||
+            !history_number)
 			return (NULL);
 	}
 	else
