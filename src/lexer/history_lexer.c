@@ -103,7 +103,10 @@ void		history_lexer(char **s)
 		if (end == 0)
 			cur++;
 		else
+		{
+			delete_history(rp(NULL)->history);
 			status = substitute_history_value(&cur, end, s);
+		}
         if (status == EXPANSION_FAIL)
         {
             ft_strdel(s);
