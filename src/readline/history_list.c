@@ -32,6 +32,8 @@ void		delete_history(t_history *history)
 
 	if (!history)
 		return ;
+	if (!history->prev)
+		rp(NULL)->history = history->next;
 	tmp = history;
 	if (tmp->prev)
 		tmp->prev->next = tmp->next;
@@ -44,14 +46,11 @@ void		delete_history(t_history *history)
 void		add_to_start_history(t_history *history, char *str, size_t len)
 {
 	t_history	*new_history;
-	char		*tmp;
 
-	tmp = next_unquoted_char(str, '!');
 	while (history->prev)
 		history = history->prev;
 	if (ft_strcmp(str, "") == 0
-		|| str[0] == ' '
-		|| *tmp)
+		|| str[0] == ' ')
 		return ;
 	if (history->next)
 		if (ft_strcmp(str, history->next->str) == 0)
