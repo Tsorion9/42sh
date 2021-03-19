@@ -87,7 +87,7 @@ void			command_substitution(char **s, int word_state)
 	pid_t			child;
 	int				pipefd[2];
 
-	tmp = ft_strdup(*s);
+	tmp = ft_strjoin(*s, "\n");
 	cmd = parser(&tmp);
 	if (!cmd)
 	{
