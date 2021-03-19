@@ -66,6 +66,7 @@ char		*andor_to_str(t_andor_list *andor)
 {
 	char *res;
 	char *tmp;
+	char	*res1;
 
 	res = get_pipeline_str(andor->pipeline);
 	while (andor->next)
@@ -78,7 +79,9 @@ char		*andor_to_str(t_andor_list *andor)
 		if (!andor)
 			break ;
 		tmp = get_pipeline_str(andor->pipeline);
-		res = ft_strjoin(res, tmp);
+		res1 = ft_strjoin(res, tmp);
+		free(res);
+		res = res1;
 		free(tmp);
 	}
 	return (res);
