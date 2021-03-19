@@ -227,7 +227,8 @@ CEXEC = builtin_21shopt.c \
         exec_fc_s.c \
         exec_fc_l.c \
 		get_job_status.c \
-        exec_fc_e.c
+        exec_fc_e.c \
+        handle_fc_flags.c
 
 CEXPANSIONS = tilde_expansion.c \
 				word_expansion.c \

@@ -44,9 +44,9 @@ typedef struct		s_fc_options
 }					t_fc_options;
 
 char				**parse_fc_flags_and_editor(t_fc_options *options,
-	char **args, int *error_code);
+											char **args, int *error_code);
 void				parse_fc_operands(t_fc_options *options, char **args,
-	int *error_code);
+											int *error_code);
 int					fc_flags_valid(const t_fc_options *options);
 void				convert_operands_to_pisitive_history_number(
 											t_fc_options *options);
@@ -54,5 +54,9 @@ t_history			*get_history(t_fc_options *options, int history_number);
 int					exec_fc_s(t_fc_options *options);
 int					exec_fc_l(t_fc_options *options);
 int					exec_fc_e(t_fc_options *options);
+void				parse_editor(t_fc_options *options, char *editor_name,
+											int *error_code);
+void				loop_fc_args(t_fc_options *options, char **args,
+											int *error_code);
 
 #endif

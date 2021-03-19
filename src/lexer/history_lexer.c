@@ -91,9 +91,9 @@ void		history_lexer(char **s)
 {
 	int		end;
 	char	*cur;
-    int     status;
+	int		status;
 
-    status = EXPANSION_SUCCESS;
+	status = EXPANSION_SUCCESS;
 	if (!s || !*s)
 		return ;
 	cur = next_unquoted_char(*s, '!');
@@ -107,10 +107,10 @@ void		history_lexer(char **s)
 			delete_history(rp(NULL)->history);
 			status = substitute_history_value(&cur, end, s);
 		}
-        if (status == EXPANSION_FAIL)
-        {
-            ft_strdel(s);
-            return ;
-        }
+		if (status == EXPANSION_FAIL)
+		{
+			ft_strdel(s);
+			return ;
+		}
 	}
 }

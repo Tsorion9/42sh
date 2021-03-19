@@ -101,8 +101,8 @@ char		*search_history_subtitution(char *str)
 	{
 		history_number = ft_atoi(str + 1);
 		if (history_number > number_of_history ||
-            history_number < number_of_history * (-1) ||
-            !history_number)
+			history_number < number_of_history * (-1) ||
+			!history_number)
 			return (NULL);
 	}
 	else

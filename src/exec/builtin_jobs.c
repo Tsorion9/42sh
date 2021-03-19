@@ -39,18 +39,10 @@ static void	print_single_job(t_job *j, int flag_p, int flag_l)
 	if (waitpid(j->pgid, &status, WNOHANG | WUNTRACED) > 0)
 	{
 		update_job_state(j->pgid, job_status_to_state(status), status);
-		if (j->state == BACKGROUND)
-			str_status = job_state_tostr(j->state);
-		else
-			str_status = job_status_tostr(j->status);
+		str_status = get_job_status(j);
 	}
-	else 
-	{
-		if (j->state == BACKGROUND)
-			str_status = job_state_tostr(j->state);
-		else
-			str_status = job_status_tostr(j->status);
-	}
+	else
+		str_status = get_job_status(j);
 	if (flag_p)
 	{
 		ft_printf("%d\n", j->pgid);

@@ -65,7 +65,8 @@ void		add_to_start_history(t_history *history, char *str, size_t len)
 	history->next = new_history;
 }
 
-void		add_to_start_history_lexer(t_history *history, char *str, size_t len)
+void		add_to_start_history_lexer(t_history *history, char *str,
+										size_t len)
 {
 	str[len - 1] = '\0';
 	add_to_start_history(history, str, len);

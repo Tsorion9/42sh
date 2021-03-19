@@ -38,9 +38,9 @@ char		*words_str(t_word_list *words)
 
 char		*simple_cmd_str(t_simple_cmd *cmd)
 {
-	char	*words;
-	char	*redirects;
-	char	*res;
+	char		*words;
+	char		*redirects;
+	char		*res;
 
 	words = words_str(cmd->words);
 	redirects = redirects_str(cmd->redirects);
@@ -55,7 +55,7 @@ char		*simple_cmd_str(t_simple_cmd *cmd)
 
 static void	andor_join_and_clean(char **res, char *andor)
 {
-	char *tmp;
+	char		*tmp;
 
 	tmp = *res;
 	*res = ft_strjoin(*res, andor);
@@ -64,9 +64,9 @@ static void	andor_join_and_clean(char **res, char *andor)
 
 char		*andor_to_str(t_andor_list *andor)
 {
-	char *res;
-	char *tmp;
-	char	*res1;
+	char		*res;
+	char		*tmp;
+	char		*res1;
 
 	res = get_pipeline_str(andor->pipeline);
 	while (andor->next)
