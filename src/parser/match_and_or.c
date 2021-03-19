@@ -45,7 +45,7 @@ int				match_and_or(t_andor_list **and_or, t_deque **tokbuf_g)
 	{
 		clean_grammar_linebreaks(tokbuf_g);
 		if (match_and_or(&(*and_or)->next, tokbuf_g) != PARSER_SUCCES)
-			return (PARSER_ERROR);
+			return (return_err_and_flush_tokens(tokbuf_g, &tokbuf_l));
 		erase_tokbuf(&tokbuf_l);
 	}
 	else
