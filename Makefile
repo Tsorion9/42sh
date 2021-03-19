@@ -226,6 +226,7 @@ CEXEC = builtin_21shopt.c \
         valid_fc.c \
         exec_fc_s.c \
         exec_fc_l.c \
+		get_job_status.c \
         exec_fc_e.c
 
 CEXPANSIONS = tilde_expansion.c \
@@ -275,8 +276,9 @@ INCLUDE = includes
 PARSER_TMP_INC = src/parser
 LIB_INC = libft/includes
 INC_FLAGS = -I $(INCLUDE) -I $(LIB_INC) -I $(PARSER_TMP_INC) -I src/exec
-FLAGS = -Wall -Wextra -Werror -g $(INC_FLAGS)
-LFLAGS = -L libft -lft -ltermcap 
+FLAGS = -Wall -Wextra -Werror -g $(INC_FLAGS) #-fsanitize=address -fsanitize=leak -O0
+
+LFLAGS = -L libft -lft -ltermcap #-fsanitize=address -fsanitize=leak
 
 DEPENDENCIES = $(OBJ:.o=.d)
 

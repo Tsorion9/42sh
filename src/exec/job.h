@@ -74,5 +74,6 @@ void				remove_job(int pgid);
 void				biggest_priorities(int *max, int *second_max);
 void				update_job_priority(pid_t j);
 int					next_priority(void);
+char				*get_job_status(t_job *j);
 
 #endif
