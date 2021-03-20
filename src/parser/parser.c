@@ -51,6 +51,17 @@ static void				handle_heredoc_if_parser_success(t_complete_cmd **cmd)
 		clean_complete_command(cmd);
 }
 
+static t_complete_cmd	*handle_empty_command(t_deque **tokbuf_g,
+												t_deque **tokbuf_l,
+												t_complete_cmd **cmd)
+{
+	clean_complete_command(cmd);
+	free_lexer_state(&g_token);
+	erase_tokbuf(tokbuf_g);
+	erase_tokbuf(tokbuf_l);
+	return (NULL);
+}
+
 t_complete_cmd			*parser(char **s)
 {
 	t_complete_cmd	*complete_cmd;
@@ -66,7 +77,7 @@ t_complete_cmd			*parser(char **s)
 	if (gett(g_parser_input_str, &tokbuf_g, &tokbuf_l)->tk_type == TOKEN_END)
 	{
 		if (s)
-			return (complete_cmd);
+			return (handle_empty_command(&tokbuf_g, &tokbuf_l, &complete_cmd));
 		reset_exit(0);
 	}
 	ungett(&tokbuf_g, &tokbuf_l);
