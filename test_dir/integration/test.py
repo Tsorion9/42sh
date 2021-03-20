@@ -36,6 +36,7 @@ path_to_cases = "cases"
 valgrind_trace = "last_valgrind_output"
 
 path_to_output = "output"
+os.system("mkdir -p {}".format(path_to_output))
 os.system("rm -f {}/user_out_* {}/test_out*".format(path_to_output, path_to_output))
 
 offs = 30 #Offset for string succcess or failure
