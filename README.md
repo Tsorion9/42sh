@@ -85,4 +85,4 @@ Run:
 [Volkov Ilya](https://github.com/volkov7),
 [Alex Buyanov](https://github.com/SoliddSnake),
 [Golovizin Anton](https://github.com/ag95v2),
-[Artur](https://github.com/Tsorion9)
+[Artur Tsorionov](https://github.com/Tsorion9)
