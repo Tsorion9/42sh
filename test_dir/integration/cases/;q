@@ -1,7 +1,0 @@
-
-a=remove_me
-echo hello>$a
-rm -f $a
-
-echo hello >~/a
-rm -f ~/a
