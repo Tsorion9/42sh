@@ -21,7 +21,6 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/types.h>
-# include <uuid/uuid.h>
 # include "libft.h"
 # include "command_structs.h"
 # include "token.h"
@@ -32,8 +31,6 @@
 # define HAS_SPECIAL		(1 << 0)
 # define QUOTE_STATE		(1 << 1)
 # define DQUOTE_STATE		(1 << 2)
-# define HEREDOC_NOEXP		(1 << 3)
-# define IS_HEREDOC			(1 << 4)
 # define ISOPEN_STATE		(1 << 5)
 # define ISCLOSED_STATE		(1 << 5)
 # define DOLLAR_STATE		(1 << 6)
